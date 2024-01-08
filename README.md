@@ -1,36 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Crosswalk
+- 프로젝트 명 : Crosswalk
+- 부제 : 너에게 다가가다
+- 소개
+    - 한 줄 정리 : 소개팅처럼 무거운 느낌이 아닌 가볍게 약속을 잡아 같이 놀 친구를 구하는 서비스
+    - 웹 앱 형태로 나와 관심사가 맞거나 맘에드는 사람을 픽하여 하나씩 알아가고 나와 맘이 맞는 친구를 찾아 줍니다!
+    - 횡단보도 양끝에서 마주친 두 사람. 실시간 대화를 진행하고 호감도를 쌓아 신호등을 밝혀주세요. 초록불이 켜지길 기대할게요!
+    - 서로를 밝혀주는 운명의 신호등을 찾길 바라요.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![log in-1](https://github.com/volant97/Crosswalk/assets/144371827/1f731f63-57db-496f-89b3-9cc02b79bda0)
