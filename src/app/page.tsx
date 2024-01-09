@@ -14,10 +14,12 @@ export default function Home() {
     users();
   }, []);
   return (
-    <div>
-      {/* <GoogleLogin /> */}
-      <button onClick={GoogleLogin}>구글 로그인</button>
-      <button onClick={GoogleLogOut}>구글 로그아웃</button>
-    </div>
+    <>
+      <div>
+        {/* <GoogleLogin /> */}
+        <button onClick={GoogleLogin}>구글 로그인</button>
+        <button onClick={GoogleLogOut}>구글 로그아웃</button>
+      </div>
+    </>
   );
 }
