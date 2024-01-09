@@ -15,10 +15,3 @@ export const GoogleLogOut = async () => {
   alert('로그아웃 되었습니다.');
   if (error) console.log(error);
 };
-
-export const getUser = async () => {
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-  return user;
-};
