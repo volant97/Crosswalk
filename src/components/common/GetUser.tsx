@@ -34,6 +34,7 @@ function GetUser({ children }: Props) {
       }
     };
     fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
   return <div>{isLoading ? <div>로딩중</div> : <div>{children}</div>}</div>;
