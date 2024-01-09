@@ -1,12 +1,20 @@
 'use client';
+
 import { NextUIProvider } from '@nextui-org/react';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
+import GetUser from '../common/GetUser';
 
-function Provider({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+};
+
+function Provider({ children }: Props) {
   return (
     <RecoilRoot>
-      <NextUIProvider>{children}</NextUIProvider>
+      <NextUIProvider>
+        <GetUser>{children}</GetUser>
+      </NextUIProvider>
     </RecoilRoot>
   );
 }

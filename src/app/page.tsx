@@ -1,25 +1,11 @@
-'use client';
-
-import { GoogleLogOut, GoogleLogin, getUser } from '@/components/register/GoogleLogin';
-
-import { useEffect } from 'react';
-
+import SocialLogin from '@/components/login/SocialLogin';
+// layout - provider - getuser - page (첫랜딩페이지)
 export default function Home() {
-  const users = async () => {
-    const getUsers = await getUser();
-    console.log(getUsers);
-  };
-
-  useEffect(() => {
-    users();
-  }, []);
   return (
     <>
-      <div>
-        {/* <GoogleLogin /> */}
-        <button onClick={GoogleLogin}>구글 로그인</button>
-        <button onClick={GoogleLogOut}>구글 로그아웃</button>
-      </div>
+      {/* Crosswalk 인생의 소울메이트를 만나보세요 */}
+      {/* 튜토리얼 */}
+      <SocialLogin />
     </>
   );
 }
