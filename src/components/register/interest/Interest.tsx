@@ -1,15 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import interestData from '../../../data/interestData.json';
-type Interest = {
-  id: number;
-  name: string;
-};
-// ... (이전 코드)
 
 function Interest() {
   const { interests } = interestData;
-  const [activeStates, setActiveStates] = useState(Array(interests.length).fill(false));
+  const [activeStates, setActiveStates] = useState<Array<boolean>>(Array(interests.length).fill(false));
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
 
   const handleInterestClick = (index: number) => {
@@ -26,34 +21,33 @@ function Interest() {
         return prevStates; // 이전 상태로 복원
       }
 
+      // 선택된 관심사 정보 출력
+      const selectedInterests = interests.filter((_, i) => newStates[i]).map((item) => item.name);
+      console.log('선택된 관심사:', selectedInterests);
+
       return newStates;
     });
   };
 
   return (
     <div>
-      <h1 className="text-3xl bold ">관심사를</h1> <h1 className="text-3xl bold ">선택해주세요.</h1>
-      <div className="grid grid-cols-4 gap-x-[70px] gap-y-[20px] w-[200px] flex-wrap mt-[50px] mr-auto ml-auto ">
+      <h1 className="text-3xl font-bold mb-2">관심사를</h1>
+      <h1 className="text-3xl font-bold mb-8">선택해주세요.</h1>
+      <div className="flex flex-wrap gap-4 justify-center">
         {interests.map((item, index) => (
           <div
+            key={item.id}
             onClick={() => {
               handleInterestClick(index);
             }}
-            className={`flex justify-center border-solid border-slate-300 border-1 w-[50px] py-[5px] px-[30px] rounded-[50px] text-slate-300 cursor-pointer ${
-              activeStates[index] ? 'active' : ''
+            className={`px-6 py-3 rounded-full cursor-pointer border border-slate-300 ${
+              activeStates[index] ? 'border-black text-black' : 'text-slate-300'
             }`}
-            key={item.id}
           >
             {item.name}
           </div>
         ))}
       </div>
-      <style jsx>{`
-        .active {
-          color: black;
-          border: 1px solid black;
-        }
-      `}</style>
     </div>
   );
 }
