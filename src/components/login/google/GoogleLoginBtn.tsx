@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { GoogleLogOut, GoogleLogin } from '@/components/register/GoogleLogin';
+import { GoogleLogOut, GoogleLogin } from '@/auth/google';
 
 function GoogleLoginBtn() {
   return (
