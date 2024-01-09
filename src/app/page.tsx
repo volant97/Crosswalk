@@ -1,3 +1,9 @@
+import SocialLogin from '@/components/login/SocialLogin';
+
 export default function Home() {
-  return <div>하이</div>;
+  return (
+    <>
+      <SocialLogin />
+    </>
+  );
 }
