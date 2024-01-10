@@ -9,7 +9,6 @@ function Register() {
     <div>
       {/* 헤더 */}
       <Mbti />
-
       <Name />
       <Gender />
       <AgeAndHeight />

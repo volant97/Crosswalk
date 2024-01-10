@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import mbtiData from '../../../data/mbti_data.json';
+import { useRecoilState } from 'recoil';
+import { registerState } from '@/recoil/register';
 
 type Mbti = {
   id: number;
@@ -9,16 +11,20 @@ type Mbti = {
 };
 
 function Mbti() {
+  const [registerData, setRegisterData] = useRecoilState(registerState);
   const { mbti } = mbtiData;
   const [selectedMbti, setSelectedMbti] = useState<number | null>(null);
 
   const handleMbtiClick = (index: number) => {
+    const selectedMbtiName = mbti[index].name;
     if (selectedMbti === index) {
-      // 이미 선택된 것을 다시 클릭한 경우
-      setSelectedMbti(null);
-    } else {
-      // 이전 선택된 것의 선택 해제
       setSelectedMbti(index);
+    } else {
+      setSelectedMbti(index);
+      setRegisterData((prevData) => ({
+        ...prevData,
+        mbti: selectedMbtiName
+      }));
     }
   };
 
@@ -43,11 +49,11 @@ function Mbti() {
       <style jsx>{`
         .active {
           color: black;
-          border: 2px solid black;
+          border: 1px solid black;
         }
       `}</style>
+      저장된 MBTI : {registerData.mbti}
     </div>
   );
 }
-
 export default Mbti;
