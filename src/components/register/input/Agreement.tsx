@@ -34,6 +34,26 @@ function Agreement() {
         {/* test */}
         <div>동의 : {agreement.toString()}</div>
       </div>
+      {/* test */}
+      <button
+        onClick={() => {
+          setRegister({
+            name: '홍길동',
+            gender: 'M',
+            mbti: 'INTJ',
+            age: 27,
+            height: 180,
+            interest: ['게임', '여행', '영화'],
+            user_img: '이미지',
+            avatar: '아바타',
+            notice: '얍',
+            information_use_period: '기간',
+            information_agreement: true
+          });
+        }}
+      >
+        테스트 데이터 넣기
+      </button>
       {/* 페이지 디자인 나온 후 체크박스로 변경 */}
       <Button className="w-full bg-customYellow rounded-3xl mb-10" onClick={handleNextBtn}>
         NEXT

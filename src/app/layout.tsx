@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Provider from '@/components/provider/Provider';
 import { Props } from '@/types/childrenPropsType';
-import TempHome from '@/components/common/TempHome';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,10 +15,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        {/* 헤더?? */}
-        <TempHome />
         <Provider>{children}</Provider>
-        {/* 푸터?? */}
       </body>
     </html>
   );

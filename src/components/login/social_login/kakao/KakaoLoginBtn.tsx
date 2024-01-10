@@ -6,8 +6,8 @@ import React from 'react';
 function KakaoLoginBtn() {
   return (
     <>
-      <button type="button" onClick={kakaoLogin}>
-        Kakao
+      <button className="w-[3.25rem] h-[3.25rem] rounded-full bg-[#FEE500]" type="button" onClick={kakaoLogin}>
+        K
       </button>
     </>
   );

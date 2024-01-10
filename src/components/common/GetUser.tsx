@@ -10,10 +10,13 @@ import Logout from './Logout';
 import Landing from '../login/landing/Landing';
 import { usePathname } from 'next/navigation';
 import Loading from './Loading';
+import { registerState } from '@/recoil/register';
+import TempHome from './TempHome';
 
 function GetUser({ children }: Props) {
   const pathname = usePathname();
   const [userState, setUserState] = useRecoilState<IsLoginType>(isUserState);
+  const [register, setRegister] = useRecoilState(registerState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -44,8 +47,21 @@ function GetUser({ children }: Props) {
   return (
     <div>
       <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
+      {/* test */}
       <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+      <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
+      <button
+        onClick={() => {
+          setRegister({
+            ...register,
+            information_agreement: !register.information_agreement
+          });
+        }}
+      >
+        회원등록 토글
+      </button>
       <Logout />
+      <TempHome />
     </div>
   );
 }
