@@ -9,3 +9,14 @@ html {
 * {
   box-sizing: border-box;
 }
+
+@import url(https://db.onlinewebfonts.com/c/cc6ba99a1d8620c4bfc84d252404e42a?family=Virgil+3+YOFF);
+@font-face {
+  font-family: "Virgil 3 YOFF";
+  src: url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.eot");
+  src: url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.eot?#iefix")format("embedded-opentype"),
+  url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.woff2")format("woff2"),
+  url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.woff")format("woff"),
+  url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.ttf")format("truetype"),
+  url("https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.svg#Virgil 3 YOFF")format("svg");
+}
