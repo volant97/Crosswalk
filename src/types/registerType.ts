@@ -1,3 +1,4 @@
+/**@type gender는 enum M, F만 설정 가능 */
 export type RegisterType = {
   name: string | null;
   gender: string | null;
