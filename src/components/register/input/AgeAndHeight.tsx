@@ -19,8 +19,9 @@ function AgeAndHeight() {
       age: Number(age),
       height: Number(height)
     });
-
-    router.push('#interest');
+    if (age && height) {
+      router.push('#interest');
+    } else alert('나이와 키를 입력해주세요!');
   };
 
   return (
@@ -31,26 +32,33 @@ function AgeAndHeight() {
           <br />
           입력해주세요.
         </h1>
-        <div>
-          <p className="text-sm">나이</p>
-          <input
-            className="h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border"
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            placeholder="27"
-          />
-          <p className="text-sm">키</p>
-          <input
-            className="h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border"
-            type="number"
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
-            placeholder="165"
-          />
+        <div className="flex flex-col gap-5">
+          <div>
+            <p className="text-sm">나이</p>
+            <input
+              className="w-full py-3 text-center rounded-full cursor-pointer border appearance-none  focus-visible:border  focus-visible:border-black"
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="27"
+            />
+          </div>
+          <div>
+            <p className="text-sm">키</p>
+            <input
+              className="w-full py-3 text-center rounded-full cursor-pointer border appearance-none focus-visible:border  focus-visible:border-black"
+              type="number"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
+              placeholder="165"
+            />
+          </div>
         </div>
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit">
+      <Button
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${age && height ? 'bg-customGreen' : 'bg-customYellow'}`}
+        type="submit"
+      >
         NEXT
       </Button>
     </form>

@@ -5,6 +5,7 @@ import { atom } from 'recoil';
 export const registerState = atom<RegisterType>({
   key: 'registerState',
   default: {
+    uid: null,
     name: null,
     gender: null,
     mbti: null,
