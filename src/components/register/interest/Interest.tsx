@@ -45,16 +45,16 @@ function Interest() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-2">관심사를</h1>
-      <h1 className="text-3xl font-bold mb-8">선택해주세요.</h1>
-      <div className="flex flex-wrap gap-4 justify-center">
+      <h1 className="text-3xl bold ">관심사를</h1>
+      <h1 className="text-3xl bold ">선택해주세요.</h1>
+      <div className="flex flex-wrap gap-4 justify-center gap-x-[10px] gap-y-[10px] w-[300px] mt-[50px] mr-auto ml-auto ">
         {interests.map((item, index) => (
           <div
             key={item.id}
             onClick={() => {
               handleInterestClick(index);
             }}
-            className={`px-6 py-3 rounded-full cursor-pointer border ${
+            className={`flex flex-row justify-center px-6 py-3 rounded-full cursor-pointer max-w-[110px] py-[5px] px-[20px] border ${
               activeStates[index] ? 'border-black text-black' : 'border-slate-300 text-slate-300'
             }`}
           >
