@@ -1,4 +1,5 @@
 import Mbti from '@/components/register/mbti/Mbti';
+import Interest from '@/components/register/interest/Interest';
 import AgeAndHeight from '@/components/register/input/AgeAndHeight';
 import Gender from '@/components/register/input/Gender';
 import Name from '@/components/register/input/Name';
@@ -12,6 +13,7 @@ function Register() {
       <Name />
       <Gender />
       <AgeAndHeight />
+      <Interest />
       {/* 버튼 */}
     </div>
   );
