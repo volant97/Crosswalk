@@ -69,6 +69,7 @@ function UploadImg() {
           <input className="hidden" type="file" onChange={previewImg} />
         </label>
       </div>
+      <p className="ml-[90px] text-xs text-red-500">* 사진은 필수 입니다.</p>
       <button
         onClick={() => {
           uploadFile(file);
