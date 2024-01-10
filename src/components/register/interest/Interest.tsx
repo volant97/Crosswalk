@@ -13,7 +13,6 @@ function Interest() {
 
   const { interests } = interestData;
   const [activeStates, setActiveStates] = useState<Array<boolean>>(Array(interests.length).fill(false));
-  const [selectedInterest, setSelectedInterest] = useState<number | null>(null);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
 
   const handleInterestClick = (index: number) => {
