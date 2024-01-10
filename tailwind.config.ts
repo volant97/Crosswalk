@@ -18,7 +18,8 @@ const config: Config = {
         virgil: ['"Virgil 3 YOFF"']
       },
       colors: {
-        customYellow: '#FFF200'
+        customYellow: '#FFF200',
+        customGreen: '#00E365'
       }
     }
   },

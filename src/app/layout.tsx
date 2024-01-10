@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Props) {
     <html lang="ko">
       <body className={inter.className}>
         {/* 헤더?? */}
-        <TempHome />
+        {/* <TempHome /> */}
         <Provider>{children}</Provider>
         {/* 푸터?? */}
       </body>

@@ -4,56 +4,57 @@ import React, { useState } from 'react';
 import mbtiData from '../../../data/mbti_data.json';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
-
-type Mbti = {
-  id: number;
-  name: string;
-};
+import { Button } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 
 function Mbti() {
-  const [registerData, setRegisterData] = useRecoilState(registerState);
   const { mbti } = mbtiData;
-  const [selectedMbti, setSelectedMbti] = useState<number | null>(null);
+  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
-  const handleMbtiClick = (index: number) => {
-    const selectedMbtiName = mbti[index].name;
-    if (selectedMbti === index) {
-      setSelectedMbti(index);
-    } else {
-      setSelectedMbti(index);
-      setRegisterData((prevData) => ({
-        ...prevData,
-        mbti: selectedMbtiName
-      }));
-    }
+  const router = useRouter();
+
+  const handleMbtiClick = (item: string) => {
+    setSelectedMbti(item);
+  };
+  const handleNextBtn = () => {
+    setRegisterData({
+      ...registerData,
+      mbti: selectedMbti
+    });
+    router.push('#age');
   };
 
   return (
-    <div>
-      <h1 className="text-3xl bold ">MBTI를</h1> <h1 className="text-3xl bold ">선택해주세요.</h1>
-      <div className="grid grid-cols-4 gap-x-[70px] gap-y-[20px] w-[200px] flex-wrap mt-[50px] mr-auto ml-auto ">
-        {mbti.map((item, index) => (
-          <div
-            onClick={() => {
-              handleMbtiClick(index);
-            }}
-            className={`flex justify-center border-solid border-slate-300 border-1 w-[50px] py-[5px] px-[30px] rounded-[50px] text-slate-300 cursor-pointer ${
-              selectedMbti === index ? 'active' : ''
-            }`}
-            key={item.id}
-          >
-            {item.name}
-          </div>
-        ))}
+    <>
+      <div id="mbti" className="min-h-[calc(100dvh-12rem)] flex flex-wrap flex-col gap-12">
+        <h1 className="text-[1.375rem] font-semibold ">
+          MBTI를
+          <br />
+          선택해주세요.
+        </h1>
+        <div className="grid grid-cols-4 gap-3 w-full flex-wrap ">
+          {mbti.map((item, index) => (
+            <div
+              onClick={() => {
+                handleMbtiClick(item);
+              }}
+              className={`flex justify-center border-solid border-slate-300 border-1 w-[50px] py-[5px] px-[30px] rounded-[50px] text-slate-300 cursor-pointer`}
+              key={index}
+              style={{
+                color: selectedMbti === item ? 'black' : '',
+                border: selectedMbti === item ? '1px solid black' : ''
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
-      <style jsx>{`
-        .active {
-          color: black;
-          border: 1px solid black;
-        }
-      `}</style>
-      저장된 MBTI : {registerData.mbti}
-    </div>
+      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit" onClick={handleNextBtn}>
+        NEXT
+      </Button>
+    </>
   );
 }
 export default Mbti;

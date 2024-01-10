@@ -1,12 +1,15 @@
 'use client';
 
 import { registerState } from '@/recoil/register';
+import { Button } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 function Name() {
   const [register, setRegister] = useRecoilState(registerState);
   const [name, setName] = useState('');
+  const router = useRouter();
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,18 +17,19 @@ function Name() {
       ...register,
       name
     });
+    router.push('#gender');
   };
 
   return (
-    <form className="w-[300px] border-2 border-indigo-600" onSubmit={handleNameForm}>
-      <div className="h-[186px] flex flex-col justify-between">
+    <form className="min-h-[calc(100dvh-12rem)] " onSubmit={handleNameForm} id="name">
+      <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
         <div>
-          <h1 className="text-left text-[22px] font-[600] leading-[30.8px]">
+          <h1 className=" text-[1.375rem] font-semibold">
             이름을
             <br />
             입력해주세요.
           </h1>
-          <p className="text-left text-[14px] font-[400] leading-[19.6px]">사용자의 실명을 입력해주세요.</p>
+          <p className=" text-sm">사용자의 실명을 입력해주세요.</p>
         </div>
         <input
           className="h-[50px] py-[8px] px-[20px] rounded-full cursor-pointer border"
@@ -35,9 +39,12 @@ function Name() {
           placeholder="홍길동"
         />
       </div>
-      <button className="cursor-pointer" type="submit">
+      {/* <button className="cursor-pointer" type="submit">
         NEXT
-      </button>
+      </button> */}
+      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit">
+        NEXT
+      </Button>
     </form>
   );
 }

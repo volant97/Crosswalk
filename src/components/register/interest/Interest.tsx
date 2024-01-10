@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import interestData from '../../../data/interestData.json';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
+import { Button } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 
 function Interest() {
   // interestData 는 json 형식
@@ -14,6 +16,8 @@ function Interest() {
   const { interests } = interestData;
   const [activeStates, setActiveStates] = useState<Array<boolean>>(Array(interests.length).fill(false));
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
+
+  const router = useRouter();
 
   const handleInterestClick = (index: number) => {
     setActiveStates((prevStates) => {
@@ -43,27 +47,39 @@ function Interest() {
     });
   };
 
+  const handleNextBtn = () => {
+    router.push('#imgUpload');
+  };
+
   return (
-    <div>
-      <h1 className="text-3xl bold ">관심사를</h1>
-      <h1 className="text-3xl bold ">선택해주세요.</h1>
-      <div className="flex flex-wrap gap-4 justify-center gap-x-[10px] gap-y-[10px] w-[300px] mt-[50px] mr-auto ml-auto ">
-        {interests.map((item, index) => (
-          <div
-            key={item.id}
-            onClick={() => {
-              handleInterestClick(index);
-            }}
-            className={`flex flex-row justify-center px-6 py-3 rounded-full cursor-pointer max-w-[110px] py-[5px] px-[20px] border ${
-              activeStates[index] ? 'border-black text-black' : 'border-slate-300 text-slate-300'
-            }`}
-          >
-            {item.name}
-          </div>
-        ))}
+    <>
+      <div id="interest" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
+        <h1 className="text-[1.375rem] font-semibold">
+          관심사를
+          <br />
+          선택해주세요.
+        </h1>
+        <div className="flex flex-wrap justify-center gap-4 mt-[50px] mr-auto ml-auto ">
+          {interests.map((item, index) => (
+            <div
+              key={item.id}
+              onClick={() => {
+                handleInterestClick(index);
+              }}
+              className={`flex flex-row justify-center px-6 py-3 rounded-full cursor-pointer max-w-[110px] py-[5px] px-[20px] border ${
+                activeStates[index] ? 'border-black text-black' : 'border-slate-300 text-slate-300'
+              }`}
+            >
+              {item.name}
+            </div>
+          ))}
+        </div>
+        저장된 관심사 : {registerData.interest}
       </div>
-      저장된 관심사 : {registerData.interest}
-    </div>
+      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" onClick={handleNextBtn}>
+        NEXT
+      </Button>
+    </>
   );
 }
 
