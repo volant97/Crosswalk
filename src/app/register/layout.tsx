@@ -7,9 +7,9 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 export default function Registerlayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="relative max-w-96 px-8 ">
-        <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-8">
-          <Link href="/" className="absolute left-6">
+      <div className="relative max-w-96 px-5 ">
+        <header className="font-virgil w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-8">
+          <Link href="/" className="absolute left-0">
             <IoIosArrowRoundBack size="30" />
           </Link>
           <div className="!font-virgil">CrossWalk</div>
