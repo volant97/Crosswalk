@@ -1,0 +1,148 @@
+{
+  "notification": [
+    {
+      "id": "1",
+      "name": "김현영",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 20:23:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "2",
+      "name": "윤창근",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 10:00:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "3",
+      "notice_category": "3"
+    },
+    {
+      "id": "3",
+      "name": "이하민",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 20:40:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "2",
+      "notice_category": "2"
+    },
+    {
+      "id": "4",
+      "name": "서지훈",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 04:55:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "3",
+      "notice_category": "3"
+    },
+    {
+      "id": "5",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "6",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "7",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "8",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "9",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "10",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "11",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    },
+    {
+      "id": "12",
+      "name": "임세현",
+      "sender_uid": "독서",
+      "receiver_uid": "abca",
+      "created_at": "2024-01-01 16:44:01",
+      "room_id": "jlsk",
+      "flirting_list_id": "1jkf",
+      "matched": true,
+      "notice_text": "1",
+      "notice_category": "1"
+    }
+  ]
+}
