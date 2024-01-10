@@ -37,7 +37,12 @@ function GetUser({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
-  return <div>{isLoading ? <div>로딩중</div> : <div>{children}</div>}</div>;
+  return (
+    <div>
+      <div>{isLoading ? <div>로딩중</div> : <div>{children}</div>}</div>
+      <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+    </div>
+  );
 }
 
 export default GetUser;

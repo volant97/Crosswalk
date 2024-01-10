@@ -1,6 +1,6 @@
 'use client';
 
-import { kakaoLogin, kakaoLogout } from '@/auth/kakao';
+import { kakaoLogin } from '@/auth/kakao';
 import React from 'react';
 
 function KakaoLoginBtn() {
@@ -8,9 +8,6 @@ function KakaoLoginBtn() {
     <>
       <button type="button" onClick={kakaoLogin}>
         Kakao 로그인
-      </button>
-      <button type="button" onClick={kakaoLogout}>
-        Kakao 로그아웃
       </button>
     </>
   );

@@ -1,16 +1,13 @@
 'use client';
 
 import React from 'react';
-import { GoogleLogOut, GoogleLogin } from '@/auth/google';
+import { googleLogin } from '@/auth/google';
 
 function GoogleLoginBtn() {
   return (
     <>
-      <button type="button" onClick={GoogleLogin}>
+      <button type="button" onClick={googleLogin}>
         Google 로그인
-      </button>
-      <button type="button" onClick={GoogleLogOut}>
-        Google 로그아웃
       </button>
     </>
   );
