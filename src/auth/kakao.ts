@@ -8,10 +8,3 @@ export async function kakaoLogin() {
   if (data) alert('로그인 되었습니다');
   if (error) console.error('login error : ', error);
 }
-
-/**카카오 로그아웃 */
-export async function kakaoLogout() {
-  const { error } = await supabase.auth.signOut();
-  alert('로그아웃 되었습니다');
-  if (error) console.error('logout error : ', error);
-}
