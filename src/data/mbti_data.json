@@ -1,68 +1,20 @@
 {
   "mbti": [
-    {
-      "id": 1,
-      "name": "ISTJ"
-    },
-    {
-      "id": 2,
-      "name": "ISFJ"
-    },
-    {
-      "id": 3,
-      "name": "INFJ"
-    },
-    {
-      "id": 4,
-      "name": "INTJ"
-    },
-    {
-      "id": 5,
-      "name": "ISTP"
-    },
-    {
-      "id": 6,
-      "name": "ISFP"
-    },
-    {
-      "id": 7,
-      "name": "INFP"
-    },
-    {
-      "id": 8,
-      "name": "INTP"
-    },
-    {
-      "id": 9,
-      "name": "ESTP"
-    },
-    {
-      "id": 10,
-      "name": "ESFP"
-    },
-    {
-      "id": 11,
-      "name": "ENFP"
-    },
-    {
-      "id": 12,
-      "name": "ENTP"
-    },
-    {
-      "id": 13,
-      "name": "ESTJ"
-    },
-    {
-      "id": 14,
-      "name": "ESFJ"
-    },
-    {
-      "id": 15,
-      "name": "ENFJ"
-    },
-    {
-      "id": 16,
-      "name": "ENTJ"
-    }
+    "ISTJ",
+    "ISFJ",
+    "INFJ",
+    "INTJ",
+    "ISTP",
+    "ISFP",
+    "INFP",
+    "INTP",
+    "ESTP",
+    "ESFP",
+    "ENFP",
+    "ENTP",
+    "ESTJ",
+    "ESFJ",
+    "ENFJ",
+    "ENTJ"
   ]
 }

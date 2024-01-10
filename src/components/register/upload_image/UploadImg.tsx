@@ -3,6 +3,7 @@
 import { supabase } from '@/lib/supabase-config';
 import { isUserState } from '@/recoil/auth';
 import { registerState } from '@/recoil/register';
+import { Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { CgSoftwareUpload } from 'react-icons/cg';
@@ -51,34 +52,40 @@ function UploadImg() {
       user_img: userImg?.publicUrl
     }));
   }
-  return (
-    <div>
-      <h1 className="text-3xl bold ">사진을</h1> <h1 className="text-3xl bold ">업로드해주세요.</h1>
-      <div className="w-[120px]">
-        <label className="cursor-pointer">
-          {selectedImg === '' ? (
-            <div className="flex flex-col justify-center items-center w-[300px] h-[350px] bg-slate-200 rounded-[50px]">
-              <CgSoftwareUpload size={50} />
-            </div>
-          ) : (
-            <div className="w-[300px]  ">
-              <Image className="rounded-[50px]" src={selectedImg} alt="업로드이미지" width={300} height={350} />
-            </div>
-          )}
 
-          <input className="hidden" type="file" onChange={previewImg} />
-        </label>
+  const handleNextBtn = () => {
+    uploadFile(file);
+    alert('업로드 되었습니다!');
+  };
+  return (
+    <>
+      <div id="imgUpload" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
+        <h1 className=" text-[1.375rem] font-semibold">
+          사진을
+          <br />
+          업로드해주세요.
+        </h1>
+        <div className="">
+          <label className="cursor-pointer">
+            {selectedImg === '' ? (
+              <div className="flex flex-col justify-center items-center  h-[350px] bg-slate-200 rounded-[50px]">
+                <CgSoftwareUpload size={50} />
+              </div>
+            ) : (
+              <div className="  ">
+                <Image className="rounded-[50px]" src={selectedImg} alt="업로드이미지" width={300} height={350} />
+              </div>
+            )}
+
+            <input className="hidden" type="file" onChange={previewImg} />
+          </label>
+          <p className="text-center text-xs text-red-500">* 사진은 필수 입니다.</p>
+        </div>
       </div>
-      <p className="ml-[90px] text-xs text-red-500">* 사진은 필수 입니다.</p>
-      <button
-        onClick={() => {
-          uploadFile(file);
-          alert('업로드 되었습니다!');
-        }}
-      >
-        업로드
-      </button>
-    </div>
+      <Button className="w-full bg-customYellow rounded-3xl mb-10" onClick={handleNextBtn}>
+        NEXT
+      </Button>
+    </>
   );
 }
 
