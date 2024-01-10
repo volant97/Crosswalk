@@ -40,8 +40,8 @@ function Interest() {
             onClick={() => {
               handleInterestClick(index);
             }}
-            className={`px-6 py-3 rounded-full cursor-pointer border border-slate-300 ${
-              activeStates[index] ? 'border-black text-black' : 'text-slate-300'
+            className={`px-6 py-3 rounded-full cursor-pointer border ${
+              activeStates[index] ? 'border-black text-black' : 'border-slate-300 text-slate-300'
             }`}
           >
             {item.name}
