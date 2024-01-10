@@ -9,7 +9,6 @@ function Interest() {
   // interests는 배열
   // activeStates는 배열 [true, false ...] index 0~11
   // Recoil state를 만들어서 넣어야 함, atom은 객체형태임을 유의
-
   const [registerData, setRegisterData] = useRecoilState(registerState);
 
   const { interests } = interestData;
