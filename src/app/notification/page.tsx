@@ -1,9 +1,26 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import notificationData from '../../data/notification_data.json';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+//----
+import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 
-function Notification() {
+const Notification: React.FC = () => {
+  const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+
+  const channelA: RealtimeChannel = client
+    .channel('schema-db-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'flirting_list'
+      },
+      (payload) => console.log(payload)
+    )
+    .subscribe();
+
   // 1친구 요청
   // sender_uid in flirting_list
   // receiver_uid in flirting_list
@@ -21,6 +38,22 @@ function Notification() {
   // custom_users [ matched{ sender_uid: text, is_matched: false }] ?
 
   // Table[{}, {}, {}]
+
+  interface NotificationItem {
+    id: string;
+    name: string;
+    sender_uid: string;
+    receiver_uid: string;
+    created_at: string;
+    room_id: string;
+    flirting_list_id: string;
+    matched: boolean;
+    notice1: string;
+    notice2: string;
+    notice3: string;
+    notice_category: string;
+  }
+
   const { notification } = notificationData;
   const notificationCategory = [
     { id: '1', text: '⚡ Request' },
@@ -33,7 +66,7 @@ function Notification() {
     { id: '3', text: '님과 신호등이 연결되었습니다!' }
   ];
 
-  const formatTime = (createdAt: any) => {
+  const formatTime = (createdAt: string) => {
     const date = new Date(createdAt);
     const hours = date.getHours().toString().padStart(2, '0'); // 시간을 2자리로 표시
     const minutes = date.getMinutes().toString().padStart(2, '0'); // 분을 2자리로 표시
@@ -79,6 +112,6 @@ function Notification() {
       </div>
     </div>
   );
-}
+};
 
 export default Notification;
