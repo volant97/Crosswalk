@@ -7,8 +7,12 @@ import { Props } from '@/types/childrenPropsType';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import Logout from './Logout';
+import Landing from '../login/landing/Landing';
+import { usePathname } from 'next/navigation';
+import Loading from './Loading';
 
 function GetUser({ children }: Props) {
+  const pathname = usePathname();
   const [userState, setUserState] = useRecoilState<IsLoginType>(isUserState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -39,7 +43,7 @@ function GetUser({ children }: Props) {
 
   return (
     <div>
-      <div>{isLoading ? <div>로딩중</div> : <div>{children}</div>}</div>
+      <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
       <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
       <Logout />
     </div>

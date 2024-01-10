@@ -50,7 +50,11 @@ function AgeAndHeight() {
           />
         </div>
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit">
+      <Button
+        className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10"
+        type="submit"
+        aria-label="시작하기 버튼"
+      >
         NEXT
       </Button>
     </form>

@@ -6,8 +6,9 @@ function TempHome() {
     <>
       <hr />
       <div className="flex gap-10 m-5">
-        <Link href={'/'}>Root</Link>
+        <Link href={'/'}>Landing</Link>
         <Link href={'/register'}>Register</Link>
+        <Link href={'/main'}>Main</Link>
       </div>
     </>
   );
