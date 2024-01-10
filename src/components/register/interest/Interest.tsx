@@ -15,8 +15,6 @@ function Interest() {
   const router = useRouter();
 
   const handleInterestClick = (interest: string) => {
-    console.log(interest);
-
     if (activeStates.includes(interest)) {
       const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
@@ -25,7 +23,6 @@ function Interest() {
     } else {
       setActiveStates([...activeStates, interest]);
     }
-    console.log(activeStates);
   };
 
   const handleNextBtn = () => {
@@ -33,7 +30,9 @@ function Interest() {
       ...registerData,
       interest: activeStates
     });
-    // router.push('#imgUpload');
+    if (activeStates) {
+      router.push('#imgUpload');
+    } else alert('관심사를 선택해주세요!');
   };
   return (
     <>
@@ -45,7 +44,6 @@ function Interest() {
         </h1>
         <ul className="flex flex-wrap gap-3 justify-center">
           {interests.map((interest) => {
-            console.log(`Interest ID: ${interest.id}, Name: ${interest.name}`);
             const isSelected = activeStates.includes(interest.name);
             return (
               <li
@@ -66,7 +64,10 @@ function Interest() {
         <br />
         recoil에 있는 관심사 : {registerData.interest?.join(', ')}
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" onClick={handleNextBtn}>
+      <Button
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${activeStates ? 'bg-customGreen' : 'bg-customYellow'}`}
+        onClick={handleNextBtn}
+      >
         NEXT
       </Button>
     </>
