@@ -2,6 +2,7 @@
 
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
+import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -10,7 +11,9 @@ function Agreement() {
   const router = useRouter();
   const [register, setRegister] = useRecoilState(registerState);
   const [agreement, setAgreement] = useState<boolean>(false);
-  const period = '기간설정중';
+  const currentDate = new Date();
+  const period = addMonths(currentDate, 3);
+  const dateFormat = 'yyyy-MM-dd HH:mm:ss XXX';
 
   const handleAgreementBtn = () => {
     setAgreement(true);
@@ -19,7 +22,7 @@ function Agreement() {
   const handleNextBtn = () => {
     setRegister({
       ...register,
-      information_use_period: period,
+      information_use_period: format(period, dateFormat),
       information_agreement: agreement
     });
 

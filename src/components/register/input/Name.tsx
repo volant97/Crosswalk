@@ -5,19 +5,26 @@ import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import Gender from './Gender';
 
 function Name() {
   const [register, setRegister] = useRecoilState(registerState);
   const [name, setName] = useState('');
+  const [gender, setGender] = useState<string>('');
   const router = useRouter();
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setRegister({
       ...register,
-      name
+      name,
+      gender
     });
-    router.push('#gender');
+    if (name && gender) {
+      router.push('#mbti');
+    } else {
+      alert('정보를 입력해주세요!');
+    }
   };
 
   return (
@@ -25,7 +32,7 @@ function Name() {
       <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
         <div>
           <h1 className=" text-[1.375rem] font-semibold">
-            이름을
+            이름과 성별을
             <br />
             입력해주세요.
           </h1>
@@ -38,11 +45,40 @@ function Name() {
           onChange={(e) => setName(e.target.value)}
           placeholder="홍길동"
         />
+        {/* <Gender /> */}
+        <div className="flex gap-2 justify-center">
+          <Button
+            type="button"
+            className={`w-[48%] py-2 px-6 bg-white rounded-full cursor-pointer border ${
+              gender === 'M' ? 'font-semibold border-black text-black' : 'border-slate-300 text-slate-300'
+            }`}
+            onClick={() => {
+              setGender('M');
+            }}
+          >
+            남자
+          </Button>
+          <Button
+            type="button"
+            className={`w-[48%] py-2 px-6 bg-white rounded-full cursor-pointer border ${
+              gender === 'F' ? 'font-semibold border-black text-black' : 'border-slate-300 text-slate-300'
+            }`}
+            onClick={() => {
+              setGender('F');
+            }}
+          >
+            여자
+          </Button>
+        </div>
       </div>
+
       {/* <button className="cursor-pointer" type="submit">
         NEXT
       </button> */}
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit">
+      <Button
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${name && gender ? 'bg-customGreen' : 'bg-customYellow'}`}
+        type="submit"
+      >
         NEXT
       </Button>
     </form>
