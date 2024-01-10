@@ -7,7 +7,7 @@ function GoogleLoginBtn() {
   return (
     <>
       <button type="button" onClick={googleLogin}>
-        Google 로그인
+        Google
       </button>
     </>
   );

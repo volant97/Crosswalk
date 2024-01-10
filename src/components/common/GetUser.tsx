@@ -6,6 +6,7 @@ import { IsLoginType } from '@/types/isLoginType';
 import { Props } from '@/types/childrenPropsType';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
+import Logout from './Logout';
 
 function GetUser({ children }: Props) {
   const [userState, setUserState] = useRecoilState<IsLoginType>(isUserState);
@@ -21,7 +22,6 @@ function GetUser({ children }: Props) {
             isLogin: true
           });
           setIsLoading(false);
-          console.log(userState);
         } else {
           setUserState({
             uid: null,
@@ -41,6 +41,7 @@ function GetUser({ children }: Props) {
     <div>
       <div>{isLoading ? <div>로딩중</div> : <div>{children}</div>}</div>
       <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+      <Logout />
     </div>
   );
 }

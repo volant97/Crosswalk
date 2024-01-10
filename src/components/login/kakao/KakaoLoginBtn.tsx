@@ -7,7 +7,7 @@ function KakaoLoginBtn() {
   return (
     <>
       <button type="button" onClick={kakaoLogin}>
-        Kakao 로그인
+        Kakao
       </button>
     </>
   );
