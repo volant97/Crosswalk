@@ -5,6 +5,7 @@ import FlirtingModal from '@/components/common/modal/FlirtingModal';
 import React from 'react';
 
 function Main() {
+  // 알럿 사용법
   const { openModal, AlertModal } = useAlertModal();
   return (
     <div className="relative max-w-96 px-8 border-solid border-1 border-black ">
