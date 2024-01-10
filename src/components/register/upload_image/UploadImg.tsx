@@ -1,12 +1,13 @@
 'use client';
 
+import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
 import { isUserState } from '@/recoil/auth';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { CgSoftwareUpload } from 'react-icons/cg';
+import { PiPlusThin } from 'react-icons/pi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 function UploadImg() {
@@ -19,14 +20,9 @@ function UploadImg() {
     const imgFile = event.target.files[0];
 
     if (imgFile) {
-      // If a file is selected
       setFile(imgFile);
-
-      // Convert the file to URL format
       const imgUrl = URL.createObjectURL(imgFile);
       setSelectedImg(imgUrl);
-    } else {
-      return;
     }
   };
 
@@ -44,18 +40,32 @@ function UploadImg() {
       }
     } catch (error) {
       console.log('error', error);
-      alert('사진변경중 오류 발생');
+      alert('사진변경 중 오류 발생');
     }
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
     setRegisterData((prevData) => ({
       ...prevData,
-      user_img: userImg?.publicUrl
+      user_img: userImg?.publicUrl,
+      avatar: Math.floor(Math.random() * 15),
+      uid: uid
     }));
+  }
+  async function postData() {
+    if (file) {
+      try {
+        await postRegister(registerData);
+      } catch (error) {
+        alert('서버와의 통신을 실패했습니다.');
+      }
+    }
   }
 
   const handleNextBtn = () => {
     uploadFile(file);
     alert('업로드 되었습니다!');
+    if (file) {
+    } else alert('사진을 올려주세요!');
+    postData();
   };
   return (
     <>
@@ -65,14 +75,14 @@ function UploadImg() {
           <br />
           업로드해주세요.
         </h1>
-        <div className="">
+        <div className="flex flex-col  items-center gap-4">
           <label className="cursor-pointer">
             {selectedImg === '' ? (
-              <div className="flex flex-col justify-center items-center  h-[350px] bg-slate-200 rounded-[50px]">
-                <CgSoftwareUpload size={50} />
+              <div className="w-60 h-[20rem] flex flex-col justify-center items-center bg-slate-200 rounded-[50px]">
+                <PiPlusThin size={50} />
               </div>
             ) : (
-              <div className="  ">
+              <div className="">
                 <Image className="rounded-[50px]" src={selectedImg} alt="업로드이미지" width={300} height={350} />
               </div>
             )}
@@ -82,7 +92,10 @@ function UploadImg() {
           <p className="text-center text-xs text-red-500">* 사진은 필수 입니다.</p>
         </div>
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl mb-10" onClick={handleNextBtn}>
+      <Button
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${file ? 'bg-customGreen' : 'bg-customYellow'}`}
+        onClick={handleNextBtn}
+      >
         NEXT
       </Button>
     </>
