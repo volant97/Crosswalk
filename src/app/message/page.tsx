@@ -1,7 +1,12 @@
+import SignalOffModal from '@/components/common/modal/SignalOffModal';
 import React from 'react';
 
 function Message() {
-  return <div>Message</div>;
+  return (
+    <div>
+      <SignalOffModal />
+    </div>
+  );
 }
 
 export default Message;
