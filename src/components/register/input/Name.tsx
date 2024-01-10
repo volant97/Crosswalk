@@ -16,8 +16,6 @@ function Name() {
     });
   };
 
-  console.log(register);
-
   return (
     <form className="w-[300px] border-2 border-indigo-600" onSubmit={handleNameForm}>
       <div className="h-[186px] flex flex-col justify-between">
