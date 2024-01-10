@@ -5,7 +5,7 @@ export type RegisterType = {
   mbti: string | null;
   age: number | null;
   height: number | null;
-  interest: string | null;
+  interest: string[] | null;
   user_img: string | null;
   avatar: string | null;
   notice: string | null;

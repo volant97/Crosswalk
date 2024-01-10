@@ -1,3 +1,4 @@
+import Interest from '@/components/register/interest/Interest';
 import AgeAndHeight from '@/components/register/input/AgeAndHeight';
 import Agreement from '@/components/register/input/Agreement';
 import Gender from '@/components/register/input/Gender';
@@ -11,6 +12,7 @@ function Register() {
       <Name />
       <Gender />
       <AgeAndHeight />
+      <Interest />
     </div>
   );
 }
