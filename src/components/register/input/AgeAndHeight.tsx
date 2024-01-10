@@ -1,7 +1,7 @@
 'use client';
 
 import { registerState } from '@/recoil/register';
-import { Button, Modal } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';

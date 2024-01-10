@@ -41,6 +41,7 @@ function Agreement() {
       <button
         onClick={() => {
           setRegister({
+            uid: 'test',
             name: '홍길동',
             gender: 'M',
             mbti: 'INTJ',
@@ -48,7 +49,7 @@ function Agreement() {
             height: 180,
             interest: ['게임', '여행', '영화'],
             user_img: '이미지',
-            avatar: '아바타',
+            avatar: 15,
             notice: '얍',
             information_use_period: '기간',
             information_agreement: true
