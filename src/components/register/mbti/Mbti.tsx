@@ -15,14 +15,18 @@ function Mbti() {
   const router = useRouter();
 
   const handleMbtiClick = (item: string) => {
-    setSelectedMbti(item);
+    if (selectedMbti === item) {
+      setSelectedMbti('');
+    } else setSelectedMbti(item);
   };
   const handleNextBtn = () => {
     setRegisterData({
       ...registerData,
       mbti: selectedMbti
     });
-    router.push('#age');
+    if (selectedMbti) {
+      router.push('#age');
+    } else alert('MBTI를 선택해주세요!');
   };
 
   return (
@@ -51,7 +55,10 @@ function Mbti() {
           ))}
         </div>
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" type="submit" onClick={handleNextBtn}>
+      <Button
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${selectedMbti ? 'bg-customGreen' : 'bg-customYellow'}`}
+        onClick={handleNextBtn}
+      >
         NEXT
       </Button>
     </>

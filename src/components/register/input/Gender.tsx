@@ -29,15 +29,15 @@ function Gender() {
 
   return (
     <>
-      <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12" id="gender">
+      <div className="flex flex-col gap-12">
         <button onClick={handleMBtn}>남자</button>
         <button onClick={handleFBtn}>여자</button>
         {/* test */}
         <div>성별 : {gender}</div>
       </div>
-      <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" onClick={handleNextBtn}>
+      {/* <Button className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10" onClick={handleNextBtn}>
         NEXT
-      </Button>
+      </Button> */}
     </>
   );
 }
