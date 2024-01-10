@@ -1,23 +1,31 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+interface Window {
+  prevHash?: string;
+}
 
 const Indicator = () => {
-  const [scrollPercent, setScrollPercent] = useState(20);
+  const [scrollPercent, setScrollPercent] = useState(16);
+  const [hashCount, setHashCount] = useState(1);
+  const prevHashRef = useRef(window.location.hash);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      const percent = (scrolled / totalHeight) * 100;
-      setScrollPercent(percent);
-    };
+    const checkHash = () => {
+      const currentHash = window.location.hash;
 
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+      if (prevHashRef.current !== currentHash) {
+        setHashCount((prevCount) => prevCount + 1);
+        prevHashRef.current = currentHash;
+      }
     };
-  }, []);
+    if (hashCount !== 0) {
+      setScrollPercent(Math.round(hashCount * 16.6));
+    }
+    const intervalId = setInterval(checkHash, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [hashCount]);
 
   return (
     <div
