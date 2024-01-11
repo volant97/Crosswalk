@@ -14,18 +14,23 @@ function AgeAndHeight() {
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setRegister({
-      ...register,
+
+    if (!age || !height) {
+      openModal('나이와 키를 입력해주세요!');
+      return;
+    }
+
+    setRegister((prevValue) => ({
+      ...prevValue,
       age: Number(age),
       height: Number(height)
-    });
-    if (age && height) {
-      router.push('#interest');
-    } else alert('나이와 키를 입력해주세요!');
+    }));
+
+    router.push('#interest');
   };
 
   return (
-    <form className="  " onSubmit={handleNameForm} id="age">
+    <form onSubmit={handleNameForm} id="age">
       <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
         <h1 className="text-[1.375rem] font-semibold">
           나이와 키를

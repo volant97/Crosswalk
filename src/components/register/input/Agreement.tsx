@@ -20,11 +20,15 @@ function Agreement() {
   };
 
   const handleNextBtn = () => {
-    setRegister({
-      ...register,
+    if (!agreement) {
+      return alert('동의하지 않으면 추가 진행이 불가합니다.');
+    }
+
+    setRegister((prevValue) => ({
+      ...prevValue,
       information_use_period: format(period, dateFormat),
-      information_agreement: agreement
-    });
+      information_agreement: true
+    }));
 
     router.push('#name');
   };
@@ -33,8 +37,6 @@ function Agreement() {
     <>
       <div className="min-h-[calc(100dvh-12rem)]">
         <button onClick={handleAgreementBtn}>동의</button>
-        <button onClick={handleNextBtn}>NEXT</button>
-        {/* test */}
         <div>동의 : {agreement.toString()}</div>
       </div>
       {/* 페이지 디자인 나온 후 체크박스로 변경 */}

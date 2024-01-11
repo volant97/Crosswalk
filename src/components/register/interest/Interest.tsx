@@ -26,13 +26,17 @@ function Interest() {
   };
 
   const handleNextBtn = () => {
-    setRegisterData({
-      ...registerData,
+    if (activeStates.length < 1) {
+      openModal('관심사를 선택해주세요!');
+      return;
+    }
+
+    setRegisterData((prevValue) => ({
+      ...prevValue,
       interest: activeStates
-    });
-    if (activeStates) {
-      router.push('#imgUpload');
-    } else alert('관심사를 선택해주세요!');
+    }));
+
+    router.push('#imgUpload');
   };
   return (
     <>

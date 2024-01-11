@@ -1,32 +1,34 @@
 'use client';
 
 import React, { useState } from 'react';
-import mbtiData from '../../../data/mbti_data.json';
+import mbti from '../../../data/mbti_data.json';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 
 function Mbti() {
-  const { mbti } = mbtiData;
   const [registerData, setRegisterData] = useRecoilState(registerState);
   const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
   const router = useRouter();
 
   const handleMbtiClick = (item: string) => {
-    if (selectedMbti === item) {
-      setSelectedMbti('');
-    } else setSelectedMbti(item);
+    if (selectedMbti === item) setSelectedMbti('');
+    else setSelectedMbti(item);
   };
   const handleNextBtn = () => {
-    setRegisterData({
-      ...registerData,
+    if (!selectedMbti) {
+      openModal('MBTI를 선택해주세요!');
+      return;
+    }
+
+    setRegisterData((prevValue) => ({
+      ...prevValue,
       mbti: selectedMbti
-    });
-    if (selectedMbti) {
-      router.push('#age');
-    } else alert('MBTI를 선택해주세요!');
+    }));
+
+    router.push('#age');
   };
 
   return (
