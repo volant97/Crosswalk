@@ -37,6 +37,8 @@ const FlirtingModal: React.FC = () => {
       <Modal
         className="w-[20rem]"
         placement="center"
+        // backdrop={backdrop as ModalProps['backdrop']}
+        // backdrop="blur"
         backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={onClose}
