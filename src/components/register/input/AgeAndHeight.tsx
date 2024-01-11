@@ -1,5 +1,6 @@
 'use client';
 
+import useAlertModal from '@/components/common/modal/AlertModal';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,7 @@ function AgeAndHeight() {
   const [age, setAge] = useState<string>('');
   const [height, setHeight] = useState<string>('');
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function AgeAndHeight() {
     });
     if (age && height) {
       router.push('#interest');
-    } else alert('나이와 키를 입력해주세요!');
+    } else openModal('나이와 키를 입력해주세요!');
   };
 
   return (
@@ -61,6 +63,7 @@ function AgeAndHeight() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </form>
   );
 }
