@@ -7,13 +7,13 @@ import { isUserState } from '@/recoil/auth';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 function UploadImg() {
   const [registerData, setRegisterData] = useRecoilState(registerState);
-  const { uid } = useRecoilValue(isUserState);
+  const { uid, ...all } = useRecoilValue(isUserState);
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
   const { openModal, AlertModal } = useAlertModal();
@@ -44,6 +44,7 @@ function UploadImg() {
       console.log('error', error);
       openModal('사진변경 중 오류 발생');
     }
+
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
     setRegisterData((prevData) => ({
       ...prevData,
@@ -53,22 +54,28 @@ function UploadImg() {
     }));
   }
   async function postData() {
-    if (file) {
-      try {
-        await postRegister(registerData);
-      } catch (error) {
-        openModal('서버와의 통신을 실패했습니다.');
-      }
+    try {
+      await postRegister(registerData);
+    } catch (error) {
+      openModal('서버와의 통신을 실패했습니다.');
     }
   }
 
-  const handleNextBtn = () => {
-    uploadFile(file);
-    alert('업로드 되었습니다!');
-    if (file) {
-    } else openModal('사진을 올려주세요!');
-    postData();
+  const handleNextBtn = async () => {
+    if (!file) {
+      openModal('사진을 올려주세요!');
+      return;
+    }
+
+    await uploadFile(file);
   };
+
+  useEffect(() => {
+    if (registerData.user_img) {
+      postData();
+    }
+  }, [registerData.user_img]);
+
   return (
     <>
       <div id="imgUpload" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">

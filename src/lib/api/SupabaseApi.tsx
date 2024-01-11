@@ -12,8 +12,8 @@ export async function getAllData(): Promise<RegisterType[]> {
   return data;
 }
 
-export async function postRegister(registerData: RegisterType) {
-  const { data, error } = await supabase.from('custom_users').insert([registerData]).select();
+export async function postRegister({ uid, ...registerData }: RegisterType) {
+  const { data, error } = await supabase.from('custom_users').update([registerData]).eq('uid', uid).select();
 
   if (error || null) {
     console.log('Error creating a posts data', error);
@@ -21,5 +21,3 @@ export async function postRegister(registerData: RegisterType) {
   }
   return data;
 }
-
-// const { data } = await supabase.from('countries').select().returns<RegisterType>()

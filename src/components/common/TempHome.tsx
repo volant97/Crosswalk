@@ -9,6 +9,7 @@ function TempHome() {
         <Link href={'/'}>Landing</Link>
         <Link href={'/register'}>Register</Link>
         <Link href={'/main'}>Main</Link>
+        <Link href={'/request'}>Request</Link>
       </div>
     </>
   );

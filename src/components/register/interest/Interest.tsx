@@ -28,13 +28,17 @@ function Interest() {
   };
 
   const handleNextBtn = () => {
-    setRegisterData({
-      ...registerData,
+    if (activeStates.length < 1) {
+      openModal('관심사를 선택해주세요!');
+      return;
+    }
+
+    setRegisterData((prevValue) => ({
+      ...prevValue,
       interest: activeStates
-    });
-    if (activeStates.length > 0) {
-      router.push('#imgUpload');
-    } else openModal('관심사를 선택해주세요!');
+    }));
+
+    router.push('#imgUpload');
   };
   console.log(activeStates);
   return (
@@ -69,11 +73,12 @@ function Interest() {
       </div>
       <Button
         className={`w-full rounded-3xl cursor-pointer mb-10 ${
-          activeStates.length > 0 ? 'bg-customGreen' : 'bg-customYellow'
+          activeStates.length === maxSelectedInterests ? 'bg-customGreen' : 'bg-customYellow'
+
         }`}
         onClick={handleNextBtn}
       >
-        NEXT
+        NEXT ({activeStates.length}/{maxSelectedInterests})
       </Button>
       {AlertModal()}
     </>
