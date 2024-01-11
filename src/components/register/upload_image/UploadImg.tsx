@@ -1,5 +1,6 @@
 'use client';
 
+import useAlertModal from '@/components/common/modal/AlertModal';
 import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
 import { isUserState } from '@/recoil/auth';
@@ -15,6 +16,7 @@ function UploadImg() {
   const { uid, ...all } = useRecoilValue(isUserState);
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
+  const { openModal, AlertModal } = useAlertModal();
 
   const previewImg = (event: any) => {
     const imgFile = event.target.files[0];
@@ -40,7 +42,7 @@ function UploadImg() {
       }
     } catch (error) {
       console.log('error', error);
-      alert('사진변경 중 오류 발생');
+      openModal('사진변경 중 오류 발생');
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
@@ -105,6 +107,7 @@ function UploadImg() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </>
   );
 }

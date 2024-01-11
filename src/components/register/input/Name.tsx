@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Gender from './Gender';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function Name() {
   const [register, setRegister] = useRecoilState(registerState);
   const [name, setName] = useState('');
   const [gender, setGender] = useState<string>('');
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ function Name() {
     }));
 
     router.push('#mbti');
+
   };
 
   return (
@@ -84,6 +87,7 @@ function Name() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </form>
   );
 }

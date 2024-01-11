@@ -1,7 +1,8 @@
 'use client';
 
+import useAlertModal from '@/components/common/modal/AlertModal';
 import { registerState } from '@/recoil/register';
-import { Button, Modal } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -11,6 +12,7 @@ function AgeAndHeight() {
   const [age, setAge] = useState<string>('');
   const [height, setHeight] = useState<string>('');
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ function AgeAndHeight() {
     }));
 
     router.push('#interest');
+
   };
 
   return (
@@ -66,6 +69,7 @@ function AgeAndHeight() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </form>
   );
 }

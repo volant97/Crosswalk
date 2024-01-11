@@ -6,11 +6,13 @@ import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function Mbti() {
   const [registerData, setRegisterData] = useRecoilState(registerState);
   const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
+  const { openModal, AlertModal } = useAlertModal();
   const router = useRouter();
 
   const handleMbtiClick = (item: string) => {
@@ -29,6 +31,7 @@ function Mbti() {
     }));
 
     router.push('#age');
+
   };
 
   return (
@@ -63,6 +66,7 @@ function Mbti() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </>
   );
 }
