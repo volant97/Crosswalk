@@ -14,7 +14,11 @@ import {
 } from '@nextui-org/react';
 import { GoHeartFill } from 'react-icons/go';
 
-const FlirtingModal: React.FC = () => {
+type Props = {
+  flirtingUserUid: string;
+};
+
+const FlirtingModal = ({ flirtingUserUid }: Props) => {
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const backdrop = 'opaque';
@@ -29,7 +33,7 @@ const FlirtingModal: React.FC = () => {
         <Button
           color="danger"
           onPress={() => onOpen()}
-          className="absolute bottom-10 ml-[20px] capitalize w-[80px] h-[80px] rounded-full hover:scale-110"
+          className="absolute bottom-[-140px] left-[20px] ml-[20px] capitalize w-[80px] h-[80px] rounded-full hover:scale-110"
         >
           <GoHeartFill size={80} />
         </Button>
@@ -51,20 +55,30 @@ const FlirtingModal: React.FC = () => {
                 <br /> <span className="text-rose-400">&quot;한 마디&quot;</span>
               </ModalHeader>
               <ModalBody>
-                <Input
-                  value={flirtingMessage}
-                  onChange={MessageHandler}
-                  maxLength={15}
-                  variant="bordered"
-                  type="text"
-                  label="Flirting"
-                  placeholder="15글자 이내로 작성해주세요"
-                />
+                <form
+                  onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                    e.preventDefault();
+                    console.log('16dc2297-debc-4c90-896c-f564fb7b1c7a', flirtingUserUid);
+                    console.log('플러팅 메시지', flirtingMessage);
+                    setFlirtingMessage('');
+                    onClose();
+                  }}
+                >
+                  <Input
+                    value={flirtingMessage}
+                    onChange={MessageHandler}
+                    maxLength={15}
+                    variant="bordered"
+                    type="text"
+                    label="Flirting"
+                    placeholder="15글자 이내로 작성해주세요"
+                  />
+                </form>
               </ModalBody>
               <ModalFooter>
                 <Button
                   className="w-full bg-customYellow rounded-3xl cursor-pointer mb-10 font-medium"
-                  type="button"
+                  type="submit"
                   onPress={onClose}
                 >
                   보내기
