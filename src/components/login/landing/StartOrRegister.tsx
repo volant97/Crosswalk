@@ -16,7 +16,7 @@ function StartOrRegister() {
   return (
     <>
       {userState.isLogin ? (
-        !!register.information_agreement ? (
+        register.information_agreement ? (
           <Button className="w-full h-full bg-customGreen rounded-3xl cursor-pointer">
             <Link href={'/main'} className="flex justify-center items-center w-full h-full">
               시작하기

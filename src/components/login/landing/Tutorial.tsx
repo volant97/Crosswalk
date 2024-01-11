@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import tutorial_avatar1 from '@assets/tutorial/tutorial_avatar1.png';
 import tutorial_avatar_all from '@assets/tutorial/tutorial_avatar_all.png';
 
 function Tutorial() {
