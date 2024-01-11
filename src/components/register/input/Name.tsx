@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Gender from './Gender';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function Name() {
   const [register, setRegister] = useRecoilState(registerState);
   const [name, setName] = useState('');
   const [gender, setGender] = useState<string>('');
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +25,7 @@ function Name() {
     if (name && gender) {
       router.push('#mbti');
     } else {
-      alert('정보를 입력해주세요!');
+      openModal('정보를 입력해주세요!');
     }
   };
 
@@ -81,6 +83,7 @@ function Name() {
       >
         NEXT
       </Button>
+      {AlertModal()}
     </form>
   );
 }

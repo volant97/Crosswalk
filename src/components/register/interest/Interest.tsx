@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function Interest() {
   const { interests } = interestData;
@@ -13,13 +14,14 @@ function Interest() {
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
 
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleInterestClick = (interest: string) => {
     if (activeStates.includes(interest)) {
       const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
     } else if (activeStates.length >= maxSelectedInterests) {
-      alert(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
+      openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
     } else {
       setActiveStates([...activeStates, interest]);
     }
@@ -30,10 +32,11 @@ function Interest() {
       ...registerData,
       interest: activeStates
     });
-    if (activeStates) {
+    if (activeStates.length > 0) {
       router.push('#imgUpload');
-    } else alert('관심사를 선택해주세요!');
+    } else openModal('관심사를 선택해주세요!');
   };
+  console.log(activeStates);
   return (
     <>
       <div id="interest" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
@@ -65,11 +68,14 @@ function Interest() {
         recoil에 있는 관심사 : {registerData.interest?.join(', ')}
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer mb-10 ${activeStates ? 'bg-customGreen' : 'bg-customYellow'}`}
+        className={`w-full rounded-3xl cursor-pointer mb-10 ${
+          activeStates.length > 0 ? 'bg-customGreen' : 'bg-customYellow'
+        }`}
         onClick={handleNextBtn}
       >
         NEXT
       </Button>
+      {AlertModal()}
     </>
   );
 }
