@@ -1,12 +1,21 @@
 'use client';
 import React from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  ModalProps
+} from '@nextui-org/react';
 import Image from 'next/image';
 import avatarData from '../../../data/avatar_data.json';
 
 function ChooseAvatarModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
+  const [backdrop, setBackdrop] = React.useState<'blur' | undefined>('blur'); // 기본값을 'blur'로 설정
   const { avatars } = avatarData;
   return (
     <div>
@@ -27,7 +36,9 @@ function ChooseAvatarModal() {
         ></Image>
       </Button>
       <Modal
-        backdrop={backdrop}
+        // backdrop={backdrop}
+        // backdrop="blur"
+        backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
