@@ -1,6 +1,15 @@
 'use client';
 import React from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  ModalProps
+} from '@nextui-org/react';
 
 function ConfirmModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,7 +28,9 @@ function ConfirmModal() {
         수정 완료
       </Button>
       <Modal
-        backdrop={backdrop}
+        // backdrop={backdrop}
+        // backdrop="blur"
+        backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
