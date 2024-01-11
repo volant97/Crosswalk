@@ -69,12 +69,11 @@ function Interest() {
         </ul>
         useState에 있는 관심사 : {activeStates.join(', ')}
         <br />
-        recoil에 있는 관심사 : {registerData.interest?.join(', ')}
+        {/* recoil에 있는 관심사 : {registerData.interest?.join(', ')} */}
       </div>
       <Button
         className={`w-full rounded-3xl cursor-pointer mb-10 ${
           activeStates.length === maxSelectedInterests ? 'bg-customGreen' : 'bg-customYellow'
-
         }`}
         onClick={handleNextBtn}
       >
