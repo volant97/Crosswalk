@@ -20,7 +20,7 @@ const Notification: React.FC = () => {
   // }
   // getData();
 
-  const fetFlirtingRequestData = async () => {
+  const fetchFlirtingRequestData = async () => {
     const data = await getFlirtingRequestData();
     console.log('data!!!!', data);
     if (data) {
@@ -46,14 +46,14 @@ const Notification: React.FC = () => {
         },
         (payload) => {
           console.log({ payload });
-          fetFlirtingRequestData();
+          fetchFlirtingRequestData();
         }
       )
       .subscribe();
   }, []);
 
-  if (!flirtingList) return;
-  console.log('0000000000', flirtingList[0].flirting_message);
+  // if (!flirtingList) return;
+  // console.log('0000000000', flirtingList[0].flirting_message);
 
   // 1친구 요청
   // sender_uid in flirting_list
