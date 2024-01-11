@@ -67,7 +67,7 @@ function GetUser({ children }: Props) {
     fetchUser();
     fectchCustomUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, [isLoading, register.information_agreement]);
 
   return (
     <div>
