@@ -1,3 +1,4 @@
+import { FlirtingListType } from '@/types/flirtingListType';
 import { supabase } from '../supabase-config';
 
 import { RegisterType } from '@/types/registerType';
@@ -19,5 +20,16 @@ export async function postRegister({ uid, ...registerData }: RegisterType) {
     console.log('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
+  return data;
+}
+
+export async function getFlirtingRequestData() {
+  const { data, error } = await supabase.from('flirting_list').select('*').returns<FlirtingListType[]>();
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+
   return data;
 }

@@ -5,11 +5,29 @@ import notificationData from '../../data/notification_data.json';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 //----
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
+import { FlirtingListType } from '@/types/flirtingListType';
+import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
 // console.log({ client });
 const Notification: React.FC = () => {
+  const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
+  // console.log('???');
+  // async function getData() {
+  //   const { data, error } = await client.from('flirting_list').select();
+  //   console.log({ data });
+  // }
+  // getData();
+
+  const fetFlirtingRequestData = async () => {
+    const data = await getFlirtingRequestData();
+    console.log('data!!!!', data);
+    if (data) {
+      setFlirtingList(data);
+    }
+  };
+
   useEffect(() => {
     // console.log('???');
     // async function getData() {
@@ -17,7 +35,6 @@ const Notification: React.FC = () => {
     //   console.log({ data });
     // }
     // getData();
-
     const channelA: RealtimeChannel = client
       .channel('room1')
       .on(
@@ -27,11 +44,16 @@ const Notification: React.FC = () => {
           schema: 'public',
           table: 'flirting_list'
         },
-        (payload) => console.log({ payload }) //필터링추가
+        (payload) => {
+          console.log({ payload });
+          fetFlirtingRequestData();
+        }
       )
       .subscribe();
-    console.log({ channelA });
   }, []);
+
+  if (!flirtingList) return;
+  console.log('0000000000', flirtingList[0].flirting_message);
 
   // 1친구 요청
   // sender_uid in flirting_list
