@@ -15,22 +15,26 @@ function Name() {
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
 
-  const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setRegister({
-      ...register,
+
+    if (!name || !gender) {
+      openModal('정보를 입력해주세요!');
+      return;
+    }
+
+    setRegister((prevValue) => ({
+      ...prevValue,
       name,
       gender
-    });
-    if (name && gender) {
-      router.push('#mbti');
-    } else {
-      openModal('정보를 입력해주세요!');
-    }
+    }));
+
+    router.push('#mbti');
+
   };
 
   return (
-    <form className="min-h-[calc(100dvh-12rem)] " onSubmit={handleNameForm} id="name">
+    <form className="min-h-[calc(100dvh-12rem)] " onSubmit={handleSubmit} id="name">
       <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
         <div>
           <h1 className=" text-[1.375rem] font-semibold">
