@@ -27,7 +27,7 @@ const Notification: React.FC = () => {
           schema: 'public',
           table: 'flirting_list'
         },
-        (payload) => console.log({ payload })
+        (payload) => console.log({ payload }) //필터링추가
       )
       .subscribe();
     console.log({ channelA });
