@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import notificationData from '../../data/notification_data.json';
@@ -5,21 +6,32 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 //----
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 
-const Notification: React.FC = () => {
-  const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
-  const channelA: RealtimeChannel = client
-    .channel('schema-db-changes')
-    .on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'flirting_list'
-      },
-      (payload) => console.log(payload)
-    )
-    .subscribe();
+// console.log({ client });
+const Notification: React.FC = () => {
+  useEffect(() => {
+    // console.log('???');
+    // async function getData() {
+    //   const { data, error } = await client.from('flirting_list').select();
+    //   console.log({ data });
+    // }
+    // getData();
+
+    const channelA: RealtimeChannel = client
+      .channel('room1')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'flirting_list'
+        },
+        (payload) => console.log({ payload })
+      )
+      .subscribe();
+    console.log({ channelA });
+  }, []);
 
   // 1친구 요청
   // sender_uid in flirting_list
@@ -82,6 +94,7 @@ const Notification: React.FC = () => {
           </Link>
           <div className="!font-virgil">CrossWalk</div>
         </header>
+
         <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
           {/* 디자이너 기존 시안 */}
           {notification.map((item) => {
