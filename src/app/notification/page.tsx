@@ -6,8 +6,6 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 //----
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListType } from '@/types/flirtingListType';
-import { MyType } from '@/types/flirtingListType';
-import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
 // console.log({ client });
@@ -19,7 +17,8 @@ const Notification: React.FC = () => {
     const { data: userData, error: userError } = await client
       .from('flirting_list')
       // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
-      .select('*, custom_users!flirting_list_sender_uid_fkey(name)');
+      .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
+      .order('created_at', { ascending: false });
     // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
     if (userError) {
       console.error('에러 발생:', userError);
