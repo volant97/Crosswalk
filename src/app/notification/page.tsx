@@ -1,60 +1,35 @@
 'use client';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import notificationData from '../../data/notification_data.json';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 //----
-import { RealtimeChannel, createClient } from '@supabase/supabase-js';
+
 import { FlirtingListType } from '@/types/flirtingListType';
-const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+import { getFlirtingList, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 const Notification: React.FC = () => {
+  const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
   //랜딩시 통신
   const fetchRequestSenderData = async () => {
-    const { data: userData, error: userError } = await client
-      .from('flirting_list')
-      // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
-      .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
-      .order('created_at', { ascending: false });
-    // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
-    if (userError) {
-      console.error('에러 발생:', userError);
-      return;
+    try {
+      const userData = await getFlirtingList();
+      console.log(`보낸이 데이터 :`, userData);
+      setFlirtingList(userData);
+    } catch (error) {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
-
-    console.log(`보낸이 데이터 :`, userData);
-    setFlirtingList(userData);
   };
 
-  // console.log('최종데이터', flirtingList);
-
-  // const fetchFlirtingRequestData = async () => {
-  //   const data = await getFlirtingRequestData();
-  //   console.log('data!!!!', data);
-  //   if (data) {
-  //     setFlirtingList(data);
-  //   }
-  // };
-
   useEffect(() => {
-    const channelA: RealtimeChannel = client
-      .channel('room1')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'flirting_list'
-        },
-        (payload) => {
-          console.log('payload입니다:', payload);
-          fetchRequestSenderData();
-        }
-      )
-      .subscribe();
-    // fetchFlirtingRequestData();
+    // callback
+    subscribeFlirtingList((payload) => {
+      console.log('payload입니다:', payload);
+      fetchRequestSenderData();
+    });
     fetchRequestSenderData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // interface NotificationItem {
@@ -112,19 +87,19 @@ const Notification: React.FC = () => {
                 >
                   <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
                     <div className="flex justify-between">
-                      <p className="text-base font-normal font-medium leading-none pb-1">
+                      <div className="text-base font-normal font-medium leading-none pb-1">
                         {/* {
                           notificationCategory.find((noticeCategory) => noticeCategory.id === item.notice_category)
                             ?.text
                         } */}
                         {item.is_matched ? <p>💚 Connected</p> : <p>⚡ Request</p>}
-                      </p>
+                      </div>
                       <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
                         {formatTime(item.created_at)}
                       </p>
                     </div>
                     <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                      <p font-bold>{item.custom_users.name}</p>
+                      <div>{item.custom_users.name}</div>
                       {item.is_matched ? (
                         <p>님과 신호등이 연결되었습니다!</p>
                       ) : (
