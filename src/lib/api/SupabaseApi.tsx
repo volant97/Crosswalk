@@ -22,10 +22,15 @@ export async function postRegister({ uid, ...registerData }: RegisterType) {
   return data;
 }
 
-export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string) {
-  const { data, error } = await supabase
-    .from('flirting_list')
-    .insert([{ sender_uid: senderUid, flirting_message: message, receiver_uid: recevierUid, created_at: new Date() }]);
+export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string | null) {
+  const { data, error } = await supabase.from('flirting_list').insert({
+    created_at: new Date(),
+    flirting_message: message,
+    receiver_uid: recevierUid,
+    sender_uid: senderUid,
+    is_matched: null,
+    is_read_in_noti: false
+  });
 
   if (error || null) {
     console.log('Error creating a posts data', error);
