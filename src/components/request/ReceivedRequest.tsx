@@ -6,6 +6,10 @@ import receiveRequestData from '@/data/receiveRequestData.json';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListType } from '@/types/flirtingListType';
 import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
+import NavBar from '../common/ui/NavBar';
+import Link from 'next/link';
+import { IoIosArrowRoundBack } from 'react-icons/io';
+import { ScrollShadow } from '@nextui-org/react';
 
 const ReceivedRequest: React.FC = () => {
   const { flirtingData } = receiveRequestData;
@@ -44,17 +48,30 @@ const ReceivedRequest: React.FC = () => {
 
   return (
     <>
-      {flirtingData.map((item) => {
-        return (
-          <RequestCard
-            key={item.id}
-            message={item.flirtingMessage}
-            senderName={item.sender_uid}
-            avatar={item.avatar}
-            createdAt={item.created_at}
-          />
-        );
-      })}
+      <div className="relative max-w-96 border-solid border-1 border-black px-8">
+        <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-2 ">
+          <Link href="/" className="absolute left-6">
+            <IoIosArrowRoundBack size="30" />
+          </Link>
+          <div className="!font-virgil ">CrossWalk</div>
+        </header>
+        <NavBar />
+
+        <h1 className="text-xl ml-[20px] mb-[20px]">받은 요청 {flirtingData.length}건</h1>
+        <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
+          {flirtingData.map((item) => {
+            return (
+              <RequestCard
+                key={item.id}
+                message={item.flirtingMessage}
+                senderName={item.sender_uid}
+                avatar={item.avatar}
+                createdAt={item.created_at}
+              />
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 };

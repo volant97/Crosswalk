@@ -66,3 +66,16 @@ export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallb
     )
     .subscribe();
 }
+
+export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string) {
+  const { data, error } = await supabase
+    .from('flirting_list')
+    .insert({ sender_uid: senderUid, flirting_message: message, receiver_uid: recevierUid, created_at: new Date() });
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  console.log('data', data);
+  return data;
+}
