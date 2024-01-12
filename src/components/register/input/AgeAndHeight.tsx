@@ -29,22 +29,21 @@ function AgeAndHeight() {
     }));
 
     router.push('#interest');
-
   };
 
   return (
     <form onSubmit={handleNameForm} id="age">
       <div className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
-        <h1 className="text-[1.375rem] font-semibold">
+        <h1 className="text-[1.375rem] font-semibold text-black">
           나이와 키를
           <br />
           입력해주세요.
         </h1>
         <div className="flex flex-col gap-5">
           <div>
-            <p className="text-sm">나이</p>
+            <p className="text-sm text-gray-AAA">나이</p>
             <input
-              className="w-full py-3 text-center rounded-full cursor-pointer border appearance-none  focus-visible:border  focus-visible:border-black"
+              className="w-full py-3 text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none  focus-visible:border  focus-visible:border-black"
               type="number"
               value={age}
               onChange={(e) => setAge(e.target.value)}
@@ -52,9 +51,9 @@ function AgeAndHeight() {
             />
           </div>
           <div>
-            <p className="text-sm">키</p>
+            <p className="text-sm  text-gray-AAA">키</p>
             <input
-              className="w-full py-3 text-center rounded-full cursor-pointer border appearance-none focus-visible:border  focus-visible:border-black"
+              className="w-full py-3 text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border  focus-visible:border-black"
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
@@ -64,7 +63,9 @@ function AgeAndHeight() {
         </div>
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer mb-10 ${age && height ? 'bg-customGreen' : 'bg-customYellow'}`}
+        className={`w-full font-semibold rounded-3xl cursor-pointer mb-10 ${
+          age && height ? 'bg-customGreen' : 'bg-customYellow'
+        }`}
         type="submit"
       >
         NEXT

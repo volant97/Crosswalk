@@ -5,6 +5,9 @@ import RequestCard from './RequestCard';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '@/lib/supabase-config';
+import Link from 'next/link';
+import { IoIosArrowRoundBack } from 'react-icons/io';
+import NavBar from '../common/ui/NavBar';
 
 const ReceivedRequest: React.FC = () => {
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
@@ -46,24 +49,34 @@ const ReceivedRequest: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
-        {!!flirtingList ? (
-          flirtingList?.map((item) => {
-            return (
-              <>
-                <RequestCard
-                  key={item.id}
-                  avatar={item.custom_users?.avatar || 0}
-                  senderName={item.custom_users?.name || ''}
-                  age={item.custom_users?.age || 0}
-                  message={item.flirting_message || ''}
-                />
-              </>
-            );
-          })
-        ) : (
-          <p>플러팅 메시지가 없습니다.</p>
-        )}
+      <div className="relative max-w-96 border-solid border-1 border-black px-8">
+        <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-2 ">
+          <Link href="/" className="absolute left-6">
+            <IoIosArrowRoundBack size="30" />
+          </Link>
+          <div className="!font-virgil ">CrossWalk</div>
+        </header>
+        <NavBar />
+
+        <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
+          {!!flirtingList ? (
+            flirtingList?.map((item) => {
+              return (
+                <>
+                  <RequestCard
+                    key={item.id}
+                    avatar={item.custom_users?.avatar || 0}
+                    senderName={item.custom_users?.name || ''}
+                    age={item.custom_users?.age || 0}
+                    message={item.flirting_message || ''}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <p>플러팅 메시지가 없습니다.</p>
+          )}
+        </div>
       </div>
     </>
   );
