@@ -6,99 +6,41 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 //----
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListType } from '@/types/flirtingListType';
+import { MyType } from '@/types/flirtingListType';
 import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
 // console.log({ client });
 const Notification: React.FC = () => {
   const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
-  const [realTimeTrigger, setRealTimeTrigger] = useState<boolean>(false);
-  // console.log('???');
-  // async function getData() {
-  //   const { data, error } = await client.from('flirting_list').select();
-  //   console.log({ data });
-  // }
-  // getData();
 
-  // 아래 식 질문
-  // const fetchRequestSenderData = async () => {
-  //   if (flirtingList) {
-  //     const senderUids = flirtingList.map((item) => item.sender_uid);
-  //     console.log('sender uids:', senderUids);
-
-  //     // 각 senderUid에 대해 custom_users 테이블에서 uid와 name을 가져오기
-  //     for (const senderUid of senderUids) {
-  //       const { data: userData, error: userError } = await supabase
-  //         .from('custom_users')
-  //         .select('uid, name')
-  //         // .select('*')
-  //         .eq('uid', senderUid);
-
-  //       if (userError) {
-  //         console.error('에러 발생:', userError);
-  //         return;
-  //       }
-
-  //       console.log(`보낸이 이름 데이터 (${senderUid}):`, userData);
-  //     }
-  //   }
-  // };
-
-  // const fetchRequestSenderData = async () => {
-  //   if (flirtingList) {
-  //     const senderUids = flirtingList.map((item) => item.sender_uid);
-  //     console.log('sender uids:', senderUids);
-
-  //     for (const senderUid of senderUids) {
-  //       const { data: userData, error: userError } = await client
-  //         .from('custom_users')
-  //         .select('uid, name, mbti')
-  //         .eq('uid', senderUid);
-
-  //       if (userError) {
-  //         console.error('에러 발생:', userError);
-  //         return;
-  //       }
-
-  //       console.log(`보낸이 이름 데이터 (${senderUid}):`, userData);
-  //     }
-  //   }
-  // };
-
+  //랜딩시 통신
   const fetchRequestSenderData = async () => {
     const { data: userData, error: userError } = await client
       .from('flirting_list')
-      // .select('flirting_message, custom_users(name)');
-      .select('flirting_message, custom_users!flirting_list_sender_uid_fkey(name)');
+      // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+      .select('*, custom_users!flirting_list_sender_uid_fkey(name)');
     // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
     if (userError) {
       console.error('에러 발생:', userError);
       return;
     }
 
-    console.log(`보낸이 이름 데이터 :`, userData);
+    console.log(`보낸이 데이터 :`, userData);
+    setFlirtingList(userData);
   };
 
-  const fetchFlirtingRequestData = async () => {
-    const data = await getFlirtingRequestData();
-    console.log('data!!!!', data);
-    if (data) {
-      setFlirtingList(data);
-    }
-  };
+  // console.log('최종데이터', flirtingList);
 
-  // const fetchRequestSenderData = async () => {
-  //   const data = await getRequestSenderData();
-  //   console.log('보낸이 이름 데이터', data);
+  // const fetchFlirtingRequestData = async () => {
+  //   const data = await getFlirtingRequestData();
+  //   console.log('data!!!!', data);
+  //   if (data) {
+  //     setFlirtingList(data);
+  //   }
   // };
 
   useEffect(() => {
-    // console.log('???');
-    // async function getData() {
-    //   const { data, error } = await client.from('flirting_list').select();
-    //   console.log({ data });
-    // }
-    // getData();
     const channelA: RealtimeChannel = client
       .channel('room1')
       .on(
@@ -109,35 +51,17 @@ const Notification: React.FC = () => {
           table: 'flirting_list'
         },
         (payload) => {
-          console.log({ payload });
-          setRealTimeTrigger(!realTimeTrigger);
+          console.log('payload입니다:', payload);
+          fetchRequestSenderData();
         }
       )
       .subscribe();
-    fetchFlirtingRequestData();
+    // fetchFlirtingRequestData();
     fetchRequestSenderData();
-  }, [realTimeTrigger]);
+  }, []);
 
   // if (!flirtingList) return;
   // console.log('0000000000', flirtingList[0].flirting_message);
-
-  // 1친구 요청
-  // sender_uid in flirting_list
-  // receiver_uid in flirting_list
-  // created_at in flirting_list
-  // 2메세지
-  // room_id in message
-  // sender_uid in message
-  // receiver_uid in message
-  // created_at in message
-  // 3매칭 알림
-  // flirting_list_id in chat_list => 이동 포트 OR room_id in message
-  // created_at in ?
-
-  // 왠지 matched의 유무를 boolean으로 관리해야할것같다. 데이터 형태는? 어느 table에?
-  // custom_users [ matched{ sender_uid: text, is_matched: false }] ?
-
-  // Table[{}, {}, {}]
 
   interface NotificationItem {
     id: string;
@@ -199,13 +123,14 @@ const Notification: React.FC = () => {
                           notificationCategory.find((noticeCategory) => noticeCategory.id === item.notice_category)
                             ?.text
                         } */}
+                        🟡 Yellow Light
                       </p>
                       <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
                         {formatTime(item.created_at)}
                       </p>
                     </div>
                     <div className="overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                      {/* {item.name} */} 새로운 신호등이 연결되었습니다!
+                      {item.custom_users.name}님과 새로운 신호등이 연결되었습니다!
                       {/* {noticeText.find((notice) => notice.id === item.notice_category)?.text} */}
                     </div>
                   </li>

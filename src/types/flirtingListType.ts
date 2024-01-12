@@ -7,4 +7,9 @@ export type FlirtingListType = {
   is_read: boolean | null;
   receiver_uid: string | null;
   sender_uid: string | null;
+  custom_users: MyType;
+};
+
+export type MyType = {
+  name: string;
 };
