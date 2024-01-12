@@ -8,10 +8,8 @@ import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListType } from '@/types/flirtingListType';
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
-// console.log({ client });
 const Notification: React.FC = () => {
   const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
-
   //랜딩시 통신
   const fetchRequestSenderData = async () => {
     const { data: userData, error: userError } = await client
@@ -59,35 +57,32 @@ const Notification: React.FC = () => {
     fetchRequestSenderData();
   }, []);
 
-  // if (!flirtingList) return;
-  // console.log('0000000000', flirtingList[0].flirting_message);
+  // interface NotificationItem {
+  //   id: string;
+  //   name: string;
+  //   sender_uid: string;
+  //   receiver_uid: string;
+  //   created_at: string;
+  //   room_id: string;
+  //   flirting_list_id: string;
+  //   matched: boolean;
+  //   notice1: string;
+  //   notice2: string;
+  //   notice3: string;
+  //   notice_category: string;
+  // }
 
-  interface NotificationItem {
-    id: string;
-    name: string;
-    sender_uid: string;
-    receiver_uid: string;
-    created_at: string;
-    room_id: string;
-    flirting_list_id: string;
-    matched: boolean;
-    notice1: string;
-    notice2: string;
-    notice3: string;
-    notice_category: string;
-  }
-
-  const { notification } = notificationData;
-  const notificationCategory = [
-    { id: '1', text: '⚡ Request' },
-    { id: '2', text: '💜 Message' },
-    { id: '3', text: '🟡 Yellow Light' }
-  ];
-  const noticeText = [
-    { id: '1', text: '님이 crosswalk 연결 요청을 보냈습니다.' },
-    { id: '2', text: '님이 메세지를 보냈습니다.' },
-    { id: '3', text: '님과 신호등이 연결되었습니다!' }
-  ];
+  // const { notification } = notificationData;
+  // const notificationCategory = [
+  //   { id: '1', text: '⚡ Request' },
+  //   { id: '2', text: '💜 Message' },
+  //   { id: '3', text: '🟡 Yellow Light' }
+  // ];
+  // const noticeText = [
+  //   { id: '1', text: '님이 crosswalk 연결 요청을 보냈습니다.' },
+  //   { id: '2', text: '님이 메세지를 보냈습니다.' },
+  //   { id: '3', text: '님과 신호등이 연결되었습니다!' }
+  // ];
 
   const formatTime = (createdAt: string) => {
     const date = new Date(createdAt);
@@ -115,21 +110,26 @@ const Notification: React.FC = () => {
                   href="/message"
                   className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                 >
-                  <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">
+                  <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
                     <div className="flex justify-between">
-                      <p className="text-base font-normal font-medium leading-none">
+                      <p className="text-base font-normal font-medium leading-none pb-1">
                         {/* {
                           notificationCategory.find((noticeCategory) => noticeCategory.id === item.notice_category)
                             ?.text
                         } */}
-                        🟡 Yellow Light
+                        {item.is_matched ? <p>💚 Connected</p> : <p>⚡ Request</p>}
                       </p>
                       <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
                         {formatTime(item.created_at)}
                       </p>
                     </div>
-                    <div className="overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                      {item.custom_users.name}님과 새로운 신호등이 연결되었습니다!
+                    <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                      <p font-bold>{item.custom_users.name}</p>
+                      {item.is_matched ? (
+                        <p>님과 신호등이 연결되었습니다!</p>
+                      ) : (
+                        <p>님이 crosswalk 연결 요청을 보냈습니다.</p>
+                      )}
                       {/* {noticeText.find((notice) => notice.id === item.notice_category)?.text} */}
                     </div>
                   </li>
