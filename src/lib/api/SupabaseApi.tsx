@@ -1,10 +1,10 @@
-import { FlirtingListType } from '@/types/flirtingListType';
 import { supabase } from '../supabase-config';
-const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
-
-import { RegisterType } from '@/types/registerType';
 import { createClient } from '@supabase/supabase-js';
-import { SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { RegisterType } from '@/types/registerType';
+import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
+import type { SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+
+const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
 export async function getAllData(): Promise<RegisterType[]> {
   const { data, error } = await supabase.from('custom_users').select().returns<RegisterType[]>();
@@ -37,13 +37,13 @@ export async function getFlirtingRequestData() {
   return data;
 }
 
-export async function getFlirtingList(): Promise<FlirtingListType[]> {
+export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
   const { data: userData, error } = await client
     .from('flirting_list')
     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
     .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
     .order('created_at', { ascending: false })
-    .returns<FlirtingListType[]>();
+    .returns<FlirtingListInNotificationType[]>();
   // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
   if (error) {
     console.error('에러 발생:', error);

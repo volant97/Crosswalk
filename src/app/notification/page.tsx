@@ -2,19 +2,17 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-//----
-
-import { FlirtingListType } from '@/types/flirtingListType';
-import { getFlirtingList, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
+import { getCustomFlirtingInNotificationList, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 const Notification: React.FC = () => {
   const { openModal } = useAlertModal();
-  const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
+  const [flirtingList, setFlirtingList] = useState<FlirtingListInNotificationType[] | null>(null);
   //랜딩시 통신
   const fetchRequestSenderData = async () => {
     try {
-      const userData = await getFlirtingList();
+      const userData = await getCustomFlirtingInNotificationList();
       console.log(`보낸이 데이터 :`, userData);
       setFlirtingList(userData);
     } catch (error) {
@@ -65,7 +63,7 @@ const Notification: React.FC = () => {
     const minutes = date.getMinutes().toString().padStart(2, '0'); // 분을 2자리로 표시
     return `${hours}:${minutes}`;
   };
-  // console.log('ya!!', flirtingList[0].flirting_message);
+
   return (
     <div>
       <div className="relative border-1 border-black max-w-96 px-8">
@@ -77,7 +75,6 @@ const Notification: React.FC = () => {
         </header>
         {flirtingList ? (
           <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
-            {/* 디자이너 기존 시안 */}
             {flirtingList.map((item) => {
               return (
                 <Link
