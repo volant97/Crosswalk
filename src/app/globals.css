@@ -10,7 +10,8 @@ html {
   box-sizing: border-box;
 }
 
-@import url(https://db.onlinewebfonts.com/c/cc6ba99a1d8620c4bfc84d252404e42a?family=Virgil+3+YOFF);
+@import url('https://db.onlinewebfonts.com/c/cc6ba99a1d8620c4bfc84d252404e42a?family=Virgil+3+YOFF');
+
 @font-face {
   font-family: 'Virgil 3 YOFF';
   src: url('https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.eot');
