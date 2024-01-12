@@ -8,12 +8,12 @@ export type FlirtingListType = {
   sender_uid: string | null;
 };
 
-export type GetRequestedFlirtingDataType = {
+export type FlirtingListRequestType = {
   created_at: string | null;
   custom_users: {
     age: number | null;
     name: string | null;
-    avatar: string | null;
+    avatar: number | null;
   } | null;
   flirting_message: string | null;
   id: number | null;

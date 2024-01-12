@@ -35,7 +35,7 @@ export interface Database {
       custom_users: {
         Row: {
           age: number | null
-          avatar: string | null
+          avatar: number | null
           gender: Database["public"]["Enums"]["GenderType"] | null
           height: number | null
           information_agreement: boolean | null
@@ -48,7 +48,7 @@ export interface Database {
         }
         Insert: {
           age?: number | null
-          avatar?: string | null
+          avatar?: number | null
           gender?: Database["public"]["Enums"]["GenderType"] | null
           height?: number | null
           information_agreement?: boolean | null
@@ -61,7 +61,7 @@ export interface Database {
         }
         Update: {
           age?: number | null
-          avatar?: string | null
+          avatar?: number | null
           gender?: Database["public"]["Enums"]["GenderType"] | null
           height?: number | null
           information_agreement?: boolean | null

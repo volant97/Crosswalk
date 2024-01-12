@@ -2,16 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
-import receiveRequestData from '@/data/receiveRequestData.json';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
-import { FlirtingListType, GetRequestedFlirtingDataType } from '@/types/flirtingListType';
+import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '@/lib/supabase-config';
 
 const ReceivedRequest: React.FC = () => {
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
-  const { flirtingData } = receiveRequestData;
-
-  const [flirtingList, setFlirtingList] = useState<GetRequestedFlirtingDataType[] | null>(null);
+  const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
   async function getRequestedFlirtingData() {
     const { data, error } = await supabase
@@ -49,21 +46,25 @@ const ReceivedRequest: React.FC = () => {
 
   return (
     <>
-      {!!flirtingList ? (
-        flirtingList?.map((item) => {
-          return (
-            <RequestCard
-              key={item.id}
-              avatar={item.custom_users?.avatar || ''}
-              senderName={item.custom_users?.name || ''}
-              age={item.custom_users?.age || 0}
-              message={item.flirting_message || ''}
-            />
-          );
-        })
-      ) : (
-        <p>플러팅 메시지가 없습니다.</p>
-      )}
+      <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
+        {!!flirtingList ? (
+          flirtingList?.map((item) => {
+            return (
+              <>
+                <RequestCard
+                  key={item.id}
+                  avatar={item.custom_users?.avatar || 0}
+                  senderName={item.custom_users?.name || ''}
+                  age={item.custom_users?.age || 0}
+                  message={item.flirting_message || ''}
+                />
+              </>
+            );
+          })
+        ) : (
+          <p>플러팅 메시지가 없습니다.</p>
+        )}
+      </div>
     </>
   );
 };
