@@ -4,30 +4,28 @@ import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
 import receiveRequestData from '@/data/receiveRequestData.json';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
-import { FlirtingListType } from '@/types/flirtingListType';
-import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
+import { FlirtingListType, GetRequestedFlirtingDataType } from '@/types/flirtingListType';
 import { supabase } from '@/lib/supabase-config';
 
 const ReceivedRequest: React.FC = () => {
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
   const { flirtingData } = receiveRequestData;
 
-  const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
-  // const [realTimeTrigger, setRealTimeTrigger] = useState<boolean>(false);
-
-  // const fetchFlirtingRequestData = async () => {
-  //   const data = await getFlirtingRequestData();
-  //   // console.log('data', data);
-  //   if (data) {
-  //     setFlirtingList(data);
-  //   }
-  // };
+  const [flirtingList, setFlirtingList] = useState<GetRequestedFlirtingDataType[] | null>(null);
 
   async function getRequestedFlirtingData() {
-    const { data, error } = await supabase.from('flirting_list').select('flirting_message, custom_users(name)');
-    console.log('가공data : ', data);
-    console.error('에러:', error);
-    return data;
+    const { data, error } = await supabase
+      .from('flirting_list')
+      .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
+      .order('created_at', { ascending: false });
+    // .returns<GetRequestedFlirtingDataType[]>;
+    // console.log('플러팅받은가공data : ', data);
+    if (error) {
+      console.error('에러:', error);
+      return;
+    }
+    setFlirtingList(data);
+    // return data;
   }
 
   useEffect(() => {
@@ -49,23 +47,23 @@ const ReceivedRequest: React.FC = () => {
     getRequestedFlirtingData();
   }, []);
 
-  if (!!flirtingList) {
-    // console.log('flirtingList', flirtingList);
-  }
-
   return (
     <>
-      {flirtingData.map((item) => {
-        return (
-          <RequestCard
-            key={item.id}
-            message={item.flirtingMessage}
-            senderName={item.sender_uid}
-            avatar={item.avatar}
-            createdAt={item.created_at}
-          />
-        );
-      })}
+      {!!flirtingList ? (
+        flirtingList?.map((item) => {
+          return (
+            <RequestCard
+              key={item.id}
+              avatar={item.custom_users?.avatar || ''}
+              senderName={item.custom_users?.name || ''}
+              age={item.custom_users?.age || 0}
+              message={item.flirting_message || ''}
+            />
+          );
+        })
+      ) : (
+        <p>플러팅 메시지가 없습니다.</p>
+      )}
     </>
   );
 };
