@@ -2,28 +2,31 @@
 
 import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
-import receiveRequestData from '@/data/receiveRequestData.json';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
-import { FlirtingListType } from '@/types/flirtingListType';
-import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
-import NavBar from '../common/ui/NavBar';
+import { FlirtingListRequestType } from '@/types/flirtingListType';
+import { supabase } from '@/lib/supabase-config';
 import Link from 'next/link';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { ScrollShadow } from '@nextui-org/react';
+import NavBar from '../common/ui/NavBar';
 
 const ReceivedRequest: React.FC = () => {
-  const { flirtingData } = receiveRequestData;
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+  const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
-  const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
-
-  const fetFlirtingRequestData = async () => {
-    const data = await getFlirtingRequestData();
-    console.log('data!!!!', data);
-    if (data) {
-      setFlirtingList(data);
+  async function getRequestedFlirtingData() {
+    const { data, error } = await supabase
+      .from('flirting_list')
+      .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
+      .order('created_at', { ascending: false });
+    // .returns<GetRequestedFlirtingDataType[]>;
+    // console.log('플러팅받은가공data : ', data);
+    if (error) {
+      console.error('에러:', error);
+      return;
     }
-  };
+    setFlirtingList(data);
+    // return data;
+  }
 
   useEffect(() => {
     const channelA: RealtimeChannel = client
@@ -36,15 +39,13 @@ const ReceivedRequest: React.FC = () => {
           table: 'flirting_list'
         },
         (payload) => {
-          console.log({ payload });
-          fetFlirtingRequestData();
+          // console.log(payload);
+          getRequestedFlirtingData();
         }
       )
       .subscribe();
+    getRequestedFlirtingData();
   }, []);
-
-  if (!flirtingList) return;
-  console.log('0000000000', flirtingList[0].flirting_message);
 
   return (
     <>
@@ -57,19 +58,24 @@ const ReceivedRequest: React.FC = () => {
         </header>
         <NavBar />
 
-        <h1 className="text-xl ml-[20px] mb-[20px]">받은 요청 {flirtingData.length}건</h1>
-        <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
-          {flirtingData.map((item) => {
-            return (
-              <RequestCard
-                key={item.id}
-                message={item.flirtingMessage}
-                senderName={item.sender_uid}
-                avatar={item.avatar}
-                createdAt={item.created_at}
-              />
-            );
-          })}
+        <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
+          {!!flirtingList ? (
+            flirtingList?.map((item) => {
+              return (
+                <>
+                  <RequestCard
+                    key={item.id}
+                    avatar={item.custom_users?.avatar || 0}
+                    senderName={item.custom_users?.name || ''}
+                    age={item.custom_users?.age || 0}
+                    message={item.flirting_message || ''}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <p>플러팅 메시지가 없습니다.</p>
+          )}
         </div>
       </div>
     </>
