@@ -6,20 +6,29 @@ import receiveRequestData from '@/data/receiveRequestData.json';
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListType } from '@/types/flirtingListType';
 import { getFlirtingRequestData } from '@/lib/api/SupabaseApi';
+import { supabase } from '@/lib/supabase-config';
 
 const ReceivedRequest: React.FC = () => {
-  const { flirtingData } = receiveRequestData;
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+  const { flirtingData } = receiveRequestData;
 
   const [flirtingList, setFlirtingList] = useState<FlirtingListType[] | null>(null);
+  // const [realTimeTrigger, setRealTimeTrigger] = useState<boolean>(false);
 
-  const fetFlirtingRequestData = async () => {
-    const data = await getFlirtingRequestData();
-    console.log('data!!!!', data);
-    if (data) {
-      setFlirtingList(data);
-    }
-  };
+  // const fetchFlirtingRequestData = async () => {
+  //   const data = await getFlirtingRequestData();
+  //   // console.log('data', data);
+  //   if (data) {
+  //     setFlirtingList(data);
+  //   }
+  // };
+
+  async function getRequestedFlirtingData() {
+    const { data, error } = await supabase.from('flirting_list').select('flirting_message, custom_users(name)');
+    console.log('가공data : ', data);
+    console.error('에러:', error);
+    return data;
+  }
 
   useEffect(() => {
     const channelA: RealtimeChannel = client
@@ -32,15 +41,17 @@ const ReceivedRequest: React.FC = () => {
           table: 'flirting_list'
         },
         (payload) => {
-          console.log({ payload });
-          fetFlirtingRequestData();
+          // console.log(payload);
+          getRequestedFlirtingData();
         }
       )
       .subscribe();
+    getRequestedFlirtingData();
   }, []);
 
-  if (!flirtingList) return;
-  console.log('0000000000', flirtingList[0].flirting_message);
+  if (!!flirtingList) {
+    // console.log('flirtingList', flirtingList);
+  }
 
   return (
     <>
