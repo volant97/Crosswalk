@@ -79,7 +79,7 @@ function UploadImg() {
   return (
     <>
       <div id="imgUpload" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
-        <h1 className=" text-[1.375rem] font-semibold">
+        <h1 className=" text-[1.375rem] font-semibold text-black">
           사진을
           <br />
           업로드해주세요.
@@ -87,8 +87,8 @@ function UploadImg() {
         <div className="flex flex-col  items-center gap-4">
           <label className="cursor-pointer">
             {selectedImg === '' ? (
-              <div className="w-60 h-[20rem] flex flex-col justify-center items-center bg-slate-200 rounded-[50px]">
-                <PiPlusThin size={50} />
+              <div className="w-60 h-[20rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[50px]">
+                <PiPlusThin size={90} className="fill-gray-E6" />
               </div>
             ) : (
               <div className="">
@@ -102,7 +102,9 @@ function UploadImg() {
         </div>
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer mb-10 ${file ? 'bg-customGreen' : 'bg-customYellow'}`}
+        className={`w-full rounded-3xl cursor-pointer font-semibold mb-10 ${
+          file ? 'bg-customGreen' : 'bg-customYellow'
+        }`}
         onClick={handleNextBtn}
       >
         NEXT

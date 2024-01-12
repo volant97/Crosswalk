@@ -44,7 +44,7 @@ function Interest() {
   return (
     <>
       <div id="interest" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
-        <h1 className="text-[1.375rem] font-semibold">
+        <h1 className="text-[1.375rem] font-semibold text-black">
           관심사를
           <br />
           선택해주세요.
@@ -56,7 +56,7 @@ function Interest() {
               <li
                 key={interest.id}
                 className={`py-2 px-6 rounded-full cursor-pointer border ${
-                  isSelected ? 'border-black text-black' : 'border-slate-300 text-slate-300'
+                  isSelected ? 'border-black text-black' : 'border-gray-DDD text-gray-AAA'
                 }`}
                 onClick={() => {
                   handleInterestClick(interest.name);
@@ -67,14 +67,10 @@ function Interest() {
             );
           })}
         </ul>
-        useState에 있는 관심사 : {activeStates.join(', ')}
-        <br />
-        recoil에 있는 관심사 : {registerData.interest?.join(', ')}
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer mb-10 ${
+        className={`w-full font-semibold rounded-3xl cursor-pointer mb-10 ${
           activeStates.length === maxSelectedInterests ? 'bg-customGreen' : 'bg-customYellow'
-
         }`}
         onClick={handleNextBtn}
       >

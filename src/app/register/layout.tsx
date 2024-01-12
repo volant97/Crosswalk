@@ -7,7 +7,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 export default function Registerlayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="relative max-w-96 px-5 ">
+      <section className="relative max-w-96 px-5 ">
         <header className="font-virgil w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-8">
           <Link href="/" className="absolute left-0">
             <IoIosArrowRoundBack size="30" />
@@ -16,7 +16,7 @@ export default function Registerlayout({ children }: { children: React.ReactNode
           <Indicator />
         </header>
         <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)]">{children}</div>
-      </div>
+      </section>
     </>
   );
 }

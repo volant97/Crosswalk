@@ -36,8 +36,10 @@ function Agreement() {
   return (
     <>
       <div className="min-h-[calc(100dvh-12rem)]">
-        <button onClick={handleAgreementBtn}>동의</button>
-        <div>동의 : {agreement.toString()}</div>
+        <button className="text-black" onClick={handleAgreementBtn}>
+          동의
+        </button>
+        <div className="text-black">동의 : {agreement.toString()}</div>
       </div>
       {/* test */}
       <button
@@ -61,7 +63,10 @@ function Agreement() {
         테스트 데이터 넣기
       </button>
       {/* 페이지 디자인 나온 후 체크박스로 변경 */}
-      <Button className="w-full bg-customYellow rounded-3xl mb-10" onClick={handleNextBtn}>
+      <Button
+        className="w-full font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  mb-10"
+        onClick={handleNextBtn}
+      >
         NEXT
       </Button>
     </>

@@ -31,13 +31,12 @@ function Mbti() {
     }));
 
     router.push('#age');
-
   };
 
   return (
     <>
       <div id="mbti" className="min-h-[calc(100dvh-12rem)] flex flex-wrap flex-col gap-12">
-        <h1 className="text-[1.375rem] font-semibold ">
+        <h1 className="text-[1.375rem] font-semibold text-black ">
           MBTI를
           <br />
           선택해주세요.
@@ -48,12 +47,10 @@ function Mbti() {
               onClick={() => {
                 handleMbtiClick(item);
               }}
-              className={`flex justify-center border-solid border-slate-300 border-1 w-[50px] py-[5px] px-[30px] rounded-[50px] text-slate-300 cursor-pointer`}
+              className={`w-[50px] py-[5px] px-[30px] flex justify-center border-solid  border-1  rounded-[50px] cursor-pointer ${
+                selectedMbti === item ? 'border-black text-black' : 'border-gray-DDD text-gray-AAA'
+              }`}
               key={index}
-              style={{
-                color: selectedMbti === item ? 'black' : '',
-                border: selectedMbti === item ? '1px solid black' : ''
-              }}
             >
               {item}
             </div>
@@ -61,7 +58,9 @@ function Mbti() {
         </div>
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer mb-10 ${selectedMbti ? 'bg-customGreen' : 'bg-customYellow'}`}
+        className={`w-full font-semibold rounded-3xl cursor-pointer mb-10 ${
+          selectedMbti ? 'bg-customGreen' : 'bg-customYellow'
+        }`}
         onClick={handleNextBtn}
       >
         NEXT
