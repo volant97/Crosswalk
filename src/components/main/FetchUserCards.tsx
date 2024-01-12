@@ -12,7 +12,6 @@ function FetchUserCards() {
   const getUid = useRecoilState(isUserState);
   const myUid = getUid[0].uid;
   const [currentIndex, setCurrentIndex] = useState(() => {
-    // localStorage에서 저장된 값이 있으면 그 값을 사용, 없으면 기본값 0 사용
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, 10) : 0;
   });
