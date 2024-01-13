@@ -73,6 +73,9 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
       </div>
       <div>
         <Button
+          onClick={() => {
+            router.push('/my-profile/edit');
+          }}
           className={`w-[19.9rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
         >
           프로필 수정
