@@ -52,6 +52,7 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   return userData;
 }
 
+//TODO: 테스트기간에는 event: '*', 빌드모드때는 event: insert
 export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
@@ -89,4 +90,13 @@ export async function getChatList(): Promise<ChatListType[]> {
     throw new Error('error while fetching posts data');
   }
   return data;
+}
+
+export async function updateIsReadInNoti(id: number | null): Promise<void> {
+  const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
 }
