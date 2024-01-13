@@ -91,6 +91,7 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
                     required
                   />
                   <Button
+                    onClick={nextCardBtn}
                     className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 font-medium mt-[30px] font-semibold text-center"
                     type="submit"
                     onPress={onClose}
