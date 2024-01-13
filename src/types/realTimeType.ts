@@ -5,3 +5,8 @@ export type SubscribeFlirtingListCallbackType = (
     [key: string]: any;
   }>
 ) => void;
+
+export type ChatListType = {
+  room_id: string;
+  flirting_list_id: number;
+};

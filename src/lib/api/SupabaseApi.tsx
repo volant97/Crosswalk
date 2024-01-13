@@ -2,7 +2,7 @@ import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
-import type { SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { ChatListType, SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -79,4 +79,24 @@ export async function sendFlirting(senderUid: string | null, message: string, re
   }
   console.log('data', data);
   return data;
+}
+
+export async function getChatList(): Promise<ChatListType[]> {
+  const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
+  console.log(data);
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+export async function updateIsReadInNoti(id: number | null): Promise<void> {
+  const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
 }
