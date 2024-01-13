@@ -1,16 +1,16 @@
 import React from 'react';
-import AgreeBtn from './Btn/AgreeBtn';
-import RefuseBtn from './Btn/ReFuseBtn';
+import AcceptBtn from './Btn/AcceptBtn';
+import DeclineBtn from './Btn/DeclineBtn';
 
 type Props = {
-  cardId: number;
+  listId: number;
   avatar: number;
   senderName: string;
   age: number;
   message: string;
 };
 
-function RequestCard({ cardId, avatar, senderName, age, message }: Props) {
+function RequestCard({ listId, avatar, senderName, age, message }: Props) {
   return (
     <>
       <div className="flex justify-between gap-[1rem] p-[0.75rem] border-1 border-black">
@@ -23,8 +23,8 @@ function RequestCard({ cardId, avatar, senderName, age, message }: Props) {
           <p className="truncate">{message}</p>
         </div>
         <div className="flex items-center gap-[0.38rem] border-1 border-red-600">
-          <RefuseBtn cardId={cardId} />
-          <AgreeBtn cardId={cardId} />
+          <DeclineBtn listId={listId} />
+          <AcceptBtn listId={listId} />
         </div>
       </div>
     </>
