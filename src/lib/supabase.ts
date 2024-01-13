@@ -90,7 +90,7 @@ export interface Database {
           is_read_in_noti: boolean | null
           receiver_uid: string
           sender_uid: string
-          status: string | null
+          status: Database["public"]["Enums"]["STATUS Type"]
         }
         Insert: {
           created_at: string
@@ -99,7 +99,7 @@ export interface Database {
           is_read_in_noti?: boolean | null
           receiver_uid: string
           sender_uid: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["STATUS Type"]
         }
         Update: {
           created_at?: string
@@ -108,7 +108,7 @@ export interface Database {
           is_read_in_noti?: boolean | null
           receiver_uid?: string
           sender_uid?: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["STATUS Type"]
         }
         Relationships: [
           {
@@ -181,6 +181,7 @@ export interface Database {
     }
     Enums: {
       GenderType: "M" | "F"
+      "STATUS Type": "UNREAD" | "READ" | "DECLINE" | "ACCEPT"
     }
     CompositeTypes: {
       [_ in never]: never

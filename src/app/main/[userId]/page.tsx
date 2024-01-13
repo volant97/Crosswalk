@@ -1,13 +1,11 @@
-'use client';
-import ChooseAvatarModal from '@/components/common/modal/ChooseAvatarModal';
-import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import NavBar from '@/components/common/ui/NavBar';
-import FetchMyProfileCard from '@/components/main/FetchMyProfileCard';
+import FetchUserProfile from '@/components/main/FetchUserProfile';
 import Link from 'next/link';
 import React from 'react';
 import { HiOutlineBell } from 'react-icons/hi2';
 import { IoChevronBackOutline } from 'react-icons/io5';
-function MyProfile() {
+
+function ProfleDetailPage() {
   return (
     <div className="relative max-w-96 px-8 h-[45rem] border-solid border-1 border-black ">
       <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-1">
@@ -23,16 +21,10 @@ function MyProfile() {
       </header>
       <NavBar />
       <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)]">
-        <FetchMyProfileCard />
+        <FetchUserProfile />
       </div>
     </div>
   );
 }
 
-export default MyProfile;
-
-{
-  /* <ConfirmModal />
-
-      <ChooseAvatarModal /> */
-}
+export default ProfleDetailPage;
