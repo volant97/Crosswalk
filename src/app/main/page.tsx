@@ -3,7 +3,6 @@ import FetchUserCards from '@/components/main/FetchUserCards';
 import Link from 'next/link';
 import React from 'react';
 import { HiOutlineBell } from 'react-icons/hi2';
-import { IoIosArrowRoundBack } from 'react-icons/io';
 
 function Main() {
   return (
