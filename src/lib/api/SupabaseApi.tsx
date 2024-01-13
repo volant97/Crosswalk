@@ -1,7 +1,11 @@
 import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
-import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
+import type {
+  FlirtingListInNotificationType,
+  FlirtingListRequestType,
+  FlirtingListType
+} from '@/types/flirtingListType';
 import type { SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
@@ -79,6 +83,34 @@ export async function sendFlirting(senderUid: string | null, message: string, re
   console.log('data', data);
   return data;
 }
+
+export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {
+  const { data, error } = await supabase
+    .from('flirting_list')
+    .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
+    .order('created_at', { ascending: false })
+    .returns<FlirtingListRequestType[]>();
+  if (error || null) {
+    console.error('에러 발생', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+// export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
+//   const { data: userData, error } = await client
+//     .from('flirting_list')
+//     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+//     .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
+//     .order('created_at', { ascending: false })
+//     .returns<FlirtingListInNotificationType[]>();
+//   // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
+//   if (error) {
+//     console.error('에러 발생:', error);
+//     throw new Error('error while fetching posts data');
+//   }
+//   return userData;
+// }
 
 // export async function postRequest(receiver_uid) {
 //   const { data, error } = await supabase.from('flirting_list').update(receiver_uid).eq("receiver_uid", receiver_uid).select();
