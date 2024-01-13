@@ -73,13 +73,6 @@ const Notification: React.FC = () => {
   //   { id: '3', text: '님과 신호등이 연결되었습니다!' }
   // ];
 
-  const formatTime = (createdAt: string) => {
-    const date = new Date(createdAt);
-    const hours = date.getHours().toString().padStart(2, '0'); // 시간을 2자리로 표시
-    const minutes = date.getMinutes().toString().padStart(2, '0'); // 분을 2자리로 표시
-    return `${hours}:${minutes}`;
-  };
-
   return (
     <div>
       <div className="relative border-1 border-black max-w-96 px-8">
@@ -92,37 +85,54 @@ const Notification: React.FC = () => {
         {flirtingList ? (
           <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
             {flirtingList.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  href="/message"
-                  className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
-                >
-                  <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
-                    <div className="flex justify-between">
-                      <div className="text-base font-normal font-medium leading-none pb-1">
-                        {/* {
-                          notificationCategory.find((noticeCategory) => noticeCategory.id === item.notice_category)
-                            ?.text
-                        } */}
-                        {item.is_matched ? <p>💚 Connected</p> : <p>⚡ Request</p>}
+              const commonProps = {
+                href: '/message',
+                className:
+                  'flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]'
+              };
+              if (item.status === 'UNREAD' && !item.is_read_in_noti) {
+                return (
+                  <Link key={item.id} {...commonProps}>
+                    <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                      <div className="flex justify-between">
+                        <div className="text-base font-normal font-medium leading-none pb-1">
+                          <p>⚡ Request</p>
+                        </div>
+                        <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                          {formatDate(item.created_at)}
+                        </p>
                       </div>
-                      <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                        {formatDate(item.created_at)}
-                      </p>
-                    </div>
-                    <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                      <div>{item.custom_users.name}</div>
-                      {item.is_matched ? (
-                        <p>님과 신호등이 연결되었습니다!</p>
-                      ) : (
+                      <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                        <div>{item.custom_users.name}</div>
                         <p>님이 crosswalk 연결 요청을 보냈습니다.</p>
-                      )}
-                      {/* {noticeText.find((notice) => notice.id === item.notice_category)?.text} */}
-                    </div>
-                  </li>
-                </Link>
-              );
+                      </div>
+                    </li>
+                  </Link>
+                );
+              } else if (item.status === 'ACCEPT' && !item.is_read_in_noti) {
+                return (
+                  <Link key={item.id} {...commonProps}>
+                    <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                      <div className="flex justify-between">
+                        <div className="text-base font-normal font-medium leading-none pb-1">
+                          <p>💚 Connected</p>
+                        </div>
+                        <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                          {formatDate(item.created_at)}
+                        </p>
+                      </div>
+                      <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                        <div>{item.custom_users.name}</div>
+                        <p>님과 신호등이 연결되었습니다!</p>
+                      </div>
+                    </li>
+                  </Link>
+                );
+              } else if (item.status === 'DECLINE' && item.is_read_in_noti) {
+                return null; // 이미 읽은 DECLINE 상태는 렌더링하지 않음
+              } else {
+                return;
+              }
             })}
           </ul>
         ) : (
