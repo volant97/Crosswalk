@@ -5,6 +5,8 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import { getCustomFlirtingInNotificationList, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
+import { format, formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 const Notification: React.FC = () => {
   const { openModal } = useAlertModal();
@@ -29,6 +31,20 @@ const Notification: React.FC = () => {
     fetchRequestSenderData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    const now = Date.now();
+    const diff = (now - d.getTime()) / 1000; // 현재 시간과의 차이(초)
+    if (diff < 60 * 1) {
+      return '방금 전';
+    }
+    if (diff < 60 * 60 * 24 * 3) {
+      const distanceString = formatDistanceToNow(d, { addSuffix: true, locale: ko, includeSeconds: true });
+      return distanceString.replace(/^약\s*/, ''); // "약" 부분을 정규식을 사용하여 제거
+    }
+    return format(d, 'PPP EEE p', { locale: ko });
+  };
 
   // interface NotificationItem {
   //   id: string;
@@ -92,7 +108,7 @@ const Notification: React.FC = () => {
                         {item.is_matched ? <p>💚 Connected</p> : <p>⚡ Request</p>}
                       </div>
                       <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                        {formatTime(item.created_at)}
+                        {formatDate(item.created_at)}
                       </p>
                     </div>
                     <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
