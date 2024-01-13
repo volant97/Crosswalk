@@ -26,6 +26,7 @@ const ReceivedRequest: React.FC = () => {
     if (!!flirtingList) {
       const receiverUid = flirtingList[0].receiver_uid;
       await supabase.from('flirting_list').update({ is_read_in_noti: true }).eq('receiver_uid', receiverUid).select();
+      console.log('리드노티');
     }
   };
 
@@ -44,6 +45,7 @@ const ReceivedRequest: React.FC = () => {
     // 랜딩
     getRequestedFlirtingData();
     ChangeIsReadInNoti();
+    console.log('랜딩');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

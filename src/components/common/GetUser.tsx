@@ -70,12 +70,12 @@ function GetUser({ children }: Props) {
   }, [isLoading, register.information_agreement]);
 
   return (
-    <div>
+    <>
       <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
       {/* test */}
       <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
-      <button
+      {/* <button
         onClick={() => {
           setRegister({
             ...register,
@@ -86,8 +86,8 @@ function GetUser({ children }: Props) {
         회원등록 토글
       </button>
       <Logout />
-      <TempHome />
-    </div>
+      <TempHome /> */}
+    </>
   );
 }
 

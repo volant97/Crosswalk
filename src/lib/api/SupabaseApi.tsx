@@ -6,7 +6,7 @@ import type {
   FlirtingListRequestType,
   FlirtingListType
 } from '@/types/flirtingListType';
-import type { SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -56,7 +56,7 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   return userData;
 }
 
-export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallbackType) {
+export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
     .on(
@@ -96,28 +96,3 @@ export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequ
   }
   return data;
 }
-
-// export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
-//   const { data: userData, error } = await client
-//     .from('flirting_list')
-//     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
-//     .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
-//     .order('created_at', { ascending: false })
-//     .returns<FlirtingListInNotificationType[]>();
-//   // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
-//   if (error) {
-//     console.error('에러 발생:', error);
-//     throw new Error('error while fetching posts data');
-//   }
-//   return userData;
-// }
-
-// export async function postRequest(receiver_uid) {
-//   const { data, error } = await supabase.from('flirting_list').update(receiver_uid).eq("receiver_uid", receiver_uid).select();
-
-//   if (error || null) {
-//     console.log('Error creating a posts data', error);
-//     throw new Error('error while fetching posts data');
-//   }
-//   return data;
-// }
