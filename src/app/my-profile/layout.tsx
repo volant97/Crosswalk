@@ -29,3 +29,6 @@ function layout({ children }: { children: React.ReactNode }) {
 }
 
 export default layout;
+
+// children 감싸는 부분에 추가?
+// <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)]">

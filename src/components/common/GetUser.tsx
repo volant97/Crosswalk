@@ -73,9 +73,9 @@ function GetUser({ children }: Props) {
     <>
       <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
       {/* test */}
-      <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+      {/* <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
-      {/* <button
+      <button
         onClick={() => {
           setRegister({
             ...register,
