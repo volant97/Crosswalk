@@ -7,6 +7,7 @@ import type {
   FlirtingListType
 } from '@/types/flirtingListType';
 import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { ChatListType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -56,6 +57,7 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   return userData;
 }
 
+//TODO: 테스트기간에는 event: '*', 빌드모드때는 event: insert
 export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
@@ -95,4 +97,24 @@ export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequ
     throw new Error('error while fetching posts data');
   }
   return data;
+}
+
+export async function getChatList(): Promise<ChatListType[]> {
+  const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
+  console.log(data);
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+export async function updateIsReadInNoti(id: number | null): Promise<void> {
+  const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
 }

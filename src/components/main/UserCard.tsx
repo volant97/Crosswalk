@@ -1,9 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
-import test_avatar from '@assets/avatar/avatar1.jpg';
 import FlirtingModal from '../common/modal/FlirtingModal';
-
-const tags = ['게임', '자기개발', '코딩'];
+import Link from 'next/link';
 
 type Props = {
   age: number;
@@ -18,16 +16,18 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }:
   console.log('interset', typeof interest);
   return (
     <div className="relative">
-      <div className=" flex justify-center itmes-center w-[20rem] h-[30.3rem]">
-        <Image
-          className="rounded-[1.5rem]"
-          src={`/assets/avatar/avatar${avatar}.jpg`}
-          width={300}
-          height={300}
-          alt="유저 아바타 이미지"
-          style={{ width: '100%', height: '100%' }}
-        />
-      </div>
+      <Link href={`/main/${flirtingUserUid}`}>
+        <div className=" flex justify-center itmes-center w-[20rem] h-[30.3rem]">
+          <Image
+            className="rounded-[1.5rem]"
+            src={`/assets/avatar/avatar${avatar}.jpg`}
+            width={300}
+            height={300}
+            alt="유저 아바타 이미지"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </div>
+      </Link>
       <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
         <h1 className="text-[1.375rem] font-semibold">{name}</h1>
         <h2 className="font-medium">{age}</h2>

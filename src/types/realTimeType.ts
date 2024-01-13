@@ -29,3 +29,8 @@ export type SpecificSubscribeFlirtingListCallbackType = (
     [key: string]: FlirtingListPayload;
   }>
 ) => void;
+
+export type ChatListType = {
+  room_id: string;
+  flirting_list_id: number;
+};
