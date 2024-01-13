@@ -79,3 +79,13 @@ export async function sendFlirting(senderUid: string | null, message: string, re
   console.log('data', data);
   return data;
 }
+
+// export async function postRequest(receiver_uid) {
+//   const { data, error } = await supabase.from('flirting_list').update(receiver_uid).eq("receiver_uid", receiver_uid).select();
+
+//   if (error || null) {
+//     console.log('Error creating a posts data', error);
+//     throw new Error('error while fetching posts data');
+//   }
+//   return data;
+// }

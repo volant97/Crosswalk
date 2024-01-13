@@ -7,7 +7,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center items-center w-screen h-screen overflow-hidden border-2 border-red-800">
-      <div className="relative max-w-96 px-8 h-[45rem] border-solid border-1 border-black ">
+      <div className="relative max-w-96 px-8 h-[calc(100dvh)] border-solid border-1 border-black ">
         <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-1">
           <div className="!font-virgil my-[15px]">CrossWalk</div>
           <div className="absolute left-0 cursor-pointer">
@@ -22,10 +22,17 @@ function layout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <NavBar />
-        <main>{children}</main>
+        <main className="h-[calc(85dvh)] overflow-y-auto scrollbar-hide border-2 border-blue-800">{children}</main>
       </div>
     </div>
   );
 }
 
 export default layout;
+
+// main 태그에 추가?
+// overflow-hidden overflow-y-auto scrollbar-hide
+// min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)]
+// className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800"
+
+// 높이 반응형 필요
