@@ -18,6 +18,7 @@ import useAlertModal from './AlertModal';
 import { sendFlirting } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Props = {
   flirtingUserUid: string;
@@ -25,6 +26,8 @@ type Props = {
 };
 
 const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
+  const pathname = usePathname();
+  const router = useRouter();
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const backdrop = 'opaque';
@@ -43,14 +46,29 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
   const btnStyle =
     'absolute bottom-[-100px] ml-[20px] capitalize w-[9.75rem]] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem]';
 
+  const profileDetailStyle =
+    'ml-[20px] capitalize w-[8.3rem] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] mt-[10px] mb-[5px] text-xs';
+
   return (
     <>
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={nextCardBtn} className={`${btnStyle} left-[-10px]`} color="default">
+      <div className="flex gap-3">
+        <Button
+          onClick={() => {
+            router.push('/main');
+            nextCardBtn();
+          }}
+          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[-10px]`}
+          color="default"
+        >
           <IoClose size={20} /> 괜찮아요
         </Button>
-        <Button onPress={() => onOpen()} className={`${btnStyle} right-[15px] bg-customGreen`}>
-          <GoHeartFill /> 어필하기
+        <Button
+          onPress={() => onOpen()}
+          className={`${
+            pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle
+          } right-[20px] bg-customGreen`}
+        >
+          <GoHeartFill size={20} /> 어필하기
         </Button>
       </div>
       <Modal
@@ -91,7 +109,10 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
                     required
                   />
                   <Button
-                    onClick={nextCardBtn}
+                    onClick={() => {
+                      router.push('/main');
+                      nextCardBtn();
+                    }}
                     className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 font-medium mt-[30px] font-semibold text-center"
                     type="submit"
                     onPress={onClose}

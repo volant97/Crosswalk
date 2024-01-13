@@ -1,26 +1,16 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import UserCard from './UserCard';
 import type { RegisterType } from '@/types/registerType';
 import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
-import Link from 'next/link';
+import MyCard from './MyCard';
 
-function FetchUserCards() {
+function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const getUid = useRecoilState(isUserState);
   const myUid = getUid[0].uid;
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const storedIndex = localStorage.getItem('sliderIndex');
-    return storedIndex ? parseInt(storedIndex, 10) : 0;
-  });
-
-  const totalCards = userCards.length;
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCards);
-  };
 
   const getUerCards = async () => {
     try {
@@ -37,29 +27,21 @@ function FetchUserCards() {
     getUerCards();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('sliderIndex', currentIndex.toString());
-  }, [currentIndex]);
-
   return (
-    <div className="flex">
+    <div className="flex overflow-y-auto scrollbar-hide h-[36rem]">
       {userCards
-        ?.filter((itme: any) => itme.uid !== myUid)
+        ?.filter((itme: any) => itme.uid === myUid)
         ?.map((item: any, index) => {
           return (
-            <div
-              key={index}
-              className={`transform transition-transform ease-in-out duration-300`}
-              style={{ transform: `translateX(${-currentIndex * 100}%)` }}
-            >
-              <UserCard
-                key={item.uid}
+            <div key={index}>
+              <MyCard
                 age={item.age}
                 name={item.name}
                 interest={item.interest}
                 avatar={item.avatar}
-                flirtingUserUid={item.uid}
-                nextCardBtn={handleNext}
+                height={item.height}
+                mbti={item.mbti}
+                gender={item.gender}
               />
             </div>
           );
@@ -68,4 +50,4 @@ function FetchUserCards() {
   );
 }
 
-export default FetchUserCards;
+export default FetchMyProfileCard;

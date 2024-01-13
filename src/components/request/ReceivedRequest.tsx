@@ -6,8 +6,8 @@ import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '@/lib/supabase-config';
 import Link from 'next/link';
-import { IoIosArrowRoundBack } from 'react-icons/io';
 import NavBar from '../common/ui/NavBar';
+import { IoChevronBackOutline } from 'react-icons/io5';
 
 const ReceivedRequest: React.FC = () => {
   const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
@@ -51,8 +51,8 @@ const ReceivedRequest: React.FC = () => {
     <>
       <div className="relative max-w-96 border-solid border-1 border-black px-8">
         <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-2 ">
-          <Link href="/" className="absolute left-6">
-            <IoIosArrowRoundBack size="30" />
+          <Link href="/main" className="absolute left-0">
+            <IoChevronBackOutline size="21" />
           </Link>
           <div className="!font-virgil ">CrossWalk</div>
         </header>

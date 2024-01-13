@@ -12,7 +12,7 @@ function NavBar() {
     <nav className="ml-[-33px]  flex gap-[30px] items-center border-t-1 border-solid boredr-black h-[2.2rem] w-[24rem]  px-[5px] shadow-md mb-[1.8rem] ">
       <div
         className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center ${
-          pathname.startsWith('/request') ? `${active}` : 'text-slate-300 pb-[3px]'
+          pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
       >
         <Link className="" href="/request">
