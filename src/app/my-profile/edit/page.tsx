@@ -37,12 +37,9 @@ function MyProfileEdit() {
     alert('1');
     openModal('사진변경 중 오류 발생');
 
+    // 유효성 검사 및 supabase 데이터 update 로직 부분(하단)
     // const modifiedCustomUser = {
     //   id: uuid,
-    //   address: position.address,
-    //   coordinates: { lat: position.lat, lng: position.lng },
-    //   cost,
-    //   togetherNum,
     //   createdAt: getDate(),
     //   email,
     //   gender,
