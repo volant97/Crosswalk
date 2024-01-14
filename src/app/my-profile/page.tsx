@@ -2,7 +2,7 @@
 import ChooseAvatarModal from '@/components/common/modal/ChooseAvatarModal';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import NavBar from '@/components/common/ui/NavBar';
-import FetchMyProfileCard from '@/components/main/FetchMyProfileCard';
+import FetchMyProfileCard from '@/components/my_profile/FetchMyProfileCard';
 import Link from 'next/link';
 import React from 'react';
 import { HiOutlineBell } from 'react-icons/hi2';

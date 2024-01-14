@@ -22,10 +22,10 @@ function ConfirmModal() {
       </Button> */}
       <Button
         onPress={onOpen}
-        className="w-[20rem] h-[3.125rem] bg-customYellow rounded-[1.875rem] cursor-pointer mb-0 font-medium"
+        className="w-[20rem] ml-[-21px] mt-[2rem] h-[3.125rem] bg-customGreen rounded-[1.875rem] cursor-pointer mb-0 font-semibold"
         type="submit"
       >
-        수정 완료
+        수정하기
       </Button>
       <Modal
         // backdrop={backdrop}
