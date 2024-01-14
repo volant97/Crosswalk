@@ -62,7 +62,7 @@ const Notification: React.FC = () => {
     <div>
       <div className="relative border-1 border-black max-w-96 px-8">
         <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center  border-b-1 border-E9EAEB">
-          <Link href="/" className="absolute left-6">
+          <Link href="/main" className="absolute left-6">
             <IoIosArrowRoundBack size="30" />
           </Link>
           <div className="!font-virgil">CrossWalk</div>
