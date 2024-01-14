@@ -7,17 +7,33 @@ import useAlertModal from '@/components/common/modal/AlertModal';
 import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useRecoilState } from 'recoil';
+import { isUserState } from '@/recoil/auth';
 
 const Notification: React.FC = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListInNotificationType[] | null>(null);
+  const [currentUser, setCurrentUser] = useRecoilState(isUserState);
+  console.log('currentUser', currentUser.uid); // 현재 로그한 유저 uid
 
   //랜딩시 통신
   const fetchRequestSenderData = async () => {
     try {
       const userData = await getCustomFlirtingInNotificationList();
-      console.log(`보낸이 데이터 :`, userData);
-      setFlirtingList(userData);
+      console.log(`내가 보낸이일때,받는이일때 데이터 :`, userData);
+
+      const filteredData = userData.filter((item) => {
+        const isSender = item.sender_uid === currentUser.uid;
+        const isReceiver = item.receiver_uid === currentUser.uid;
+
+        if (isReceiver) {
+          return true;
+        } else if (isSender) {
+          // 보낸 요청에 대한 알림
+          return true; // 발신자에게 표시되지 않도록 제외
+        }
+      });
+      setFlirtingList(filteredData);
     } catch (error) {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
@@ -51,7 +67,6 @@ const Notification: React.FC = () => {
     try {
       if (id !== null) {
         await updateIsReadInNoti(id);
-        // 데이터 업데이트 후 추가로 필요한 로직이 있다면 여기에 추가
       }
     } catch (error) {
       openModal('알림을 읽는 중에 오류가 발생했습니다.');
@@ -67,67 +82,82 @@ const Notification: React.FC = () => {
           </Link>
           <div className="!font-virgil">CrossWalk</div>
         </header>
+
         {flirtingList ? (
           <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
             {flirtingList.map((item) => {
+              const isUnread = item.status === 'UNREAD' && item.is_read_in_noti === false;
+              const isConnected = item.status === 'ACCEPT' && item.is_read_in_noti === false;
+              const isSender = item.sender_uid === currentUser.uid;
+              const isReceiver = item.receiver_uid === currentUser.uid;
               const commonProps = {
                 className:
                   'flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]'
               };
-
-              if (item.status === 'UNREAD' && item.is_read_in_noti === false) {
-                return (
-                  <Link
-                    href="/request"
-                    key={item.id}
-                    {...commonProps}
-                    onClick={() => toggleIsReadInNoticeBoard(item.id)}
-                  >
-                    <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
-                      <div className="flex justify-between">
-                        <div className="text-base font-normal font-medium leading-none pb-1">
-                          <p>⚡ Request</p>
-                        </div>
-                        <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                          {formatDate(item.created_at)}
-                        </p>
-                      </div>
-                      <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                        <div>{item.custom_users.name}</div>
-                        <p>님이 crosswalk 연결 요청을 보냈습니다.</p>
-                      </div>
-                    </li>
-                  </Link>
-                );
-              } else if (item.status === 'ACCEPT' && item.is_read_in_noti === false) {
-                return (
-                  <Link
-                    href="/chat-list"
-                    key={item.id}
-                    {...commonProps}
-                    onClick={() => toggleIsReadInNoticeBoard(item.id)}
-                  >
-                    <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
-                      <div className="flex justify-between">
-                        <div className="text-base font-normal font-medium leading-none pb-1">
-                          <p>💚 Connected</p>
-                        </div>
-                        <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                          {formatDate(item.created_at)}
-                        </p>
-                      </div>
-                      <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                        <div>{item.custom_users.name}</div>
-                        <p>님과 신호등이 연결되었습니다!</p>
-                      </div>
-                    </li>
-                  </Link>
-                );
-              } else if (item.status === 'DECLINE' && item.is_read_in_noti === true) {
-                return null; // 이미 읽은 DECLINE 상태는 렌더링하지 않음
-              } else {
+              if (item.is_read_in_noti) {
+                // is_read_in_noti가 true이면 렌더링하지 않음
                 return null;
               }
+              return (
+                <>
+                  {/* 보내는사람 Ui */}
+                  {isSender && isConnected && (
+                    <Link
+                      href={'/chat-list'}
+                      key={item.id}
+                      {...commonProps}
+                      onClick={() => toggleIsReadInNoticeBoard(item.id)}
+                    >
+                      {isConnected && (
+                        <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                          <div className="flex justify-between">
+                            <div className="text-base font-normal font-medium leading-none pb-1">
+                              <p>💚 Connected!</p>
+                            </div>
+                            <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                              {formatDate(item.created_at)}
+                            </p>
+                          </div>
+                          <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                            <div>{item.custom_users.name}</div>
+                            <p>님과 신호등이 연결되었습니다!</p>
+                          </div>
+                        </li>
+                      )}
+                    </Link>
+                  )}
+                  {/* 받는 사람 ui */}
+                  {isReceiver && (
+                    <Link
+                      href={item.status === 'UNREAD' ? '/request' : '/chat-list'}
+                      key={item.id}
+                      {...commonProps}
+                      onClick={() => toggleIsReadInNoticeBoard(item.id)}
+                    >
+                      <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                        <div className="flex justify-between">
+                          <div className="text-base font-normal font-medium leading-none pb-1">
+                            <p>{isUnread ? '⚡ Request' : isConnected ? '💚 Connected' : ''}</p>
+                          </div>
+                          <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                            {formatDate(item.created_at)}
+                          </p>
+                        </div>
+                        <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                          <div>{item.custom_users.name}</div>
+                          <p>
+                            {isUnread
+                              ? '님이 crosswalk 연결 요청을 보냈습니다.'
+                              : isConnected
+                              ? '님과 신호등이 연결되었습니다!'
+                              : ''}
+                          </p>
+                        </div>
+                      </li>
+                    </Link>
+                  )}
+                </>
+              );
             })}
           </ul>
         ) : (

@@ -52,7 +52,6 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   return userData;
 }
 
-//TODO: 테스트기간에는 event: '*', 빌드모드때는 event: insert
 export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
