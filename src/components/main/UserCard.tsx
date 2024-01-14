@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { Fragment } from 'react';
 import FlirtingModal from '../common/modal/FlirtingModal';
 import Link from 'next/link';
 
@@ -35,7 +35,7 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }:
       <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
         {interest?.map((item, index) => {
           return (
-            <>
+            <Fragment key={index}>
               <div
                 key={index}
                 className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
@@ -43,7 +43,7 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }:
                 {item}
               </div>
               <FlirtingModal flirtingUserUid={flirtingUserUid} nextCardBtn={nextCardBtn} />
-            </>
+            </Fragment>
           );
         })}
       </div>

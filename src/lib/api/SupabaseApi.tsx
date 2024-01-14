@@ -73,6 +73,31 @@ export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingL
     .subscribe();
 }
 
+/**Request 채널 구독 */
+export async function subscribeRequestedFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
+  supabase
+    .channel('request')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'flirting_list'
+      },
+      callback
+    )
+    .subscribe();
+  console.log('Request 채널 구독 시작');
+}
+
+/**Request 채널 구독해제 */
+export async function untrackRequestedFlirtingList() {
+  const requestRoom = supabase.channel('request');
+  await requestRoom.subscribe();
+  await requestRoom.untrack();
+  console.log('Request 채널 구독 해제');
+}
+
 export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string) {
   const { data, error } = await supabase
     .from('flirting_list')
@@ -110,6 +135,7 @@ export async function getChatList(): Promise<ChatListType[]> {
   return data;
 }
 
+/** */
 export async function updateIsReadInNoti(id: number | null): Promise<void> {
   const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
 
