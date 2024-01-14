@@ -81,8 +81,11 @@ export async function sendFlirting(senderUid: string | null, message: string, re
 }
 
 export async function getChatList(): Promise<ChatListType[]> {
-  const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
-  console.log(data);
+  const { data, error } = await supabase
+    .from('chat_list')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    // .select()
+    .returns<ChatListType[]>();
 
   if (error || null) {
     console.log('Error creating a posts data', error);
