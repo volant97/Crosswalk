@@ -22,10 +22,10 @@ function NavBar() {
 
       <div
         className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center ${
-          pathname.startsWith('/message') ? `${active}` : 'text-slate-300'
+          pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link href="/message">Chat</Link>
+        <Link href="/chat-list">Chat</Link>
       </div>
 
       <div
