@@ -74,6 +74,7 @@ function UploadImg() {
     if (registerData.user_img) {
       postData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData.user_img]);
 
   return (
