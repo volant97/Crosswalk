@@ -11,6 +11,7 @@ import {
 import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
 import { usePathname } from 'next/navigation';
+import { FlirtingListPayload } from '@/types/realTimeType';
 
 const ReceivedRequest: React.FC = () => {
   const { openModal } = useAlertModal();
@@ -64,7 +65,7 @@ const ReceivedRequest: React.FC = () => {
   };
 
   /**!! 실시간 : 동작하는 함수 묶어서 비동기 처리 */
-  const realtimeRequest = async (listId: string, is_read_in_noti: boolean) => {
+  const realtimeRequest = async (listId: number, is_read_in_noti: boolean) => {
     await realtimeChangeIsReadInNoti(listId, is_read_in_noti);
     await getRequestedFlirtingData();
   };
@@ -79,7 +80,7 @@ const ReceivedRequest: React.FC = () => {
     // callback
     subscribeRequestedFlirtingList((payload) => {
       // console.log('요청함 payload : ', payload);
-      const { id, is_read_in_noti } = payload.new;
+      const { id, sender_is_read_in_noti } = payload.new;
       realtimeRequest(id, is_read_in_noti);
       getRequestedFlirtingData();
       console.log('실시간됨');
