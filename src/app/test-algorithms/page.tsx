@@ -1,10 +1,10 @@
 import React from 'react';
-import Algorithms from './Algorithms';
+import FavorableRatingAlgorithms from '../../components/algorithms/FavorableRatingAlgorithms';
 
 function TestAlgorithms() {
   return (
     <div className="w-screen h-screen flex justify-center mt-16">
-      <Algorithms />
+      <FavorableRatingAlgorithms />
     </div>
   );
 }
