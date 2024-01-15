@@ -84,7 +84,7 @@ export async function getChatList(): Promise<ChatListType[]> {
   const { data, error } = await supabase
     .from('chat_list')
     .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
-    // .select()
+    .order('flirting_list(created_at)', { ascending: false })
     .returns<ChatListType[]>();
 
   if (error || null) {
