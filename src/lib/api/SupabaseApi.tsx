@@ -37,7 +37,8 @@ export async function getFlirtingRequestData() {
   return data;
 }
 
-export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
+// 받는사람 ui 에서 상대방 이름(sender_uid -> uid -> name) 가져오기
+export async function getCustomFlirtingInNotificationListReceiverSide(): Promise<FlirtingListInNotificationType[]> {
   const { data: userData, error } = await client
     .from('flirting_list')
     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
@@ -51,6 +52,36 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   }
   return userData;
 }
+
+// 보낸사람 ui 에서 상대방 이름 가져오기 (receiver_uid -> uid -> name)
+export async function getCustomFlirtingInNotificationListSenderSide(): Promise<FlirtingListInNotificationType[]> {
+  const { data: userData, error } = await client
+    .from('flirting_list')
+    // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+    .select('*, custom_users!flirting_list_receiver_uid_fkey(name)')
+    .order('created_at', { ascending: false })
+    .returns<FlirtingListInNotificationType[]>();
+  // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return userData;
+}
+
+// Header의 알람
+// export async function getFlirtingListLayoutNotification(): Promise<FlirtingListInNotificationType[]> {
+//   const { data: userData, error } = await client
+//     .from('flirting_list')
+//     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+//     .select('*')
+//     .returns<FlirtingListInNotificationType[]>();
+//   if (error) {
+//     console.error('에러 발생:', error);
+//     throw new Error('error while fetching posts data');
+//   }
+//   return userData;
+// }
 
 export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallbackType) {
   client
