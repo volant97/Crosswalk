@@ -28,11 +28,11 @@ function EditMyProfile() {
     setName(e.target.value);
   };
 
-  const heightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const heightHandler = (e: any) => {
     setHeight(e.target.value);
   };
 
-  const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const ageHandler = (e: any) => {
     setAge(e.target.value);
   };
 

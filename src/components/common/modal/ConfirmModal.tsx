@@ -20,8 +20,8 @@ import { postRegister } from '@/lib/api/SupabaseApi';
 
 type Props = {
   name: string;
-  height: string;
-  age: string;
+  height: number;
+  age: number;
   gender: any;
   selectedImg: string;
   file: any;
