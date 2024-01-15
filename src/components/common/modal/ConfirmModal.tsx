@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   ModalContent,
@@ -10,10 +10,72 @@ import {
   useDisclosure,
   ModalProps
 } from '@nextui-org/react';
+import { isUserState } from '@/recoil/auth';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { supabase } from '@/lib/supabase-config';
+import { registerState } from '@/recoil/register';
+import useAlertModal from './AlertModal';
+import { useRouter } from 'next/navigation';
+import { postRegister } from '@/lib/api/SupabaseApi';
 
-function ConfirmModal() {
+type Props = {
+  name: string;
+  height: string;
+  age: string;
+  gender: any;
+  selectedImg: string;
+  file: any;
+};
+
+function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
+  const router = useRouter();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
+  const { openModal, AlertModal } = useAlertModal();
+  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const { uid } = useRecoilValue(isUserState);
+  async function uploadFile(file: any) {
+    try {
+      if (file) {
+        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${selectedImg}`, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log('error', error);
+      openModal('사진변경 중 오류 발생');
+    }
+
+    const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+    setRegisterData((prevData) => ({
+      ...prevData,
+      user_img: userImg?.publicUrl,
+      name: name,
+      age: Number(age),
+      height: Number(height),
+      gender,
+      uid: uid
+    }));
+  }
+
+  async function updateData() {
+    try {
+      await postRegister(registerData);
+    } catch (error) {
+      openModal('서버와의 통신을 실패했습니다.');
+    }
+  }
+
+  useEffect(() => {
+    if (registerData) {
+      updateData();
+    }
+
+    console.log('updateData', registerData);
+  }, [registerData]);
 
   return (
     <div>
@@ -30,7 +92,6 @@ function ConfirmModal() {
       <Modal
         // backdrop={backdrop}
         // backdrop="blur"
-        backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
@@ -51,7 +112,11 @@ function ConfirmModal() {
               </ModalHeader>
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
-                  onPress={onClose}
+                  onClick={() => {
+                    uploadFile(file);
+                    onClose();
+                    router.push('/my-profile');
+                  }}
                   className="w-[15rem] bg-customYellow rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
                 >
@@ -69,6 +134,7 @@ function ConfirmModal() {
           )}
         </ModalContent>
       </Modal>
+      {AlertModal()}
     </div>
   );
 }

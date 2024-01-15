@@ -2,13 +2,15 @@
 
 import ChooseAvatarModal from '@/components/common/modal/ChooseAvatarModal';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import FetchMyProfileCard from '@/components/my_profile/FetchMyProfileCard';
 import React from 'react';
 
 function MyProfile() {
   return (
     <>
-      <ConfirmModal />
-      <ChooseAvatarModal />
+      <FetchMyProfileCard />
+      {/* <ConfirmModal />
+      <ChooseAvatarModal /> */}
     </>
   );
 }
