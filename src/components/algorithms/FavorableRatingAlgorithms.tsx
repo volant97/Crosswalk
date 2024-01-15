@@ -64,14 +64,25 @@ function FavorableRatingAlgorithms() {
           <div className="flex justify-center font-bold text-5xl">
             호감도 : <span className="text-red-500">{favorableRating}</span>%
           </div>
-          <button
-            onClick={() => {
-              setFavorableRating(100);
-              setCongratulationsMessage(true);
-            }}
-          >
-            100%
-          </button>
+          <div className="flex justify-center gap-4">
+            <button //호감도 100% 버튼
+              onClick={() => {
+                setFavorableRating(100);
+                setCongratulationsMessage(true);
+              }}
+            >
+              100%
+            </button>
+            <button //호감도 95% 버튼
+              onClick={() => {
+                setFavorableRating(95);
+                setAScore(50);
+                setBScore(45);
+              }}
+            >
+              95%
+            </button>
+          </div>
         </>
       ) : (
         <h1 className="flex justify-center text-center text-3xl font-bold text-green-600">
