@@ -44,7 +44,7 @@ function FetchUserProfile() {
   const filteredCards = userCards?.filter((item) => item.uid !== myUid);
 
   return (
-    <div className="flex overflow-y-auto scrollbar-hide h-[36rem]">
+    <div className="flex overflow-y-auto scrollbar-hide h-[36rem] rounded-[1.5rem]">
       {filteredCards?.map((item: any, index) => {
         return (
           <div

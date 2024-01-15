@@ -12,10 +12,6 @@ import MbtiModal from '../common/modal/MbtiModal';
 import InterestModal from '../common/modal/InterestModal';
 import { isUserState } from '@/recoil/auth';
 
-// MEMO: form 태그 안에 input 을 다 넣어서
-// input 입력이 모두 완료된 후 한꺼번에 form의 onSubmit 이벤트 함수로
-// supabase 데이터 update하는 방향으로 설계함
-
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(registerState);
   const myInfo = registerData;
@@ -23,10 +19,10 @@ function EditMyProfile() {
   const [file, setFile] = useState<any>();
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
-  const [gender, setGender] = useState('');
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
+  const [gender, setGender] = useState<string | null>(myInfo?.gender);
+  const [name, setName] = useState<string | null>(myInfo?.name);
+  const [age, setAge] = useState<number | null>(myInfo?.age);
+  const [height, setHeight] = useState<number | null>(myInfo?.height);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -48,48 +44,12 @@ function EditMyProfile() {
       setSelectedImg(imgUrl);
     }
   };
-  // 유효성 검사 및 supabase 데이터 update 로직 부분(하단)
-  // const modifiedCustomUser = {
-  //   id: uuid,
-  //   createdAt: getDate(),
-  //   email,
-  //   gender,
-  //   imgPath: imgPath,
-  //   isDone: false,
-  //   password,
-  //   title,
-  //   content,
-  //   imgFileName,
-  // };
-
-  //  // 유효성 검사
-  //  if (
-  //   !cost ||
-  //   !gender ||
-  //   !togetherNum ||
-  //   !email ||
-  //   !password ||
-  //   !imgPath ||
-  //   !title ||
-  //   !content
-  // ) {
-  //   return handleOpenAlert('입력하지 않은 곳이 있습니다.');
-  // } else if (
-  //   checkValidation('월세', cost, 6) &&
-  //   checkValidation('모집인원 수', togetherNum, 3) &&
-  //   checkEmailValidation(email) &&
-  //   checkValidation('비밀번호', password, 10) &&
-  //   checkValidation('제목', title, 30) &&
-  //   checkValidation('내용', content, 500)
-  // ) {
-  //   if (await handleOpenModal('새 투게더를 등록하시겠습니까?')) {
-  //     Mutation.mutate(newTogether);
-  //   }
-  // }
 
   const onSubmitHandelr = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  if (registerData == null) return;
 
   return (
     <div className=" overflow-hidden ">
@@ -124,19 +84,19 @@ function EditMyProfile() {
             <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">이름</label>
               <input
-                value={name}
+                value={name || undefined}
                 onChange={nameHandler}
                 type="text"
                 name="name"
                 id="id"
-                placeholder={myInfo.name || undefined}
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
+                autoComplete="off"
               />
             </div>
             <div className="mb-[1.5rem]">
               <p className="text-[1.125rem] mb-[0.5rem] font-semibold">성별</p>
               <Button
-                value={gender}
+                value={gender || undefined}
                 type="button"
                 className={`w-[45%] mr-[0.5rem] py-2 px-6 bg-white rounded-full cursor-pointer border ${
                   gender === 'M' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
@@ -148,7 +108,7 @@ function EditMyProfile() {
                 남자
               </Button>
               <Button
-                value={gender}
+                value={gender || undefined}
                 type="button"
                 className={`w-[45%] py-2 px-6 bg-white rounded-full cursor-pointer border ${
                   gender === 'F' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
@@ -177,25 +137,25 @@ function EditMyProfile() {
             <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">나이</label>
               <input
-                value={age}
+                value={String(age) || undefined}
                 onChange={ageHandler}
                 type="number"
                 name="age"
                 id="age"
-                placeholder={String(myInfo.age) || undefined}
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
+                autoComplete="off"
               />
             </div>
             <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">키</label>
               <input
-                value={height}
+                value={height || undefined}
                 onChange={heightHandler}
-                type="text"
+                type="number"
                 name="height"
                 id="height"
-                placeholder={String(myInfo.height) || undefined}
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
+                autoComplete="off"
               />
             </div>
             <div className="relative flex flex-col flex-wrap mb-[1.5rem]">

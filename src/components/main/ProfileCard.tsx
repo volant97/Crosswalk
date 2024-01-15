@@ -55,7 +55,7 @@ function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gen
         <div className="mb-[1.5rem] my-[1.5rem] h-[2.875rem]">
           <h1 className="textgray-999">기본정보</h1>
           <div className="flex flex-row gap-[0.25rem]">
-            <div className={`${border}`}>{height}</div>
+            <div className={`${border}`}>{height}cm</div>
             <div className={`${border}`}>{gender === 'M' ? '남자' : '여자'}</div>
           </div>
         </div>

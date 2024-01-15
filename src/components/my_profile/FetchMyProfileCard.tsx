@@ -11,15 +11,14 @@ import { registerState } from '@/recoil/register';
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(registerState);
+  const myInfo = registerData;
   const getUid = useRecoilState(isUserState);
   const myUid = getUid[0].uid;
 
   const getUerCards = async () => {
     try {
       const userCards = await getAllData();
-      console.log('userCards:', userCards);
       setUserCards(userCards);
-      console.log(userCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
@@ -33,12 +32,15 @@ function FetchMyProfileCard() {
       console.log(error);
     }
   }
+  const updateProfile = async () => {
+    if (registerData) {
+      await updateData();
+      await getUerCards();
+    }
+  };
 
   useEffect(() => {
-    if (registerData) {
-      updateData();
-    }
-    getUerCards();
+    updateProfile();
   }, [registerData]);
 
   return (
