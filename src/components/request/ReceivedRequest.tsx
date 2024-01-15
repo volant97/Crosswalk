@@ -52,24 +52,6 @@ const ReceivedRequest: React.FC = () => {
     await getRequestedFlirtingData();
   };
 
-  /**실시간 : (payload의 listId) is_read_in_noti: true로 변환 */
-  // const realtimeChangeIsReadInNoti = async (listId: string, is_read_in_noti: boolean) => {
-  //   if (is_read_in_noti === false) {
-  //     await supabase
-  //       .from('flirting_list')
-  //       .update({ is_read_in_noti: true })
-  //       .eq('id', listId)
-  //       .eq('status', 'READ')
-  //       .select();
-  //   }
-  // };
-
-  /**!! 실시간 : 동작하는 함수 묶어서 비동기 처리 */
-  // const realtimeRequest = async (listId: number, is_read_in_noti: boolean) => {
-  //   await realtimeChangeIsReadInNoti(listId, is_read_in_noti);
-  //   await getRequestedFlirtingData();
-  // };
-
   /**화면에 나타나는 리스트는 status가 READ인 리스트만 나오도록 필터링 */
   const filteredFlirtingList = flirtingList?.filter((f) => {
     return f.status === 'READ';
@@ -78,13 +60,10 @@ const ReceivedRequest: React.FC = () => {
   useEffect(() => {
     // 실시간 realtime
     // callback
-    // subscribeRequestedFlirtingList((payload) => {
-    //   // console.log('요청함 payload : ', payload);
-    //   const { id, sender_is_read_in_noti } = payload.new;
-    //   realtimeRequest(id, is_read_in_noti);
-    //   getRequestedFlirtingData();
-    //   console.log('실시간됨');
-    // });
+    subscribeRequestedFlirtingList((payload) => {
+      // console.log('요청함 payload : ', payload);
+      landingRequest();
+    });
 
     // 랜딩
     landingRequest();
