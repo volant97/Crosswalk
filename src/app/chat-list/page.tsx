@@ -2,7 +2,7 @@
 import { getChatList } from '@/lib/api/SupabaseApi';
 import React, { useEffect } from 'react';
 
-export default function chatListPage() {
+export default function ChatListPage() {
   async function data() {
     try {
       await getChatList();
@@ -14,5 +14,5 @@ export default function chatListPage() {
     data();
   }, []);
 
-  return <div>chatListpage</div>;
+  return <div>ChatListPage</div>;
 }

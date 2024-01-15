@@ -1,13 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
-import { getCustomFlirtingListAtRequest, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
+import {
+  changeStatusToRead,
+  getCustomFlirtingListAtRequest,
+  subscribeRequestedFlirtingList,
+  untrackRequestedFlirtingList
+} from '@/lib/api/requestApi';
 
-const ReceivedRequest: React.FC = () => {
+const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
@@ -21,31 +26,48 @@ const ReceivedRequest: React.FC = () => {
     }
   };
 
-  /**랜딩시 받은 사람이 메시지를 읽었다고 판단하여 is_read_in_noti: true로 변경 */
+  /**랜딩
+   * 1. (receiverUid) status를 READ로 변경
+   * 2. (receiverUid) 받은 사람이 메시지를 읽었다고 판단하여 read_in_noti: true로 변경 */
   const ChangeIsReadInNoti = async () => {
-    if (!!flirtingList) {
-      const receiverUid = flirtingList[0].receiver_uid;
-      await supabase.from('flirting_list').update({ is_read_in_noti: true }).eq('receiver_uid', receiverUid).select();
-      console.log('리드노티');
+    try {
+      const userData = await getCustomFlirtingListAtRequest();
+      if (userData !== null) {
+        const receiverUid = userData[0].receiver_uid;
+        await changeStatusToRead(receiverUid);
+      }
+    } catch {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
   };
 
-  /**화면에 나타나는 리스트는 status가 ACCEPT, DECLINE이 아닌 리스트만 나오도록 필터링 */
+  /**!! 랜딩 : 동작하는 함수 묶어서 비동기 처리 */
+  const landingRequest = async () => {
+    await ChangeIsReadInNoti();
+    await getRequestedFlirtingData();
+  };
+
+  /**화면에 나타나는 리스트는 status가 READ인 리스트만 나오도록 필터링 */
   const filteredFlirtingList = flirtingList?.filter((f) => {
-    return f.status !== 'ACCEPT' && f.status !== 'DECLINE';
+    return f.status === 'READ';
   });
 
   useEffect(() => {
-    // realtime 실시간
+    // 실시간 realtime
     // callback
-    subscribeFlirtingList((payload) => {
-      console.log('요청함 payload : ', payload);
-      getRequestedFlirtingData();
+    subscribeRequestedFlirtingList((payload: any) => {
+      // console.log('요청함 payload : ', payload);
+      landingRequest();
     });
+
     // 랜딩
-    getRequestedFlirtingData();
-    ChangeIsReadInNoti();
-    console.log('랜딩');
+    landingRequest();
+
+    // 언마운트 시(clean-up 시) 실행
+    return () => {
+      untrackRequestedFlirtingList();
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,19 +104,3 @@ export default ReceivedRequest;
 // import { ScrollShadow } from '@nextui-org/react';
 //   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
 //   <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>
-
-// const channelA: RealtimeChannel = client
-//   .channel('room1')
-//   .on(
-//     'postgres_changes',
-//     {
-//       event: '*',
-//       schema: 'public',
-//       table: 'flirting_list'
-//     },
-//     (payload) => {
-//       // console.log(payload);
-//       getRequestedFlirtingData();
-//     }
-//   )
-//   .subscribe();
