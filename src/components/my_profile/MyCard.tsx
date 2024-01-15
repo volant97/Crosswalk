@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button } from '@nextui-org/react';
 import { logout } from '@/auth/auth';
 import { useRecoilState } from 'recoil';
@@ -44,14 +44,14 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
         <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
           {interest?.map((item, index) => {
             return (
-              <>
+              <Fragment key={index}>
                 <div
                   key={index}
                   className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
                 >
                   {item}
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>
@@ -60,7 +60,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
         <div className="mb-[1.5rem] my-[1.5rem] h-[2.875rem]">
           <h1 className="text-gray-999">기본정보</h1>
           <div className="flex flex-row gap-[0.25rem]">
-            <div className={`${border}`}>{height}</div>
+            <div className={`${border}`}>{height}cm</div>
             <div className={`${border}`}>{gender === 'M' ? '남자' : '여자'}</div>
           </div>
         </div>
