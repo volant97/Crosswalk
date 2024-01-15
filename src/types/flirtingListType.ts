@@ -1,7 +1,7 @@
 export type FlirtingListType = {
+  id: number | null;
   created_at: Date | null;
   flirting_message: string | null;
-  id: number | null;
   status: string | null;
   sender_is_read_in_noti: boolean | null;
   receiver_is_read_in_noti: boolean | null;
@@ -10,15 +10,15 @@ export type FlirtingListType = {
 };
 
 export type FlirtingListRequestType = {
-  created_at: Date | null;
+  id: number;
+  created_at: Date;
+  flirting_message: string;
+  status: string;
   custom_users: {
     age: number | null;
     name: string | null;
     avatar: number | null;
   } | null;
-  flirting_message: string | null;
-  id: number | null;
-  status: string | null;
   sender_is_read_in_noti: boolean | null;
   receiver_is_read_in_noti: boolean | null;
   receiver_uid: string | null;

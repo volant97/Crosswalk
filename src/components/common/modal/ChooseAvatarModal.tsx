@@ -12,13 +12,14 @@ import {
 } from '@nextui-org/react';
 import Image from 'next/image';
 import avatarData from '../../../data/avatar_data.json';
+import { TfiReload } from 'react-icons/tfi';
 
 function ChooseAvatarModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [backdrop, setBackdrop] = React.useState<'blur' | undefined>('blur'); // 기본값을 'blur'로 설정
   const { avatars } = avatarData;
   return (
-    <div>
+    <div className="absolute top-[1px]">
       {/* <Image
         src="/modal/pen.png"
         alt="아바타 수정"
@@ -26,15 +27,12 @@ function ChooseAvatarModal() {
         height={24}
         className="cursor-pointer w-[1rem] h-[1rem]"
       ></Image> */}
-      <Button variant="flat" color="default" onPress={onOpen} className="capitalize w-[1rem] bg-white">
-        <Image
-          src="/modal/pen.png"
-          alt="아바타 수정"
-          width={24}
-          height={24}
-          className="cursor-pointer w-[1rem] h-[1rem]"
-        ></Image>
-      </Button>
+      <button
+        onClick={onOpen}
+        className="flex items-center justify-center capitalize w-[2rem] h-[2rem] bg-white rounded-full ml-[80px]"
+      >
+        <TfiReload size={15} />
+      </button>
       <Modal
         // backdrop={backdrop}
         // backdrop="blur"

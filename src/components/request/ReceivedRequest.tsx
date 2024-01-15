@@ -2,82 +2,77 @@
 
 import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
-import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
+import { getCustomFlirtingListAtRequest, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
+import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
-import Link from 'next/link';
-import NavBar from '../common/ui/NavBar';
-import { IoChevronBackOutline } from 'react-icons/io5';
 
 const ReceivedRequest: React.FC = () => {
-  const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+  const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
-  async function getRequestedFlirtingData() {
-    const { data, error } = await supabase
-      .from('flirting_list')
-      .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
-      .order('created_at', { ascending: false });
-    // .returns<GetRequestedFlirtingDataType[]>;
-    // console.log('플러팅받은가공data : ', data);
-    if (error) {
-      console.error('에러:', error);
-      return;
+  /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
+  const getRequestedFlirtingData = async () => {
+    try {
+      const userData = await getCustomFlirtingListAtRequest();
+      setFlirtingList(userData);
+    } catch {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
-    setFlirtingList(data);
-    // return data;
-  }
+  };
+
+  /**랜딩시 받은 사람이 메시지를 읽었다고 판단하여 is_read_in_noti: true로 변경 */
+  const ChangeIsReadInNoti = async () => {
+    if (!!flirtingList) {
+      const receiverUid = flirtingList[0].receiver_uid;
+      await supabase.from('flirting_list').update({ is_read_in_noti: true }).eq('receiver_uid', receiverUid).select();
+      console.log('리드노티');
+    }
+  };
+
+  /**화면에 나타나는 리스트는 status가 ACCEPT, DECLINE이 아닌 리스트만 나오도록 필터링 */
+  const filteredFlirtingList = flirtingList?.filter((f) => {
+    return f.status !== 'ACCEPT' && f.status !== 'DECLINE';
+  });
 
   useEffect(() => {
-    const channelA: RealtimeChannel = client
-      .channel('room1')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'flirting_list'
-        },
-        (payload) => {
-          // console.log(payload);
-          getRequestedFlirtingData();
-        }
-      )
-      .subscribe();
+    // realtime 실시간
+    // callback
+    subscribeFlirtingList((payload) => {
+      console.log('요청함 payload : ', payload);
+      getRequestedFlirtingData();
+    });
+    // 랜딩
     getRequestedFlirtingData();
+    ChangeIsReadInNoti();
+    console.log('랜딩');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <div className="relative max-w-96 border-solid border-1 border-black px-8">
-        <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-2 ">
-          <Link href="/main" className="absolute left-0">
-            <IoChevronBackOutline size="21" />
-          </Link>
-          <div className="!font-virgil ">CrossWalk</div>
-        </header>
-        <NavBar />
-
-        <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
-          {!!flirtingList ? (
-            flirtingList?.map((item) => {
-              return (
-                <>
-                  <RequestCard
-                    key={item.id}
-                    avatar={item.custom_users?.avatar || 0}
-                    senderName={item.custom_users?.name || ''}
-                    age={item.custom_users?.age || 0}
-                    message={item.flirting_message || ''}
-                  />
-                </>
-              );
-            })
-          ) : (
-            <p>플러팅 메시지가 없습니다.</p>
-          )}
-        </div>
-      </div>
+      {Number(flirtingList?.length) > 0 ? (
+        Number(filteredFlirtingList?.length) > 0 ? (
+          filteredFlirtingList?.map((item) => {
+            return (
+              <RequestCard
+                key={item.id}
+                listId={item.id}
+                avatar={item.custom_users.avatar}
+                senderName={item.custom_users.name}
+                age={item.custom_users.age}
+                message={item.flirting_message}
+              />
+            );
+          })
+        ) : (
+          // 받은 메시지는 있지만, 전부 확인하여 화면에 없을 때
+          <p>모든 메시지를 전부 확인했습니다.</p>
+        )
+      ) : (
+        // 받은 메시지가 아예 없을 때
+        <p>요청받은 메시지가 없습니다.</p>
+      )}
     </>
   );
 };
@@ -85,7 +80,21 @@ const ReceivedRequest: React.FC = () => {
 export default ReceivedRequest;
 
 // import { ScrollShadow } from '@nextui-org/react';
-{
-  //   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
-  // <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>
-}
+//   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
+//   <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>
+
+// const channelA: RealtimeChannel = client
+//   .channel('room1')
+//   .on(
+//     'postgres_changes',
+//     {
+//       event: '*',
+//       schema: 'public',
+//       table: 'flirting_list'
+//     },
+//     (payload) => {
+//       // console.log(payload);
+//       getRequestedFlirtingData();
+//     }
+//   )
+//   .subscribe();
