@@ -60,7 +60,7 @@ const ReceivedRequest: React.FC = () => {
   useEffect(() => {
     // 실시간 realtime
     // callback
-    subscribeRequestedFlirtingList((payload) => {
+    subscribeRequestedFlirtingList((payload: any) => {
       // console.log('요청함 payload : ', payload);
       landingRequest();
     });

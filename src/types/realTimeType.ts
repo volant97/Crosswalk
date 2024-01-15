@@ -27,12 +27,13 @@ export type FlirtingListPayload = {
   table: string;
 };
 
-export type SubscribeFlirtingListCallbackType = (
+export type SpecificSubscribeFlirtingListCallbackType = (
   payload: RealtimePostgresChangesPayload<{
     [key: string]: any;
   }>
 ) => void;
 
+// export type SpecificSubscribeFlirtingListCallbackType = (payload: RealtimePostgresChangesPayload<any>) => void;
 // export type SpecificSubscribeFlirtingListCallbackType = (
 //   payload: RealtimePostgresChangesPayload<{
 //     [key: string]: FlirtingListPayload;
