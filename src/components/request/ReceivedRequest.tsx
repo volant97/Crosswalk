@@ -10,13 +10,11 @@ import {
 } from '@/lib/api/SupabaseApi';
 import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
-import { usePathname } from 'next/navigation';
 import { FlirtingListPayload } from '@/types/realTimeType';
 
 const ReceivedRequest: React.FC = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
-  // const [trigger, setTrigger] = useState<boolean>(false);
 
   /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
   const getRequestedFlirtingData = async () => {
@@ -28,7 +26,9 @@ const ReceivedRequest: React.FC = () => {
     }
   };
 
-  /**랜딩 : (receiverUid) 받은 사람이 메시지를 읽었다고 판단하여 is_read_in_noti: true로 변경 */
+  /**랜딩
+   * 1. (receiverUid) status를 READ로 변경
+   * 2. (receiverUid) 받은 사람이 메시지를 읽었다고 판단하여 read_in_noti: true로 변경 */
   const ChangeIsReadInNoti = async () => {
     try {
       const userData = await getCustomFlirtingListAtRequest();
@@ -36,9 +36,9 @@ const ReceivedRequest: React.FC = () => {
         const receiverUid = userData[0].receiver_uid;
         await supabase
           .from('flirting_list')
-          .update({ is_read_in_noti: true })
+          .update({ status: 'READ', receiver_is_read_in_noti: true, sender_is_read_in_noti: true })
           .eq('receiver_uid', receiverUid)
-          .eq('status', 'READ')
+          .eq('status', 'UNREAD')
           .select();
       }
     } catch {
@@ -53,38 +53,38 @@ const ReceivedRequest: React.FC = () => {
   };
 
   /**실시간 : (payload의 listId) is_read_in_noti: true로 변환 */
-  const realtimeChangeIsReadInNoti = async (listId: string, is_read_in_noti: boolean) => {
-    if (is_read_in_noti === false) {
-      await supabase
-        .from('flirting_list')
-        .update({ is_read_in_noti: true })
-        .eq('id', listId)
-        .eq('status', 'READ')
-        .select();
-    }
-  };
+  // const realtimeChangeIsReadInNoti = async (listId: string, is_read_in_noti: boolean) => {
+  //   if (is_read_in_noti === false) {
+  //     await supabase
+  //       .from('flirting_list')
+  //       .update({ is_read_in_noti: true })
+  //       .eq('id', listId)
+  //       .eq('status', 'READ')
+  //       .select();
+  //   }
+  // };
 
   /**!! 실시간 : 동작하는 함수 묶어서 비동기 처리 */
-  const realtimeRequest = async (listId: number, is_read_in_noti: boolean) => {
-    await realtimeChangeIsReadInNoti(listId, is_read_in_noti);
-    await getRequestedFlirtingData();
-  };
+  // const realtimeRequest = async (listId: number, is_read_in_noti: boolean) => {
+  //   await realtimeChangeIsReadInNoti(listId, is_read_in_noti);
+  //   await getRequestedFlirtingData();
+  // };
 
-  /**화면에 나타나는 리스트는 status가 ACCEPT, DECLINE이 아닌 리스트만 나오도록 필터링 */
+  /**화면에 나타나는 리스트는 status가 READ인 리스트만 나오도록 필터링 */
   const filteredFlirtingList = flirtingList?.filter((f) => {
-    return f.status !== 'ACCEPT' && f.status !== 'DECLINE';
+    return f.status === 'READ';
   });
 
   useEffect(() => {
     // 실시간 realtime
     // callback
-    subscribeRequestedFlirtingList((payload) => {
-      // console.log('요청함 payload : ', payload);
-      const { id, sender_is_read_in_noti } = payload.new;
-      realtimeRequest(id, is_read_in_noti);
-      getRequestedFlirtingData();
-      console.log('실시간됨');
-    });
+    // subscribeRequestedFlirtingList((payload) => {
+    //   // console.log('요청함 payload : ', payload);
+    //   const { id, sender_is_read_in_noti } = payload.new;
+    //   realtimeRequest(id, is_read_in_noti);
+    //   getRequestedFlirtingData();
+    //   console.log('실시간됨');
+    // });
 
     // 랜딩
     landingRequest();
@@ -113,9 +113,10 @@ const ReceivedRequest: React.FC = () => {
                   message={item.flirting_message}
                 />
                 <p>
-                  {item.is_read_in_noti.toString()}
+                  sender : {item.sender_is_read_in_noti.toString()} <br />
+                  receiver : {item.receiver_is_read_in_noti.toString()}
                   <br />
-                  {item.status.toString()}
+                  status : {item.status.toString()}
                 </p>
               </Fragment>
             );

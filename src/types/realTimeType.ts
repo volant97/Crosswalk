@@ -1,4 +1,5 @@
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
+import { FlirtingListType } from './flirtingListType';
 
 // export type SubscribeFlirtingListCallbackType = (
 //   payload: RealtimePostgresChangesPayload<{
@@ -11,7 +12,7 @@ export type FlirtingListPayload = {
   errors: null | any;
   eventType: string;
   new: {
-    [key: string]: any;
+    // [key: string]: any;
     created_at: Date;
     flirting_message: string;
     id: number;
@@ -26,7 +27,18 @@ export type FlirtingListPayload = {
   table: string;
 };
 
-export type SpecificSubscribeFlirtingListCallbackType = (payload: FlirtingListPayload) => void;
+export type SubscribeFlirtingListCallbackType = (
+  payload: RealtimePostgresChangesPayload<{
+    [key: string]: any;
+  }>
+) => void;
+
+// export type SpecificSubscribeFlirtingListCallbackType = (
+//   payload: RealtimePostgresChangesPayload<{
+//     [key: string]: FlirtingListPayload;
+//   }>
+// ) => void;
+// export type SpecificSubscribeFlirtingListCallbackType = (payload: FlirtingListPayload) => void;
 // export type SpecificSubscribeFlirtingListCallbackType = (payload: any) => void;
 // export type SpecificSubscribeFlirtingListCallbackType = (
 //   payload: RealtimePostgresChangesPayload<{
@@ -35,11 +47,6 @@ export type SpecificSubscribeFlirtingListCallbackType = (payload: FlirtingListPa
 // ) => void;
 // export type SpecificSubscribeFlirtingListCallbackType = (
 //   payload: RealtimePostgresChangesPayload<FlirtingListPayload>
-// ) => void;
-// export type SpecificSubscribeFlirtingListCallbackType = (
-//   payload: RealtimePostgresChangesPayload<{
-//     [key: string]: any;
-//   }>
 // ) => void;
 
 export type ChatListType = {

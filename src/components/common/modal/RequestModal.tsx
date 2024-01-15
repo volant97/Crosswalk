@@ -20,6 +20,7 @@ const useRequestModal = (listId: number) => {
     setIsOpen(false);
   };
 
+  /**수락 ACCEPT */
   const AlertYellowModal = () => (
     <Modal
       className="w-[20rem] text-yellow-400"
@@ -42,7 +43,12 @@ const useRequestModal = (listId: number) => {
                 onPress={async () => {
                   onClose();
                   setTitle('');
-                  await supabase.from('flirting_list').update({ status: 'ACCEPT' }).eq('id', listId).select();
+                  await supabase
+                    .from('flirting_list')
+                    .update({ status: 'ACCEPT', receiver_is_read_in_noti: false, sender_is_read_in_noti: false })
+                    .eq('id', listId)
+                    .eq('status', 'READ')
+                    .select();
                 }}
                 className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
                 type="submit"
@@ -56,6 +62,7 @@ const useRequestModal = (listId: number) => {
     </Modal>
   );
 
+  /**거절 DECLINE */
   const AlertRedModal = () => (
     <Modal
       className="w-[20rem] text-customRed"
@@ -78,7 +85,12 @@ const useRequestModal = (listId: number) => {
                 onPress={async () => {
                   onClose();
                   setTitle('');
-                  await supabase.from('flirting_list').update({ status: 'DECLINE' }).eq('id', listId).select();
+                  await supabase
+                    .from('flirting_list')
+                    .update({ status: 'DECLINE', receiver_is_read_in_noti: true, sender_is_read_in_noti: true })
+                    .eq('id', listId)
+                    .eq('status', 'READ')
+                    .select();
                 }}
                 className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
                 type="submit"
