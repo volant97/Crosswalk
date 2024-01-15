@@ -13,8 +13,9 @@ export type ChatListType = {
     created_at: string;
     flirting_message: string;
     id: number;
-    is_matched: boolean;
-    is_read_in_noti: boolean;
+    status: string;
+    sender_is_read_in_noti: boolean;
+    receiver_is_read_in_noti: boolean;
     receiver_uid: { name: string; avatar: number; uid: string };
     sender_uid: { name: string; avatar: number; uid: string };
   };
