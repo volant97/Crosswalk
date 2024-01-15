@@ -57,7 +57,7 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
             router.push('/main');
             nextCardBtn();
           }}
-          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[-10px]`}
+          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[-15px]`}
           color="default"
         >
           <IoClose size={20} /> 괜찮아요
@@ -66,7 +66,7 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
           onPress={() => onOpen()}
           className={`${
             pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle
-          } right-[20px] bg-customGreen`}
+          } right-[1px] bg-customGreen`}
         >
           <GoHeartFill size={20} /> 어필하기
         </Button>

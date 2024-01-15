@@ -17,7 +17,7 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }:
   return (
     <div className="relative">
       <Link href={`/main/${flirtingUserUid}`}>
-        <div className=" flex justify-center itmes-center w-[20rem] h-[30.3rem]">
+        <div className=" flex justify-center itmes-center w-[19.9rem] h-[30.3rem]">
           <Image
             className="rounded-[1.5rem]"
             src={`/assets/avatar/avatar${avatar}.jpg`}
