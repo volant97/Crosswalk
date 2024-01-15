@@ -91,8 +91,25 @@ export async function getChatList(): Promise<ChatListType[]> {
   return data;
 }
 
-export async function updateIsReadInNoti(id: number | null): Promise<void> {
-  const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
+export async function updateIsReadInNotiSenderSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ sender_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
+}
+
+export async function updateIsReadInNotiReceiverSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ receiver_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
 
   if (error) {
     console.error('Error updating is_read_in_noti', error);

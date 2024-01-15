@@ -87,8 +87,9 @@ export interface Database {
           created_at: string
           flirting_message: string
           id: number
-          is_read_in_noti: boolean | null
+          receiver_is_read_in_noti: boolean | null
           receiver_uid: string
+          sender_is_read_in_noti: boolean | null
           sender_uid: string
           status: Database["public"]["Enums"]["STATUS Type"]
         }
@@ -96,8 +97,9 @@ export interface Database {
           created_at: string
           flirting_message: string
           id?: number
-          is_read_in_noti?: boolean | null
+          receiver_is_read_in_noti?: boolean | null
           receiver_uid: string
+          sender_is_read_in_noti?: boolean | null
           sender_uid: string
           status?: Database["public"]["Enums"]["STATUS Type"]
         }
@@ -105,8 +107,9 @@ export interface Database {
           created_at?: string
           flirting_message?: string
           id?: number
-          is_read_in_noti?: boolean | null
+          receiver_is_read_in_noti?: boolean | null
           receiver_uid?: string
+          sender_is_read_in_noti?: boolean | null
           sender_uid?: string
           status?: Database["public"]["Enums"]["STATUS Type"]
         }

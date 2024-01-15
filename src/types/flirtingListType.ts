@@ -3,13 +3,14 @@ export type FlirtingListType = {
   flirting_message: string | null;
   id: number | null;
   status: string | null;
-  is_read_in_noti: boolean | null;
+  sender_is_read_in_noti: boolean | null;
+  receiver_is_read_in_noti: boolean | null;
   receiver_uid: string | null;
   sender_uid: string | null;
 };
 
 export type FlirtingListRequestType = {
-  created_at: string | null;
+  created_at: Date | null;
   custom_users: {
     age: number | null;
     name: string | null;
@@ -18,7 +19,8 @@ export type FlirtingListRequestType = {
   flirting_message: string | null;
   id: number | null;
   status: string | null;
-  is_read_in_noti: boolean | null;
+  sender_is_read_in_noti: boolean | null;
+  receiver_is_read_in_noti: boolean | null;
   receiver_uid: string | null;
   sender_uid: string | null;
 };
@@ -32,7 +34,8 @@ export type FlirtingListInNotificationType = {
   flirting_message: string | null;
   id: number | null;
   status: string | null;
-  is_read_in_noti: boolean | null;
+  sender_is_read_in_noti: boolean | null;
+  receiver_is_read_in_noti: boolean | null;
   receiver_uid: string | null;
   sender_uid: string | null;
   custom_users: MyType;
