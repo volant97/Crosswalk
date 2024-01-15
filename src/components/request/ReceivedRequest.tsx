@@ -3,16 +3,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
+import useAlertModal from '../common/modal/AlertModal';
+import { supabase } from '@/lib/supabase-config';
 import {
+  changeStatusToRead,
   getCustomFlirtingListAtRequest,
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
-} from '@/lib/api/SupabaseApi';
-import useAlertModal from '../common/modal/AlertModal';
-import { supabase } from '@/lib/supabase-config';
-import { FlirtingListPayload } from '@/types/realTimeType';
+} from '@/lib/api/requestApi';
 
-const ReceivedRequest: React.FC = () => {
+const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
@@ -34,12 +34,7 @@ const ReceivedRequest: React.FC = () => {
       const userData = await getCustomFlirtingListAtRequest();
       if (userData !== null) {
         const receiverUid = userData[0].receiver_uid;
-        await supabase
-          .from('flirting_list')
-          .update({ status: 'READ', receiver_is_read_in_noti: true, sender_is_read_in_noti: true })
-          .eq('receiver_uid', receiverUid)
-          .eq('status', 'UNREAD')
-          .select();
+        await changeStatusToRead(receiverUid);
       }
     } catch {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
@@ -82,22 +77,14 @@ const ReceivedRequest: React.FC = () => {
         Number(filteredFlirtingList?.length) > 0 ? (
           filteredFlirtingList?.map((item) => {
             return (
-              <Fragment key={item.id}>
-                <RequestCard
-                  key={item.id}
-                  listId={item.id}
-                  avatar={item.custom_users.avatar}
-                  senderName={item.custom_users.name}
-                  age={item.custom_users.age}
-                  message={item.flirting_message}
-                />
-                <p>
-                  sender : {item.sender_is_read_in_noti.toString()} <br />
-                  receiver : {item.receiver_is_read_in_noti.toString()}
-                  <br />
-                  status : {item.status.toString()}
-                </p>
-              </Fragment>
+              <RequestCard
+                key={item.id}
+                listId={item.id}
+                avatar={item.custom_users.avatar}
+                senderName={item.custom_users.name}
+                age={item.custom_users.age}
+                message={item.flirting_message}
+              />
             );
           })
         ) : (

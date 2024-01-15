@@ -1,11 +1,7 @@
 import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
-import type {
-  FlirtingListInNotificationType,
-  FlirtingListRequestType,
-  FlirtingListType
-} from '@/types/flirtingListType';
+import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
 
@@ -73,31 +69,6 @@ export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingL
     .subscribe();
 }
 
-/**Request 채널 구독 */
-export async function subscribeRequestedFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
-  supabase
-    .channel('request')
-    .on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'flirting_list'
-      },
-      callback
-    )
-    .subscribe();
-  console.log('Request 채널 구독 시작');
-}
-
-/**Request 채널 구독해제 */
-export async function untrackRequestedFlirtingList() {
-  const requestRoom = supabase.channel('request');
-  await requestRoom.subscribe();
-  await requestRoom.untrack();
-  console.log('Request 채널 구독 해제');
-}
-
 export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string) {
   const { data, error } = await supabase
     .from('flirting_list')
@@ -108,19 +79,6 @@ export async function sendFlirting(senderUid: string | null, message: string, re
     throw new Error('error while fetching posts data');
   }
   console.log('data', data);
-  return data;
-}
-
-export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {
-  const { data, error } = await supabase
-    .from('flirting_list')
-    .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
-    .order('created_at', { ascending: false })
-    .returns<FlirtingListRequestType[]>();
-  if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
-  }
   return data;
 }
 

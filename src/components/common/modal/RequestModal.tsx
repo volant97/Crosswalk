@@ -5,6 +5,7 @@ import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } fro
 import { IoCheckmark } from 'react-icons/io5';
 import { RiLightbulbFlashFill } from 'react-icons/ri';
 import { supabase } from '@/lib/supabase-config';
+import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
 
 const useRequestModal = (listId: number) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,15 +41,14 @@ const useRequestModal = (listId: number) => {
               <Button
                 color="warning"
                 variant="ghost"
-                onPress={async () => {
+                onPress={() => {
                   onClose();
                   setTitle('');
-                  await supabase
-                    .from('flirting_list')
-                    .update({ status: 'ACCEPT', receiver_is_read_in_noti: false, sender_is_read_in_noti: false })
-                    .eq('id', listId)
-                    .eq('status', 'READ')
-                    .select();
+                  try {
+                    handleAcceptBtn(listId);
+                  } catch {
+                    openModal('서버와의 통신 중 에러가 발생했습니다.');
+                  }
                 }}
                 className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
                 type="submit"
@@ -82,15 +82,14 @@ const useRequestModal = (listId: number) => {
               <Button
                 color="danger"
                 variant="ghost"
-                onPress={async () => {
+                onPress={() => {
                   onClose();
                   setTitle('');
-                  await supabase
-                    .from('flirting_list')
-                    .update({ status: 'DECLINE', receiver_is_read_in_noti: true, sender_is_read_in_noti: true })
-                    .eq('id', listId)
-                    .eq('status', 'READ')
-                    .select();
+                  try {
+                    handleDeclinetBtn(listId);
+                  } catch {
+                    openModal('서버와의 통신 중 에러가 발생했습니다.');
+                  }
                 }}
                 className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
                 type="submit"
