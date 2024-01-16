@@ -44,6 +44,7 @@ function NotiBell() {
     });
 
     fetchNotificationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -54,8 +55,8 @@ function NotiBell() {
       try {
         const names = await Promise.all(
           notificationData.map(async (notification, index) => {
-            const senderData = await getUser1NameNotification(notification);
-            const receiverData = await getUser2NameNotification(notification);
+            const senderData: any = await getUser1NameNotification(notification);
+            const receiverData: any = await getUser2NameNotification(notification);
             // console.log('senderData', senderData);
             // console.log('receiverData', receiverData);
             return {
@@ -79,13 +80,14 @@ function NotiBell() {
         // console.log('필터링된 r', filteredReceiverNotifications);
         setUserNames(names);
       } catch (error) {
-        openModal('서버와의 통신 중 에러가 발생했습니다.');
+        // openModal('서버와의 통신 중 에러가 발생했습니다.');
       }
     };
 
     if (notificationData.length > 0) {
       fetchUserNames();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData]);
 
   const popSenderData = () => {
