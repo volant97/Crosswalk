@@ -21,8 +21,8 @@ export async function changeStatusToRead(receiverUid: string): Promise<void> {
   const { error } = await supabase
     .from('flirting_list')
     .update({ status: 'READ', receiver_is_read_in_noti: true, sender_is_read_in_noti: true })
-    .eq('receiver_uid', receiverUid)
-    .eq('status', 'UNREAD');
+    .eq('status', 'UNREAD')
+    .eq('receiver_uid', receiverUid);
   if (error || null) {
     console.error('에러 발생', error);
     throw new Error('error while fetching posts data');
@@ -43,7 +43,7 @@ export async function subscribeRequestedFlirtingList(callback: SpecificSubscribe
       callback
     )
     .subscribe();
-  console.log('Request 채널 구독 시작');
+  // console.log('Request 채널 구독 시작');
 }
 
 /**Request 채널 구독해제 */
@@ -51,7 +51,7 @@ export async function untrackRequestedFlirtingList() {
   const requestRoom = supabase.channel('request');
   await requestRoom.subscribe();
   await requestRoom.untrack();
-  console.log('Request 채널 구독 해제');
+  // console.log('Request 채널 구독 해제');
 }
 
 /**수락 버튼 클릭 */
