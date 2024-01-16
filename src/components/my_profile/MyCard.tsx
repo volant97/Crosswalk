@@ -71,16 +71,9 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           </div>
         </div>
       </div>
-      <div>
+      <div className="flex justify-center">
         <Button
-          onClick={() => {
-            router.push('/my-profile/edit');
-          }}
-          className={`w-[19.9rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
-        >
-          프로필 수정
-        </Button>
-        <Button
+          color="default"
           onClick={() => {
             logout();
             setUserState({
@@ -89,10 +82,17 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
             });
             router.push('/');
           }}
-          variant="bordered"
-          className={`w-[19.9rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem] border-customGreen text-customGreen `}
+          className={`w-[8.625rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem] text-gray-AAA mt-[1.2rem] `}
         >
           로그아웃
+        </Button>
+        <Button
+          onClick={() => {
+            router.push('/my-profile/edit');
+          }}
+          className={`w-[8.625rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
+        >
+          프로필 수정
         </Button>
       </div>
     </>
