@@ -81,9 +81,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
 
   return (
     <div>
-      {/* <Button variant="flat" color="warning" onPress={onOpen} className="capitalize">
-        수정 완료
-      </Button> */}
       <Button
         onPress={onOpen}
         className="w-[20rem] ml-[-21px] mt-[2rem] h-[3.125rem] bg-customGreen rounded-[1.875rem] cursor-pointer mb-0 font-semibold"
@@ -92,8 +89,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
         수정하기
       </Button>
       <Modal
-        // backdrop={backdrop}
-        // backdrop="blur"
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
@@ -103,13 +98,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
           {(onClose) => (
             <div>
               <ModalHeader className="flex flex-col gap-1 items-center justify-center w-15  rounded-lg bg-white text-center">
-                {/* <Image
-                  src="/modal/traffic_light.png"
-                  alt="Traffic Light"
-                  width={90}
-                  height={30}
-                  className="pb-[0.75rem]"
-                /> */}
                 <p>변경 사항을 저장하시겠습니까?</p>
               </ModalHeader>
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
