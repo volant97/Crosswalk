@@ -15,7 +15,8 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       },
       fontFamily: {
-        virgil: ['"Virgil 3 YOFF"']
+        virgil: ['"Virgil 3 YOFF"'],
+        pretendard: ['Pretendard-Regular']
       },
       colors: {
         black: '#222',

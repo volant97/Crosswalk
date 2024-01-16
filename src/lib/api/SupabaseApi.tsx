@@ -18,7 +18,7 @@ export async function getAllData(): Promise<RegisterType[]> {
 }
 
 export async function postRegister({ uid, ...registerData }: RegisterType) {
-  const { data, error } = await supabase.from('custom_users').update([registerData]).eq('uid', uid).select();
+  const { data, error } = await supabase.from('custom_users').update(registerData).eq('uid', uid).select();
 
   if (error || null) {
     console.log('Error creating a posts data', error);
@@ -106,8 +106,11 @@ export async function sendFlirting(senderUid: string | null, message: string, re
 }
 
 export async function getChatList(): Promise<ChatListType[]> {
-  const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
-  console.log(data);
+  const { data, error } = await supabase
+    .from('chat_list')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    .order('flirting_list(created_at)', { ascending: false })
+    .returns<ChatListType[]>();
 
   if (error || null) {
     console.log('Error creating a posts data', error);
