@@ -6,16 +6,15 @@ export const registerState = atom<RegisterType>({
   key: 'registerState',
   default: {
     uid: null,
-    name: null,
     gender: null,
     mbti: null,
-    age: null,
     height: null,
     interest: null,
+    age: null,
     user_img: null,
     avatar: null,
-    notice: null,
+    information_agreement: null,
     information_use_period: null,
-    information_agreement: null
+    name: null
   }
 });

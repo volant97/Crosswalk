@@ -32,11 +32,12 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
-  const getUid = useRecoilState(isUserState);
-  const myUid = getUid[0]?.uid;
+  const [getUid, setGetUid] = useRecoilState(isUserState);
 
   const sendFlirtingMessage = async () => {
-    const sentMessage = await sendFlirting(myUid, flirtingMessage, flirtingUserUid);
+    if (getUid.uid !== null) {
+      await sendFlirting(getUid.uid, flirtingMessage, flirtingUserUid);
+    }
   };
 
   const MessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

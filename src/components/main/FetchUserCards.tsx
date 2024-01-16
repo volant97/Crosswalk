@@ -11,8 +11,8 @@ import FlirtingModal from '../common/modal/FlirtingModal';
 
 function FetchUserCards() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
-  const getUid = useRecoilState(isUserState);
-  const myUid = getUid[0].uid;
+  const [getUid, setGetUid] = useRecoilState(isUserState);
+  const myUid = getUid.uid;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, userCards.length) : 0;

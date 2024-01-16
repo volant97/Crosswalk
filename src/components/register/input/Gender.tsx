@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 
 function Gender() {
   const [register, setRegister] = useRecoilState(registerState);
-  const [gender, setGender] = useState<string>('');
+  const [gender, setGender] = useState<'M' | 'F' | null>(null);
   const router = useRouter();
 
   const handleMBtn = () => {

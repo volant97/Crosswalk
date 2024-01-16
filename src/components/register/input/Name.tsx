@@ -23,7 +23,8 @@ function Name() {
       return;
     }
 
-    setRegister((prevValue) => ({
+    // any타입
+    setRegister((prevValue: any) => ({
       ...prevValue,
       name,
       gender
