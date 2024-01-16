@@ -7,10 +7,12 @@ import { IoCheckmark } from 'react-icons/io5';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
+import { RegisterType } from '@/types/registerType';
 
 const MbtiModal = () => {
-  const [selectedMbti, setSelectedMbti] = useState<string | null>('');
   const [registerData, setRegisterData] = useRecoilState(registerState);
+  const myInfo = registerData;
+  const [selectedMbti, setSelectedMbti] = useState<string | null>(myInfo.mbti);
   const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
 

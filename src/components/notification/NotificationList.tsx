@@ -1,72 +1,90 @@
 'use client';
-import Link from 'next/link';
-import React, { Fragment, useEffect, useState } from 'react';
-import { IoIosArrowRoundBack } from 'react-icons/io';
+import { Fragment, useEffect, useState } from 'react';
 import {
-  getCustomFlirtingInNotificationListReceiverSide,
-  getCustomFlirtingInNotificationListSenderSide,
+  getNotificationDetail,
+  getUser1NameNotification,
+  getUser2NameNotification,
   subscribeFlirtingList,
   updateIsReadInNotiReceiverSide,
   updateIsReadInNotiSenderSide
 } from '@/lib/api/SupabaseApi';
 import useAlertModal from '@/components/common/modal/AlertModal';
-import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
+import type {
+  FlirtingListInNotificationType,
+  FlirtingListType,
+  customUserNameNotiType
+} from '@/types/flirtingListType';
 import { format, formatDistanceToNow } from 'date-fns';
-import { ko } from 'date-fns/locale';
+import { ko } from 'date-fns/locale/ko';
+import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
-import { Props } from '@/types/childrenPropsType';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
-  const [flirtingList, setFlirtingList] = useState<FlirtingListInNotificationType[] | null>(null);
   const [currentUser, setCurrentUser] = useRecoilState(isUserState);
-  console.log('currentUser', currentUser.uid); // 현재 로그한 유저 uid
+  const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
+  const [userNames, setUserNames] = useState<{ sender: string | null; receiver: string | null }[]>([]);
+
+  const formatDate = (date: Date) => {
+    const d = new Date(date);
+    const now = Date.now();
+    const diff = (now - d.getTime()) / 1000;
+    if (diff < 60 * 1) {
+      return '방금 전';
+    }
+    if (diff < 60 * 60 * 24 * 3) {
+      const distanceString = formatDistanceToNow(d, { addSuffix: true, locale: ko, includeSeconds: true });
+      return distanceString.replace(/^약\s*/, '');
+    }
+    return format(d, 'PPP EEE p', { locale: ko });
+  };
 
   const fetchNotificationData = async () => {
     try {
-      const userDataReceiverSide = await getCustomFlirtingInNotificationListReceiverSide();
-      const userDataSenderSide = await getCustomFlirtingInNotificationListSenderSide();
-      if (userDataReceiverSide !== null || userDataSenderSide !== null) {
-        const receiverUid = userDataReceiverSide[0].receiver_uid;
-        const senderUid = userDataSenderSide[0].sender_uid;
-        if (currentUser.uid === receiverUid) {
-          const data = await getCustomFlirtingInNotificationListReceiverSide();
-          setFlirtingList(data);
-          console.log('data r', data);
-        } else if (currentUser.uid === senderUid) {
-          const data = await getCustomFlirtingInNotificationListSenderSide();
-          setFlirtingList(data);
-        }
-      }
+      const data = await getNotificationDetail();
+      console.log('fetchNotificationData', data);
+      setNotificationData(data);
     } catch (error) {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
   };
 
   useEffect(() => {
-    // callback
     subscribeFlirtingList((payload) => {
       console.log('payload입니다:', payload);
       fetchNotificationData();
     });
+
     fetchNotificationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formatDate = (date: Date) => {
-    const d = new Date(date);
-    const now = Date.now();
-    const diff = (now - d.getTime()) / 1000; // 현재 시간과의 차이(초)
-    if (diff < 60 * 1) {
-      return '방금 전';
+  useEffect(() => {
+    const fetchUserNames = async () => {
+      try {
+        const names = await Promise.all(
+          notificationData.map(async (notification) => {
+            const senderData: any = await getUser1NameNotification(notification);
+            const receiverData: any = await getUser2NameNotification(notification);
+            console.log('senderData', senderData);
+            console.log('receiverData', receiverData);
+            return {
+              sender: senderData[0]?.name || 'Unknown',
+              receiver: receiverData[0]?.name || 'Unknown'
+            };
+          })
+        );
+        setUserNames(names);
+      } catch (error) {
+        // openModal('서버와의 통신 중 에러가 발생했습니다.');
+      }
+    };
+
+    if (notificationData.length > 0) {
+      fetchUserNames();
     }
-    if (diff < 60 * 60 * 24 * 3) {
-      const distanceString = formatDistanceToNow(d, { addSuffix: true, locale: ko, includeSeconds: true });
-      return distanceString.replace(/^약\s*/, ''); // "약" 부분을 정규식을 사용하여 제거
-    }
-    return format(d, 'PPP EEE p', { locale: ko });
-  };
+  }, [notificationData]);
 
   const toggleIsReadInNoticeBoardSenderSide = async (id: number | null) => {
     try {
@@ -90,95 +108,67 @@ const NotificationList = () => {
 
   return (
     <Fragment>
-      {/* <div className="relative border-1 border-black max-w-96 px-8"> */}
-      {Number(flirtingList?.length) > 0 ? (
-        <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
-          {flirtingList?.map((item) => {
-            const senderIsRead = item.sender_is_read_in_noti;
-            const receiverIsRead = item.receiver_is_read_in_noti;
-            const statusIsUnread = item.status === 'UNREAD';
-            const statusIsaccepted = item.status === 'ACCEPT';
-            const isUnreadSenderSide = statusIsUnread && senderIsRead === false;
-            const isUnreadReceiverSide = statusIsUnread && receiverIsRead === false;
-            const isConnectedSenderSide = statusIsaccepted && senderIsRead === false;
-            const isConnectedReceiverSide = statusIsaccepted && receiverIsRead === false;
-            const isSender = item.sender_uid === currentUser.uid;
-            const isReceiver = item.receiver_uid === currentUser.uid;
-            const commonProps = {
-              className:
-                'flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]'
-            };
-            if (senderIsRead || receiverIsRead) {
-              return null;
+      <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
+        {Number(notificationData?.length) > 0 ? (
+          notificationData?.map((notification, index) => {
+            const senderIsRead = notification.sender_is_read_in_noti === true;
+            const receiverIsRead = notification.receiver_is_read_in_noti === true;
+            const isSender = notification.sender_uid === currentUser.uid;
+            const isReceiver = notification.receiver_uid === currentUser.uid;
+            if ((isSender && senderIsRead) || (isReceiver && receiverIsRead)) {
+              return null; // 숨김
             }
             return (
-              <React.Fragment key={item.id}>
-                {/* 보내는사람 Ui */}
-                {isSender && isConnectedSenderSide && (
-                  <Link
-                    href={'/chat-list'}
-                    key={item.id}
-                    {...commonProps}
-                    onClick={() => toggleIsReadInNoticeBoardSenderSide(item.id)}
-                  >
-                    {isConnectedSenderSide && (
-                      <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
-                        <div className="flex justify-between">
-                          <div className="text-base font-normal font-medium leading-none pb-1">
-                            <p>💚 Connected!</p>
-                          </div>
-                          <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                            {formatDate(item.created_at)}
-                          </p>
-                        </div>
-                        <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                          <div>{item.custom_users.name}</div>
-                          <p>님과 신호등이 연결되었습니다!</p>
-                        </div>
-                      </li>
-                    )}
-                  </Link>
-                )}
-                {/* 받는 사람 ui */}
-                {isReceiver && (
-                  <Link
-                    href={item.status === 'UNREAD' ? '/request' : '/chat-list'}
-                    key={item.id}
-                    {...commonProps}
-                    onClick={() => toggleIsReadInNoticeBoardReceiverSide(item.id)}
-                  >
-                    <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
-                      <div className="flex justify-between">
-                        <div className="text-base font-normal font-medium leading-none pb-1">
-                          <p>{isUnreadReceiverSide ? '⚡ Request' : isConnectedReceiverSide ? '💚 Connected' : ''}</p>
-                        </div>
-                        <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
-                          {formatDate(item.created_at)}
-                        </p>
+              <ul key={notification.id}>
+                <Link
+                  href={
+                    notification.status === 'ACCEPT'
+                      ? '/chat-list'
+                      : notification.status === 'UNREAD' || 'READ'
+                      ? '/request'
+                      : '/main'
+                  }
+                  className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
+                  onClick={() => {
+                    // 토글 함수 호출
+                    if (isSender) {
+                      toggleIsReadInNoticeBoardSenderSide(notification.id);
+                    } else if (isReceiver) {
+                      toggleIsReadInNoticeBoardReceiverSide(notification.id);
+                    }
+                  }}
+                >
+                  <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                    <div className="flex justify-between">
+                      <div className="text-base font-normal font-medium leading-none pb-1">
+                        {notification.status === 'ACCEPT' ? (
+                          <h2>알림타입: {notification.status} 💚 Connected!</h2>
+                        ) : (
+                          <h2>알림타입: {notification.status} ⚡ Request</h2>
+                        )}
                       </div>
-                      <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
-                        <div>{item.custom_users.name}</div>
-                        <p>
-                          {isUnreadReceiverSide
-                            ? '님이 crosswalk 연결 요청을 보냈습니다.'
-                            : isConnectedReceiverSide
-                            ? '님과 신호등이 연결되었습니다!'
-                            : ''}
-                        </p>
-                      </div>
-                    </li>
-                  </Link>
-                )}
-              </React.Fragment>
+                      <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                        {formatDate(notification.created_at)}
+                      </p>
+                    </div>
+                    <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                      <p>
+                        {notification.status === 'ACCEPT'
+                          ? `${userNames[index]?.sender}님과 ${userNames[index]?.receiver}님의 신호등이 연결되었습니다!`
+                          : `${userNames[index]?.sender}님이 ${userNames[index]?.receiver}님에게 연결 요청을 보냈습니다.`}
+                      </p>
+                    </div>
+                  </li>
+                </Link>
+              </ul>
             );
-          })}
-        </ul>
-      ) : (
-        <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]">
-          <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">받은 알림이 없습니다.</li>
-        </div>
-      )}
-      {/* </div> */}
+          })
+        ) : (
+          <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]">
+            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">받은 알림이 없습니다.</li>
+          </div>
+        )}
+      </div>
     </Fragment>
   );
 };

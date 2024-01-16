@@ -3,16 +3,16 @@
 import React, { useState } from 'react';
 import interestData from '../../../data/interestData.json';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps, ModalBody } from '@nextui-org/react';
-import { IoCheckmark } from 'react-icons/io5';
-import { TiWarning } from 'react-icons/ti';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
+import { RegisterType } from '@/types/registerType';
 
 const InterestModal = () => {
   const { interests } = interestData;
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const [activeStates, setActiveStates] = useState<string[]>([]);
+  const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
+  const myInfo = registerData;
+  const [activeStates, setActiveStates] = useState<string[]>(myInfo?.interest);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
   const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -26,10 +26,10 @@ const InterestModal = () => {
   };
 
   const handleInterestClick = (interest: string) => {
-    if (activeStates.includes(interest)) {
-      const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
+    if (activeStates?.includes(interest)) {
+      const updatedActiveStates = activeStates?.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
-    } else if (activeStates.length >= maxSelectedInterests) {
+    } else if (activeStates && activeStates?.length >= maxSelectedInterests) {
       openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
     } else {
       setActiveStates([...activeStates, interest]);
@@ -45,7 +45,7 @@ const InterestModal = () => {
               <ModalBody>
                 <ul className=" flex flex-wrap gap-3 justify-center pt-[1.8rem]">
                   {interests.map((interest) => {
-                    const isSelected = activeStates.includes(interest.name);
+                    const isSelected = activeStates?.includes(interest.name);
                     return (
                       <li
                         key={interest.id}
@@ -65,7 +65,7 @@ const InterestModal = () => {
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
                   onClick={() => {
-                    if (activeStates.length < 1) {
+                    if (activeStates && activeStates.length < 1) {
                       openModal('관심사를 선택해주세요!');
                       return;
                     }

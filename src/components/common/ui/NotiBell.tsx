@@ -1,95 +1,146 @@
-// 'use client';
-// import {
-//   getCustomFlirtingInNotificationListReceiverSide,
-//   getCustomFlirtingInNotificationListSenderSide,
-//   getFlirtingRequestData,
-//   subscribeFlirtingList
-// } from '@/lib/api/SupabaseApi';
-// import { isUserState } from '@/recoil/auth';
-// import { FlirtingListInNotificationType } from '@/types/flirtingListType';
-// import Link from 'next/link';
-// import React, { Fragment, useEffect, useState } from 'react';
-// import { HiOutlineBell } from 'react-icons/hi2';
-// import { useRecoilState } from 'recoil';
+'use client';
+import {
+  getNotificationDetail,
+  getUser1NameNotification,
+  getUser2NameNotification,
+  subscribeFlirtingList
+} from '@/lib/api/SupabaseApi';
+import { isUserState } from '@/recoil/auth';
+import { FlirtingListInNotificationType } from '@/types/flirtingListType';
+import Link from 'next/link';
+import React, { Fragment, useEffect, useState } from 'react';
+import { HiOutlineBell } from 'react-icons/hi2';
+import { useRecoilState } from 'recoil';
+import useAlertModal from '../modal/AlertModal';
 
-// function NotiBell() {
-//   const [flirtingList, setFlirtingList] = useState<FlirtingListInNotificationType[] | null>(null);
-//   const [filteredNotifications, setFilteredNotifications] = useState<FlirtingListInNotificationType[] | null>(null);
-//   const [currentUser, setCurrentUser] = useRecoilState(isUserState);
-//   console.log('currentUser', currentUser.uid); // 현재 로그한 유저 uid
+function NotiBell() {
+  const { openModal } = useAlertModal();
+  const [currentUser, setCurrentUser] = useRecoilState(isUserState);
+  const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
+  const [userNames, setUserNames] = useState<{ sender: string | null; receiver: string | null }[]>([]);
+  const [filteredNotificationsSender, setFilteredNotificationsSender] = useState<FlirtingListInNotificationType[]>([]);
+  const [filteredNotificationsReceiver, setFilteredNotificationsReceiver] = useState<FlirtingListInNotificationType[]>(
+    []
+  );
 
-//   const fetchNotificationData = async () => {
-//     try {
-//       const userDataReceiverSide = await getCustomFlirtingInNotificationListReceiverSide();
-//       const userDataSenderSide = await getCustomFlirtingInNotificationListSenderSide();
-//       if (userDataReceiverSide !== null || userDataSenderSide !== null) {
-//         const receiverUid = userDataReceiverSide[0].receiver_uid;
-//         const senderUid = userDataSenderSide[0].sender_uid;
-//         if (currentUser.uid === receiverUid) {
-//           const data = await getCustomFlirtingInNotificationListReceiverSide();
-//           setFlirtingList(data);
-//           console.log('data r', data);
-//         } else if (currentUser.uid === senderUid) {
-//           const data = await getCustomFlirtingInNotificationListSenderSide();
-//           setFlirtingList(data);
-//         }
-//       }
-//     } catch (error) {
-//       // openModal('서버와의 통신 중 에러가 발생했습니다.');
-//     }
-//   };
+  const fetchNotificationData = async () => {
+    try {
+      const data = await getNotificationDetail();
+      // console.log('fetchNotificationData', data);
+      setNotificationData(data);
+    } catch (error) {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
+    }
+  };
 
-//   useEffect(() => {
-//     // callback
-//     subscribeFlirtingList((payload) => {
-//       console.log('payload입니다:', payload);
-//       fetchNotificationData();
-//     });
-//     fetchNotificationData();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-//   return (
-//     // <div className="absolute right-0 cursor-pointer">
-//     //   <Link href="/notification">
-//     //     <HiOutlineBell size={25} />
-//     //   </Link>
-//     // </div>
-//     <Fragment>
-//       {Number(flirtingList?.length) > 0 ? (
-//         <ul className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
-//           {flirtingList?.find((item) => {
-//             const senderIsRead = item.sender_is_read_in_noti;
-//             const receiverIsRead = item.receiver_is_read_in_noti;
-//             const isSender = item.sender_uid === currentUser.uid;
-//             const isReceiver = item.receiver_uid === currentUser.uid;
+  useEffect(() => {
+    subscribeFlirtingList((payload) => {
+      // console.log('payload입니다:', payload);
+      fetchNotificationData();
+      popSenderData();
+      popReceiverData();
+      addReceiverData();
+      addSenderData();
+    });
 
-//           })}
-//             return (
-//               <React.Fragment key={item.id}>
-//                 {isSender ? (
-//                   senderIsRead ? (
-//                     <p>알림없음</p>
-//                   ) : (
-//                     <p>알림옴</p>
-//                   )
-//                 ) : receiverIsRead ? (
-//                   <p>알림없음</p>
-//                 ) : (
-//                   <p>알림옴</p>
-//                 )}
-//                 {/* 보내는사람 Ui */}
-//                 {/* 받는 사람 ui */}
-//               </React.Fragment>
-//             );
-//           })}
-//         </ul>
-//       ) : (
-//         <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]">
-//           <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">받은 알림이 없습니다.</li>
-//         </div>
-//       )}
-//     </Fragment>
-//   );
-// }
+    fetchNotificationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-// export default NotiBell;
+  useEffect(() => {
+    const fetchUserNames = async () => {
+      const isSender = notificationData.map((notification) => notification.sender_uid === currentUser.uid);
+      const isReceiver = notificationData.map((notification) => notification.receiver_uid === currentUser.uid);
+
+      try {
+        const names = await Promise.all(
+          notificationData.map(async (notification, index) => {
+            const senderData: any = await getUser1NameNotification(notification);
+            const receiverData: any = await getUser2NameNotification(notification);
+            // console.log('senderData', senderData);
+            // console.log('receiverData', receiverData);
+            return {
+              sender: senderData[0]?.name || 'Unknown',
+              receiver: receiverData[0]?.name || 'Unknown',
+              isSender: isSender[index],
+              isReceiver: isReceiver[index]
+            };
+          })
+        );
+
+        const filteredSenderNotifications = notificationData.filter(
+          (notification, index) => names[index].isSender && !notification.sender_is_read_in_noti
+        );
+        setFilteredNotificationsSender(filteredSenderNotifications);
+        // console.log('필터링된 s', filteredSenderNotifications);
+        const filteredReceiverNotifications = notificationData.filter(
+          (notification, index) => names[index].isReceiver && !notification.receiver_is_read_in_noti
+        );
+        setFilteredNotificationsReceiver(filteredReceiverNotifications);
+        // console.log('필터링된 r', filteredReceiverNotifications);
+        setUserNames(names);
+      } catch (error) {
+        // openModal('서버와의 통신 중 에러가 발생했습니다.');
+      }
+    };
+
+    if (notificationData.length > 0) {
+      fetchUserNames();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationData]);
+
+  const popSenderData = () => {
+    if (filteredNotificationsSender.length > 0 && filteredNotificationsSender[0].sender_is_read_in_noti === true) {
+      setFilteredNotificationsSender((prev) => prev.slice(1));
+    }
+  };
+
+  const popReceiverData = () => {
+    if (
+      filteredNotificationsReceiver.length > 0 &&
+      filteredNotificationsReceiver[0].receiver_is_read_in_noti === true
+    ) {
+      setFilteredNotificationsReceiver((prev) => prev.slice(1));
+    }
+  };
+
+  const addReceiverData = () => {
+    if (notificationData.length > 0 && !notificationData[0].receiver_is_read_in_noti) {
+      setFilteredNotificationsReceiver((prev) => [...prev, notificationData[0]]);
+    }
+  };
+
+  const addSenderData = () => {
+    if (notificationData.length > 0 && !notificationData[0].sender_is_read_in_noti) {
+      setFilteredNotificationsSender((prev) => [...prev, notificationData[0]]);
+    }
+  };
+
+  return (
+    <Fragment>
+      {Number(notificationData?.length) > 0 ? (
+        <div className="absolute right-0 cursor-pointer relative">
+          <Link href="/notification">
+            <HiOutlineBell size={25} className="ml-auto" />
+            {filteredNotificationsSender.length > 0 || filteredNotificationsReceiver.length > 0 ? (
+              // 알림있음
+              <p className="absolute top-0 right-0">*</p>
+            ) : (
+              // 알림없음
+              <p></p>
+            )}
+          </Link>
+        </div>
+      ) : (
+        <div className="absolute right-0 cursor-pointer relative">
+          <Link href="/notification">
+            <HiOutlineBell size={25} className="ml-auto" />
+          </Link>
+        </div>
+      )}
+    </Fragment>
+  );
+}
+
+export default NotiBell;
