@@ -21,6 +21,7 @@ export default function RootLayout({ children }: Props) {
   );
 }
 
+// 주석
 //<body className={`font-pretendard relative max-w-96 px-8 h-[45rem] border-solid border-1 border-black `}>
 //  <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-1">
 //   <div className="!font-virgil my-[15px]">CrossWalk</div>
