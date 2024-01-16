@@ -25,7 +25,8 @@ function Mbti() {
       return;
     }
 
-    setRegisterData((prevValue) => ({
+    // any타입
+    setRegisterData((prevValue: any) => ({
       ...prevValue,
       mbti: selectedMbti
     }));

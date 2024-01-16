@@ -59,7 +59,8 @@ const MbtiModal = () => {
                       openModal('MBTI를 선택해주세요!');
                       return;
                     }
-                    setRegisterData((prevValue) => ({
+                    // any타입
+                    setRegisterData((prevValue: any) => ({
                       ...prevValue,
                       mbti: selectedMbti
                     }));

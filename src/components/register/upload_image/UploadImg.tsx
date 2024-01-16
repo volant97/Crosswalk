@@ -46,7 +46,8 @@ function UploadImg() {
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    setRegisterData((prevData) => ({
+    // any타입
+    setRegisterData((prevData: any) => ({
       ...prevData,
       user_img: userImg?.publicUrl,
       avatar: Math.floor(Math.random() * 15),

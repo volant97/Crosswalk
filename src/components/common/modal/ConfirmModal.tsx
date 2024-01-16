@@ -34,7 +34,9 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   const { openModal, AlertModal } = useAlertModal();
   const [registerData, setRegisterData] = useRecoilState(registerState);
   const myInfo = registerData;
-  const { uid } = useRecoilValue(isUserState);
+  // const { uid } = useRecoilValue(isUserState);
+  const uid = registerData.uid;
+
   async function uploadFile(file: any) {
     try {
       if (file) {
@@ -52,19 +54,21 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
     const updatedImg = file !== 'test' ? userImg?.publicUrl : myInfo?.user_img;
-    setRegisterData((prevData) => ({
+    // any타입
+    setRegisterData((prevData: any) => ({
       ...prevData,
       user_img: updatedImg,
       name: name,
       age: Number(age),
       height: Number(height),
       gender,
-      uid: uid
+      uid
     }));
   }
 
   async function updateData() {
     try {
+      // ddd
       await postRegister(registerData);
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
@@ -72,11 +76,12 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   }
 
   useEffect(() => {
-    if (registerData) {
+    if (registerData === null) {
       updateData();
     }
 
     console.log('updateData', registerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   return (

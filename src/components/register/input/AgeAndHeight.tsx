@@ -22,7 +22,8 @@ function AgeAndHeight() {
       return;
     }
 
-    setRegister((prevValue) => ({
+    // any타입
+    setRegister((prevValue: any) => ({
       ...prevValue,
       age: Number(age),
       height: Number(height)

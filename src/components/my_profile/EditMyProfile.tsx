@@ -67,7 +67,8 @@ function EditMyProfile() {
         <div className="absolute top-[1px]">
           <button
             onClick={() => {
-              setRegisterData((prevData) => ({
+              // any타입
+              setRegisterData((prevData: any) => ({
                 ...prevData,
                 avatar: Math.floor(Math.random() * 15)
               }));

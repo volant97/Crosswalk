@@ -24,7 +24,8 @@ function Agreement() {
       return alert('동의하지 않으면 추가 진행이 불가합니다.');
     }
 
-    setRegister((prevValue) => ({
+    // any타입
+    setRegister((prevValue: any) => ({
       ...prevValue,
       information_use_period: format(period, dateFormat),
       information_agreement: true

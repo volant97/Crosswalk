@@ -9,9 +9,9 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-export default function chatListPage() {
+export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
-  const getUid = useRecoilState(isUserState);
+  const [getUid, setGetUid] = useRecoilState(isUserState);
   async function data() {
     try {
       const data = await getChatList();
@@ -75,7 +75,7 @@ export default function chatListPage() {
     <>
       <ul>
         {chatList?.map((list, idx) => {
-          if (getUid[0].uid === list.flirting_list.sender_uid.uid) {
+          if (getUid.uid === list.flirting_list.sender_uid.uid) {
             return (
               <li key={idx} className="py-3 flex flex-row gap-4 justify-between">
                 <div className="flex items-center">

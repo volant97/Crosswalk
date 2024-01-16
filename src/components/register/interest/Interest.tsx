@@ -33,7 +33,8 @@ function Interest() {
       return;
     }
 
-    setRegisterData((prevValue) => ({
+    // any타입
+    setRegisterData((prevValue: any) => ({
       ...prevValue,
       interest: activeStates
     }));

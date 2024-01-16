@@ -11,8 +11,8 @@ import { registerState } from '@/recoil/register';
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(registerState);
-  const getUid = useRecoilState(isUserState);
-  const myUid = getUid[0].uid;
+  const [getUid, setGetUid] = useRecoilState(isUserState);
+  const myUid = getUid.uid;
 
   const getUerCards = async () => {
     try {
@@ -40,6 +40,7 @@ function FetchMyProfileCard() {
 
   useEffect(() => {
     updateProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   return (
