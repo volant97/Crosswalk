@@ -70,6 +70,44 @@ export async function getCustomFlirtingInNotificationListSenderSide(): Promise<F
   return userData;
 }
 
+// 다시 시작이야!!!!!!
+export async function getNotificationDetail(): Promise<FlirtingListInNotificationType[]> {
+  const { data: notificationData, error } = await client
+    .from('flirting_list')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .returns<FlirtingListInNotificationType[]>();
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return notificationData;
+}
+export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
+  const { data: user1Data, error } = await client
+    .from('custom_users')
+    .select('name')
+    .eq('uid', notificationData.sender_uid)
+    .returns();
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return user1Data;
+}
+export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
+  const { data: user2Data, error } = await client
+    .from('custom_users')
+    .select('name')
+    .eq('uid', notificationData.receiver_uid)
+    .returns();
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return user2Data;
+}
+
 // Header의 알람
 // export async function getFlirtingListLayoutNotification(): Promise<FlirtingListInNotificationType[]> {
 //   const { data: userData, error } = await client
