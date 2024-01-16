@@ -1,11 +1,7 @@
 import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
-import type {
-  FlirtingListInNotificationType,
-  FlirtingListRequestType,
-  FlirtingListType
-} from '@/types/flirtingListType';
+import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
 
@@ -42,7 +38,8 @@ export async function getFlirtingRequestData() {
   return data;
 }
 
-export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
+// 받는사람 ui 에서 상대방 이름(sender_uid -> uid -> name) 가져오기
+export async function getCustomFlirtingInNotificationListReceiverSide(): Promise<FlirtingListInNotificationType[]> {
   const { data: userData, error } = await client
     .from('flirting_list')
     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
@@ -57,7 +54,36 @@ export async function getCustomFlirtingInNotificationList(): Promise<FlirtingLis
   return userData;
 }
 
-//TODO: 테스트기간에는 event: '*', 빌드모드때는 event: insert
+// 보낸사람 ui 에서 상대방 이름 가져오기 (receiver_uid -> uid -> name)
+export async function getCustomFlirtingInNotificationListSenderSide(): Promise<FlirtingListInNotificationType[]> {
+  const { data: userData, error } = await client
+    .from('flirting_list')
+    // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+    .select('*, custom_users!flirting_list_receiver_uid_fkey(name)')
+    .order('created_at', { ascending: false })
+    .returns<FlirtingListInNotificationType[]>();
+  // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return userData;
+}
+
+// Header의 알람
+// export async function getFlirtingListLayoutNotification(): Promise<FlirtingListInNotificationType[]> {
+//   const { data: userData, error } = await client
+//     .from('flirting_list')
+//     // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
+//     .select('*')
+//     .returns<FlirtingListInNotificationType[]>();
+//   if (error) {
+//     console.error('에러 발생:', error);
+//     throw new Error('error while fetching posts data');
+//   }
+//   return userData;
+// }
+
 export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
@@ -86,19 +112,6 @@ export async function sendFlirting(senderUid: string | null, message: string, re
   return data;
 }
 
-export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {
-  const { data, error } = await supabase
-    .from('flirting_list')
-    .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
-    .order('created_at', { ascending: false })
-    .returns<FlirtingListRequestType[]>();
-  if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
-  }
-  return data;
-}
-
 export async function getChatList(): Promise<ChatListType[]> {
   const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
   console.log(data);
@@ -110,8 +123,25 @@ export async function getChatList(): Promise<ChatListType[]> {
   return data;
 }
 
-export async function updateIsReadInNoti(id: number | null): Promise<void> {
-  const { data, error } = await client.from('flirting_list').update({ is_read_in_noti: true }).eq('id', id).select();
+export async function updateIsReadInNotiSenderSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ sender_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
+}
+
+export async function updateIsReadInNotiReceiverSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ receiver_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
 
   if (error) {
     console.error('Error updating is_read_in_noti', error);
