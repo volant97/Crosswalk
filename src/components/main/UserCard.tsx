@@ -9,18 +9,16 @@ type Props = {
   name: string;
   interest: string[];
   flirtingUserUid: string;
-  nextCardBtn: () => void;
 };
 
-function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }: Props) {
-  console.log('interset', typeof interest);
+function UserCard({ age, avatar, name, interest, flirtingUserUid }: Props) {
   return (
     <div className="relative">
       <Link href={`/main/${flirtingUserUid}`}>
         <div className=" flex justify-center itmes-center w-[19.9rem] h-[30.3rem]">
           <Image
             className="rounded-[1.5rem]"
-            src={`/assets/avatar/avatar${avatar}.jpg`}
+            src={`/assets/avatar/avatar${avatar}.png`}
             width={300}
             height={300}
             alt="유저 아바타 이미지"
@@ -42,7 +40,6 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, nextCardBtn }:
               >
                 {item}
               </div>
-              <FlirtingModal flirtingUserUid={flirtingUserUid} nextCardBtn={nextCardBtn} />
             </Fragment>
           );
         })}

@@ -1,14 +1,20 @@
 {
   "avatar": [
-    "/assets/avatar/avatar1.jpg",
-    "/assets/avatar/avatar2.jpg",
-    "/assets/avatar/avatar3.jpg",
-    "/assets/avatar/avatar4.jpg",
-    "/assets/avatar/avatar5.jpg",
-    "/assets/avatar/avatar6.jpg",
-    "/assets/avatar/avatar7.jpg",
-    "/assets/avatar/avatar8.jpg",
-    "/assets/avatar/avatar9.jpg",
-    "/assets/avatar/avatar10.jpg"
+    "/assets/avatar/avatar0.png",
+    "/assets/avatar/avatar1.png",
+    "/assets/avatar/avatar2.png",
+    "/assets/avatar/avatar3.png",
+    "/assets/avatar/avatar4.png",
+    "/assets/avatar/avatar5.png",
+    "/assets/avatar/avatar6.png",
+    "/assets/avatar/avatar7.png",
+    "/assets/avatar/avatar8.png",
+    "/assets/avatar/avatar9.png",
+    "/assets/avatar/avatar10.png",
+    "/assets/avatar/avatar11.png",
+    "/assets/avatar/avatar12.png",
+    "/assets/avatar/avatar13.png",
+    "/assets/avatar/avatar14.png",
+    "/assets/avatar/avatar15.png"
   ]
 }
