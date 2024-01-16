@@ -2,7 +2,8 @@ import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
-import type { ChatListType, SubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { ChatListType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -37,22 +38,46 @@ export async function getFlirtingRequestData() {
   return data;
 }
 
-export async function getCustomFlirtingInNotificationList(): Promise<FlirtingListInNotificationType[]> {
-  const { data: userData, error } = await client
+export async function getNotificationDetail(): Promise<FlirtingListInNotificationType[]> {
+  const { data: notificationData, error } = await client
     .from('flirting_list')
-    // flirting_list의 전체 데이터와 custom_users의 name 값을 가져와 하나의 배열에 넣기
-    .select('*, custom_users!flirting_list_sender_uid_fkey(name)')
+    .select('*')
     .order('created_at', { ascending: false })
     .returns<FlirtingListInNotificationType[]>();
-  // .select('flirting_message, custom_users!flirting_list_receiver_uid_fkey(name)');
   if (error) {
     console.error('에러 발생:', error);
     throw new Error('error while fetching posts data');
   }
-  return userData;
+  return notificationData;
 }
 
-export async function subscribeFlirtingList(callback: SubscribeFlirtingListCallbackType) {
+export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
+  const { data: user1Data, error } = await client
+    .from('custom_users')
+    .select('name')
+    .eq('uid', notificationData.sender_uid)
+    .returns();
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return user1Data;
+}
+
+export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
+  const { data: user2Data, error } = await client
+    .from('custom_users')
+    .select('name')
+    .eq('uid', notificationData.receiver_uid)
+    .returns();
+  if (error) {
+    console.error('에러 발생:', error);
+    throw new Error('error while fetching posts data');
+  }
+  return user2Data;
+}
+
+export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
   client
     .channel('room1')
     .on(
@@ -92,4 +117,30 @@ export async function getChatList(): Promise<ChatListType[]> {
     throw new Error('error while fetching posts data');
   }
   return data;
+}
+
+export async function updateIsReadInNotiSenderSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ sender_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
+}
+
+export async function updateIsReadInNotiReceiverSide(id: number | null): Promise<void> {
+  const { data, error } = await client
+    .from('flirting_list')
+    .update({ receiver_is_read_in_noti: true })
+    .eq('id', id)
+    .select();
+
+  if (error) {
+    console.error('Error updating is_read_in_noti', error);
+    throw new Error('Error updating is_read_in_noti');
+  }
 }

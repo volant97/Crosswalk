@@ -23,6 +23,7 @@ const config: Config = {
         customRed: '#FF1400',
         customYellow: '#FFF200',
         customGreen: '#05F600',
+        customGreen2: '#F1FCED',
         lightRed: '#FF002E',
         lightGreen: '#ACFF8E',
         gray: {

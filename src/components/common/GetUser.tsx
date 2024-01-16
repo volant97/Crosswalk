@@ -70,7 +70,7 @@ function GetUser({ children }: Props) {
   }, [isLoading, register.information_agreement]);
 
   return (
-    <div>
+    <>
       <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
       {/* test */}
       {/* <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
@@ -87,7 +87,7 @@ function GetUser({ children }: Props) {
       </button>
       <Logout />
       <TempHome /> */}
-    </div>
+    </>
   );
 }
 

@@ -1,83 +1,100 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
-import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
+import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
-import Link from 'next/link';
-import { IoIosArrowRoundBack } from 'react-icons/io';
-import NavBar from '../common/ui/NavBar';
+import {
+  changeStatusToRead,
+  getCustomFlirtingListAtRequest,
+  subscribeRequestedFlirtingList,
+  untrackRequestedFlirtingList
+} from '@/lib/api/requestApi';
 
-const ReceivedRequest: React.FC = () => {
-  const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+const ReceivedRequest = () => {
+  const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
 
-  async function getRequestedFlirtingData() {
-    const { data, error } = await supabase
-      .from('flirting_list')
-      .select('*, custom_users!flirting_list_sender_uid_fkey(name, avatar, age)')
-      .order('created_at', { ascending: false });
-    // .returns<GetRequestedFlirtingDataType[]>;
-    // console.log('플러팅받은가공data : ', data);
-    if (error) {
-      console.error('에러:', error);
-      return;
+  /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
+  const getRequestedFlirtingData = async () => {
+    try {
+      const userData = await getCustomFlirtingListAtRequest();
+      setFlirtingList(userData);
+    } catch {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
     }
-    setFlirtingList(data);
-    // return data;
-  }
+  };
+
+  /**랜딩
+   * 1. (receiverUid) status를 READ로 변경
+   * 2. (receiverUid) 받은 사람이 메시지를 읽었다고 판단하여 read_in_noti: true로 변경 */
+  const ChangeIsReadInNoti = async () => {
+    try {
+      const userData = await getCustomFlirtingListAtRequest();
+      if (userData !== null) {
+        const receiverUid = userData[0].receiver_uid;
+        await changeStatusToRead(receiverUid);
+      }
+    } catch {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
+    }
+  };
+
+  /**!! 랜딩 : 동작하는 함수 묶어서 비동기 처리 */
+  const landingRequest = async () => {
+    await ChangeIsReadInNoti();
+    await getRequestedFlirtingData();
+  };
+
+  /**화면에 나타나는 리스트는 status가 READ인 리스트만 나오도록 필터링 */
+  const filteredFlirtingList = flirtingList?.filter((f) => {
+    return f.status === 'READ';
+  });
 
   useEffect(() => {
-    const channelA: RealtimeChannel = client
-      .channel('room1')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'flirting_list'
-        },
-        (payload) => {
-          // console.log(payload);
-          getRequestedFlirtingData();
-        }
-      )
-      .subscribe();
-    getRequestedFlirtingData();
+    // 실시간 realtime
+    // callback
+    subscribeRequestedFlirtingList((payload: any) => {
+      // console.log('요청함 payload : ', payload);
+      landingRequest();
+    });
+
+    // 랜딩
+    landingRequest();
+
+    // 언마운트 시(clean-up 시) 실행
+    return () => {
+      untrackRequestedFlirtingList();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <div className="relative max-w-96 border-solid border-1 border-black px-8">
-        <header className="font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-2 ">
-          <Link href="/" className="absolute left-6">
-            <IoIosArrowRoundBack size="30" />
-          </Link>
-          <div className="!font-virgil ">CrossWalk</div>
-        </header>
-        <NavBar />
-
-        <div className="flex flex-col gap-[0.75rem] w-full h-full border-2 border-red-800 px-[1.25rem]">
-          {!!flirtingList ? (
-            flirtingList?.map((item) => {
-              return (
-                <>
-                  <RequestCard
-                    key={item.id}
-                    avatar={item.custom_users?.avatar || 0}
-                    senderName={item.custom_users?.name || ''}
-                    age={item.custom_users?.age || 0}
-                    message={item.flirting_message || ''}
-                  />
-                </>
-              );
-            })
-          ) : (
-            <p>플러팅 메시지가 없습니다.</p>
-          )}
-        </div>
-      </div>
+      {Number(flirtingList?.length) > 0 ? (
+        Number(filteredFlirtingList?.length) > 0 ? (
+          filteredFlirtingList?.map((item) => {
+            return (
+              <RequestCard
+                key={item.id}
+                listId={item.id}
+                avatar={item.custom_users.avatar}
+                senderName={item.custom_users.name}
+                age={item.custom_users.age}
+                message={item.flirting_message}
+              />
+            );
+          })
+        ) : (
+          // 받은 메시지는 있지만, 전부 확인하여 화면에 없을 때
+          <p>모든 메시지를 전부 확인했습니다.</p>
+        )
+      ) : (
+        // 받은 메시지가 아예 없을 때
+        <p>요청받은 메시지가 없습니다.</p>
+      )}
     </>
   );
 };
@@ -85,7 +102,5 @@ const ReceivedRequest: React.FC = () => {
 export default ReceivedRequest;
 
 // import { ScrollShadow } from '@nextui-org/react';
-{
-  //   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
-  // <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>
-}
+//   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
+//   <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>
