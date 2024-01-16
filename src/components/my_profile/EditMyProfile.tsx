@@ -15,8 +15,8 @@ import { RegisterType } from '@/types/registerType';
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
   const myInfo = registerData;
-  const [selectedImg, setSelectedImg] = useState('');
-  const [file, setFile] = useState<any>();
+  const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
+  const [file, setFile] = useState<any | null>('test');
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
   const [gender, setGender] = useState<string | null>(myInfo?.gender);
@@ -42,6 +42,9 @@ function EditMyProfile() {
       setFile(imgFile);
       const imgUrl = URL.createObjectURL(imgFile);
       setSelectedImg(imgUrl);
+    } else {
+      setFile(myInfo?.user_img || null);
+      setSelectedImg(myInfo?.user_img || null);
     }
   };
 
@@ -49,17 +52,15 @@ function EditMyProfile() {
     e.preventDefault();
   };
 
-  if (registerData == null) return;
-
   return (
     <div className=" overflow-hidden ">
       <div className="flex justify-center filxed relative z-10">
         <div className="h-[6.25rem] w-[6.25rem]">
           <Image
-            className="rounded-full"
-            src={`/assets/avatar/avatar${myInfo.avatar}.jpg`}
-            width={200}
-            height={200}
+            className="rounded-full h-[6.25rem] w-[6.25rem]"
+            src={`/assets/avatar/avatar${myInfo.avatar}.png`}
+            width={500}
+            height={500}
             alt="my avatar"
           />
         </div>

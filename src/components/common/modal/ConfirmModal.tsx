@@ -33,6 +33,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { openModal, AlertModal } = useAlertModal();
   const [registerData, setRegisterData] = useRecoilState(registerState);
+  const myInfo = registerData;
   const { uid } = useRecoilValue(isUserState);
   async function uploadFile(file: any) {
     try {
@@ -50,9 +51,10 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+    const updatedImg = file !== 'test' ? userImg?.publicUrl : myInfo?.user_img;
     setRegisterData((prevData) => ({
       ...prevData,
-      user_img: userImg?.publicUrl,
+      user_img: updatedImg,
       name: name,
       age: Number(age),
       height: Number(height),
