@@ -20,12 +20,12 @@ type Props = {
 
 function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gender, mbti, nextCardBtn }: Props) {
   return (
-    <>
+    <div className="w-[30rem]">
       <div className="relative">
-        <div className="flex justify-center itmes-center w-[20rem] h-[30.3rem]">
+        <div className="flex justify-center itmes-center w-[19.9rem] h-[30.3rem]">
           <Image
             className="rounded-t-[1.5rem]"
-            src={`/assets/avatar/avatar${avatar}.jpg`}
+            src={`/assets/avatar/avatar${avatar}.png`}
             width={300}
             height={300}
             alt="유저 아바타 이미지"
@@ -68,7 +68,7 @@ function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gen
       </div>
 
       <FlirtingModal flirtingUserUid={flirtingUserUid} nextCardBtn={nextCardBtn} />
-    </>
+    </div>
   );
 }
 

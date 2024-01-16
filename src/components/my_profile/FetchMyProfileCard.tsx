@@ -11,7 +11,6 @@ import { registerState } from '@/recoil/register';
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(registerState);
-  const myInfo = registerData;
   const getUid = useRecoilState(isUserState);
   const myUid = getUid[0].uid;
 

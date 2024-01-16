@@ -10,10 +10,10 @@ import { registerState } from '@/recoil/register';
 import { TfiReload } from 'react-icons/tfi';
 import MbtiModal from '../common/modal/MbtiModal';
 import InterestModal from '../common/modal/InterestModal';
-import { isUserState } from '@/recoil/auth';
+import { RegisterType } from '@/types/registerType';
 
 function EditMyProfile() {
-  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
   const myInfo = registerData;
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
@@ -28,12 +28,12 @@ function EditMyProfile() {
     setName(e.target.value);
   };
 
-  const heightHandler = (e: any) => {
-    setHeight(e.target.value);
+  const heightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHeight(Number(e.target.value));
   };
 
-  const ageHandler = (e: any) => {
-    setAge(e.target.value);
+  const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAge(Number(e.target.value));
   };
 
   const previewImg = (event: any) => {
@@ -68,7 +68,7 @@ function EditMyProfile() {
             onClick={() => {
               setRegisterData((prevData) => ({
                 ...prevData,
-                avatar: Math.floor(Math.random() * 10)
+                avatar: Math.floor(Math.random() * 15)
               }));
             }}
             className="flex items-center justify-center capitalize w-[2rem] h-[2rem] bg-white rounded-full ml-[80px]"

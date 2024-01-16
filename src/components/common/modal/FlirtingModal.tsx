@@ -44,10 +44,10 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
   };
 
   const btnStyle =
-    'absolute bottom-[-100px] ml-[20px] capitalize w-[9.75rem]] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem]';
+    'absolute bottom-[25px] ml-[20px] capitalize w-[9.75rem]] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] ';
 
   const profileDetailStyle =
-    'ml-[20px] capitalize w-[8.3rem] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] mt-[10px] mb-[5px] text-xs';
+    'ml-[-10px] mr-[90px] capitalize w-[8.3rem] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] mt-[10px] mb-[5px] text-xs';
 
   return (
     <>
@@ -57,16 +57,18 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
             router.push('/main');
             nextCardBtn();
           }}
-          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[-10px]`}
+          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[20px]`}
           color="default"
         >
           <IoClose size={20} /> 괜찮아요
         </Button>
         <Button
-          onPress={() => onOpen()}
+          onClick={() => {
+            onOpen();
+          }}
           className={`${
             pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle
-          } right-[10px] bg-customGreen`}
+          } right-[40px] bg-customGreen`}
         >
           <GoHeartFill size={20} /> 어필하기
         </Button>

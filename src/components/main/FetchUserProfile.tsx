@@ -14,10 +14,10 @@ function FetchUserProfile() {
   const myUid = getUid[0].uid;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
-    return storedIndex ? parseInt(storedIndex, 10) : 0;
+    return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
   });
 
-  const totalCards = userCards.length;
+  const totalCards = userCards.length - 1;
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCards);
   };
@@ -25,9 +25,14 @@ function FetchUserProfile() {
   const getUerCards = async () => {
     try {
       const userCards = await getAllData();
-      console.log('userCards:', userCards);
-      setUserCards(userCards);
-      console.log(userCards);
+      let repeatedUserCards: any = [];
+      const repeatCount = 6; // 임시방편 무한루프
+
+      for (let i = 0; i < repeatCount; i++) {
+        repeatedUserCards = repeatedUserCards.concat(userCards);
+      }
+
+      setUserCards(repeatedUserCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
