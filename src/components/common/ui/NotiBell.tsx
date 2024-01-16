@@ -44,6 +44,7 @@ function NotiBell() {
     });
 
     fetchNotificationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -86,6 +87,7 @@ function NotiBell() {
     if (notificationData.length > 0) {
       fetchUserNames();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData]);
 
   const popSenderData = () => {
