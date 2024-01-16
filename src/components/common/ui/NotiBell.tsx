@@ -26,7 +26,7 @@ function NotiBell() {
   const fetchNotificationData = async () => {
     try {
       const data = await getNotificationDetail();
-      console.log('fetchNotificationData', data);
+      // console.log('fetchNotificationData', data);
       setNotificationData(data);
     } catch (error) {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
@@ -35,21 +35,12 @@ function NotiBell() {
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
-      console.log('payload입니다:', payload);
+      // console.log('payload입니다:', payload);
       fetchNotificationData();
       popSenderData();
       popReceiverData();
       addReceiverData();
       addSenderData();
-    });
-
-    fetchNotificationData();
-  }, []);
-
-  useEffect(() => {
-    subscribeFlirtingList((payload) => {
-      console.log('payload입니다:', payload);
-      fetchNotificationData();
     });
 
     fetchNotificationData();
@@ -65,9 +56,8 @@ function NotiBell() {
           notificationData.map(async (notification, index) => {
             const senderData = await getUser1NameNotification(notification);
             const receiverData = await getUser2NameNotification(notification);
-
-            console.log('senderData', senderData);
-            console.log('receiverData', receiverData);
+            // console.log('senderData', senderData);
+            // console.log('receiverData', receiverData);
             return {
               sender: senderData[0]?.name || 'Unknown',
               receiver: receiverData[0]?.name || 'Unknown',
@@ -81,12 +71,12 @@ function NotiBell() {
           (notification, index) => names[index].isSender && !notification.sender_is_read_in_noti
         );
         setFilteredNotificationsSender(filteredSenderNotifications);
-        console.log('필터링된 s', filteredSenderNotifications);
+        // console.log('필터링된 s', filteredSenderNotifications);
         const filteredReceiverNotifications = notificationData.filter(
           (notification, index) => names[index].isReceiver && !notification.receiver_is_read_in_noti
         );
         setFilteredNotificationsReceiver(filteredReceiverNotifications);
-        console.log('필터링된 r', filteredReceiverNotifications);
+        // console.log('필터링된 r', filteredReceiverNotifications);
         setUserNames(names);
       } catch (error) {
         openModal('서버와의 통신 중 에러가 발생했습니다.');
