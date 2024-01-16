@@ -22,7 +22,7 @@ function layout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <NavBar />
-        <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)]">{children}</div>
+        <div className="min-h-[calc(100dvh-12rem)] overflow-y-hidden max-h-[calc(100dvh-7rem)]">{children}</div>
       </div>
     </div>
   );

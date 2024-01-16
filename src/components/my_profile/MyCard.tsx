@@ -30,7 +30,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
         <div className="flex justify-center itmes-center w-[20rem] h-[30.3rem]">
           <Image
             className="rounded-t-[1.5rem]"
-            src={`/assets/avatar/avatar${avatar}.jpg`}
+            src={`/assets/avatar/avatar${avatar}.png`}
             width={300}
             height={300}
             alt="유저 아바타 이미지"

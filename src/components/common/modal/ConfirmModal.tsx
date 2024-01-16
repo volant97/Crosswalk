@@ -19,10 +19,10 @@ import { useRouter } from 'next/navigation';
 import { postRegister } from '@/lib/api/SupabaseApi';
 
 type Props = {
-  name: string;
-  height: string;
-  age: string;
-  gender: any;
+  name: string | null;
+  height: number | null;
+  age: number | null;
+  gender: string | null;
   selectedImg: string;
   file: any;
 };
