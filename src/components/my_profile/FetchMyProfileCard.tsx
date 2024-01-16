@@ -40,6 +40,7 @@ function FetchMyProfileCard() {
 
   useEffect(() => {
     updateProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   return (

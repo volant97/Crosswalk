@@ -75,6 +75,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
 
     console.log('updateData', registerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   return (
