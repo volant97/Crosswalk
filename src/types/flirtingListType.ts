@@ -25,7 +25,7 @@ export type FlirtingListRequestType = {
   };
 };
 
-export type MyType = {
+export type customUserNameNotiType = {
   name: string;
 };
 
@@ -38,5 +38,4 @@ export type FlirtingListInNotificationType = {
   receiver_is_read_in_noti: boolean;
   receiver_uid: string;
   sender_uid: string;
-  custom_users: MyType;
 };

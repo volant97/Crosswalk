@@ -9,7 +9,11 @@ import {
   updateIsReadInNotiSenderSide
 } from '@/lib/api/SupabaseApi';
 import useAlertModal from '@/components/common/modal/AlertModal';
-import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
+import type {
+  FlirtingListInNotificationType,
+  FlirtingListType,
+  customUserNameNotiType
+} from '@/types/flirtingListType';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 import Link from 'next/link';
@@ -60,10 +64,10 @@ const NotificationList = () => {
       try {
         const names = await Promise.all(
           notificationData.map(async (notification) => {
-            const senderData = await getUser1NameNotification(notification);
-            const receiverData = await getUser2NameNotification(notification);
-            // console.log('senderData', senderData);
-            // console.log('receiverData', receiverData);
+            const senderData: any = await getUser1NameNotification(notification);
+            const receiverData: any = await getUser2NameNotification(notification);
+            console.log('senderData', senderData);
+            console.log('receiverData', receiverData);
             return {
               sender: senderData[0]?.name || 'Unknown',
               receiver: receiverData[0]?.name || 'Unknown'
@@ -72,7 +76,7 @@ const NotificationList = () => {
         );
         setUserNames(names);
       } catch (error) {
-        openModal('서버와의 통신 중 에러가 발생했습니다.');
+        // openModal('서버와의 통신 중 에러가 발생했습니다.');
       }
     };
 
@@ -116,7 +120,13 @@ const NotificationList = () => {
             return (
               <ul key={notification.id}>
                 <Link
-                  href={'/chat-list'}
+                  href={
+                    notification.status === 'ACCEPT'
+                      ? '/chat-list'
+                      : notification.status === 'UNREAD' || 'READ'
+                      ? '/request'
+                      : '/main'
+                  }
                   className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     // 토글 함수 호출
