@@ -12,7 +12,7 @@ const InterestModal = () => {
   const { interests } = interestData;
   const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
   const myInfo = registerData;
-  const [activeStates, setActiveStates] = useState<string[]>(myInfo?.interest);
+  const [activeStates, setActiveStates] = useState<any>(myInfo?.interest);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
   const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +27,7 @@ const InterestModal = () => {
 
   const handleInterestClick = (interest: string) => {
     if (activeStates?.includes(interest)) {
-      const updatedActiveStates = activeStates?.filter((selectedInterest) => selectedInterest !== interest);
+      const updatedActiveStates = activeStates?.filter((selectedInterest: any) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
     } else if (activeStates && activeStates?.length >= maxSelectedInterests) {
       openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);

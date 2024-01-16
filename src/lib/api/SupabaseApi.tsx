@@ -92,22 +92,31 @@ export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingL
     .subscribe();
 }
 
-export async function sendFlirting(senderUid: string | null, message: string, recevierUid: string) {
+export async function sendFlirting(senderUid: string | null, message: string | null, recevierUid: string | null) {
   const { data, error } = await supabase
     .from('flirting_list')
-    .insert({ sender_uid: senderUid, flirting_message: message, receiver_uid: recevierUid, created_at: new Date() });
+    .insert({
+      sender_uid: senderUid,
+      flirting_message: message,
+      receiver_uid: recevierUid,
+      created_at: new Date(),
+      sender_is_read_in_noti: false,
+      status: 'UNREAD',
+      receiver_is_read_in_noti: false
+    });
 
   if (error || null) {
     console.log('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
-  console.log('data', data);
-  return data;
 }
 
 export async function getChatList(): Promise<ChatListType[]> {
-  const { data, error } = await client.from('chat_list').select().returns<ChatListType[]>();
-  console.log(data);
+  const { data, error } = await supabase
+    .from('chat_list')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    .order('flirting_list(created_at)', { ascending: false })
+    .returns<ChatListType[]>();
 
   if (error || null) {
     console.log('Error creating a posts data', error);

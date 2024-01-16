@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Provider from '@/components/provider/Provider';
 import { Props } from '@/types/childrenPropsType';
-
-const inter = Inter({ subsets: ['latin'] });
+import { Link } from '@nextui-org/react';
+import { HiOutlineBell } from 'react-icons/hi2';
+import NavBar from '@/components/common/ui/NavBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,8 +13,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="ko">
-      <body className={inter.className}>
+    <html lang="ko" className="">
+      <body className={`font-pretendard relative max-w-96 px-8 h-[45rem] border-solid border-1 border-black `}>
+        <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-center mb-1">
+          <div className="!font-virgil my-[15px]">CrossWalk</div>
+          <div className="absolute right-0 cursor-pointer">
+            <Link href="/notification">
+              <HiOutlineBell size={25} />
+            </Link>
+          </div>
+        </header>
+        <NavBar />
         <Provider>{children}</Provider>
       </body>
     </html>
