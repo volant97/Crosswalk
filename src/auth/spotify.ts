@@ -1,9 +1,9 @@
 import { supabase } from '@/lib/supabase-config';
 
-/**카카오 로그인 */
-export async function kakaoLogin() {
+/**애플 로그인 */
+export async function spotifyLogin() {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'kakao'
+    provider: 'spotify'
     // ,
     // options: {
     //   queryParams: {
@@ -12,6 +12,7 @@ export async function kakaoLogin() {
     //   }
     // }
   });
+  alert('spotify');
   console.log(data);
   if (error) console.error('login error : ', error);
 }
