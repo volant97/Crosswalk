@@ -8,7 +8,6 @@ function ChatRoom() {
   const [senderMessage, setSenderMessage] = useState<any>([]);
   const [receiverMessage, setReceiverMessage] = useState<any>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [isStatus, setIsStatus] = useState(true);
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
@@ -40,9 +39,6 @@ function ChatRoom() {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     return `${hours} : ${minutes}`;
   };
-
-  if (isStatus === true) {
-  }
 
   return (
     <>
