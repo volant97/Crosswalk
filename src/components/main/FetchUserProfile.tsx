@@ -6,7 +6,6 @@ import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import ProfileCard from './ProfileCard';
-import { usePathname } from 'next/navigation';
 import { registerState } from '@/recoil/register';
 
 function FetchUserProfile() {

@@ -6,7 +6,6 @@ import type { RegisterType } from '@/types/registerType';
 import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
-import Link from 'next/link';
 import FlirtingModal from '../common/modal/FlirtingModal';
 import { registerState } from '@/recoil/register';
 
