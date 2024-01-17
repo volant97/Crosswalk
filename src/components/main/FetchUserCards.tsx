@@ -6,18 +6,20 @@ import type { RegisterType } from '@/types/registerType';
 import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
-import Link from 'next/link';
 import FlirtingModal from '../common/modal/FlirtingModal';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
+import { userState } from '@/recoil/user';
 
 function FetchUserCards() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [getUid, setGetUid] = useRecoilState(isUserState);
   const myUid = getUid.uid;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myGender = registerData?.profile?.gender;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
@@ -53,6 +55,8 @@ function FetchUserCards() {
   useEffect(() => {
     localStorage.setItem('sliderIndex', currentIndex.toString());
   }, [currentIndex]);
+
+  const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
 
   return (
     <div className="w-full">

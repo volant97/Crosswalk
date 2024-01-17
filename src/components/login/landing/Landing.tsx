@@ -1,8 +1,5 @@
-
-
 function Landing() {
-  return (
-
+  return;
 }
 
 export default Landing;

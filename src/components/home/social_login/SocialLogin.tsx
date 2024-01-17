@@ -1,7 +1,8 @@
 import KakaoLoginBtn from './kakao/KakaoLoginBtn';
 import GoogleLoginBtn from './google/GoogleLoginBtn';
-import AppleLoginBtn from './apple/AppleLoginBtn';
+
 import StartIn3Seconds from './StartIn3Seconds';
+import SpotifyLoginBtn from './spotify/SpotifyLoginBtn';
 
 function SocialLogin() {
   return (
@@ -10,7 +11,7 @@ function SocialLogin() {
       <div className="flex justify-center gap-[1.25rem]">
         <GoogleLoginBtn />
         <KakaoLoginBtn />
-        <AppleLoginBtn />
+        <SpotifyLoginBtn />
       </div>
     </div>
   );

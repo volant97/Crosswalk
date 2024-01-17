@@ -6,6 +6,5 @@ export async function kakaoLogin() {
     provider: 'kakao'
   });
   console.log(data);
-  if (data) alert('로그인 되었습니다');
   if (error) console.error('login error : ', error);
 }

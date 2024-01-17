@@ -6,12 +6,14 @@ import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import ProfileCard from './ProfileCard';
-import { usePathname } from 'next/navigation';
+import { registerState } from '@/recoil/register';
 
 function FetchUserProfile() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [getUid, setGetUid] = useRecoilState(isUserState);
   const myUid = getUid.uid;
+  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const myGender = registerData.gender;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
@@ -46,10 +48,10 @@ function FetchUserProfile() {
     localStorage.setItem('sliderIndex', currentIndex.toString());
   }, [currentIndex]);
 
-  const filteredCards = userCards?.filter((item) => item.uid !== myUid);
+  const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
 
   return (
-    <div className="flex overflow-y-auto scrollbar-hide h-[36rem] rounded-[1.5rem]">
+    <div className="flex overflow-y-auto scrollbar-hide overflow-x-hidden h-[36rem] rounded-[1.5rem]">
       {filteredCards?.map((item: any, index) => {
         return (
           <div

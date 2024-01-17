@@ -3,6 +3,7 @@
 import { logout } from '@/auth/auth';
 import { isUserState } from '@/recoil/auth';
 import { IsLoginType } from '@/types/isLoginType';
+import Link from 'next/link';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -19,9 +20,11 @@ function Logout() {
 
   return (
     <div>
-      <button type="button" onClick={handleLogoutBtn}>
-        로그아웃버튼
-      </button>
+      <Link href={'/'}>
+        <button type="button" onClick={handleLogoutBtn}>
+          로그아웃버튼
+        </button>
+      </Link>
     </div>
   );
 }

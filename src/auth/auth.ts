@@ -5,6 +5,7 @@ export const getUser = async () => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+  console.log('여기는 getuser', !!user);
   return user;
 };
 
