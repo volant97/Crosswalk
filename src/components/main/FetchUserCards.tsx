@@ -8,11 +8,14 @@ import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import Link from 'next/link';
 import FlirtingModal from '../common/modal/FlirtingModal';
+import { registerState } from '@/recoil/register';
 
 function FetchUserCards() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [getUid, setGetUid] = useRecoilState(isUserState);
   const myUid = getUid.uid;
+  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const myGender = registerData.gender;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
@@ -52,8 +55,8 @@ function FetchUserCards() {
   return (
     <div className="flex">
       {userCards
-        ?.filter((itme: any) => itme.uid !== myUid)
-        ?.map((item: any, index) => {
+        ?.filter((item: any) => item.uid !== myUid && item.gender !== myGender)
+        ?.map((item: any, index: number) => {
           return (
             <div
               key={index}
