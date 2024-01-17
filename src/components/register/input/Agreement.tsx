@@ -8,11 +8,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { id } from 'date-fns/locale';
-import Image from 'next/image';
 
 function Agreement() {
   const [checkItems, setCheckItems] = useState<string[]>([]);
-  const [checkAll, setCheckAll] = useState<string[]>();
   const [isSelectedAll, setIsSelectedAll] = useState<boolean>(false);
   const router = useRouter();
   const [register, setRegister] = useRecoilState(registerState);
@@ -20,6 +18,7 @@ function Agreement() {
   const { openModal, AlertModal } = useAlertModal();
   const period = addMonths(currentDate, 3);
   const dateFormat = 'yyyy-MM-dd HH:mm:ss XXX';
+  const maxCheckItems = 4;
 
   const handleNextBtn = () => {
     // 모든 체크박스가 선택된 경우를 확인
@@ -36,12 +35,6 @@ function Agreement() {
   };
 
   useEffect(() => {
-    // if (checkAll?.length === 0) {
-    //   setCheckItems([]);
-    // } else if (checkAll?.length === 1) {
-    //   setCheckItems(['one', 'two', 'three', 'four']);
-    // }
-
     if (checkItems?.length === 4) {
       setIsSelectedAll(true);
     } else if (checkItems?.length < 4) {
@@ -59,8 +52,8 @@ function Agreement() {
     }
   };
 
-  console.log('checkItems', checkItems);
-  console.log('register', register);
+  // console.log('checkItems', checkItems);
+  // console.log('register', register);
 
   return (
     <>
@@ -73,25 +66,30 @@ function Agreement() {
           </h1>
         </div>
         <div className="flex-col w-[360px] h-[160px] mt-6 ">
-          {/* <CheckboxGroup label="" color="success" value={checkAll} onValueChange={setCheckAll}>
-            <Checkbox value="all">아래 항목에 전부 동의합니다.</Checkbox>
-          </CheckboxGroup> */}
-          <Checkbox isSelected={isSelectedAll} onValueChange={handleCheckAll}>
+          <Checkbox radius="full" color="success" isSelected={isSelectedAll} onValueChange={handleCheckAll}>
             아래 항목에 전부 동의합니다.
           </Checkbox>
           <CheckboxGroup label="" color="success" value={checkItems} onValueChange={setCheckItems}>
-            <Checkbox value="one" className="text-[0.875rem]">
+            <Checkbox radius="full" value="one" className="text-[0.875rem]">
               (필수) 만 14세 이상입니다.
             </Checkbox>
-            <Checkbox value="two">(필수) 이용약관에 동의합니다.</Checkbox>
-            <Checkbox value="three">(필수) 개인정보의 수집 및 이용에 동의합니다.</Checkbox>
-            <Checkbox value="four">(필수) 개인정보의 제3자가 제공에 동의합니다.</Checkbox>
+            <Checkbox radius="full" value="two">
+              (필수) 이용약관에 동의합니다.
+            </Checkbox>
+            <Checkbox radius="full" value="three">
+              (필수) 개인정보의 수집 및 이용에 동의합니다.
+            </Checkbox>
+            <Checkbox radius="full" value="four">
+              (필수) 개인정보의 제3자가 제공에 동의합니다.
+            </Checkbox>
           </CheckboxGroup>
         </div>
       </div>
 
       <Button
-        className="w-full font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  mb-10"
+        className={`w-full font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  mb-10 ${
+          checkItems.length === maxCheckItems ? 'bg-customGreen' : 'bg-customYellow'
+        }`}
         onClick={handleNextBtn}
       >
         NEXT
