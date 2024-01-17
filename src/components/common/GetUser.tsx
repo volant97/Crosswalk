@@ -54,9 +54,9 @@ function GetUser({ children }: Props) {
         setRegister(findCustomUser);
       }
       // 테스트 console.log
-      console.log('fectchedCustomUser', fectchedCustomUser);
-      console.log('findCustomUser', findCustomUser);
-      console.log('register', register);
+      // console.log('fectchedCustomUser', fectchedCustomUser);
+      // console.log('findCustomUser', findCustomUser);
+      // console.log('register', register);
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }

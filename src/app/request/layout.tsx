@@ -8,7 +8,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center items-center w-screen h-screen overflow-hidden border-2 border-red-800">
-      <div className="relative max-w-96 px-8 h-[calc(100dvh)] border-solid border-1 border-black ">
+      <div className="relative w-screen min-w-[22.5rem] max-w-[500px] px-8 h-screen border-solid border-1 border-black ">
         <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-between mb-1">
           <div className="flex-0 cursor-pointer">
             <Link href="/main">
