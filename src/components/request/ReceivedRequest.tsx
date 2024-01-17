@@ -11,13 +11,15 @@ import {
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
 } from '@/lib/api/requestApi';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { registerState } from '@/recoil/register';
+import { userState } from '@/recoil/user';
 
 const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
-  const { uid } = useRecoilValue(registerState);
+  const [user, setUser] = useRecoilState(userState);
+  const uid = user?.id;
 
   /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
   const getRequestedFlirtingData = async () => {
