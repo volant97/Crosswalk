@@ -7,11 +7,8 @@ import React from 'react';
 
 function MyProfile() {
   return (
-    <>
-      <FetchMyProfileCard />
-      {/* <ConfirmModal />
-      <ChooseAvatarModal /> */}
-    </>
+    <FetchMyProfileCard />
+    // <ConfirmModal />
   );
 }
 

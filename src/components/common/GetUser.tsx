@@ -7,36 +7,47 @@ import { Props } from '@/types/childrenPropsType';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import Logout from './Logout';
-import Landing from '../login/landing/Landing';
 import { usePathname } from 'next/navigation';
 import Loading from './Loading';
 import { registerState } from '@/recoil/register';
 import TempHome from './TempHome';
 import { getAllData } from '@/lib/api/SupabaseApi';
+import { supabase } from '@/lib/supabase-config';
+import Landing from '../login/landing/Landing';
 
-function GetUser({ children }: Props) {
+function AuthenticationLayer({ children }: Props) {
+  const [isAuthInitialized, setIsAuthInitialized] = useState<boolean>(false);
+
   const pathname = usePathname();
   const [userState, setUserState] = useRecoilState<IsLoginType>(isUserState);
   const [register, setRegister] = useRecoilState(registerState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    supabase.auth.getSession().then((getSessionResponse) => {
+      const session = getSessionResponse.data.session;
+
+      if (session) {
+        const user = session.user;
+      }
+    });
+  }, []);
+
   /**소셜로그인한 유저 존재 여부 */
   const fetchUser = async () => {
     try {
       const fetchedUser = await getUser();
-      if (!!fetchedUser?.id) {
+      if (fetchedUser) {
         setUserState({
           uid: fetchedUser.id,
           isLogin: true
         });
-        console.log(fetchedUser.id);
         setIsLoading(false);
       } else {
         setUserState({
           uid: null,
           isLogin: false
         });
-        console.log('로그인X');
         setIsLoading(false);
       }
     } catch (error) {
@@ -71,27 +82,28 @@ function GetUser({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, register.information_agreement]);
 
+  // return <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>;
   return (
     <>
       <div>{isLoading ? <Loading /> : <div>{children}</div>}</div>
       {/* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */}
       {/* test */}
-      <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
-      <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
-      <button
-        onClick={() => {
-          setRegister({
-            ...register,
-            information_agreement: !register.information_agreement
-          });
-        }}
-      >
-        회원등록 토글
-      </button>
-      <Logout />
-      <TempHome />
+      {/* <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+        <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
+        <button
+          onClick={() => {
+            setRegister({
+              ...register,
+              information_agreement: !register.information_agreement
+            });
+          }}
+        >
+          회원등록 토글
+        </button>
+        <Logout />
+        <TempHome /> */}
     </>
   );
 }
 
-export default GetUser;
+export default AuthenticationLayer;

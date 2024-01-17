@@ -7,14 +7,19 @@ import { getAllData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import FlirtingModal from '../common/modal/FlirtingModal';
-import { registerState } from '@/recoil/register';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import { userState } from '@/recoil/user';
 
 function FetchUserCards() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [getUid, setGetUid] = useRecoilState(isUserState);
   const myUid = getUid.uid;
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const myGender = registerData.gender;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myGender = registerData?.profile?.gender;
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem('sliderIndex');
     return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
@@ -54,28 +59,50 @@ function FetchUserCards() {
   const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
 
   return (
-    <div className="flex">
-      {filteredCards?.map((item: any, index: number) => {
-        return (
-          <div
-            key={index}
-            className={`transform transition-transform ease-in-out duration-300`}
-            style={{ transform: `translateX(${-currentIndex * 100}%)` }}
-          >
-            <UserCard
-              key={item.uid}
-              age={item.age}
-              name={item.name}
-              interest={item.interest}
-              avatar={item.avatar}
-              flirtingUserUid={item.uid}
-            />
-          </div>
-        );
-      })}
+    <div className="w-full">
+      <Swiper
+        spaceBetween={24}
+        slidesPerView={1}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+        className="!px-[1.5rem] !py-[2rem]"
+      >
+        {userCards
+          ?.filter((itme: any) => itme.uid !== myUid)
+          ?.map((item: any, index) => (
+            <SwiperSlide key={item.uid}>
+              <UserCard
+                age={item.age}
+                name={item.name}
+                interest={item.interest}
+                avatar={item.avatar}
+                flirtingUserUid={item.uid}
+              />
+            </SwiperSlide>
+          ))}
+      </Swiper>
+
       <FlirtingModal flirtingUserUid={flirtingUserUids[currentIndex]} nextCardBtn={handleNext} />
     </div>
   );
 }
 
 export default FetchUserCards;
+
+{
+  /* <ul className="overflow-x-scroll gap-x-[1.5rem] flex py-[2rem] px-[1.5rem]"></ul> */
+}
+// {userCards
+//   ?.filter((itme: any) => itme.uid !== myUid)
+//   ?.map((item: any, index) => {
+//     return (
+//       <div
+//         key={index}
+//         className={}
+//         // className={`transform transition-transform ease-in-out duration-300`}
+//         // style={{ transform: `translateX(${-currentIndex * 100}%)` }}
+//       >
+//
+//       </div>
+//     );
+//   })}

@@ -44,7 +44,7 @@ function FetchMyProfileCard() {
   }, [registerData]);
 
   return (
-    <div className="flex overflow-y-auto scrollbar-hide h-[36rem] rounded-[1.5rem]">
+    <div className="flex overflow-y-auto scrollbar-hide h-[36rem] rounded-[1.5rem] ">
       {userCards
         ?.filter((itme: any) => itme.uid === myUid)
         ?.map((item: any, index) => {

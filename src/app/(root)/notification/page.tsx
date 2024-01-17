@@ -3,7 +3,6 @@ import { Props } from '@/types/childrenPropsType';
 import React from 'react';
 
 function Notification() {
-  // return <NotificationList />;
   return <NotificationList />;
 }
 

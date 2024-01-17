@@ -3,7 +3,7 @@
 import { NextUIProvider } from '@nextui-org/react';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import GetUser from '../common/GetUser';
+import AuthenticationLayer from '../common/AuthenticationLayer';
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ function Provider({ children }: Props) {
   return (
     <RecoilRoot>
       <NextUIProvider>
-        <GetUser>{children}</GetUser>
+        <AuthenticationLayer>{children}</AuthenticationLayer>
       </NextUIProvider>
     </RecoilRoot>
   );

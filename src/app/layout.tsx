@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Meet your soulmate of your life'
 };
 
-export default function RootLayout({ children }: Props) {
+export default function HTMLLayout({ children }: Props) {
   return (
     <html lang="ko" className="">
       <body>

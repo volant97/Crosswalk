@@ -8,9 +8,9 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-center items-center w-screen h-screen overflow-hidden border-2 border-red-800">
-      <div className="relative max-w-96 px-8 h-[calc(100dvh)] border-solid border-1 border-black ">
-        <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-between mb-1">
+    <div className="flex justify-center w-[100dvw] h-[100dvh] overflow-hidden">
+      <div className=" flex flex-col items-center min-w-[360px] max-w-[430px] border-1 border-black">
+        <header className="flex font-virgil w-[100%] h-16 flex sticky bg-white top-0 items-center justify-between mb-1">
           <div className="flex-0 cursor-pointer">
             <Link href="/main">
               <IoIosArrowRoundBack size={25} />
@@ -23,7 +23,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <NavBar />
-        <main>{children}</main>
+        <div className="min-h-[calc(100dvh-12rem)] overflow-y-hidden max-h-[calc(100dvh-7rem)]">{children}</div>
       </div>
     </div>
   );
