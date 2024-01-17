@@ -50,7 +50,7 @@ function FetchUserCards() {
   }, [currentIndex]);
 
   return (
-    <div className="flex">
+    <div className="flex w-[100%]">
       {userCards
         ?.filter((itme: any) => itme.uid !== myUid)
         ?.map((item: any, index) => {

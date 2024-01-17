@@ -10,7 +10,7 @@ function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center w-[100dvw] h-[100dvh] overflow-hidden">
       <div className=" flex flex-col items-center min-w-[360px] max-w-[430px] border-1 border-black">
-        <header className="flex font-virgil max-w-80 w-full h-16 flex sticky bg-white top-0 items-center justify-between mb-1">
+        <header className="flex font-virgil w-[100%] h-16 flex sticky bg-white top-0 items-center justify-between mb-1">
           <div className="flex-0 cursor-pointer">
             <Link href="/main">
               <IoIosArrowRoundBack size={25} />
