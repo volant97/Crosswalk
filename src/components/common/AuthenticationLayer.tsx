@@ -39,7 +39,7 @@ function AuthenticationLayer({ children }: Props) {
       }
       setIsAuthInitialized(true);
     });
-  }, []);
+  }, [isAuthInitialized, setUser]);
 
   console.log('user', user);
 

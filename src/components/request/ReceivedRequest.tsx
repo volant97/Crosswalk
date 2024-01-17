@@ -75,7 +75,7 @@ const ReceivedRequest = () => {
   }, [uid]);
 
   return (
-    <>
+    <div className="flex flex-col items-center gap-[4px] w-full py-[28px]">
       {Number(flirtingList?.length) > 0 ? (
         Number(filteredFlirtingList?.length) > 0 ? (
           filteredFlirtingList?.map((item) => {
@@ -98,7 +98,7 @@ const ReceivedRequest = () => {
         // 받은 메시지가 아예 없을 때
         <p>신호 대기중...</p>
       )}
-    </>
+    </div>
   );
 };
 
