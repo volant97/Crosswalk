@@ -4,57 +4,26 @@ import { registerState } from '@/recoil/register';
 import { Button, Checkbox, CheckboxGroup } from '@nextui-org/react';
 import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import CheckBox from './CheckBox';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { id } from 'date-fns/locale';
+import Image from 'next/image';
 
 function Agreement() {
   const [checkItems, setCheckItems] = useState<string[]>([]);
+  const [checkAll, setCheckAll] = useState<string[]>();
+  const [isSelectedAll, setIsSelectedAll] = useState<boolean>(false);
   const router = useRouter();
   const [register, setRegister] = useRecoilState(registerState);
   const currentDate = new Date();
   const { openModal, AlertModal } = useAlertModal();
   const period = addMonths(currentDate, 3);
   const dateFormat = 'yyyy-MM-dd HH:mm:ss XXX';
-  const checkList = [
-    {
-      id: '(필수) 만 14세 이상입니다.'
-    },
-    {
-      id: '(필수) 이용약관에 동의합니다.'
-    },
-    {
-      id: '(필수) 개인정보의 수집 및 이용에 동의합니다.'
-    },
-    {
-      id: '(필수) 개인정보의 제3자가 제공에 동의합니다.'
-    }
-  ];
-  const [isChecked, setIsChecked] = useState(checkItems.length === checkList.length);
-
-  const checkItemHandler = (id: string, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckItems((prev) => [...prev, id]);
-    } else {
-      setCheckItems(checkItems.filter((item) => item !== id));
-    }
-  };
-
-  const allCheckedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setCheckItems(checkList.map((item) => item.id));
-    } else {
-      setCheckItems([]);
-    }
-  };
-
-  console.log('checkItems', checkItems);
-  console.log('register', register);
 
   const handleNextBtn = () => {
     // 모든 체크박스가 선택된 경우를 확인
-    if (checkItems.length === checkList.length) {
+    if (checkItems.length > 3) {
       setRegister((prevValue) => ({
         ...prevValue,
         information_use_period: format(period, dateFormat),
@@ -66,9 +35,32 @@ function Agreement() {
     }
   };
 
-  const handleCheckboxClick = () => {
-    setIsChecked((prev) => !prev);
+  useEffect(() => {
+    // if (checkAll?.length === 0) {
+    //   setCheckItems([]);
+    // } else if (checkAll?.length === 1) {
+    //   setCheckItems(['one', 'two', 'three', 'four']);
+    // }
+
+    if (checkItems?.length === 4) {
+      setIsSelectedAll(true);
+    } else if (checkItems?.length < 4) {
+      setIsSelectedAll(false);
+    }
+  }, [checkItems]);
+
+  const handleCheckAll = (data: boolean) => {
+    setIsSelectedAll((prev) => !prev); //
+    console.log('data:', data);
+    if (data) {
+      setCheckItems(['one', 'two', 'three', 'four']);
+    } else {
+      setCheckItems([]);
+    }
   };
+
+  console.log('checkItems', checkItems);
+  console.log('register', register);
 
   return (
     <>
@@ -80,29 +72,21 @@ function Agreement() {
             이용약관에 동의해주세요.
           </h1>
         </div>
-        <div className="flex-col w-[300px] h-[160px] border-1 border-black">
-          <label className="flex-col gap-4 border-2 ">
-            <input
-              type="checkbox"
-              onChange={allCheckedHandler}
-              checked={checkItems.length === checkList.length ? true : false}
-              onClick={handleCheckboxClick}
-              className={`rounded-full  appearance-none w-[20px] h-[20px] ${
-                isChecked ? 'bg-customGreen' : 'bg-gray-EF'
-              }`}
-            />
+        <div className="flex-col w-[360px] h-[160px] mt-6 ">
+          {/* <CheckboxGroup label="" color="success" value={checkAll} onValueChange={setCheckAll}>
+            <Checkbox value="all">아래 항목에 전부 동의합니다.</Checkbox>
+          </CheckboxGroup> */}
+          <Checkbox isSelected={isSelectedAll} onValueChange={handleCheckAll}>
             아래 항목에 전부 동의합니다.
-          </label>
-          <div className="flex-col">
-            {checkList.map((item) => (
-              <CheckBox
-                key={item.id}
-                id={item.id}
-                checkItemHandler={checkItemHandler}
-                checked={checkItems.includes(item.id) ? true : false}
-              />
-            ))}
-          </div>
+          </Checkbox>
+          <CheckboxGroup label="" color="success" value={checkItems} onValueChange={setCheckItems}>
+            <Checkbox value="one" className="text-[0.875rem]">
+              (필수) 만 14세 이상입니다.
+            </Checkbox>
+            <Checkbox value="two">(필수) 이용약관에 동의합니다.</Checkbox>
+            <Checkbox value="three">(필수) 개인정보의 수집 및 이용에 동의합니다.</Checkbox>
+            <Checkbox value="four">(필수) 개인정보의 제3자가 제공에 동의합니다.</Checkbox>
+          </CheckboxGroup>
         </div>
       </div>
 

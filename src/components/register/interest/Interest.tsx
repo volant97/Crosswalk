@@ -41,7 +41,7 @@ function Interest() {
 
     router.push('#imgUpload');
   };
-  console.log(activeStates);
+  // console.log(activeStates);
   return (
     <>
       <div id="interest" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
