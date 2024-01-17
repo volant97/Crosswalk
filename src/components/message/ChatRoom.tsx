@@ -81,7 +81,7 @@ function ChatRoom() {
 
         {senderMessage?.map((message: string, index: number) => {
           return (
-            <div className="w-[10rem] flex justify-end " key={index}>
+            <div className="w-[15rem] flex justify-end " key={index}>
               <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                 <div className="relative text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
                   <h1 className="font-medium break-all">{message}</h1>
@@ -169,8 +169,8 @@ function ChatRoom() {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          // handleSenderMessage(inputValue);
-          handleReceiverMessage(inputValue);
+          handleSenderMessage(inputValue);
+          // handleReceiverMessage(inputValue);
           setInputValue('');
         }}
         className="absolute flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-[1.8rem] border-1 border-gray-DDD border-solid rounded-full "
