@@ -67,8 +67,8 @@ const NotificationList = () => {
           notificationData.map(async (notification) => {
             const senderData: any = await getUser1NameNotification(notification);
             const receiverData: any = await getUser2NameNotification(notification);
-            console.log('senderData', senderData);
-            console.log('receiverData', receiverData);
+            // console.log('senderData', senderData);
+            // console.log('receiverData', receiverData);
             return {
               sender: senderData[0]?.name || 'Unknown',
               receiver: receiverData[0]?.name || 'Unknown'
