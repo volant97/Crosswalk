@@ -1,8 +1,7 @@
 import KakaoLoginBtn from './kakao/KakaoLoginBtn';
 import GoogleLoginBtn from './google/GoogleLoginBtn';
-
-import StartIn3Seconds from './StartIn3Seconds';
 import SpotifyLoginBtn from './spotify/SpotifyLoginBtn';
+import StartIn3Seconds from './StartIn3Seconds';
 
 function SocialLogin() {
   return (

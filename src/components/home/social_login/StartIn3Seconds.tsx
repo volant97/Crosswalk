@@ -1,6 +1,6 @@
 import React from 'react';
-import rocket from '@assets/login/rocket.png';
 import Image from 'next/image';
+import rocket from '@assets/login/rocket.png';
 
 function StartIn3Seconds() {
   return (
@@ -18,7 +18,5 @@ function StartIn3Seconds() {
     </div>
   );
 }
-{
-  /* <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]"></div> */
-}
+
 export default StartIn3Seconds;
