@@ -93,7 +93,7 @@ export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingL
 }
 
 export async function sendFlirting(senderUid: string, message: string, recevierUid: string): Promise<void> {
-  const { error } = await supabase.from('flirting_list').insert({
+  const { data, error } = await supabase.from('flirting_list').insert({
     sender_uid: senderUid,
     flirting_message: message,
     receiver_uid: recevierUid,
