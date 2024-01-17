@@ -16,7 +16,8 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, children }: PropsWithChi
       {/* 헤더 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && <Header />}
       {!noHeader && noBack && !noNotiBell && !noNavBar && <Header noBack />}
-      {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNavBar noNotiBell />}
+      {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
+      {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />}
       {/* 페이지 본문 */}
       {children}
     </main>
