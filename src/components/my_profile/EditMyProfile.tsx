@@ -195,8 +195,8 @@ function EditMyProfile() {
                     className="w-[7.5rem] h-[10.25rem] rounded-[1rem] object-cover"
                     src={selectedImg}
                     alt="업로드이미지"
-                    width={50}
-                    height={50}
+                    width={300}
+                    height={300}
                   />
                 </div>
               )}
