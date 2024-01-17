@@ -12,10 +12,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { HiOutlineBell } from 'react-icons/hi2';
 import { useRecoilState } from 'recoil';
 import useAlertModal from '../modal/AlertModal';
+import Image from 'next/image';
+import { userState } from '@/recoil/user';
 
 function NotiBell() {
   const { openModal } = useAlertModal();
-  const [currentUser, setCurrentUser] = useRecoilState(isUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(userState);
   const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
   const [userNames, setUserNames] = useState<{ sender: string | null; receiver: string | null }[]>([]);
   const [filteredNotificationsSender, setFilteredNotificationsSender] = useState<FlirtingListInNotificationType[]>([]);
@@ -49,8 +51,8 @@ function NotiBell() {
 
   useEffect(() => {
     const fetchUserNames = async () => {
-      const isSender = notificationData.map((notification) => notification.sender_uid === currentUser.uid);
-      const isReceiver = notificationData.map((notification) => notification.receiver_uid === currentUser.uid);
+      const isSender = notificationData.map((notification) => notification.sender_uid === currentUser?.id);
+      const isReceiver = notificationData.map((notification) => notification.receiver_uid === currentUser?.id);
 
       try {
         const names = await Promise.all(
@@ -72,12 +74,12 @@ function NotiBell() {
           (notification, index) => names[index].isSender && !notification.sender_is_read_in_noti
         );
         setFilteredNotificationsSender(filteredSenderNotifications);
-        // console.log('필터링된 s', filteredSenderNotifications);
+        console.log('필터링된 s', filteredSenderNotifications);
         const filteredReceiverNotifications = notificationData.filter(
           (notification, index) => names[index].isReceiver && !notification.receiver_is_read_in_noti
         );
         setFilteredNotificationsReceiver(filteredReceiverNotifications);
-        // console.log('필터링된 r', filteredReceiverNotifications);
+        console.log('필터링된 r', filteredReceiverNotifications);
         setUserNames(names);
       } catch (error) {
         // openModal('서버와의 통신 중 에러가 발생했습니다.');
@@ -125,7 +127,13 @@ function NotiBell() {
             <HiOutlineBell size={25} className="ml-auto" />
             {filteredNotificationsSender.length > 0 || filteredNotificationsReceiver.length > 0 ? (
               // 알림있음
-              <p className="absolute top-0 right-0">*</p>
+              <Image
+                src="/assets/figmaImg/redDot.png"
+                alt="red dot"
+                width={8}
+                height={8}
+                className="absolute top-0 right-0"
+              />
             ) : (
               // 알림없음
               <p></p>

@@ -10,7 +10,7 @@ const active = ' font-bold border-b-3 border-solid border-black';
 function NavBar() {
   const pathname = usePathname();
   return (
-    <nav className="h-[2.5rem] bg-white shadow-lg border-t grid grid-cols-3 items-center w-full">
+    <nav className="h-[2.5rem] bg-white shadow-lg grid grid-cols-3 items-center w-full">
       <div
         className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center  ${
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
