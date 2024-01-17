@@ -8,7 +8,7 @@ function SocialLogin() {
   return (
     <div className="flex flex-col items-center gap-[0.7rem]">
       <StartIn3Seconds />
-      <div className="flex justify-center gap-[1.25rem]">
+      <div className="flex justify-center gap-[20px]">
         <GoogleLoginBtn />
         <KakaoLoginBtn />
         <SpotifyLoginBtn />

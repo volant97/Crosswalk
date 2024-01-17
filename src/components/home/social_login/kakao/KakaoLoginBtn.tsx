@@ -1,13 +1,13 @@
-'use client';
-
-import { kakaoLogin } from '@/auth/kakao';
 import React from 'react';
+import { kakaoLogin } from '@/auth/kakao';
+import kakao from '@assets/login/kakao.png';
+import Image from 'next/image';
 
 function KakaoLoginBtn() {
   return (
     <>
-      <button className="w-[3.25rem] h-[3.25rem] rounded-full bg-[#FEE500]" type="button" onClick={kakaoLogin}>
-        K
+      <button className="relative w-[52px] h-[52px] rounded-full bg-[#FEE500]" type="button" onClick={kakaoLogin}>
+        <Image src={kakao} alt="kakao" fill />
       </button>
     </>
   );
