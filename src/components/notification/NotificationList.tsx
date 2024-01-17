@@ -108,7 +108,7 @@ const NotificationList = () => {
 
   return (
     <Fragment>
-      <div className="min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
+      <div className="flex-col items-center justify-center w-[100%]  min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
         {Number(notificationData?.length) > 0 ? (
           notificationData?.map((notification, index) => {
             const senderIsRead = notification.sender_is_read_in_noti === true;
@@ -119,7 +119,7 @@ const NotificationList = () => {
               return null; // 숨김
             }
             return (
-              <ul key={notification.id}>
+              <ul key={notification.id} className="flex-col justify-center items-center text-center">
                 <Link
                   href={
                     notification.status === 'ACCEPT'
@@ -128,7 +128,7 @@ const NotificationList = () => {
                       ? '/request'
                       : '/main'
                   }
-                  className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
+                  className="flex flex-col item-center justify-center max-w-[100%] h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     // 토글 함수 호출
                     if (isSender) {
@@ -138,7 +138,7 @@ const NotificationList = () => {
                     }
                   }}
                 >
-                  <li className="flex flex-col item-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                  <li className="flex flex-col item-center justify-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
                     <div className="flex justify-between">
                       <div className="text-base font-normal font-medium leading-none pb-1">
                         {notification.status === 'ACCEPT' ? (
