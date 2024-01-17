@@ -12,6 +12,7 @@ import { GoHeartFill } from 'react-icons/go';
 import { useDisclosure } from '@nextui-org/use-disclosure';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalProps, Input } from '@nextui-org/react';
 
+//오류해결하기!
 function MainPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // router.push('/main');
