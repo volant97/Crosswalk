@@ -1,4 +1,4 @@
-import KakaoLoginBtn from '@/components/login/social_login/kakao/KakaoLoginBtn';
+import KakaoLoginBtn from './kakao/KakaoLoginBtn';
 import GoogleLoginBtn from './google/GoogleLoginBtn';
 import AppleLoginBtn from './apple/AppleLoginBtn';
 import StartIn3Seconds from './StartIn3Seconds';

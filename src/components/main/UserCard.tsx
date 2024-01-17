@@ -15,14 +15,12 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid }: Props) {
   return (
     <div className="relative">
       <Link href={`/main/${flirtingUserUid}`}>
-        <div className=" flex justify-center itmes-center w-[19.9rem] h-[30.3rem]">
+        <div className="relative w-full aspect-[2/3]">
           <Image
             className="rounded-[1.5rem]"
             src={`/assets/avatar/avatar${avatar}.png`}
-            width={300}
-            height={300}
             alt="유저 아바타 이미지"
-            style={{ width: '100%', height: '100%' }}
+            fill
           />
         </div>
       </Link>

@@ -8,6 +8,11 @@ import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import Link from 'next/link';
 import FlirtingModal from '../common/modal/FlirtingModal';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
 
 function FetchUserCards() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
@@ -50,30 +55,50 @@ function FetchUserCards() {
   }, [currentIndex]);
 
   return (
-    <div className="flex w-[100%]">
-      {userCards
-        ?.filter((itme: any) => itme.uid !== myUid)
-        ?.map((item: any, index) => {
-          return (
-            <div
-              key={index}
-              className={`transform transition-transform ease-in-out duration-300`}
-              style={{ transform: `translateX(${-currentIndex * 100}%)` }}
-            >
+    <div className="w-full">
+      <Swiper
+        spaceBetween={24}
+        slidesPerView={1}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+        className="!px-[1.5rem] !py-[2rem]"
+      >
+        {userCards
+          ?.filter((itme: any) => itme.uid !== myUid)
+          ?.map((item: any, index) => (
+            <SwiperSlide key={item.uid}>
               <UserCard
-                key={item.uid}
                 age={item.age}
                 name={item.name}
                 interest={item.interest}
                 avatar={item.avatar}
                 flirtingUserUid={item.uid}
               />
-            </div>
-          );
-        })}
+            </SwiperSlide>
+          ))}
+      </Swiper>
+
       <FlirtingModal flirtingUserUid={flirtingUserUids[currentIndex]} nextCardBtn={handleNext} />
     </div>
   );
 }
 
 export default FetchUserCards;
+
+{
+  /* <ul className="overflow-x-scroll gap-x-[1.5rem] flex py-[2rem] px-[1.5rem]"></ul> */
+}
+// {userCards
+//   ?.filter((itme: any) => itme.uid !== myUid)
+//   ?.map((item: any, index) => {
+//     return (
+//       <div
+//         key={index}
+//         className={}
+//         // className={`transform transition-transform ease-in-out duration-300`}
+//         // style={{ transform: `translateX(${-currentIndex * 100}%)` }}
+//       >
+//
+//       </div>
+//     );
+//   })}
