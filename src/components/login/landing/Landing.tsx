@@ -12,6 +12,7 @@ function Landing() {
         </header>
         <main className="h-[16.875rem]">
           <Tutorial />
+          <div>테스트</div>
         </main>
         <footer className="flex justify-center items-center w-[18.75rem] h-[3.125rem]">
           <StartOrRegister />

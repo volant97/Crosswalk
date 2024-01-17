@@ -11,6 +11,6 @@ export const googleLogin = async () => {
       }
     }
   });
-  if (data) alert('로그인 되었습니다');
+  console.log(data);
   if (error) console.error('login error : ', error);
 };

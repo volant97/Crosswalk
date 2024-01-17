@@ -24,17 +24,19 @@ function GetUser({ children }: Props) {
   const fetchUser = async () => {
     try {
       const fetchedUser = await getUser();
-      if (fetchedUser) {
+      if (!!fetchedUser?.id) {
         setUserState({
           uid: fetchedUser.id,
           isLogin: true
         });
+        console.log(fetchedUser.id);
         setIsLoading(false);
       } else {
         setUserState({
           uid: null,
           isLogin: false
         });
+        console.log('로그인X');
         setIsLoading(false);
       }
     } catch (error) {
@@ -71,7 +73,8 @@ function GetUser({ children }: Props) {
 
   return (
     <>
-      <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>
+      <div>{isLoading ? <Loading /> : <div>{children}</div>}</div>
+      {/* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */}
       {/* test */}
       <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
