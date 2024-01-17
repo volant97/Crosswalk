@@ -19,6 +19,7 @@ import { sendFlirting } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 type Props = {
   flirtingUserUid: string;
@@ -86,7 +87,7 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
             <div>
               <ModalHeader className="flex flex-col text-center gap-1 ">
                 상대방에게 어필할 나만의
-                <br /> <span className="text-rose-400">&quot;한마디&quot;</span>
+                <br /> <span className="text-lightRed">&quot;한마디&quot;</span>
               </ModalHeader>
               <ModalBody>
                 <form
@@ -120,7 +121,13 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
                     type="submit"
                     onPress={onClose}
                   >
-                    <TbSend size={20} />
+                    <Image
+                      className="w-[1rem] h-[1rem]"
+                      src="/assets/figmaImg/Plain.png"
+                      width={100}
+                      height={100}
+                      alt="보내기"
+                    />
                     보내기
                   </Button>
                 </form>

@@ -13,9 +13,9 @@ type Props = {
 
 function UserCard({ age, avatar, name, interest, flirtingUserUid }: Props) {
   return (
-    <div className="relative">
+    <div className="relative w-[30rem] ">
       <Link href={`/main/${flirtingUserUid}`}>
-        <div className=" flex justify-center itmes-center w-[19.9rem] h-[30.3rem]">
+        <div className=" flex justify-center itmes-center w-[19.9rem] h-[30.3rem] select-none">
           <Image
             className="rounded-[1.5rem]"
             src={`/assets/avatar/avatar${avatar}.png`}

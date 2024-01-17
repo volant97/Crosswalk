@@ -75,7 +75,13 @@ function EditMyProfile() {
             }}
             className="flex items-center justify-center capitalize w-[2rem] h-[2rem] bg-white rounded-full ml-[80px]"
           >
-            <TfiReload size={15} />
+            <Image
+              src="/assets/figmaImg/Refresh.png"
+              className="w-[1.25rem] h-[1.25rem]"
+              width={100}
+              height={100}
+              alt="랜덤 아바타"
+            />
           </button>
         </div>
         {/* <ChooseAvatarModal /> */}
@@ -195,8 +201,8 @@ function EditMyProfile() {
                     className="w-[7.5rem] h-[10.25rem] rounded-[1rem] object-cover"
                     src={selectedImg}
                     alt="업로드이미지"
-                    width={50}
-                    height={50}
+                    width={300}
+                    height={300}
                   />
                 </div>
               )}
