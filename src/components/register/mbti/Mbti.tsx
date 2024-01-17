@@ -41,7 +41,7 @@ function Mbti() {
         className=" flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem)  pl-[30px] pr-[30px] pt-[20px] relative"
       >
         <div className="flex flex-col w-[300px] h-[274px]  ">
-          <h1 className="text-[1.375rem] font-semibold text-black mb-[50px]">
+          <h1 className="text-[1.375rem] font-semibold text-black mb-[50px] mt-[64px]">
             MBTI를
             <br />
             선택해주세요.

@@ -59,7 +59,7 @@ function Agreement() {
     <div className=" flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
       <div className="flex flex-col w-[300px] h-[272px] ">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mb-[40px] mt-[20px]">
+          <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[64px]">
             서비스 가입을 위해
             <br />
             이용약관에 동의해주세요.

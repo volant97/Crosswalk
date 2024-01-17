@@ -41,7 +41,7 @@ function Name() {
     >
       <div className="flex flex-col w-[300px] h-[274px] gap-[20px]">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mt-[20px]">
+          <h1 className="text-[22px] font-semibold text-black mt-[64px]">
             이름과 성별을
             <br />
             입력해주세요.
