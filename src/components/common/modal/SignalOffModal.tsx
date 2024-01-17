@@ -24,7 +24,7 @@ function SignalOffModal() {
         className="absolute top-[5px] right-[1px] flex items-center justify-center border-1 border-solid border-black px-[0.5rem] py-[0.25rem] rounded-full w-[3.875rem] h-[2rem] mt-[0.75rem] text-gray-666"
       >
         <h1 className="pt-[5px] text-[0.75rem] mr-[0.25rem]">거절</h1>
-        <HiOutlineEmojiSad />
+        <Image src="/assets/figmaImg/sadCircle.png" className="w-[1rem] h-[1rem]" width={100} height={100} alt="거절" />
       </button>
       <Modal
         // backdrop={backdrop}
