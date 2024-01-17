@@ -11,10 +11,13 @@ import {
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
 } from '@/lib/api/requestApi';
+import { useRecoilValue } from 'recoil';
+import { registerState } from '@/recoil/register';
 
 const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
+  const { uid } = useRecoilValue(registerState);
 
   /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
   const getRequestedFlirtingData = async () => {
@@ -31,10 +34,8 @@ const ReceivedRequest = () => {
    * 2. (receiverUid) 받은 사람이 메시지를 읽었다고 판단하여 read_in_noti: true로 변경 */
   const ChangeIsReadInNoti = async () => {
     try {
-      const userData = await getCustomFlirtingListAtRequest();
-      if (userData !== null) {
-        const receiverUid = userData[0].receiver_uid;
-        await changeStatusToRead(receiverUid);
+      if (uid) {
+        await changeStatusToRead(uid);
       }
     } catch {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
@@ -47,9 +48,9 @@ const ReceivedRequest = () => {
     await getRequestedFlirtingData();
   };
 
-  /**화면에 나타나는 리스트는 status가 READ인 리스트만 나오도록 필터링 */
+  /**화면에 나타나는 리스트는 접속자 uid인 것과 status가 READ인 리스트만 나오도록 필터링 */
   const filteredFlirtingList = flirtingList?.filter((f) => {
-    return f.status === 'READ';
+    return f.status === 'READ' && f.receiver_uid === uid;
   });
 
   useEffect(() => {
@@ -69,7 +70,7 @@ const ReceivedRequest = () => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [uid]);
 
   return (
     <>
@@ -89,11 +90,11 @@ const ReceivedRequest = () => {
           })
         ) : (
           // 받은 메시지는 있지만, 전부 확인하여 화면에 없을 때
-          <p>모든 메시지를 전부 확인했습니다.</p>
+          <p>모든 요청을 전부 확인했습니다.</p>
         )
       ) : (
         // 받은 메시지가 아예 없을 때
-        <p>요청받은 메시지가 없습니다.</p>
+        <p>신호 대기중...</p>
       )}
     </>
   );
