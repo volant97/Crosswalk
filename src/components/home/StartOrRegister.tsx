@@ -14,7 +14,7 @@ function StartOrRegister() {
   const [user, setUser] = useRecoilState(userState);
 
   return user ? (
-    user.profile ? (
+    user.profile?.information_agreement ? (
       <Button className="w-full h-full bg-customGreen rounded-3xl cursor-pointer">
         <Link href={'/main'} className="flex justify-center items-center w-full h-full">
           시작하기

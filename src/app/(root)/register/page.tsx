@@ -7,10 +7,11 @@ import Agreement from '@/components/register/input/Agreement';
 import Name from '@/components/register/input/Name';
 import React, { useState } from 'react';
 import UploadImg from '@/components/register/upload_image/UploadImg';
+import Page from '@/components/layout/Page';
 
 function RegisterPage() {
   return (
-    <div>
+    <Page noBack noNavBar noNotiBell>
       {/* 헤더 */}
       <Agreement />
       <Name />
@@ -19,7 +20,7 @@ function RegisterPage() {
       <Interest />
       <UploadImg />
       {/* 버튼 */}
-    </div>
+    </Page>
   );
 }
 

@@ -18,11 +18,11 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
+import { userState } from '@/recoil/user';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
-  const [currentUser, setCurrentUser] = useRecoilState(isUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(userState);
   const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
   const [userNames, setUserNames] = useState<{ sender: string | null; receiver: string | null }[]>([]);
 
@@ -113,8 +113,8 @@ const NotificationList = () => {
           notificationData?.map((notification, index) => {
             const senderIsRead = notification.sender_is_read_in_noti === true;
             const receiverIsRead = notification.receiver_is_read_in_noti === true;
-            const isSender = notification.sender_uid === currentUser.uid;
-            const isReceiver = notification.receiver_uid === currentUser.uid;
+            const isSender = notification.sender_uid === currentUser?.id;
+            const isReceiver = notification.receiver_uid === currentUser?.id;
             if ((isSender && senderIsRead) || (isReceiver && receiverIsRead)) {
               return null; // 숨김
             }
@@ -128,7 +128,7 @@ const NotificationList = () => {
                       ? '/request'
                       : '/main'
                   }
-                  className="flex flex-col item-center justify-center max-w-[100%] h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
+                  className="flex flex-col item-center justify-center max-w-[100%] gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     // 토글 함수 호출
                     if (isSender) {
@@ -138,20 +138,20 @@ const NotificationList = () => {
                     }
                   }}
                 >
-                  <li className="flex flex-col item-center justify-center max-w-96 h-18 p-1 gap-1 cursor-pointer">
+                  <li className="flex flex-col item-center justify-center w-full h-[63px] pl-[22px] pr-[22px] pt-[12px] pb-[12px] cursor-pointer">
                     <div className="flex justify-between">
-                      <div className="text-base font-normal font-medium leading-none pb-1">
+                      <div className="text-base font-medium leading-none pb-[6px] text-[16px] ">
                         {notification.status === 'ACCEPT' ? (
-                          <h2>알림타입: {notification.status} 💚 Connected!</h2>
+                          <h2>{notification.status} 💚 Connected!</h2>
                         ) : (
-                          <h2>알림타입: {notification.status} ⚡ Request</h2>
+                          <h2>{notification.status} ⚡ Request</h2>
                         )}
                       </div>
-                      <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA]">
+                      <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA] text-[12px] ">
                         {formatDate(notification.created_at)}
                       </p>
                     </div>
-                    <div className="flex flex-row overflow-hidden text-Pretendard text-sm font-normal leading-relaxed truncate text-[#666]">
+                    <div className="flex flex-row overflow-hidden text-Pretendard font-normal leading-relaxed truncate text-[#666] text-[14px]">
                       <p>
                         {notification.status === 'ACCEPT'
                           ? `${userNames[index]?.sender}님과 ${userNames[index]?.receiver}님의 신호등이 연결되었습니다!`
