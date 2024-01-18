@@ -54,8 +54,148 @@ function EditMyProfile() {
   };
 
   return (
-    <div className=" overflow-hidden ">
-      <div className="flex justify-center filxed relative z-10">
+    <div className="flex flex-col items-center justify-start h-screen">
+      <form onSubmit={onSubmitHandelr}>
+        <div className="w-[320px] my-[28px] border-4">
+          <div className="flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona border-blue-600 border-2 rounded-[24px]">
+            {/* 아바타 */}
+            {/* 이름 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>이름</label>
+              <input
+                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+                value={name}
+                onChange={nameHandler}
+                type="text"
+                name="name"
+                id="id"
+                autoComplete="off"
+                placeholder={'홍길동'}
+              />
+            </div>
+            {/* 성별 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>성별</label>
+              <div className="flex justify-center gap-[8px] w-full">
+                <Button
+                  value={gender}
+                  type="button"
+                  className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
+                    gender === 'M' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
+                  }`}
+                  onClick={() => {
+                    setGender('M');
+                  }}
+                >
+                  남자
+                </Button>
+                <Button
+                  value={gender}
+                  type="button"
+                  className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
+                    gender === 'F' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
+                  }`}
+                  onClick={() => {
+                    setGender('F');
+                  }}
+                >
+                  여자
+                </Button>
+              </div>
+            </div>
+            {/* MBTI */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <p className="font-semibold mb-[0.5rem]">MBTI</p>
+              <div className="relative flex justify-center items-center w-[70px] h-[40px] text-[14px] font-[400] leading-[20px] capitalize bg-white border-1 border-solid border-black rounded-full">
+                {myInfo?.mbti}
+                <div
+                  onClick={() => {
+                    openMbtiModal();
+                  }}
+                  className="absolute bottom-0 right-[-18px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
+                >
+                  <LuPencil size={16} />
+                </div>
+              </div>
+            </div>
+            {/* 나이 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>나이</label>
+              <input
+                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+                value={String(age)}
+                onChange={ageHandler}
+                type="number"
+                name="age"
+                id="age"
+                autoComplete="off"
+                placeholder={'27세'}
+              />
+            </div>
+            {/* 키 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>키</label>
+              <input
+                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+                value={String(height)}
+                onChange={heightHandler}
+                type="number"
+                name="height"
+                id="height"
+                autoComplete="off"
+                placeholder={'180cm'}
+              />
+            </div>
+            {/* 관심사 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>관심사</label>
+              <div className="flex justify-start items-start gap-[6px] flex-wrap self-stretch">
+                <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                  {myInfo?.interest?.[0]}
+                </div>
+                <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                  {myInfo?.interest?.[1]}
+                </div>
+                <div className="relative flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                  {myInfo?.interest?.[2]}
+                  <div
+                    onClick={() => {
+                      openInterestModal();
+                    }}
+                    className="absolute bottom-0 right-[-18px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
+                  >
+                    <LuPencil size={16} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* 사진 */}
+            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+              <label>사진</label>
+              <label className="relative" htmlFor="usersImg">
+                <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
+                {selectedImg === '' ? (
+                  // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
+                  <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
+                    <PiPlusThin size={50} className="fill-gray-E6" />
+                  </div>
+                ) : (
+                  <div className="relative w-[120px] h-[164px] ">
+                    <Image className="rounded-[11.364px]" src={selectedImg} alt="user_img" fill />
+                  </div>
+                )}
+                <div className="absolute bottom-[-10px] left-[100px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110">
+                  <LuPencil size={16} />
+                </div>
+              </label>
+            </div>
+            {/* 수정하기 버튼 */}
+          </div>
+        </div>
+        {/* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} /> */}
+      </form>
+
+      {/* <div className="flex justify-center filxed relative z-10">
         <div className="h-[6.25rem] w-[6.25rem]">
           <Image
             className="rounded-full h-[6.25rem] w-[6.25rem]"
@@ -90,12 +230,13 @@ function EditMyProfile() {
             />
           </button>
         </div>
-        {/* <ChooseAvatarModal /> */}
-      </div>
-      <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
+      </div> */}
+
+      {/* ---------------------------- */}
+      {/* <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
         <div className=" flex flex-col h-[54.8rem]  rounded-[1.5rem]  px-[1.25rem] bg-customGreen2">
-          <form onSubmit={onSubmitHandelr}>
-            <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
+          <form onSubmit={onSubmitHandelr}> */}
+      {/* <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">이름</label>
               <input
                 value={name}
@@ -106,8 +247,8 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div>
-            <div className="mb-[1.5rem]">
+            </div> */}
+      {/* <div className="mb-[1.5rem]">
               <p className="text-[1.125rem] mb-[0.5rem] font-semibold">성별</p>
               <Button
                 value={gender}
@@ -133,8 +274,8 @@ function EditMyProfile() {
               >
                 여자
               </Button>
-            </div>
-            <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
+            </div> */}
+      {/* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">MBTI</p>
               <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full">
                 {myInfo?.mbti}
@@ -143,12 +284,12 @@ function EditMyProfile() {
                 onClick={() => {
                   openMbtiModal();
                 }}
-                className="absolute left-[55px] top-[40px] flex items-center justify-center capitalize w-[1.875rem] h-[1.875rem] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
+                className="absolute left-[55px] top-[40px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
               >
                 <LuPencil size={13} />
               </div>
-            </div>
-            <div className="flex flex-col  mb-[1.5rem] ">
+            </div> */}
+      {/* <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">나이</label>
               <input
                 value={String(age)}
@@ -159,8 +300,8 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div>
-            <div className="flex flex-col  mb-[1.5rem] ">
+            </div> */}
+      {/* <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">키</label>
               <input
                 value={String(height)}
@@ -171,8 +312,8 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div>
-            <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
+            </div> */}
+      {/* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">관심사</p>
               <div className="flex flex-row gap-[0.38rem]">
                 <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full text-xs font-semibold">
@@ -193,8 +334,8 @@ function EditMyProfile() {
                   <LuPencil size={13} />
                 </div>
               </div>
-            </div>
-            <div className="relative flex flex-col mb-[1.5rem]">
+            </div> */}
+      {/* <div className="relative flex flex-col mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">사진</p>
 
               {selectedImg === '' ? (
@@ -218,12 +359,12 @@ function EditMyProfile() {
                   <LuPencil size={13} />
                 </div>
               </label>
-            </div>
+            </div> */}
 
-            <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
-          </form>
-        </div>
-      </div>
+      {/* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
+          </form> */}
+      {/* </div> */}
+      {/* </div> */}
       {mbtiModal()}
       {interestModal()}
     </div>

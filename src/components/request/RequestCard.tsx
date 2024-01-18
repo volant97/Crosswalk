@@ -20,8 +20,8 @@ function RequestCard({ listId, avatar, senderName, age, message }: Props) {
         </div>
         <div className="flex flex-col items-start gap-[6px]">
           <div className="flex items-end gap-[4px]">
-            <p className="text-[16px] font-[500] leading-none">{senderName}</p>
-            <p className="text-[14px] font-[400] text-gray-999 leading-none">{age}</p>
+            <p className="text-[16px] font-[500] leading-normal">{senderName}</p>
+            <p className="text-[14px] font-[400] text-gray-999 leading-normal">{age}</p>
           </div>
           <p className="text-[14px] font-[400] text-gray-666 leading-[20px] capitalize">{message}</p>
         </div>
