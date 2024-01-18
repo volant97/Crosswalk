@@ -107,12 +107,12 @@ function FavorableRatingAlgorithms() {
       </div>
       <div>
         <div className="flex gap-6 p-4">
-          <div className="flex flex-col items-center gap-2 w-[10rem] rounded-xl border-2 border-green-500 p-2">
+          <div className="flex flex-col items-center gap-2 w-1/2 rounded-xl border-2 border-green-500 p-2">
             {AChat.map((a, index) => {
               return <div key={index}>{a}</div>;
             })}
           </div>
-          <div className="flex flex-col items-center gap-2 w-[10rem] rounded-xl border-2 border-blue-500 p-2">
+          <div className="flex flex-col items-center gap-2 w-1/2 rounded-xl border-2 border-blue-500 p-2">
             {BChat.map((b, index) => {
               return <div key={index}>{b}</div>;
             })}

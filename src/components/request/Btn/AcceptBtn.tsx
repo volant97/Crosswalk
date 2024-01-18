@@ -20,7 +20,10 @@ function AcceptBtn({ listId }: Props) {
 
   return (
     <>
-      <button className="bg-customGreen w-[3rem] h-[3rem] rounded-full" onClick={handleAcceptBtn}>
+      <button
+        className="w-full h-full px-[20px] self-stretch bg-customGreen rounded-full text-[12px] font-[600] text-black leading-[20px]"
+        onClick={handleAcceptBtn}
+      >
         수락
       </button>
       {AlertYellowModal()}

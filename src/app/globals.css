@@ -8,6 +8,8 @@ html {
 
 * {
   box-sizing: border-box;
+  color: #222;
+  font-family: 'Pretendard-Regular';
 }
 
 @import url('https://db.onlinewebfonts.com/c/cc6ba99a1d8620c4bfc84d252404e42a?family=Virgil+3+YOFF');
@@ -21,6 +23,7 @@ html {
     url('https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.ttf') format('truetype'),
     url('https://db.onlinewebfonts.com/t/cc6ba99a1d8620c4bfc84d252404e42a.svg#Virgil 3 YOFF') format('svg');
 }
+
 @font-face {
   font-family: 'Pretendard-Regular';
   src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');

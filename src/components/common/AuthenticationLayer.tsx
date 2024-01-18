@@ -5,17 +5,12 @@ import { getUser } from '@/auth/auth';
 import { IsLoginType } from '@/types/isLoginType';
 import { Props } from '@/types/childrenPropsType';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
 import Logout from './Logout';
-import { usePathname } from 'next/navigation';
 import Loading from './Loading';
-import { registerState } from '@/recoil/register';
-import TempHome from './TempHome';
-import { getAllData } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
 import { userState } from '@/recoil/user';
 import { RegisterType } from '@/types/registerType';
-import { User } from '@supabase/supabase-js';
+import TempHome from './TempHome';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
@@ -39,11 +34,22 @@ function AuthenticationLayer({ children }: Props) {
       }
       setIsAuthInitialized(true);
     });
-  }, []);
+  }, [isAuthInitialized, setUser]);
 
   console.log('user', user);
 
-  return isAuthInitialized ? children : <Loading />;
+  return (
+    <>
+      <div>{isAuthInitialized ? children : <Loading />}</div>
+      <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
+      <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
+      <Logout />
+      <TempHome />
+    </>
+  );
+}
+{
+  /* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */
 }
 
 export default AuthenticationLayer;

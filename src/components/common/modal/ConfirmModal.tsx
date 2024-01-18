@@ -17,25 +17,34 @@ import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { postRegister } from '@/lib/api/SupabaseApi';
+import { userState } from '@/recoil/user';
 
 type Props = {
-  name: string | null;
-  height: number | null;
-  age: number | null;
-  gender: string | null;
+  name: string;
+  height: number;
+  age: number;
+  gender: string;
   selectedImg: string;
   file: any;
 };
+// type Props = {
+//   name: string | null;
+//   height: number | null;
+//   age: number | null;
+//   gender: string | null;
+//   selectedImg: string;
+//   file: any;
+// };
 
 function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { openModal, AlertModal } = useAlertModal();
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const myInfo = registerData;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myInfo = registerData?.profile;
   // const { uid } = useRecoilValue(isUserState);
-  const uid = registerData.uid;
+  const uid = registerData?.id;
 
   async function uploadFile(file: any) {
     try {
@@ -57,19 +66,23 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     // any타입
     setRegisterData((prevData: any) => ({
       ...prevData,
-      user_img: updatedImg,
-      name: name,
-      age: Number(age),
-      height: Number(height),
-      gender,
-      uid
+      profile: {
+        ...prevData.profile,
+        user_img: updatedImg,
+        name: name,
+        age: Number(age),
+        height: Number(height),
+        gender,
+        uid
+      }
     }));
   }
 
   async function updateData() {
     try {
-      // ddd
-      await postRegister(registerData);
+      // dd
+      console.log('registerData !!!', registerData);
+      await postRegister(registerData?.id, registerData?.profile);
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
     }
@@ -107,8 +120,9 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
               </ModalHeader>
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
-                  onClick={() => {
-                    uploadFile(file);
+                  onClick={async () => {
+                    await uploadFile(file);
+                    await updateData();
                     onClose();
                     router.push('/my-profile');
                   }}

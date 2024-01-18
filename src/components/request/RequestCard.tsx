@@ -1,6 +1,7 @@
 import React from 'react';
 import AcceptBtn from './Btn/AcceptBtn';
 import DeclineBtn from './Btn/DeclineBtn';
+import Image from 'next/image';
 
 type Props = {
   listId: number;
@@ -12,22 +13,24 @@ type Props = {
 
 function RequestCard({ listId, avatar, senderName, age, message }: Props) {
   return (
-    <>
-      <div className="flex justify-between gap-[1rem] p-[0.75rem] border-1 border-black">
-        <div className="flex flex-col justify-center gap-[0.3rem] w-[10.5rem] border-1 border-red-600">
-          <div className="flex gap-[0.3rem]">
-            <p className="flex justify-center items-center bg-gray-300 w-[1.5rem] h-[1.5rem] rounded-full">{avatar}</p>
-            <p className="w-[4rem] truncate">{senderName}</p>
-            <p>{age}</p>
-          </div>
-          <p className="truncate">{message}</p>
+    <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]">
+      <div className="flex items-center gap-[8px] self-stretch">
+        <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full">
+          <Image className="rounded-full" src={`/assets/avatar/avatar${avatar}.png`} alt="avatar" fill />
         </div>
-        <div className="flex items-center gap-[0.38rem] border-1 border-red-600">
-          <DeclineBtn listId={listId} />
-          <AcceptBtn listId={listId} />
+        <div className="flex flex-col items-start gap-[6px]">
+          <div className="flex items-end gap-[4px]">
+            <p className="text-[16px] font-[500] leading-none">{senderName}</p>
+            <p className="text-[14px] font-[400] text-gray-999 leading-none">{age}</p>
+          </div>
+          <p className="text-[14px] font-[400] text-gray-666 leading-[20px] capitalize">{message}</p>
         </div>
       </div>
-    </>
+      <div className="flex items-start w-[200px] h-[32px] gap-[8px]">
+        <DeclineBtn listId={listId} />
+        <AcceptBtn listId={listId} />
+      </div>
+    </div>
   );
 }
 

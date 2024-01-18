@@ -11,7 +11,3 @@ function Request() {
 }
 
 export default Request;
-
-// <Link href="/main">
-//               <IoIosArrowRoundBack size={25} />
-//             </Link>

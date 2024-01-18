@@ -1,6 +1,6 @@
 import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
-import type { RegisterType } from '@/types/registerType';
+import type { RegisterType, unNullRegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
@@ -17,7 +17,7 @@ export async function getAllData(): Promise<RegisterType[]> {
   return data;
 }
 
-export async function postRegister({ uid, ...registerData }: RegisterType) {
+export async function postRegister(uid: any, registerData: any) {
   const { data, error } = await supabase.from('custom_users').update(registerData).eq('uid', uid).select();
 
   if (error || null) {

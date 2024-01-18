@@ -25,7 +25,12 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
             />
           </Link>
         )}
-        <div className="text-[19px]">CrossWalk</div>
+        {/* w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-none */}
+        <Link href={'/main'}>
+          <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
+            Crosswalk
+          </div>
+        </Link>
         {!noNotiBell && (
           <div className="absolute right-4">
             <NotiBell />

@@ -1,13 +1,13 @@
-'use client';
-
 import React from 'react';
 import { googleLogin } from '@/auth/google';
+import google from '@assets/login/google.png';
+import Image from 'next/image';
 
 function GoogleLoginBtn() {
   return (
     <>
-      <button className="w-[3.25rem] h-[3.25rem] rounded-full bg-[#FF1400]" type="button" onClick={googleLogin}>
-        G
+      <button className="relative w-[52px] h-[52px] rounded-full bg-[#FF1400]" type="button" onClick={googleLogin}>
+        <Image src={google} alt="google" fill />
       </button>
     </>
   );

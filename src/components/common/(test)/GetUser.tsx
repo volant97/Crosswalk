@@ -6,14 +6,14 @@ import { IsLoginType } from '@/types/isLoginType';
 import { Props } from '@/types/childrenPropsType';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
-import Logout from './Logout';
+import Logout from '../Logout';
 import { usePathname } from 'next/navigation';
-import Loading from './Loading';
+import Loading from '../Loading';
 import { registerState } from '@/recoil/register';
-import TempHome from './TempHome';
+import TempHome from '../TempHome';
 import { getAllData } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
-import Landing from '../login/landing/Landing';
+import Landing from '../../login/landing/Landing';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState<boolean>(false);

@@ -11,13 +11,15 @@ import {
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
 } from '@/lib/api/requestApi';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { registerState } from '@/recoil/register';
+import { userState } from '@/recoil/user';
 
 const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
-  const { uid } = useRecoilValue(registerState);
+  const [user, setUser] = useRecoilState(userState);
+  const uid = user?.id;
 
   /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
   const getRequestedFlirtingData = async () => {
@@ -73,7 +75,7 @@ const ReceivedRequest = () => {
   }, [uid]);
 
   return (
-    <>
+    <div className="flex flex-col items-center gap-[4px] w-full py-[28px]">
       {Number(flirtingList?.length) > 0 ? (
         Number(filteredFlirtingList?.length) > 0 ? (
           filteredFlirtingList?.map((item) => {
@@ -96,7 +98,7 @@ const ReceivedRequest = () => {
         // 받은 메시지가 아예 없을 때
         <p>신호 대기중...</p>
       )}
-    </>
+    </div>
   );
 };
 
