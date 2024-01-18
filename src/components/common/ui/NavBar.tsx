@@ -10,15 +10,15 @@ const active = ' font-bold border-b-3 border-solid border-black';
 function NavBar() {
   const pathname = usePathname();
   return (
-    <nav className="h-[2.5rem] bg-white shadow-lg grid grid-cols-3 items-center w-full">
+    <nav className="flex h-[2.5rem] bg-white shadow-navBarShadow grid grid-cols-3 items-center w-full pl-[20px] pr-[20px]">
       <div
-        className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center  ${
+        className={`w-[full] flex justify-center items-center pb-[1px] ${
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center gap-[0.25rem]" href="/request">
+        <Link className="flex items-center justify-center gap-[4px] h-full text-[14px]" href="/request">
           {pathname.startsWith('/request') ? (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/activeRequest.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -26,9 +26,9 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/request.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -36,20 +36,20 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           )}
           Request
         </Link>
       </div>
 
       <div
-        className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center ${
+        className={` w-[full] flex justify-center justify-center items-center ${
           pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center gap-[0.25rem]" href="/chat-list">
+        <Link className="flex items-center gap-[4px] h-full text-[14px] pb-[1px]" href="/chat-list">
           {pathname.startsWith('/chat-list') ? (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/activeChat.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -57,9 +57,9 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/chat.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -67,20 +67,20 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           )}
           Chat
         </Link>
       </div>
 
       <div
-        className={`mt-[12px] w-[6.5rem] pb-[3px] flex justify-center ${
+        className={` w-[full] flex justify-center justify-center items-center ${
           pathname.startsWith('/my-profile') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center gap-[0.25rem]" href="/my-profile">
+        <Link className="flex items-center gap-[4px] h-full text-[14px] pb-[1px]" href="/my-profile">
           {pathname.startsWith('/my-profile') ? (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/activeUserCircle.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -88,9 +88,9 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/userCircle.png"
                 className="w-[1.25rem] h-[1.25rem]"
@@ -98,7 +98,7 @@ function NavBar() {
                 height={100}
                 alt="받은 요청함 이미지"
               />
-            </>
+            </div>
           )}
           My
         </Link>

@@ -120,11 +120,8 @@ const NotificationList = () => {
             }
             if (userNames[index]?.sender === undefined && userNames[index]?.receiver === undefined) {
               return (
-                <div
-                  key={notification.id}
-                  className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
-                >
-                  <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">신호 대기중...</li>
+                <div key={notification.id} className="flex flex-col item-center max-w-96 h-18 p-2 gap-1">
+                  <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">신호 대기중...</li>
                 </div>
               );
             }
@@ -174,8 +171,8 @@ const NotificationList = () => {
             );
           })
         ) : (
-          <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]">
-            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">신호 대기중...</li>
+          <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">
+            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">신호 대기중...</li>
           </div>
         )}
       </div>
