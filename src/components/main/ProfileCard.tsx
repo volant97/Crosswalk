@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import React from 'react';
 import FlirtingModal from '../common/modal/FlirtingModal';
+import Button from '../Button';
+import { IoClose } from 'react-icons/io5';
+import { GoHeartFill } from 'react-icons/go';
 
 const tags = ['음악', '여행', '맛집'];
 
@@ -11,25 +14,22 @@ type Props = {
   avatar: string;
   name: string;
   interest: string[];
-  flirtingUserUid: string;
   height: number;
   gender: string;
   mbti: string;
   nextCardBtn: () => void;
 };
 
-function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gender, mbti, nextCardBtn }: Props) {
+function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCardBtn }: Props) {
   return (
-    <div className="w-[30rem]">
+    <div>
       <div className="relative">
-        <div className="flex justify-center itmes-center w-[19.9rem] h-[30.3rem] select-none">
+        <div className="relative w-full aspect-[2/3]">
           <Image
             className="rounded-t-[1.5rem]"
             src={`/assets/avatar/avatar${avatar}.png`}
-            width={300}
-            height={300}
             alt="유저 아바타 이미지"
-            style={{ width: '100%', height: '100%' }}
+            fill
           />
         </div>
         <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
@@ -51,7 +51,7 @@ function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gen
           })}
         </div>
       </div>
-      <div className="flex flex-col h-[11.5rem] w-[19.9rem] rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
+      <div className="flex flex-col  h-[11.5rem] w-full rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
         <div className="mb-[1.5rem] my-[1.5rem] h-[2.875rem]">
           <h1 className="textgray-999">기본정보</h1>
           <div className="flex flex-row gap-[0.25rem]">
@@ -66,8 +66,14 @@ function ProfileCard({ age, avatar, name, interest, flirtingUserUid, height, gen
           </div>
         </div>
       </div>
-
-      <FlirtingModal flirtingUserUid={flirtingUserUid} nextCardBtn={nextCardBtn} />
+      <div className="flex gap-3 px-[20px] flex justify-between gap-x-2">
+        <Button onClick={() => {}} color="default" size="md">
+          <IoClose size={20} /> 괜찮아요
+        </Button>
+        <Button onClick={() => {}} color="green" size="md">
+          <GoHeartFill size={20} /> 어필하기
+        </Button>
+      </div>
     </div>
   );
 }

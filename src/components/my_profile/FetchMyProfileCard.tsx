@@ -7,12 +7,13 @@ import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import MyCard from './MyCard';
 import { registerState } from '@/recoil/register';
+import { userState } from '@/recoil/user';
 
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(registerState);
-  const [getUid, setGetUid] = useRecoilState(isUserState);
-  const myUid = getUid.uid;
+  const [getUid, setGetUid] = useRecoilState(userState);
+  const myUid = getUid?.profile?.uid;
 
   const getUerCards = async () => {
     try {
@@ -44,7 +45,7 @@ function FetchMyProfileCard() {
   }, [registerData]);
 
   return (
-    <div className="flex overflow-y-auto scrollbar-hide h-[36rem] rounded-[1.5rem] ">
+    <div className="w-full px-[1.5rem] py-[1.5rem]">
       {userCards
         ?.filter((itme: any) => itme.uid === myUid)
         ?.map((item: any, index) => {

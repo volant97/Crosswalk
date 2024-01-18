@@ -79,9 +79,12 @@ function UploadImg() {
   }, [registerData.user_img]);
 
   return (
-    <>
-      <div id="imgUpload" className="min-h-[calc(100dvh-12rem)] flex flex-col gap-12">
-        <h1 className=" text-[1.375rem] font-semibold text-black">
+    <div
+      id="imgUpload"
+      className="flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
+    >
+      <div className="flex flex-col w-[300px] h-[432px] gap-[20px]">
+        <h1 className=" text-[22px] font-semibold text-black mt-[64px] mb-[20px]">
           사진을
           <br />
           업로드해주세요.
@@ -100,11 +103,11 @@ function UploadImg() {
 
             <input className="hidden" type="file" onChange={previewImg} />
           </label>
-          <p className="text-center text-xs text-red-500">* 사진은 필수 입니다.</p>
+          <p className="text-center text-xs text-red-500 mb-[10px]">* 사진은 필수 입니다.</p>
         </div>
       </div>
       <Button
-        className={`w-full rounded-3xl cursor-pointer font-semibold mb-10 ${
+        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
           file ? 'bg-customGreen' : 'bg-customYellow'
         }`}
         onClick={handleNextBtn}
@@ -112,7 +115,7 @@ function UploadImg() {
         NEXT
       </Button>
       {AlertModal()}
-    </>
+    </div>
   );
 }
 
