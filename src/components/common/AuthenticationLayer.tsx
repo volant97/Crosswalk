@@ -11,10 +11,13 @@ import { supabase } from '@/lib/supabase-config';
 import { userState } from '@/recoil/user';
 import { RegisterType } from '@/types/registerType';
 import TempHome from './TempHome';
+import { usePathname } from 'next/navigation';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
   const [user, setUser] = useRecoilState(userState);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -34,23 +37,23 @@ function AuthenticationLayer({ children }: Props) {
       }
       setIsAuthInitialized(true);
     });
+    console.log('user', user);
   }, [isAuthInitialized, setUser]);
-
-  console.log('user', user);
 
   return (
     <>
+      {/* <div>{isAuthInitialized ? children : <Loading />}</div> */}
+      {/* <div>{isAuthInitialized || pathname.toString() === '/' ? children : <Loading />}</div> */}
       <div>{isAuthInitialized ? children : <Loading />}</div>
       {/* test */}
-      {/* <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
+      <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
       <Logout />
-      <TempHome /> */}
+      <TempHome />
     </>
   );
 }
 {
-  /* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */
 }
 
 export default AuthenticationLayer;
