@@ -27,14 +27,12 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
   return (
     <>
       <div className="relative">
-        <div className="flex justify-center itmes-center w-[20rem] h-[30.3rem]">
+        <div className="relative w-full aspect-[2/3]">
           <Image
             className="rounded-t-[1.5rem]"
             src={`/assets/avatar/avatar${avatar}.png`}
-            width={300}
-            height={300}
             alt="유저 아바타 이미지"
-            style={{ width: '100%', height: '100%' }}
+            fill
           />
         </div>
         <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
@@ -56,7 +54,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           })}
         </div>
       </div>
-      <div className="flex flex-col h-[11.5rem] w-[19.9rem] rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
+      <div className="flex flex-col h-[11.5rem] w-full rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
         <div className="mb-[1.5rem] my-[1.5rem] h-[2.875rem]">
           <h1 className="text-gray-999">기본정보</h1>
           <div className="flex flex-row gap-[0.25rem]">
@@ -82,7 +80,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
             });
             router.push('/');
           }}
-          className={`w-[8.625rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem] text-gray-AAA mt-[1.2rem] `}
+          className={`w-[9.625rem] h-[3.125rem] px-[1.25rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem] text-gray-AAA mt-[1.2rem] `}
         >
           로그아웃
         </Button>
@@ -90,7 +88,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           onClick={() => {
             router.push('/my-profile/edit');
           }}
-          className={`w-[8.625rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
+          className={`w-[9.625rem] px-[1.25rem] h-[3.125rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
         >
           프로필 수정
         </Button>
