@@ -12,8 +12,8 @@ interface PageProps {
 
 function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
   return (
-    <>
-      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center justify-center border-b-[1px] border-[#E9EAEB] z-99">
+    <div className="relative">
+      <div className="relative flex font-virgil h-[64px] fixed  bg-white items-center justify-center border-b-[1px] border-[#E9EAEB] z-99">
         {!noBack && (
           <Link href="/main" className="absolute left-4">
             <Image
@@ -38,7 +38,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
         )}
       </div>
       {!noNavBar && <NavBar />}
-    </>
+    </div>
   );
 }
 

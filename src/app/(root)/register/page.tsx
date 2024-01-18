@@ -12,13 +12,6 @@ import Image from 'next/image';
 import Indicator from '@/components/register/IndicatorScroll';
 
 function RegisterPage() {
-  // useEffect(() => {
-  //   window.addEventListener('scroll', (e) => {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //   });
-  // }, []);
-
   return (
     <>
       {/* Header */}

@@ -12,8 +12,6 @@ export default function HomePage() {
           <h1 className="w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-none">Crosswalk</h1>
           <h2 className="text-[18px] font-pretendard font-[400] leading-none">인생의 소울메이트를 만나보세요!</h2>
         </header>
-
-        {/* <div className="relative flex justify-center items-center w-[37.5rem] h-[16.875rem]"> */}
         <div className="relative w-full max-h-[20rem] h-[40vh]">
           <Image src={login_main_img} alt="tutorial_avatar1" fill className="object-cover" />
         </div>
