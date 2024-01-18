@@ -54,11 +54,8 @@ function EditMyProfile() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start h-screen">
-      <form
-        className="w-[320px] h-[490px] mt-[30px] mb-[20px] overflow-y-auto scrollbar-hide"
-        onSubmit={onSubmitHandelr}
-      >
+    <div className="flex flex-col items-center justify-start h-full">
+      <form className="w-[320px] h-[67dvh] my-[25px] overflow-y-auto scrollbar-hide" onSubmit={onSubmitHandelr}>
         <div className="relative flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona rounded-[24px]">
           {/* 아바타 */}
           <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
@@ -80,8 +77,6 @@ function EditMyProfile() {
                       ...prevData.profile,
                       avatar: Math.floor(Math.random() * 15)
                     }
-                    //   ...prevData,
-                    //   avatar: Math.floor(Math.random() * 15)
                   }));
                 }}
                 className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
@@ -230,12 +225,21 @@ function EditMyProfile() {
         </div>
       </form>
       <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
+      {mbtiModal()}
+      {interestModal()}
+    </div>
+  );
+}
 
-      {/* ---------------------------- */}
-      {/* <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
+export default EditMyProfile;
+
+{
+  /* <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
         <div className=" flex flex-col h-[54.8rem]  rounded-[1.5rem]  px-[1.25rem] bg-customGreen2">
-          <form onSubmit={onSubmitHandelr}> */}
-      {/* <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
+          <form onSubmit={onSubmitHandelr}> */
+}
+{
+  /* <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">이름</label>
               <input
                 value={name}
@@ -246,8 +250,10 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div> */}
-      {/* <div className="mb-[1.5rem]">
+            </div> */
+}
+{
+  /* <div className="mb-[1.5rem]">
               <p className="text-[1.125rem] mb-[0.5rem] font-semibold">성별</p>
               <Button
                 value={gender}
@@ -273,8 +279,10 @@ function EditMyProfile() {
               >
                 여자
               </Button>
-            </div> */}
-      {/* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
+            </div> */
+}
+{
+  /* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">MBTI</p>
               <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full">
                 {myInfo?.mbti}
@@ -287,8 +295,10 @@ function EditMyProfile() {
               >
                 <LuPencil size={13} />
               </div>
-            </div> */}
-      {/* <div className="flex flex-col  mb-[1.5rem] ">
+            </div> */
+}
+{
+  /* <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">나이</label>
               <input
                 value={String(age)}
@@ -299,8 +309,10 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div> */}
-      {/* <div className="flex flex-col  mb-[1.5rem] ">
+            </div> */
+}
+{
+  /* <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">키</label>
               <input
                 value={String(height)}
@@ -311,8 +323,10 @@ function EditMyProfile() {
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
                 autoComplete="off"
               />
-            </div> */}
-      {/* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
+            </div> */
+}
+{
+  /* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">관심사</p>
               <div className="flex flex-row gap-[0.38rem]">
                 <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full text-xs font-semibold">
@@ -333,8 +347,10 @@ function EditMyProfile() {
                   <LuPencil size={13} />
                 </div>
               </div>
-            </div> */}
-      {/* <div className="relative flex flex-col mb-[1.5rem]">
+            </div> */
+}
+{
+  /* <div className="relative flex flex-col mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">사진</p>
 
               {selectedImg === '' ? (
@@ -358,16 +374,16 @@ function EditMyProfile() {
                   <LuPencil size={13} />
                 </div>
               </label>
-            </div> */}
-
-      {/* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
-          </form> */}
-      {/* </div> */}
-      {/* </div> */}
-      {mbtiModal()}
-      {interestModal()}
-    </div>
-  );
+            </div> */
 }
 
-export default EditMyProfile;
+{
+  /* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
+          </form> */
+}
+{
+  /* </div> */
+}
+{
+  /* </div> */
+}
