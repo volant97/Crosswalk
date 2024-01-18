@@ -55,62 +55,149 @@ function EditMyProfile() {
 
   return (
     <div className="flex flex-col items-center justify-start h-screen">
-      <form onSubmit={onSubmitHandelr}>
-        <div className="w-[320px] my-[28px] border-4">
-          <div className="flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona border-blue-600 border-2 rounded-[24px]">
-            {/* 아바타 */}
-            {/* 이름 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>이름</label>
-              <input
-                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
-                value={name}
-                onChange={nameHandler}
-                type="text"
-                name="name"
-                id="id"
-                autoComplete="off"
-                placeholder={'홍길동'}
+      <form
+        className="w-[320px] h-[490px] mt-[30px] mb-[20px] overflow-y-auto scrollbar-hide"
+        onSubmit={onSubmitHandelr}
+      >
+        <div className="relative flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona rounded-[24px]">
+          {/* 아바타 */}
+          <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
+            <div className="relative h-[100px] w-[100px] bg-slate-400 rounded-full">
+              <Image
+                className="h-[100px] w-[100px] rounded-full"
+                src={`/assets/avatar/avatar${myInfo?.avatar}.png`}
+                alt="avatar"
+                fill
               />
             </div>
-            {/* 성별 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>성별</label>
-              <div className="flex justify-center gap-[8px] w-full">
-                <Button
-                  value={gender}
-                  type="button"
-                  className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
-                    gender === 'M' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                  }`}
-                  onClick={() => {
-                    setGender('M');
-                  }}
-                >
-                  남자
-                </Button>
-                <Button
-                  value={gender}
-                  type="button"
-                  className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
-                    gender === 'F' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                  }`}
-                  onClick={() => {
-                    setGender('F');
-                  }}
-                >
-                  여자
-                </Button>
+            <div className="absolute top-[1px]">
+              <button
+                onClick={() => {
+                  // any타입
+                  setRegisterData((prevData: any) => ({
+                    ...prevData,
+                    profile: {
+                      ...prevData.profile,
+                      avatar: Math.floor(Math.random() * 15)
+                    }
+                    //   ...prevData,
+                    //   avatar: Math.floor(Math.random() * 15)
+                  }));
+                }}
+                className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
+              >
+                <Image
+                  src="/assets/figmaImg/Refresh.png"
+                  className="w-[20px] h-[20px]"
+                  width={100}
+                  height={100}
+                  alt="avatar_changer"
+                />
+              </button>
+            </div>
+          </div>
+          {/* 이름 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>이름</label>
+            <input
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+              value={name}
+              onChange={nameHandler}
+              type="text"
+              name="name"
+              id="id"
+              autoComplete="off"
+              placeholder={'홍길동'}
+            />
+          </div>
+          {/* 성별 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>성별</label>
+            <div className="flex justify-center gap-[8px] w-full">
+              <Button
+                value={gender}
+                type="button"
+                className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
+                  gender === 'M' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
+                }`}
+                onClick={() => {
+                  setGender('M');
+                }}
+              >
+                남자
+              </Button>
+              <Button
+                value={gender}
+                type="button"
+                className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
+                  gender === 'F' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
+                }`}
+                onClick={() => {
+                  setGender('F');
+                }}
+              >
+                여자
+              </Button>
+            </div>
+          </div>
+          {/* MBTI */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <p className="font-semibold mb-[0.5rem]">MBTI</p>
+            <div className="relative flex justify-center items-center w-[70px] h-[40px] text-[14px] font-[400] leading-[20px] capitalize bg-white border-1 border-solid border-black rounded-full">
+              {myInfo?.mbti}
+              <div
+                onClick={() => {
+                  openMbtiModal();
+                }}
+                className="absolute bottom-0 right-[-18px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
+              >
+                <LuPencil size={16} />
               </div>
             </div>
-            {/* MBTI */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <p className="font-semibold mb-[0.5rem]">MBTI</p>
-              <div className="relative flex justify-center items-center w-[70px] h-[40px] text-[14px] font-[400] leading-[20px] capitalize bg-white border-1 border-solid border-black rounded-full">
-                {myInfo?.mbti}
+          </div>
+          {/* 나이 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>나이</label>
+            <input
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+              value={String(age)}
+              onChange={ageHandler}
+              type="number"
+              name="age"
+              id="age"
+              autoComplete="off"
+              placeholder={'27세'}
+            />
+          </div>
+          {/* 키 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>키</label>
+            <input
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
+              value={String(height)}
+              onChange={heightHandler}
+              type="number"
+              name="height"
+              id="height"
+              autoComplete="off"
+              placeholder={'180cm'}
+            />
+          </div>
+          {/* 관심사 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>관심사</label>
+            <div className="flex justify-start items-start gap-[6px] flex-wrap self-stretch">
+              <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                {myInfo?.interest?.[0]}
+              </div>
+              <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                {myInfo?.interest?.[1]}
+              </div>
+              <div className="relative flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
+                {myInfo?.interest?.[2]}
                 <div
                   onClick={() => {
-                    openMbtiModal();
+                    openInterestModal();
                   }}
                   className="absolute bottom-0 right-[-18px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
                 >
@@ -118,119 +205,31 @@ function EditMyProfile() {
                 </div>
               </div>
             </div>
-            {/* 나이 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>나이</label>
-              <input
-                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
-                value={String(age)}
-                onChange={ageHandler}
-                type="number"
-                name="age"
-                id="age"
-                autoComplete="off"
-                placeholder={'27세'}
-              />
-            </div>
-            {/* 키 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>키</label>
-              <input
-                className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
-                value={String(height)}
-                onChange={heightHandler}
-                type="number"
-                name="height"
-                id="height"
-                autoComplete="off"
-                placeholder={'180cm'}
-              />
-            </div>
-            {/* 관심사 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>관심사</label>
-              <div className="flex justify-start items-start gap-[6px] flex-wrap self-stretch">
-                <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
-                  {myInfo?.interest?.[0]}
-                </div>
-                <div className="flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
-                  {myInfo?.interest?.[1]}
-                </div>
-                <div className="relative flex justify-center items-center w-[70px] h-[40px] rounded-full border-1 border-black bg-white text-[16px] font-[400] leading-[20px] capitalize">
-                  {myInfo?.interest?.[2]}
-                  <div
-                    onClick={() => {
-                      openInterestModal();
-                    }}
-                    className="absolute bottom-0 right-[-18px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
-                  >
-                    <LuPencil size={16} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* 사진 */}
-            <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
-              <label>사진</label>
-              <label className="relative" htmlFor="usersImg">
-                <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
-                {selectedImg === '' ? (
-                  // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
-                  <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
-                    <PiPlusThin size={50} className="fill-gray-E6" />
-                  </div>
-                ) : (
-                  <div className="relative w-[120px] h-[164px] ">
-                    <Image className="rounded-[11.364px]" src={selectedImg} alt="user_img" fill />
-                  </div>
-                )}
-                <div className="absolute bottom-[-10px] left-[100px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110">
-                  <LuPencil size={16} />
-                </div>
-              </label>
-            </div>
-            {/* 수정하기 버튼 */}
           </div>
+          {/* 사진 */}
+          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+            <label>사진</label>
+            <label className="relative" htmlFor="usersImg">
+              <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
+              {selectedImg === '' ? (
+                // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
+                <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
+                  <PiPlusThin size={50} className="fill-gray-E6" />
+                </div>
+              ) : (
+                <div className="relative w-[120px] h-[164px] ">
+                  <Image className="rounded-[11.364px]" src={selectedImg} alt="user_img" fill />
+                </div>
+              )}
+              <div className="absolute bottom-[-10px] left-[100px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110">
+                <LuPencil size={16} />
+              </div>
+            </label>
+          </div>
+          {/* 수정하기 버튼 */}
         </div>
-        {/* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} /> */}
       </form>
-
-      {/* <div className="flex justify-center filxed relative z-10">
-        <div className="h-[6.25rem] w-[6.25rem]">
-          <Image
-            className="rounded-full h-[6.25rem] w-[6.25rem]"
-            src={`/assets/avatar/avatar${myInfo?.avatar}.png`}
-            width={500}
-            height={500}
-            alt="my avatar"
-          />
-        </div>
-        <div className="absolute top-[1px]">
-          <button
-            onClick={() => {
-              // any타입
-              setRegisterData((prevData: any) => ({
-                ...prevData,
-                profile: {
-                  ...prevData.profile,
-                  avatar: Math.floor(Math.random() * 15)
-                }
-                //   ...prevData,
-                //   avatar: Math.floor(Math.random() * 15)
-              }));
-            }}
-            className="flex items-center justify-center capitalize w-[2rem] h-[2rem] bg-white rounded-full ml-[80px]"
-          >
-            <Image
-              src="/assets/figmaImg/Refresh.png"
-              className="w-[1.25rem] h-[1.25rem]"
-              width={100}
-              height={100}
-              alt="랜덤 아바타"
-            />
-          </button>
-        </div>
-      </div> */}
+      <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
 
       {/* ---------------------------- */}
       {/* <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
