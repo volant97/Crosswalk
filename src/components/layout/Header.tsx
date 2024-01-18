@@ -13,7 +13,7 @@ interface PageProps {
 function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
   return (
     <>
-      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center mb-1 justify-center border-b-[1px] z-99">
+      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center justify-center border-b-[1px] z-99">
         {!noBack && (
           <Link href="/main" className="absolute left-4">
             <Image
