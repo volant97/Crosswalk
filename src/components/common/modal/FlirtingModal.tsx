@@ -11,29 +11,31 @@ import {
   ModalProps,
   Input
 } from '@nextui-org/react';
-import { GoHeartFill } from 'react-icons/go';
-import { TbSend } from 'react-icons/tb';
-import { IoClose } from 'react-icons/io5';
+
 import useAlertModal from './AlertModal';
 import { sendFlirting } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { registerState } from '@/recoil/register';
 
-type Props = {
-  flirtingUserUid: string;
-  nextCardBtn: () => void;
-};
-
-const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
-  const pathname = usePathname();
+const useFlirtingModal = () => {
   const router = useRouter();
   const [flirtingMessage, setFlirtingMessage] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
-  const [getUid, setGetUid] = useRecoilState(isUserState);
+  const [getUid, setGetUid] = useRecoilState(registerState);
+  const [isOpen, setIsOpen] = useState(false);
+  const [flirtingUserUid, setFlirtingUserUid] = useState('');
+
+  const openFlirtingModal = (userId: string) => {
+    setFlirtingUserUid(userId);
+    setIsOpen(true);
+  };
+
+  const closeFlirtingModal = () => {
+    setIsOpen(false);
+  };
 
   const sendFlirtingMessage = async () => {
     if (getUid.uid !== null) {
@@ -45,42 +47,14 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
     setFlirtingMessage(e.target.value);
   };
 
-  const btnStyle =
-    'absolute bottom-[25px] ml-[20px] capitalize w-[9.75rem]] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] ';
-
-  const profileDetailStyle =
-    'ml-[-10px] mr-[90px] capitalize w-[8.3rem] h-[3.125rem] hover:scale-110 text-white rounded-[2rem] font-semibold px-[1.8rem] mt-[10px] mb-[5px] text-xs';
-
-  return (
+  const flirtingModal = () => (
     <>
-      <div className="flex gap-3">
-        <Button
-          onClick={() => {
-            router.push('/main');
-            nextCardBtn();
-          }}
-          className={`${pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle} left-[20px]`}
-          color="default"
-        >
-          <IoClose size={20} /> 괜찮아요
-        </Button>
-        <Button
-          onClick={() => {
-            onOpen();
-          }}
-          className={`${
-            pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle
-          } right-[40px] bg-customGreen`}
-        >
-          <GoHeartFill size={20} /> 어필하기
-        </Button>
-      </div>
       <Modal
         className="w-[20rem]"
         placement="center"
         backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={closeFlirtingModal}
       >
         <ModalContent>
           {(onClose) => (
@@ -115,7 +89,6 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
                   <Button
                     onClick={() => {
                       router.push('/main');
-                      nextCardBtn();
                     }}
                     className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 font-medium mt-[30px] font-semibold text-center"
                     type="submit"
@@ -139,6 +112,8 @@ const FlirtingModal = ({ flirtingUserUid, nextCardBtn }: Props) => {
       {AlertModal()}
     </>
   );
+
+  return { openFlirtingModal, closeFlirtingModal, flirtingModal };
 };
 
-export default FlirtingModal;
+export default useFlirtingModal;
