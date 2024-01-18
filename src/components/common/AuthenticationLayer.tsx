@@ -1,17 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUser } from '@/auth/auth';
-import { IsLoginType } from '@/types/isLoginType';
-import { Props } from '@/types/childrenPropsType';
+import { supabase } from '@/lib/supabase-config';
 import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import { usePathname } from 'next/navigation';
+import { Props } from '@/types/childrenPropsType';
+import { RegisterType } from '@/types/registerType';
 import Logout from './Logout';
 import Loading from './Loading';
-import { supabase } from '@/lib/supabase-config';
-import { userState } from '@/recoil/user';
-import { RegisterType } from '@/types/registerType';
 import TempHome from './TempHome';
-import { usePathname } from 'next/navigation';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
@@ -52,8 +50,6 @@ function AuthenticationLayer({ children }: Props) {
       <TempHome />
     </>
   );
-}
-{
 }
 
 export default AuthenticationLayer;
