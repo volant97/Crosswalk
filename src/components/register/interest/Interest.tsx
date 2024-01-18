@@ -45,10 +45,10 @@ function Interest() {
   return (
     <div
       id="interest"
-      className="flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
+      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
     >
       <div className="flex flex-col w-[300px] h-[296px] gap-[20px]">
-        <h1 className="text-[22px] font-semibold text-black mt-[64px] mb-[50px]">
+        <h1 className="text-[22px] font-semibold text-black mt-[70px] mb-[40px]">
           관심사를
           <br />
           선택해주세요.
@@ -73,7 +73,7 @@ function Interest() {
         </ul>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
           activeStates.length === maxSelectedInterests ? 'bg-customGreen' : 'bg-customYellow'
         }`}
         onClick={handleNextBtn}
