@@ -11,18 +11,19 @@ import { TfiReload } from 'react-icons/tfi';
 import MbtiModal from '../common/modal/MbtiModal';
 import InterestModal from '../common/modal/InterestModal';
 import { RegisterType } from '@/types/registerType';
+import { UserState, userState } from '@/recoil/user';
 
 function EditMyProfile() {
-  const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
-  const myInfo = registerData;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myInfo = registerData?.profile;
   const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
   const [file, setFile] = useState<any | null>('test');
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
-  const [gender, setGender] = useState<string | null>(myInfo?.gender);
-  const [name, setName] = useState<string | null>(myInfo?.name);
-  const [age, setAge] = useState<number | null>(myInfo?.age);
-  const [height, setHeight] = useState<number | null>(myInfo?.height);
+  const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
+  const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
+  const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
+  const [height, setHeight] = useState<number | undefined>(myInfo?.height || undefined);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -58,7 +59,7 @@ function EditMyProfile() {
         <div className="h-[6.25rem] w-[6.25rem]">
           <Image
             className="rounded-full h-[6.25rem] w-[6.25rem]"
-            src={`/assets/avatar/avatar${myInfo.avatar}.png`}
+            src={`/assets/avatar/avatar${myInfo?.avatar}.png`}
             width={500}
             height={500}
             alt="my avatar"
@@ -70,7 +71,12 @@ function EditMyProfile() {
               // any타입
               setRegisterData((prevData: any) => ({
                 ...prevData,
-                avatar: Math.floor(Math.random() * 15)
+                profile: {
+                  ...prevData.profile,
+                  avatar: Math.floor(Math.random() * 15)
+                }
+                //   ...prevData,
+                //   avatar: Math.floor(Math.random() * 15)
               }));
             }}
             className="flex items-center justify-center capitalize w-[2rem] h-[2rem] bg-white rounded-full ml-[80px]"
@@ -92,7 +98,7 @@ function EditMyProfile() {
             <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">이름</label>
               <input
-                value={name || undefined}
+                value={name}
                 onChange={nameHandler}
                 type="text"
                 name="name"
@@ -104,7 +110,7 @@ function EditMyProfile() {
             <div className="mb-[1.5rem]">
               <p className="text-[1.125rem] mb-[0.5rem] font-semibold">성별</p>
               <Button
-                value={gender || undefined}
+                value={gender}
                 type="button"
                 className={`w-[45%] mr-[0.5rem] py-2 px-6 bg-white rounded-full cursor-pointer border ${
                   gender === 'M' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
@@ -116,7 +122,7 @@ function EditMyProfile() {
                 남자
               </Button>
               <Button
-                value={gender || undefined}
+                value={gender}
                 type="button"
                 className={`w-[45%] py-2 px-6 bg-white rounded-full cursor-pointer border ${
                   gender === 'F' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
@@ -131,7 +137,7 @@ function EditMyProfile() {
             <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
               <p className="font-semibold mb-[0.5rem]">MBTI</p>
               <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full">
-                {myInfo.mbti}
+                {myInfo?.mbti}
               </div>
               <div
                 onClick={() => {
@@ -145,7 +151,7 @@ function EditMyProfile() {
             <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">나이</label>
               <input
-                value={String(age) || undefined}
+                value={String(age)}
                 onChange={ageHandler}
                 type="number"
                 name="age"
@@ -157,7 +163,7 @@ function EditMyProfile() {
             <div className="flex flex-col  mb-[1.5rem] ">
               <label className="text-[1.125rem] mb-[0.5rem] font-semibold">키</label>
               <input
-                value={height || undefined}
+                value={String(height)}
                 onChange={heightHandler}
                 type="number"
                 name="height"
@@ -170,13 +176,13 @@ function EditMyProfile() {
               <p className="font-semibold mb-[0.5rem]">관심사</p>
               <div className="flex flex-row gap-[0.38rem]">
                 <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full text-xs font-semibold">
-                  {myInfo.interest?.[0]}
+                  {myInfo?.interest?.[0]}
                 </div>
                 <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] text-xs rounded-full font-semibold">
-                  {myInfo.interest?.[1]}
+                  {myInfo?.interest?.[1]}
                 </div>
                 <div className=" flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] text-xs rounded-full font-semibold">
-                  {myInfo.interest?.[2]}
+                  {myInfo?.interest?.[2]}
                 </div>
                 <div
                   onClick={() => {

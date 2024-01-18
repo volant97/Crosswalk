@@ -12,3 +12,17 @@ export type RegisterType = {
   information_use_period: string | null;
   information_agreement: boolean | null;
 };
+
+export type unNullRegisterType = {
+  uid: string;
+  name: string;
+  gender: 'M' | 'F';
+  mbti: string;
+  age: number;
+  height: number;
+  interest: string[];
+  user_img: string;
+  avatar: number;
+  information_use_period: string;
+  information_agreement: boolean;
+};
