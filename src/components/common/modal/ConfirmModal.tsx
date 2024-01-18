@@ -88,14 +88,15 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
   }
 
-  useEffect(() => {
-    if (registerData === null) {
-      updateData();
-    }
+  // 임시로 주석해줬음
+  // useEffect(() => {
+  //   if (registerData === null) {
+  //     updateData();
+  //   }
 
-    console.log('updateData', registerData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registerData]);
+  //   console.log('updateData', registerData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [registerData]);
 
   return (
     <div>
