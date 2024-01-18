@@ -118,6 +118,16 @@ const NotificationList = () => {
             if ((isSender && senderIsRead) || (isReceiver && receiverIsRead)) {
               return null; // 숨김
             }
+            if (userNames[index]?.sender === undefined && userNames[index]?.receiver === undefined) {
+              return (
+                <div
+                  key={notification.id}
+                  className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
+                >
+                  <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">신호 대기중...</li>
+                </div>
+              );
+            }
             return (
               <ul key={notification.id} className="flex-col justify-center items-center text-center">
                 <Link
@@ -165,7 +175,7 @@ const NotificationList = () => {
           })
         ) : (
           <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0]">
-            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">받은 알림이 없습니다.</li>
+            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 cursor-pointer">신호 대기중...</li>
           </div>
         )}
       </div>
