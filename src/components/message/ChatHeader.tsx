@@ -17,9 +17,9 @@ function ChatHeader({ roomInfo, getUid }: ChatProps) {
       {ChatStatusColor(roomInfo?.flirting_list?.status, roomInfo?.flirting_list?.receiver_uid?.avatar)}
       <div>
         {roomInfo?.flirting_list.sender_uid.uid === getUid?.id ? (
-          <div>{roomInfo?.flirting_list.sender_uid.name}</div>
-        ) : (
           <div>{roomInfo?.flirting_list.receiver_uid.name}</div>
+        ) : (
+          <div>{roomInfo?.flirting_list.sender_uid.name}</div>
         )}
         <div className="flex gap-[0.25rem] items-center mt-[-5px]">
           <Image src="/assets/figmaImg/Heart.png" className="w-[1rem] h-[1rem]" width={50} height={50} alt="호감도" />
