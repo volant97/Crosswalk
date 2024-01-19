@@ -21,7 +21,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
               alt="뒤로가기 화살표"
               width={24}
               height={24}
-              className="absolute left-0 cursor-pointer"
+              className="left-0 cursor-pointer"
             />
           </Link>
         )}
@@ -32,7 +32,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
           </div>
         </Link>
         {!noNotiBell && (
-          <div className="absolute right-4">
+          <div className="absolute right-[20px]">
             <NotiBell />
           </div>
         )}
