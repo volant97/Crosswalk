@@ -167,7 +167,7 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
     .from('message')
     .select('*')
     .eq('subscribe_room_id', subscribe_room_id)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: true })
     .returns<MessageType[]>();
 
   if (error || null) {
