@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
 import type { RegisterType } from '@/types/registerType';
-import { getAllData } from '@/lib/api/SupabaseApi';
+import { getAllData, getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import FlirtingModal from '../common/modal/FlirtingModal';

@@ -15,10 +15,18 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, children }: PropsWithChi
   return (
     <main id="page">
       {/* 헤더 */}
+
+      {/* 마이프로필, 마이프로필수정, 리퀘스트 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && <Header />}
+
+      {/* 메인 */}
       {!noHeader && noBack && !noNotiBell && !noNavBar && <Header noBack />}
-      {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
-      {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />}
+
+      {/* 알림창 */}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && <Header noNavBar />}
+
+      {/* {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
+      {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />} */}
       {/* 페이지 본문 */}
       {children}
     </main>
