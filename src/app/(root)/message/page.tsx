@@ -2,6 +2,7 @@ import ChooseAvatarModal from '@/components/common/modal/ChooseAvatarModal';
 import SignalOffModal from '@/components/common/modal/SignalOffModal';
 import NavBar from '@/components/common/ui/NavBar';
 import NotiBell from '@/components/common/ui/NotiBell';
+import ChatFunction from '@/components/message/ChatFunction';
 import ChatHeader from '@/components/message/ChatHeader';
 import ChatRoom from '@/components/message/ChatRoom';
 import Link from 'next/link';
@@ -25,6 +26,7 @@ function Message() {
       <ChatHeader />
       <div className="min-h-[calc(100dvh-12rem)] overflow-y-hidden max-h-[calc(100dvh-7rem)]">
         <ChatRoom />
+        <ChatFunction />
       </div>
     </div>
   );
