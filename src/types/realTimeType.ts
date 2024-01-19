@@ -51,7 +51,7 @@ export type SpecificSubscribeFlirtingListCallbackType = (
 // ) => void;
 
 export type ChatListType = {
-  room_id: string;
+  id: string;
   flirting_list_id: number;
   flirting_list: {
     created_at: string;
@@ -63,4 +63,13 @@ export type ChatListType = {
     receiver_uid: { name: string; avatar: number; uid: string };
     sender_uid: { name: string; avatar: number; uid: string };
   };
+};
+
+export type MessageType = {
+  subscribe_room_id: string;
+  user_uid: string;
+  message: string;
+  congratulations_message: number;
+  total_chat_count: number;
+  is_read: boolean;
 };

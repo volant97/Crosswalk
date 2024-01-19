@@ -2,7 +2,7 @@ import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
-import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { MessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
 
 const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
@@ -111,7 +111,7 @@ export async function sendFlirting(senderUid: string, message: string, recevierU
 
 export async function getChatList(): Promise<ChatListType[]> {
   const { data, error } = await supabase
-    .from('chat_list')
+    .from('chat_room')
     .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
     .order('flirting_list(created_at)', { ascending: false })
     .returns<ChatListType[]>();
@@ -147,4 +147,49 @@ export async function updateIsReadInNotiReceiverSide(id: number | null): Promise
     console.error('Error updating is_read_in_noti', error);
     throw new Error('Error updating is_read_in_noti');
   }
+}
+
+export async function getMessage(subscribe_room_id: string): Promise<MessageType[]> {
+  const { data, error } = await supabase
+    .from('message')
+    .select('*')
+    .eq('subscribe_room_id', subscribe_room_id)
+    .order('created_at', { ascending: false })
+    .returns<MessageType[]>();
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+export async function postMessage(message_data: MessageType) {
+  const { data, error } = await supabase.from('message').insert(message_data);
+  console.log(message_data);
+  if (error) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+}
+
+export async function subscribeChatRoom(roomId: string, callback: SpecificSubscribeFlirtingListCallbackType) {
+  supabase
+    .channel(roomId)
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'message'
+      },
+      callback
+    )
+    .subscribe();
+}
+export async function untrackChatRoom(roomId: string) {
+  const chatRoom = supabase.channel(roomId);
+  await chatRoom.subscribe();
+  await chatRoom.untrack();
+  // console.log('Request 채널 구독 해제');
 }
