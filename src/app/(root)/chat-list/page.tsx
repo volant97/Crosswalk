@@ -1,17 +1,19 @@
 'use client';
+import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { getChatList } from '@/lib/api/SupabaseApi';
-import { isUserState } from '@/recoil/auth';
+import { UserState, userState } from '@/recoil/user';
 import { ChatListType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
-  const [getUid, setGetUid] = useRecoilState(isUserState);
+  const [getUid, setGetUid] = useRecoilState<UserState>(userState);
+  const router = useRouter();
   async function data() {
     try {
       const data = await getChatList();
@@ -22,7 +24,7 @@ export default function ChatListPage() {
   }
   useEffect(() => {
     data();
-  }, []);
+  }, [getUid?.id]);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
@@ -38,48 +40,22 @@ export default function ChatListPage() {
     return format(d, 'PPP EEE p', { locale: ko });
   };
 
-  const statusColor = (status: string, avatar: number) => {
-    switch (status) {
-      case 'UNREAD':
-        console.log('unread');
-        return (
-          <div className="rounded-full border-gray-999 border-2 p-[0.2rem]">
-            <Avatar size="sm" src={`/assets/avatar/avatar${avatar}.jpg`} alt="유저 아바타 이미지" />
-          </div>
-        );
-      case 'READ':
-        console.log('read');
-        return (
-          <div className="rounded-full border-gray-999 border-2 p-[0.2rem]">
-            <Avatar size="sm" src={`/assets/avatar/avatar${avatar}.jpg`} alt="유저 아바타 이미지" />
-          </div>
-        );
-      case 'ACCEPT':
-        console.log('ACCEPT');
-        return (
-          <div className="rounded-full border-customYellow border-2 p-[0.2rem]">
-            <Avatar size="sm" src={`/assets/avatar/avatar${avatar}.jpg`} alt="유저 아바타 이미지" />
-          </div>
-        );
-      case 'DECLINE':
-        console.log('DECLINE');
-        return (
-          <div className="rounded-full border-customRed border-2 p-[0.2rem]">
-            <Avatar size="sm" src={`/assets/avatar/avatar${avatar}.jpg`} alt="유저 아바타 이미지" />
-          </div>
-        );
-    }
-  };
-
   return (
     <>
       <ul>
         {chatList?.map((list, idx) => {
-          if (getUid.uid === list.flirting_list.sender_uid.uid) {
+          if (getUid?.id === list.flirting_list.sender_uid.uid) {
             return (
-              <li key={idx} className="py-3 flex flex-row gap-4 justify-between">
+              <li
+                key={idx}
+                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                onClick={() => {
+                  // list.id가 존재할 때만 이동하도록 수정
+                  router.push(`/chat-list/${list.id}`);
+                }}
+              >
                 <div className="flex items-center">
-                  {statusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
+                  {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                 </div>
                 <div className="w-[12.5rem]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
@@ -93,26 +69,27 @@ export default function ChatListPage() {
                 </div>
               </li>
             );
-          } else {
+          } else if (getUid?.id === list.flirting_list.receiver_uid.uid && list.flirting_list.status === 'ACCEPT') {
             return (
-              <li key={idx}>
-                <div className="max-w-8">
-                  <Image
-                    className="rounded-[1.5rem]"
-                    src={`/assets/avatar/avatar${list.flirting_list.sender_uid.avatar}.jpg`}
-                    width={30}
-                    height={30}
-                    alt="유저 아바타 이미지"
-                    style={{ width: '100%', height: '100%' }}
-                  />
+              <li
+                key={idx}
+                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                onClick={() => {
+                  router.push(`/chat-list/${list.id}`);
+                }}
+              >
+                <div className="flex items-center">
+                  {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
                 </div>
-                <div>
-                  <h5>{list.flirting_list.sender_uid.name}</h5>
-                  <div>{list.flirting_list.flirting_message}</div>
+                <div className="w-[12.5rem]">
+                  <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
+                  <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
+                    {list.flirting_list.flirting_message}
+                  </div>
                 </div>
-                <div>
-                  <h5>{list.flirting_list.created_at}</h5>
-                  <div>{list.flirting_list.flirting_message}</div>
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
+                  <div></div>
                 </div>
               </li>
             );
