@@ -27,47 +27,24 @@ const UploadImg = () => {
   const [file, setFile] = useState<any>();
   const { openModal, AlertModal } = useAlertModal();
   const route = useRouter();
+  const [testToggle, setTestToggole] = useState<boolean>(false);
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);
     openModal('서버와의 통신을 실패했습니다.');
   };
 
-  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
-  const previewImg = async (event: any) => {
-    const imgFile = event.target.files[0];
-
-    if (imgFile) {
-      console.log('1', register);
-      setFile(imgFile);
-      const imgUrl = URL.createObjectURL(imgFile);
-      setSelectedImg(imgUrl);
-
-      await uploadFile(imgFile);
-      const userImgPath = await getImgLink();
-      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
-      setRegister((prevData: any) => ({
-        ...prevData,
-        profile: {
-          ...prevData.profile,
-          user_img: userImgPath?.publicUrl,
-          avatar: Math.floor(Math.random() * 15),
-          uid: uid
-        }
-      }));
-      console.log('4-1', register);
-    }
-  };
-
-  async function uploadFile(file: any) {
+  async function uploadFile(file: any, imgUrl: string) {
     try {
       // 2. 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
         console.log('2', register);
-        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${selectedImg}`, file, {
+        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
           cacheControl: '3600',
           upsert: false
         });
+      } else {
+        return null;
       }
     } catch (error) {
       console.log('uploadFile error', error);
@@ -79,11 +56,43 @@ const UploadImg = () => {
   const getImgLink = async () => {
     try {
       console.log('3', register);
-      const { data: userImg } = await supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+      const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+      console.log('selectedImg', selectedImg);
+      if (userImg) {
+        setTestToggole(!testToggle);
+      }
       return userImg;
     } catch (error) {
       console.error('getImgLink error', error);
       handleError(error);
+    }
+  };
+
+  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
+  const previewImg = async (event: any) => {
+    const imgFile = event.target.files[0];
+
+    if (imgFile) {
+      console.log('1', register);
+      setFile(imgFile);
+      const imgUrl = URL.createObjectURL(imgFile);
+      console.log('imgUrl', imgUrl);
+      setSelectedImg(imgUrl);
+      console.log('selectedImg', selectedImg);
+      await uploadFile(imgFile, imgUrl);
+      const userImgPath = await getImgLink();
+      console.log('userImgPath', userImgPath);
+      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
+      // setRegister((prevData: any) => ({
+      //   ...prevData,
+      //   profile: {
+      //     ...prevData.profile,
+      //     user_img: userImgPath?.publicUrl,
+      //     avatar: Math.floor(Math.random() * 15),
+      //     uid: uid
+      //   }
+      // }));
+      console.log('4-1', register);
     }
   };
 
@@ -128,6 +137,20 @@ const UploadImg = () => {
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [file]);
+
+  useEffect(() => {
+    const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+    console.log('selectedImg', selectedImg);
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData.profile,
+        user_img: userImg?.publicUrl,
+        avatar: Math.floor(Math.random() * 15),
+        uid: uid
+      }
+    }));
+  }, [testToggle]);
 
   return (
     <div
