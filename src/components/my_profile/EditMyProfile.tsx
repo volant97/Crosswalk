@@ -61,7 +61,7 @@ function EditMyProfile() {
           <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
             <div className="relative h-[100px] w-[100px] bg-slate-400 rounded-full">
               <Image
-                className="h-[100px] w-[100px] rounded-full"
+                className="h-[100px] w-[100px] rounded-full object-cover"
                 src={`/assets/avatar/avatar${myInfo?.avatar}.png`}
                 alt="avatar"
                 fill
@@ -213,7 +213,7 @@ function EditMyProfile() {
                 </div>
               ) : (
                 <div className="relative w-[120px] h-[164px] ">
-                  <Image className="rounded-[11.364px]" src={selectedImg} alt="user_img" fill />
+                  <Image className="rounded-[11.364px] object-cover" src={selectedImg} alt="user_img" fill />
                 </div>
               )}
               <div className="absolute bottom-[-10px] left-[100px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110">
