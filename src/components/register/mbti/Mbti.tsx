@@ -7,9 +7,10 @@ import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { userState } from '@/recoil/user';
 
 function Mbti() {
-  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const [register, setRegister] = useRecoilState(userState);
   const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
   const { openModal, AlertModal } = useAlertModal();
@@ -26,11 +27,14 @@ function Mbti() {
     }
 
     // any타입
-    setRegisterData((prevValue: any) => ({
-      ...prevValue,
-      mbti: selectedMbti
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData?.profile,
+        mbti: selectedMbti
+      }
     }));
-
+    console.log('!!!!!mbti', register);
     router.push('#age');
   };
 

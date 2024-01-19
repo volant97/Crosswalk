@@ -8,8 +8,6 @@ import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -26,7 +24,6 @@ const UploadImg = () => {
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
   const { openModal, AlertModal } = useAlertModal();
-  const route = useRouter();
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);
@@ -34,28 +31,15 @@ const UploadImg = () => {
   };
 
   // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
-  const previewImg = async (event: any) => {
+  const previewImg = (event: any) => {
     const imgFile = event.target.files[0];
 
     if (imgFile) {
       console.log('1', register);
       setFile(imgFile);
+      uploadFile(imgFile);
       const imgUrl = URL.createObjectURL(imgFile);
       setSelectedImg(imgUrl);
-
-      await uploadFile(imgFile);
-      const userImgPath = await getImgLink();
-      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
-      setRegister((prevData: any) => ({
-        ...prevData,
-        profile: {
-          ...prevData.profile,
-          user_img: userImgPath?.publicUrl,
-          avatar: Math.floor(Math.random() * 15),
-          uid: uid
-        }
-      }));
-      console.log('4-1', register);
     }
   };
 
@@ -68,6 +52,9 @@ const UploadImg = () => {
           cacheControl: '3600',
           upsert: false
         });
+        const userImg = await getImgLink();
+
+        setAction(userImg);
       }
     } catch (error) {
       console.log('uploadFile error', error);
@@ -87,18 +74,33 @@ const UploadImg = () => {
     }
   };
 
+  // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
+  const setAction = (userImg: any) => {
+    console.log('4-1', register);
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData.profile,
+        user_img: userImg,
+        avatar: Math.floor(Math.random() * 15),
+        uid: uid
+      }
+    }));
+    console.log('4-2', register);
+  };
+
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
   const postData = async () => {
     try {
       console.log('5', register);
-      await postRegister(uid, register?.profile);
+      await postRegister(uid, register);
     } catch (error) {
       handleError(error);
     }
   };
 
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
-  const handleNextBtn = async () => {
+  const handleNextBtn = () => {
     if (!file) {
       openModal('사진을 올려주세요!');
       return;
@@ -107,9 +109,8 @@ const UploadImg = () => {
     // await uploadFile(file);
     // await getImgLink();
 
+    postData();
     console.log('6', register);
-    await postData();
-    console.log('7', register);
   };
 
   // const effectFunction = async () => {
@@ -119,15 +120,15 @@ const UploadImg = () => {
   //   await postData();
   // };
 
-  // useEffect(() => {
-  //   if (file) {
-  //     // effectFunction();
-  //     console.log('useEffect', register);
-  //   } else {
-  //     alert('file 없음');
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [file]);
+  useEffect(() => {
+    if (file) {
+      // effectFunction();
+      console.log('useEffect', register);
+    } else {
+      alert('file 없음');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
 
   return (
     <div
