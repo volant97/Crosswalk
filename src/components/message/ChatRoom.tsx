@@ -52,7 +52,6 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       alert('서버와의 통신을 실패했습니다.');
     }
   }
-  console.log(roomInfo);
   useEffect(() => {
     // 컴포넌트 마운트 시에 구독
     subscribeChatRoom(roomId, (payload: any) => {
@@ -60,11 +59,12 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       getData(roomId);
     });
 
+    getData(roomId);
     // 컴포넌트 언마운트 시에 구독 해제
     return () => {
-      untrackChatRoom(sendMessageData.subscribe_room_id);
+      untrackChatRoom(roomId);
     };
-  }, [getUid, sendMessageData.subscribe_room_id]);
+  }, [getUid, roomId]);
 
   useEffect(() => {
     // 새로운 채팅이 들어올 떄 스크롤을 맨 아래로 이동
