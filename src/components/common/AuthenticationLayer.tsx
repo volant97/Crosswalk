@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUser } from '@/auth/auth';
-import { IsLoginType } from '@/types/isLoginType';
-import { Props } from '@/types/childrenPropsType';
+import { supabase } from '@/lib/supabase-config';
 import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import { usePathname } from 'next/navigation';
+import { Props } from '@/types/childrenPropsType';
+import { RegisterType } from '@/types/registerType';
 import Logout from './Logout';
 import Loading from './Loading';
-import { supabase } from '@/lib/supabase-config';
-import { userState } from '@/recoil/user';
-import { RegisterType } from '@/types/registerType';
 import TempHome from './TempHome';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
   const [user, setUser] = useRecoilState(userState);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -34,22 +35,21 @@ function AuthenticationLayer({ children }: Props) {
       }
       setIsAuthInitialized(true);
     });
+    console.log('user', user);
   }, [isAuthInitialized, setUser]);
-
-  console.log('user', user);
 
   return (
     <>
+      {/* <div>{isAuthInitialized ? children : <Loading />}</div> */}
+      {/* <div>{isAuthInitialized || pathname.toString() === '/' ? children : <Loading />}</div> */}
       <div>{isAuthInitialized ? children : <Loading />}</div>
+      {/* test */}
       {/* <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
-      <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div> */}
-      {/* <Logout />
+      <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
+      <Logout />
       <TempHome /> */}
     </>
   );
-}
-{
-  /* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */
 }
 
 export default AuthenticationLayer;

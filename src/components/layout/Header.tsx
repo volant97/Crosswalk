@@ -25,7 +25,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
             />
           </Link>
         )}
-        {/* w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-none */}
+        {/* w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-normal */}
         <Link href={'/main'}>
           <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
             Crosswalk
