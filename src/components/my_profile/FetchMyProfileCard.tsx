@@ -11,9 +11,8 @@ import { userState } from '@/recoil/user';
 
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const [getUid, setGetUid] = useRecoilState(userState);
-  const myUid = getUid?.profile?.uid;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myUid = registerData?.profile?.uid;
 
   const getUerCards = async () => {
     try {
@@ -27,7 +26,7 @@ function FetchMyProfileCard() {
 
   async function updateData() {
     try {
-      await postRegister(registerData);
+      await postRegister(myUid, registerData?.profile);
     } catch (error) {
       console.log(error);
     }

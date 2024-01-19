@@ -1,8 +1,5 @@
 import React, { PropsWithChildren } from 'react';
 import Header from './Header';
-import { IoIosArrowRoundBack } from 'react-icons/io';
-import Link from 'next/link';
-import NavBar from '../common/ui/NavBar';
 
 interface PageProps {
   noHeader?: boolean;
@@ -16,8 +13,10 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, children }: PropsWithChi
     <main id="page">
       {/* 헤더 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && <Header />}
-      {!noHeader && noBack && !noNotiBell && !noNavBar && <Header noBack />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && <Header noNavBar />}
       {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
+      {!noHeader && !noBack && noNotiBell && !noNavBar && <Header noNotiBell />}
+      {!noHeader && noBack && !noNotiBell && !noNavBar && <Header noBack />}
       {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />}
       {/* 페이지 본문 */}
       {children}
