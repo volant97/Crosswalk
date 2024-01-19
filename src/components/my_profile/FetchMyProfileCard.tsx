@@ -45,7 +45,7 @@ function FetchMyProfileCard() {
   }, [registerData]);
 
   return (
-    <div className="w-full px-[1.5rem] py-[1.5rem]">
+    <div className="w-full px-[24px] py-[32px]">
       {userCards
         ?.filter((itme: any) => itme.uid === myUid)
         ?.map((item: any, index) => {
