@@ -42,8 +42,10 @@ function FetchUserCards() {
 
   const getUerCards = async () => {
     try {
-      const userCards = await getAllData();
+      console.log('1');
+      const userCards = await getUnMatchedData(myUid);
       // let repeatedUserCards: any = [];
+      console.log('2');
       // const repeatCount = 6; // 임시방편 무한루프
 
       // for (let i = 0; i < repeatCount; i++) {
@@ -76,7 +78,7 @@ function FetchUserCards() {
       swiper.slideNext();
     }
     getUerCards();
-  }, [currentIndex]);
+  }, []);
 
   const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
   const flirtingUserUids =

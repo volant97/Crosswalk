@@ -44,10 +44,10 @@ function AuthenticationLayer({ children }: Props) {
       {/* <div>{isAuthInitialized || pathname.toString() === '/' ? children : <Loading />}</div> */}
       <div>{isAuthInitialized ? children : <Loading />}</div>
       {/* test */}
-      {/* <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
+      <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
       <Logout />
-      <TempHome /> */}
+      <TempHome />
     </>
   );
 }

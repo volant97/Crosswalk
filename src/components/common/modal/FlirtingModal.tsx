@@ -19,6 +19,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { registerState } from '@/recoil/register';
 import { currentIndexState } from '@/recoil/currentIndex';
+import { userState } from '@/recoil/user';
 
 const useFlirtingModal = () => {
   const router = useRouter();
@@ -27,7 +28,8 @@ const useFlirtingModal = () => {
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
-  const [getUid, setGetUid] = useRecoilState(registerState);
+  const [getUid, setGetUid] = useRecoilState(userState);
+  const myUid = getUid?.id;
   const [isOpen, setIsOpen] = useState(false);
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
@@ -43,9 +45,8 @@ const useFlirtingModal = () => {
   };
 
   const sendFlirtingMessage = async () => {
-    if (getUid.uid !== null) {
-      await sendFlirting(getUid.uid, flirtingMessage, flirtingUserUid);
-    }
+    if (myUid === null || undefined) return;
+    await sendFlirting(myUid, flirtingMessage, flirtingUserUid);
   };
 
   const MessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
