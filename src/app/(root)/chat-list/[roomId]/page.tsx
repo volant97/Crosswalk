@@ -51,7 +51,7 @@ function ChatRoomPage() {
       <ChatHeader roomInfo={roomInfo} getUid={getUid} />
       <div className="min-h-[calc(100dvh-12rem)] overflow-y-hidden max-h-[calc(100dvh-7rem)]">
         <ChatRoom roomInfo={roomInfo} getUid={getUid} />
-        <ChatFunction />
+        {/* <ChatFunction /> */}
       </div>
     </div>
   );
