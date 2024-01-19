@@ -35,41 +35,55 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
             fill
           />
         </div>
-        <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
-          <h1 className="text-[1.375rem] font-semibold">{name}</h1>
-          <h2 className="font-medium">{age}</h2>
+        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[46px] px-[20px] mb-[10px]">
+          <h1 className="text-[24px] font-bold w-full h-[24px] leading-[24px]">{name}</h1>
+          <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[88px] mb-[1.5px] ml-[1px] leading-[16px] pt-[1px] font-medium">
+            {age}
+          </h2>
         </div>
-        <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
+        <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[24px] ml-[20px]">
           {interest?.map((item, index) => {
             return (
-              <Fragment key={index}>
+              <>
                 <div
                   key={index}
-                  className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
+                  className="flex items-center justify-center text-center border-[1px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
                 >
                   {item}
                 </div>
-              </Fragment>
+              </>
             );
           })}
         </div>
       </div>
-      <div className="flex flex-col h-[11.5rem] w-full rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
-        <div className="mb-[1.5rem] my-[1.5rem] h-[2.875rem]">
-          <h1 className="text-gray-999">기본정보</h1>
-          <div className="flex flex-row gap-[0.25rem]">
-            <div className={`${border}`}>{height}cm</div>
-            <div className={`${border}`}>{gender === 'M' ? '남자' : '여자'}</div>
+      <div className="flex flex-col  h-[11.5rem] w-full rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
+        <div className="flex flex-col gap-[8px] my-[1.5rem] h-[52px]">
+          <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
+          <div className="flex flex-row gap-[0.25rem] h-[26px]">
+            <div
+              className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px] bg-customGreen2`}
+            >
+              {height}cm
+            </div>
+            <div
+              className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px] bg-customGreen2`}
+            >
+              {gender === 'M' ? '남자' : '여자'}
+            </div>
           </div>
         </div>
-        <div className="h-[2.875rem] mb-[1.5rem]">
-          <h1 className="text-slate-400">MBTI</h1>
-          <div className="flex flex-row gap-[0.25rem] mt-[0.5rem]">
-            <div className={`${border}`}>{mbti}</div>
+        <div className="flex flex-col h-[52px] ">
+          <h1 className="text-[18px] leading-[18px] font-medium">MBTI</h1>
+          <div className="flex flex-row gap-[0.25rem] h-[26px] mt-[0.5rem] ">
+            <div
+              className={`${border} flex justify-center items-center px-[12px] py-[4px]  text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px] bg-customGreen2`}
+            >
+              {mbti}
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-between gap-[8px] w-full">
         <Button
           color="default"
           onClick={() => {
@@ -80,17 +94,19 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
             });
             router.push('/');
           }}
-          className={`w-[9.625rem] h-[3.125rem] px-[1.25rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem] text-gray-AAA mt-[1.2rem] `}
+          className={`w-[177px] h-[50px] px-[1.25rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem]  mt-[1.2rem] `}
+          size="md"
         >
-          로그아웃
+          <span className="text-gray-AAA text-[18px] leading-[20px] font-semibold"></span>로그아웃
         </Button>
         <Button
           onClick={() => {
             router.push('/my-profile/edit');
           }}
-          className={`w-[9.625rem] px-[1.25rem] h-[3.125rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
+          className={`w-[177px] h-[50px] px-[1.25rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
+          size="md"
         >
-          프로필 수정
+          <span className="text-black text-[18px] leading-[20px] font-semibold">프로필 수정</span>
         </Button>
       </div>
     </>

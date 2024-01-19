@@ -41,10 +41,10 @@ function AuthenticationLayer({ children }: Props) {
   return (
     <>
       <div>{isAuthInitialized ? children : <Loading />}</div>
-      <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
-      <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
-      <Logout />
-      <TempHome />
+      {/* <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
+      <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div> */}
+      {/* <Logout />
+      <TempHome /> */}
     </>
   );
 }

@@ -36,10 +36,10 @@ function AgeAndHeight() {
     <form
       onSubmit={handleNameForm}
       id="age"
-      className="flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
+      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
     >
       <div className="flex flex-col w-[300px] h-[278px]">
-        <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[64px]">
+        <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[70px]">
           나이와 키를
           <br />
           입력해주세요.
@@ -68,7 +68,7 @@ function AgeAndHeight() {
         </div>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
           age && height ? 'bg-customGreen' : 'bg-customYellow'
         }`}
         type="submit"

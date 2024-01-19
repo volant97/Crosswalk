@@ -35,18 +35,18 @@ function Name() {
 
   return (
     <form
-      className=" flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
+      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
       onSubmit={handleSubmit}
       id="name"
     >
       <div className="flex flex-col w-[300px] h-[274px] gap-[20px]">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mt-[64px]">
+          <h1 className="text-[22px] font-semibold text-black mt-[70px]">
             이름과 성별을
             <br />
             입력해주세요.
           </h1>
-          <p className=" text-sm mt-[5px] mb-[40px] text-gray-666">사용자의 실명을 입력해주세요.</p>
+          <p className=" text-sm mt-[5px] mb-[30px] text-gray-666">사용자의 실명을 입력해주세요.</p>
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="inputName" className="text-gray-AAA text-[16px]">
@@ -91,7 +91,7 @@ function Name() {
         </div>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
           name && gender ? 'bg-customGreen' : 'bg-customYellow'
         }`}
         type="submit"
