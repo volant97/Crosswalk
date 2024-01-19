@@ -1,15 +1,16 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import interestData from '../../../data/interestData.json';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { userState } from '@/recoil/user';
 
 function Interest() {
   const { interests } = interestData;
-  const [registerData, setRegisterData] = useRecoilState(registerState);
+  const [register, setRegister] = useRecoilState(userState);
   const [activeStates, setActiveStates] = useState<string[]>([]);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
 
@@ -34,14 +35,21 @@ function Interest() {
     }
 
     // any타입
-    setRegisterData((prevValue: any) => ({
-      ...prevValue,
-      interest: activeStates
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData?.profile,
+        interest: activeStates
+      }
     }));
-
+    console.log('!!!!!Interest', register);
     router.push('#imgUpload');
   };
-  // console.log(activeStates);
+
+  useEffect(() => {
+    console.log('activeStates~~ : ', activeStates);
+  }, [activeStates]);
+
   return (
     <div
       id="interest"

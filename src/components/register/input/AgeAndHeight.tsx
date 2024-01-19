@@ -2,13 +2,14 @@
 
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { registerState } from '@/recoil/register';
+import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 function AgeAndHeight() {
-  const [register, setRegister] = useRecoilState(registerState);
+  const [register, setRegister] = useRecoilState(userState);
   const [age, setAge] = useState<string>('');
   const [height, setHeight] = useState<string>('');
   const router = useRouter();
@@ -23,12 +24,15 @@ function AgeAndHeight() {
     }
 
     // any타입
-    setRegister((prevValue: any) => ({
-      ...prevValue,
-      age: Number(age),
-      height: Number(height)
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData?.profile,
+        age: Number(age),
+        height: Number(height)
+      }
     }));
-
+    console.log('!!!!!AgeAndHeight', register);
     router.push('#interest');
   };
 

@@ -8,12 +8,13 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { id } from 'date-fns/locale';
+import { UserState, userState } from '@/recoil/user';
 
 function Agreement() {
   const [checkItems, setCheckItems] = useState<string[]>([]);
   const [isSelectedAll, setIsSelectedAll] = useState<boolean>(false);
   const router = useRouter();
-  const [register, setRegister] = useRecoilState(registerState);
+  const [register, setRegister] = useRecoilState(userState);
   const currentDate = new Date();
   const { openModal, AlertModal } = useAlertModal();
   const period = addMonths(currentDate, 3);
@@ -23,11 +24,15 @@ function Agreement() {
   const handleNextBtn = () => {
     // 모든 체크박스가 선택된 경우를 확인
     if (checkItems.length > 3) {
-      setRegister((prevValue) => ({
-        ...prevValue,
-        information_use_period: format(period, dateFormat),
-        information_agreement: true
+      setRegister((prevData: any) => ({
+        ...prevData,
+        profile: {
+          ...prevData?.profile,
+          information_use_period: format(period, dateFormat),
+          information_agreement: true
+        }
       }));
+      console.log('!!!!!', register);
       router.push('#name');
     } else {
       openModal('모든 체크박스를 선택해주세요.');
@@ -66,15 +71,15 @@ function Agreement() {
           </h1>
         </div>
         <div className="flex flex-col w-[360px] h-[160px]">
-          <div className="flex pt-[8px] pb-[8px] pl-[10px] pr-[10px] w-[300px] h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] inline">
+          <div className="flex pt-[8px] pb-[8px] pl-[10px] pr-[10px] w-[300px] h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px]">
             <Checkbox
               radius="full"
               color="success"
               isSelected={isSelectedAll}
               onValueChange={handleCheckAll}
-              className="flex pt-[8px] pb-[8px] pl-[8px] pr-[10px] w-full h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] inline"
+              className="flex pt-[8px] pb-[8px] pl-[8px] pr-[10px] w-full h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px]"
             >
-              <span className="text-[16px] w-[300px] h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] ">
+              <span className="text-[16px] w-[300px] h-[38px] bg-customGreen2  font-medium rounded-[10px] ">
                 아래 항목에 전부 동의합니다.
               </span>
             </Checkbox>

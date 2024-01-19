@@ -7,9 +7,10 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Gender from './Gender';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { userState } from '@/recoil/user';
 
 function Name() {
-  const [register, setRegister] = useRecoilState(registerState);
+  const [register, setRegister] = useRecoilState(userState);
   const [name, setName] = useState('');
   const [gender, setGender] = useState<string>('');
   const router = useRouter();
@@ -24,12 +25,15 @@ function Name() {
     }
 
     // any타입
-    setRegister((prevValue: any) => ({
-      ...prevValue,
-      name,
-      gender
+    setRegister((prevData: any) => ({
+      ...prevData,
+      profile: {
+        ...prevData?.profile,
+        name,
+        gender
+      }
     }));
-
+    console.log('!!!!!name', register);
     router.push('#mbti');
   };
 
