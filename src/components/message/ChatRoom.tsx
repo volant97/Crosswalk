@@ -5,10 +5,10 @@ import { UserState } from '@/recoil/user';
 import { ChatListType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 interface ChatProps {
+  roomId: string;
   roomInfo?: ChatListType;
   getUid: UserState;
 }
@@ -22,9 +22,7 @@ const defaultMessageData = {
   is_read: false
 };
 
-function ChatRoom({ roomInfo, getUid }: ChatProps) {
-  const pathname = usePathname();
-  const roomId = pathname.split('/')[2];
+function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const [sendMessageData, setSendMessageData] = useState<MessageType>(defaultMessageData);
