@@ -9,6 +9,7 @@ import ProfileCard from './ProfileCard';
 
 import 'swiper/css';
 import { userState } from '@/recoil/user';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   userId: string;
@@ -20,15 +21,10 @@ function FetchUserProfile({ userId }: Props) {
   const myUid = getUid.uid;
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myGender = registerData?.profile?.gender;
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const storedIndex = localStorage.getItem('sliderIndex');
-    return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
-  });
-
-  const totalCards = userCards.length - 1;
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCards);
-  };
+  // const [currentIndex, setCurrentIndex] = useState(0);
+  // const handleNext = () => {
+  //   setCurrentIndex((prevIndex) => prevIndex + 1);
+  // };
 
   const getUerCards = async () => {
     try {
@@ -43,9 +39,9 @@ function FetchUserProfile({ userId }: Props) {
     getUerCards();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('sliderIndex', currentIndex.toString());
-  }, [currentIndex]);
+  // useEffect(() => {
+  //   localStorage.setItem('sliderIndex', currentIndex.toString());
+  // }, [currentIndex]);
 
   const filteredCards = userCards?.find((item) => item?.uid == userId && item.gender !== myGender);
 
@@ -62,7 +58,7 @@ function FetchUserProfile({ userId }: Props) {
         height={filteredCards?.height}
         gender={filteredCards?.gender}
         mbti={filteredCards?.mbti}
-        nextCardBtn={handleNext}
+        flirtingUserId={filteredCards?.uid}
       />
     </div>
   );

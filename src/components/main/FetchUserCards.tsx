@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
-import type { RegisterType } from '@/types/registerType';
+import type { RegisterType, unMatchedDataType } from '@/types/registerType';
 import { getAllData, getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
@@ -17,24 +17,28 @@ import Button from '../Button';
 import { IoClose } from 'react-icons/io5';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import { GoHeartFill } from 'react-icons/go';
+import SlideButton from '../SlideButton';
+import { Navigation } from 'swiper/modules';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { currentIndexState } from '@/recoil/currentIndex';
+import useAlertModal from '../common/modal/AlertModal';
+import { supabase } from '@/lib/supabase-config';
 
 function FetchUserCards() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const initialSlide = Number(searchParams.get('i') || 0);
+  const { openModal, AlertModal } = useAlertModal();
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
-  const [getUid, setGetUid] = useRecoilState(isUserState);
-  const myUid = getUid.uid;
   const [registerData, setRegisterData] = useRecoilState(userState);
   const [userUids, setUserUids] = useState<any>([]);
+  const [activeUserUid, setActiveUserUid] = useState<string>('');
+  const [swiper, setSwiper] = useState<any>(null);
   const myGender = registerData?.profile?.gender;
+  const myUid = registerData?.profile?.uid;
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const storedIndex = localStorage.getItem('sliderIndex');
-    return storedIndex ? parseInt(storedIndex, userCards.length) : 0;
-  });
-
-  const totalCards = userCards.length - 1;
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCards);
-  };
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   const getUerCards = async () => {
     try {
@@ -48,7 +52,9 @@ function FetchUserCards() {
 
       setUserCards(userCards);
 
-      const uids = userCards.map((item: any) => item.uid);
+      const uids = userCards
+        .filter((item) => item.uid !== myUid && item.gender !== myGender)
+        .map((item: any) => item.uid);
       setUserUids(uids);
     } catch (error) {
       console.error('Error fetching my posts:', error);
@@ -58,44 +64,55 @@ function FetchUserCards() {
 
   // 슬라이드 할 때 마다 값 가져오기
   const handleSlideChange = (swiper: any) => {
-    // Access the currently active slide index
     const activeIndex = swiper.activeIndex;
 
-    // Get the UID of the user card at the active index
     const activeUserUid = userUids[activeIndex];
+    setActiveUserUid(activeUserUid);
 
-    // Do something with the UID, for example, log it
     console.log('Active User UID:', activeUserUid);
   };
   useEffect(() => {
+    if (forceUpdate === true) {
+      swiper.slideNext();
+    }
     getUerCards();
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('sliderIndex', currentIndex.toString());
   }, [currentIndex]);
 
+  const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
+  const flirtingUserUids =
+    userCards?.filter((item: any) => item.uid !== myUid && item.gender !== myGender)?.map((item: any) => item.uid) ||
+    [];
+
   const handleLike = () => {
-    const userId = openFlirtingModal(handleSlideChange);
-    return userId;
+    const likedUserUid = userUids[currentIndex];
+    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex);
+    console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
+    setForceUpdate(true);
   };
 
-  const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
-
+  console.log('currentIndex', currentIndex);
   return (
     <div className="w-full">
       <Swiper
+        modules={[Navigation]}
         spaceBetween={24}
         slidesPerView={1}
         onSlideChange={(swiper: any) => {
           handleSlideChange(swiper);
         }}
-        onSwiper={(swiper: any) => console.log(swiper)}
+        onSwiper={(swiper: any) => setSwiper(swiper)}
         className="!px-[1.5rem] !py-[2rem]"
+        navigation={true}
+        touchRatio={0}
+        // loop={true}
+        // loopAdditionalSlides={0}
+        initialSlide={initialSlide}
+        onTransitionEnd={(swiper) => setCurrentIndex(swiper.realIndex)}
       >
-        {filteredCards?.map((item: any) => (
+        {filteredCards?.map((item: any, index) => (
           <SwiperSlide key={item.uid}>
             <UserCard
+              index={index}
               age={item.age}
               name={item.name}
               interest={item.interest}
@@ -106,13 +123,27 @@ function FetchUserCards() {
         ))}
       </Swiper>
       <div className="flex gap-3 px-[20px] flex justify-between gap-x-2">
-        <Button onClick={() => {}} color="default">
+        <SlideButton
+          nextCard={() => {
+            if (swiper) {
+              swiper.slideNext();
+              router.push(`/main?i=${currentIndex + 1}`);
+            }
+            if (currentIndex === filteredCards.length - 1) {
+              openModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
+
+              setCurrentIndex(0);
+              router.push(`/main`);
+            }
+          }}
+          color="default"
+          size="lg"
+        >
           <IoClose size={20} /> 괜찮아요
-        </Button>
+        </SlideButton>
         <Button
           openFlirtingModal={() => {
-            // handleLike();
-            console.log('userId');
+            handleLike();
           }}
           color="green"
           size="lg"
@@ -121,26 +152,9 @@ function FetchUserCards() {
         </Button>
       </div>
       {flirtingModal()}
+      {AlertModal()}
     </div>
   );
 }
 
 export default FetchUserCards;
-
-{
-  /* <ul className="overflow-x-scroll gap-x-[1.5rem] flex py-[2rem] px-[1.5rem]"></ul> */
-}
-// {userCards
-//   ?.filter((itme: any) => itme.uid !== myUid)
-//   ?.map((item: any, index) => {
-//     return (
-//       <div
-//         key={index}
-//         className={}
-//         // className={`transform transition-transform ease-in-out duration-300`}
-//         // style={{ transform: `translateX(${-currentIndex * 100}%)` }}
-//       >
-//
-//       </div>
-//     );
-//   })}
