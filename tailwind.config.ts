@@ -26,6 +26,7 @@ const config: Config = {
         customGreen2: '#F1FCED',
         lightRed: '#FF002E',
         lightGreen: '#ACFF8E',
+        melona: '#F1FCED',
         gray: {
           F3: '#F3F3F3' /* F3F3F3 */,
           EF: '#EFEFEF' /* EFEFEF */,
@@ -40,6 +41,9 @@ const config: Config = {
           F6: '#F6F6F6' /* F6F6F6 */,
           FA: '#FAFAFA' /* FAFAFA */
         }
+      },
+      boxShadow: {
+        navBarShadow: '0 0 20px 0 rgba(2, 7, 50, 0.08)'
       }
     }
   },

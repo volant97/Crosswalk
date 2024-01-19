@@ -12,8 +12,8 @@ interface PageProps {
 
 function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
   return (
-    <>
-      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center mb-1 justify-center border-b-[1px] z-99">
+    <div className="sticky top-0  bg-white z-50">
+      <div className="relative flex font-virgil h-[64px] items-center justify-center border-b-[1px] border-[#E9EAEB] ">
         {!noBack && (
           <Link href="/main" className="absolute left-4">
             <Image
@@ -21,24 +21,24 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
               alt="뒤로가기 화살표"
               width={24}
               height={24}
-              className="absolute left-0 cursor-pointer relative"
+              className="left-0 cursor-pointer"
             />
           </Link>
         )}
-        {/* w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-none */}
+        {/* w-[140px] h-[32px] text-[28px] font-virgil font-[600] leading-normal */}
         <Link href={'/main'}>
           <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
             Crosswalk
           </div>
         </Link>
         {!noNotiBell && (
-          <div className="absolute right-4">
+          <div className="absolute right-[20px]">
             <NotiBell />
           </div>
         )}
       </div>
       {!noNavBar && <NavBar />}
-    </>
+    </div>
   );
 }
 

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
   Modal,
   ModalContent,
@@ -106,12 +106,21 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
+  // 임시로 주석해줬음
+  // useEffect(() => {
+  //   if (registerData === null) {
+  //     updateData();
+  //   }
+
+  //   console.log('updateData', registerData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [registerData]);
 
   return (
-    <div>
+    <Fragment>
       <Button
         onPress={onOpen}
-        className="w-[20rem] ml-[-21px] mt-[2rem] h-[3.125rem] bg-customGreen rounded-[1.875rem] cursor-pointer mb-0 font-semibold"
+        className="flex justify-center items-center w-[320px] h-[50px] bg-customGreen rounded-full cursor-pointer text-[18px] font-[600] leading-[20px] capitalize"
         type="submit"
       >
         수정하기
@@ -154,7 +163,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
         </ModalContent>
       </Modal>
       {AlertModal()}
-    </div>
+    </Fragment>
   );
 }
 

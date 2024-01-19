@@ -29,7 +29,7 @@ function FetchUserCards() {
   const router = useRouter();
   const initialSlide = Number(searchParams.get('i') || 0);
   const { openModal, AlertModal } = useAlertModal();
-  const [userCards, setUserCards] = useState<unMatchedDataType[]>([]);
+  const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const [userUids, setUserUids] = useState<any>([]);
   const [activeUserUid, setActiveUserUid] = useState<string>('');
@@ -42,7 +42,7 @@ function FetchUserCards() {
 
   const getUerCards = async () => {
     try {
-      const userCards = await getUnMatchedData();
+      const userCards = await getAllData();
       // let repeatedUserCards: any = [];
       // const repeatCount = 6; // 임시방편 무한루프
 
