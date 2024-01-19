@@ -150,6 +150,7 @@ const UploadImg = () => {
         uid: uid
       }
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testToggle]);
 
   return (
