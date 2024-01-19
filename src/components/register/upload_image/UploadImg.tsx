@@ -56,7 +56,7 @@ function UploadImg() {
   }
   async function postData() {
     try {
-      await postRegister(registerData);
+      await postRegister(uid, registerData);
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
     }
@@ -81,10 +81,10 @@ function UploadImg() {
   return (
     <div
       id="imgUpload"
-      className="flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
+      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
     >
       <div className="flex flex-col w-[300px] h-[432px] gap-[20px]">
-        <h1 className=" text-[22px] font-semibold text-black mt-[64px] mb-[20px]">
+        <h1 className=" text-[22px] font-semibold text-black mt-[70px] mb-[30px]">
           사진을
           <br />
           업로드해주세요.
@@ -107,7 +107,7 @@ function UploadImg() {
         </div>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
           file ? 'bg-customGreen' : 'bg-customYellow'
         }`}
         onClick={handleNextBtn}

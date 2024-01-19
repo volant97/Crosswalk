@@ -12,8 +12,8 @@ interface PageProps {
 
 function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
   return (
-    <>
-      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center mb-1 justify-center border-b-[1px] z-99">
+    <div className="sticky top-0  bg-white z-50">
+      <div className="relative flex font-virgil h-[64px] items-center justify-center border-b-[1px] border-[#E9EAEB] ">
         {!noBack && (
           <Link href="/main" className="absolute left-4">
             <Image
@@ -21,7 +21,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
               alt="뒤로가기 화살표"
               width={24}
               height={24}
-              className="absolute left-0 cursor-pointer relative"
+              className="absolute left-0 cursor-pointer"
             />
           </Link>
         )}
@@ -38,7 +38,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
         )}
       </div>
       {!noNavBar && <NavBar />}
-    </>
+    </div>
   );
 }
 

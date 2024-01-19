@@ -56,10 +56,10 @@ function Agreement() {
   // console.log('register', register);
 
   return (
-    <div className=" flex flex-col items-center border-1 min-h-[calc(100dvh-2rem)] overflow-y-hidden h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
+    <div className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
       <div className="flex flex-col w-[300px] h-[272px] ">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[64px]">
+          <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[10px]">
             서비스 가입을 위해
             <br />
             이용약관에 동의해주세요.
@@ -72,7 +72,7 @@ function Agreement() {
               color="success"
               isSelected={isSelectedAll}
               onValueChange={handleCheckAll}
-              className="flex pt-[8px] pb-[8px] pl-[10px] pr-[10px] w-full h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] inline"
+              className="flex pt-[8px] pb-[8px] pl-[8px] pr-[10px] w-full h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] inline"
             >
               <span className="text-[16px] w-[300px] h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] ">
                 아래 항목에 전부 동의합니다.

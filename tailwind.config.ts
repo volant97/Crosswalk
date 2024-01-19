@@ -41,6 +41,9 @@ const config: Config = {
           F6: '#F6F6F6' /* F6F6F6 */,
           FA: '#FAFAFA' /* FAFAFA */
         }
+      },
+      boxShadow: {
+        navBarShadow: '0 0 20px 0 rgba(2, 7, 50, 0.08)'
       }
     }
   },
