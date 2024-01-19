@@ -23,6 +23,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { currentIndexState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
+import Image from 'next/image';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
@@ -148,7 +149,8 @@ function FetchUserCards() {
           color="green"
           size="lg"
         >
-          <GoHeartFill size={20} /> 어필하기
+          <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" />{' '}
+          <span className="text-black text-[18px] leading-[20px] font-semibold">어필하기</span>
         </Button>
       </div>
       {flirtingModal()}
