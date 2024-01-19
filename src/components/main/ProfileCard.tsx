@@ -1,26 +1,39 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { Fragment } from 'react';
 import FlirtingModal from '../common/modal/FlirtingModal';
 import Button from '../Button';
 import { IoClose } from 'react-icons/io5';
 import { GoHeartFill } from 'react-icons/go';
+import useFlirtingModal from '../common/modal/FlirtingModal';
+import SlideButon from '../SlideButton';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { currentIndexState } from '@/recoil/currentIndex';
 
 const tags = ['음악', '여행', '맛집'];
 
 const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 type Props = {
-  age: number;
-  avatar: string;
-  name: string;
-  interest: string[];
-  height: number;
-  gender: string;
-  mbti: string;
-  nextCardBtn: () => void;
+  age: number | null | undefined;
+  avatar: number | null | undefined;
+  name: string | null | undefined;
+  interest: string[] | null | undefined;
+  height: number | null | undefined;
+  gender: string | null | undefined;
+  mbti: string | null | undefined;
+  flirtingUserId: any;
 };
 
-function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCardBtn }: Props) {
+function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gender, mbti }: Props) {
+  const router = useRouter();
+  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+
+  const handleLike = () => {
+    openFlirtingModal(flirtingUserId, currentIndex);
+    console.log('userId', flirtingUserId);
+  };
   return (
     <div>
       <div className="relative">
@@ -39,14 +52,14 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
         <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
           {interest?.map((item, index) => {
             return (
-              <>
+              <Fragment key={index}>
                 <div
                   key={index}
                   className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
                 >
                   {item}
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>
@@ -67,13 +80,26 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
         </div>
       </div>
       <div className="flex gap-3 px-[20px] flex justify-between gap-x-2">
-        <Button onClick={() => {}} color="default" size="md">
+        <SlideButon
+          nextCard={() => {
+            router.push(`/main?i=${currentIndex + 1}`);
+          }}
+          color="default"
+          size="md"
+        >
           <IoClose size={20} /> 괜찮아요
-        </Button>
-        <Button onClick={() => {}} color="green" size="md">
+        </SlideButon>
+        <Button
+          openFlirtingModal={() => {
+            handleLike();
+          }}
+          color="green"
+          size="md"
+        >
           <GoHeartFill size={20} /> 어필하기
         </Button>
       </div>
+      {flirtingModal()}
     </div>
   );
 }

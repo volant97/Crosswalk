@@ -20,10 +20,10 @@ import { postRegister } from '@/lib/api/SupabaseApi';
 import { userState } from '@/recoil/user';
 
 type Props = {
-  name: string;
-  height: number;
-  age: number;
-  gender: string;
+  name: string | undefined;
+  height: number | undefined;
+  age: number | undefined;
+  gender: string | undefined;
   selectedImg: string;
   file: any;
 };
@@ -88,12 +88,22 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
   }
 
+  async function uploadAndNavigate(file: any) {
+    try {
+      await uploadFile(file);
+      await updateData();
+    } catch (error) {
+      openModal('오류가 발생했습니다.');
+    }
+  }
+
   useEffect(() => {
     if (registerData === null) {
       updateData();
     }
 
     console.log('updateData', registerData);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
@@ -121,10 +131,10 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
                   onClick={async () => {
-                    await uploadFile(file);
-                    await updateData();
+                    await uploadAndNavigate(file);
+                    console.log('확인');
                     onClose();
-                    router.push('/my-profile');
+                    router.push('/my-profile'); // 페이지 이동을 수행합니다.
                   }}
                   className="w-[15rem] bg-customYellow rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"

@@ -153,7 +153,7 @@ function EditMyProfile() {
               <input
                 value={String(age)}
                 onChange={ageHandler}
-                type="number"
+                type="text"
                 name="age"
                 id="age"
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
@@ -165,7 +165,7 @@ function EditMyProfile() {
               <input
                 value={String(height)}
                 onChange={heightHandler}
-                type="number"
+                type="text"
                 name="height"
                 id="height"
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
@@ -219,7 +219,6 @@ function EditMyProfile() {
                 </div>
               </label>
             </div>
-
             <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
           </form>
         </div>
