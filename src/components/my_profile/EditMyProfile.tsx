@@ -155,7 +155,7 @@ function EditMyProfile() {
             <label>나이</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
-              value={String(age)}
+              value={age}
               onChange={ageHandler}
               type="number"
               name="age"
@@ -169,7 +169,7 @@ function EditMyProfile() {
             <label>키</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen focus:ring-1 focus:ring-customGreen"
-              value={String(height)}
+              value={height}
               onChange={heightHandler}
               type="number"
               name="height"
@@ -303,7 +303,7 @@ export default EditMyProfile;
               <input
                 value={String(age)}
                 onChange={ageHandler}
-                type="number"
+                type="text"
                 name="age"
                 id="age"
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
@@ -317,7 +317,7 @@ export default EditMyProfile;
               <input
                 value={String(height)}
                 onChange={heightHandler}
-                type="number"
+                type="text"
                 name="height"
                 id="height"
                 className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
@@ -374,6 +374,15 @@ export default EditMyProfile;
                   <LuPencil size={13} />
                 </div>
               </label>
+            </div>
+            <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
+          </form>
+        </div>
+      </div>
+      {mbtiModal()}
+      {interestModal()}
+    </div>
+  );
             </div> */
 }
 

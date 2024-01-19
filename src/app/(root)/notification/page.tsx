@@ -5,7 +5,7 @@ import React from 'react';
 
 function Notification() {
   return (
-    <Page noNavBar noNotiBell>
+    <Page noNavBar>
       <NotificationList />
     </Page>
   );

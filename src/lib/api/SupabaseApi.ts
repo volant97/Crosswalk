@@ -1,6 +1,6 @@
 import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
-import type { RegisterType, unNullRegisterType } from '@/types/registerType';
+import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
@@ -147,4 +147,18 @@ export async function updateIsReadInNotiReceiverSide(id: number | null): Promise
     console.error('Error updating is_read_in_noti', error);
     throw new Error('Error updating is_read_in_noti');
   }
+}
+
+export async function getUnMatchedData() {
+  const { data, error } = await supabase
+    .from('custom_users')
+    .select('*, custom_users!flirting_list("*")')
+    .returns<unMatchedDataType[]>();
+
+  if (error) {
+    console.error('Error getUnMatchedData', error);
+    throw new Error('Error getUnMatchedData');
+  }
+  console.log('data', data);
+  return data;
 }

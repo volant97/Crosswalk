@@ -31,7 +31,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
           </div>
         </Link>
         {!noNotiBell && (
-          <div className="absolute right-4">
+          <div className="absolute right-[20px]">
             <NotiBell />
           </div>
         )}

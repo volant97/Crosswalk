@@ -13,6 +13,7 @@ function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myUid = registerData?.profile?.uid;
+  const userInfo = registerData?.profile;
 
   const getUerCards = async () => {
     try {
@@ -26,7 +27,7 @@ function FetchMyProfileCard() {
 
   async function updateData() {
     try {
-      await postRegister(myUid, registerData?.profile);
+      await postRegister(myUid, userInfo);
     } catch (error) {
       console.log(error);
     }

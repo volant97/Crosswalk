@@ -15,21 +15,26 @@ import {
 import useAlertModal from './AlertModal';
 import { sendFlirting } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { registerState } from '@/recoil/register';
+import { currentIndexState } from '@/recoil/currentIndex';
 
 const useFlirtingModal = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const index = Number(searchParams.get('index') || 0);
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
   const [getUid, setGetUid] = useRecoilState(registerState);
   const [isOpen, setIsOpen] = useState(false);
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
 
-  const openFlirtingModal = (userId: string) => {
+  const openFlirtingModal = (userId: string, currentIndex: number) => {
     setFlirtingUserUid(userId);
+    setCurrentIndex(currentIndex);
     setIsOpen(true);
   };
 
@@ -74,6 +79,9 @@ const useFlirtingModal = () => {
                     sendFlirtingMessage();
                     setFlirtingMessage('');
                     onClose();
+                    router.push(`/main?i=${currentIndex + 1}`);
+                    setCurrentIndex(currentIndex + 1);
+                    console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                   }}
                 >
                   <Input
@@ -87,9 +95,6 @@ const useFlirtingModal = () => {
                     required
                   />
                   <Button
-                    onClick={() => {
-                      router.push('/main');
-                    }}
                     className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 font-medium mt-[30px] font-semibold text-center"
                     type="submit"
                     onPress={onClose}

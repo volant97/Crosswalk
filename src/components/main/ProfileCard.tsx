@@ -1,26 +1,39 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { Fragment } from 'react';
 import FlirtingModal from '../common/modal/FlirtingModal';
 import Button from '../Button';
 import { IoClose } from 'react-icons/io5';
 import { GoHeartFill } from 'react-icons/go';
+import useFlirtingModal from '../common/modal/FlirtingModal';
+import SlideButon from '../SlideButton';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { currentIndexState } from '@/recoil/currentIndex';
 
 const tags = ['음악', '여행', '맛집'];
 
 const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 type Props = {
-  age: number;
-  avatar: string;
-  name: string;
-  interest: string[];
-  height: number;
-  gender: string;
-  mbti: string;
-  nextCardBtn: () => void;
+  age: number | null | undefined;
+  avatar: number | null | undefined;
+  name: string | null | undefined;
+  interest: string[] | null | undefined;
+  height: number | null | undefined;
+  gender: string | null | undefined;
+  mbti: string | null | undefined;
+  flirtingUserId: any;
 };
 
-function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCardBtn }: Props) {
+function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gender, mbti }: Props) {
+  const router = useRouter();
+  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+
+  const handleLike = () => {
+    openFlirtingModal(flirtingUserId, currentIndex);
+    console.log('userId', flirtingUserId);
+  };
   return (
     <div>
       <div className="relative">
@@ -32,23 +45,23 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
             fill
           />
         </div>
-        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[46px] px-[20px] mb-[10px]">
+        <div className="flex items-start w-[325px] h-[24px] gap-[4px] absolute bottom-[46px] px-[20px] mb-[10px]">
           <h1 className="text-[24px] font-bold w-full h-[24px] leading-[24px]">{name}</h1>
-          <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[68px] mb-[2px] ml-[1px] leading-[16px] pt-[1px] font-medium">
+          <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[88px] mb-[2px] ml-[1px] leading-[16px] pt-[1px] font-medium">
             {age}
           </h2>
         </div>
         <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[24px] ml-[20px]">
           {interest?.map((item, index) => {
             return (
-              <>
+              <Fragment key={index}>
                 <div
                   key={index}
                   className="flex items-center justify-center text-center border-[1px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
                 >
                   {item}
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>
@@ -80,15 +93,29 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
           </div>
         </div>
       </div>
+
       <div className="flex gap-3  justify-between w-full">
-        <Button onClick={() => {}} color="default" size="md">
+        <SlideButon
+          nextCard={() => {
+            router.push(`/main?i=${currentIndex + 1}`);
+          }}
+          color="default"
+          size="md"
+        >
           <IoClose size={20} /> 괜찮아요
-        </Button>
-        <Button onClick={() => {}} color="green" size="md">
+        </SlideButon>
+        <Button
+          openFlirtingModal={() => {
+            handleLike();
+          }}
+          color="green"
+          size="md"
+        >
           <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" />
           <span className="text-black text-[18px] leading-[20px] font-semibold">어필하기</span>
         </Button>
       </div>
+      {flirtingModal()}
     </div>
   );
 }
