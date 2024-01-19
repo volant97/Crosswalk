@@ -24,17 +24,19 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid }: Props) {
           />
         </div>
       </Link>
-      <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
-        <h1 className="text-[1.375rem] font-semibold">{name}</h1>
-        <h2 className="font-medium">{age}</h2>
+      <div className="flex items-center w-full h-[24px] absolute bottom-[40px] px-[20px] mb-[10px] gap-[5px]">
+        <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
+        <h2 className="h-[16px] text-[16px] absolute bottom-0 left-[68px] mb-[2px] ml-[1px] leading-[16px] pt-[1px] font-medium">
+          {age}
+        </h2>
       </div>
-      <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
+      <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[20px] px-[20px]">
         {interest?.map((item, index) => {
           return (
             <Fragment key={index}>
               <div
                 key={index}
-                className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
+                className="flex items-center justify-center text-center border-[1px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
               >
                 {item}
               </div>
