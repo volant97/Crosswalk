@@ -23,13 +23,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { currentIndexState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 import { supabase } from '@/lib/supabase-config';
+import Image from 'next/image';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialSlide = Number(searchParams.get('i') || 0);
   const { openModal, AlertModal } = useAlertModal();
-  const [userCards, setUserCards] = useState<RegisterType[]>([]);
+  const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const [userUids, setUserUids] = useState<any>([]);
   const [activeUserUid, setActiveUserUid] = useState<string>('');
@@ -38,24 +39,23 @@ function FetchUserCards() {
   const myUid = registerData?.profile?.uid;
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
-  const [forceUpdate, setForceUpdate] = useState(false);
 
   const getUerCards = async () => {
     try {
-      console.log('1');
+      if (!myUid) return;
       const userCards = await getUnMatchedData(myUid);
       // let repeatedUserCards: any = [];
-      console.log('2');
+
       // const repeatCount = 6; // 임시방편 무한루프
 
       // for (let i = 0; i < repeatCount; i++) {
       //   repeatedUserCards = repeatedUserCards.concat(userCards);
       // }
-
+      if (!userCards) return;
       setUserCards(userCards);
 
       const uids = userCards
-        .filter((item) => item.uid !== myUid && item.gender !== myGender)
+        .filter((item) => item?.uid !== myUid && item?.gender !== myGender)
         .map((item: any) => item.uid);
       setUserUids(uids);
     } catch (error) {
@@ -74,9 +74,6 @@ function FetchUserCards() {
     console.log('Active User UID:', activeUserUid);
   };
   useEffect(() => {
-    if (forceUpdate === true) {
-      swiper.slideNext();
-    }
     getUerCards();
   }, []);
 
@@ -89,7 +86,6 @@ function FetchUserCards() {
     const likedUserUid = userUids[currentIndex];
     openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex);
     console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
-    setForceUpdate(true);
   };
 
   console.log('currentIndex', currentIndex);
@@ -143,6 +139,7 @@ function FetchUserCards() {
         >
           <IoClose size={20} /> 괜찮아요
         </SlideButton>
+
         <Button
           openFlirtingModal={() => {
             handleLike();
@@ -150,7 +147,7 @@ function FetchUserCards() {
           color="green"
           size="lg"
         >
-          <GoHeartFill size={20} /> 어필하기
+          <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" /> 어필하기
         </Button>
       </div>
       {flirtingModal()}

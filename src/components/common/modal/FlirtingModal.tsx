@@ -45,7 +45,7 @@ const useFlirtingModal = () => {
   };
 
   const sendFlirtingMessage = async () => {
-    if (myUid === null || undefined) return;
+    if (!myUid) return;
     await sendFlirting(myUid, flirtingMessage, flirtingUserUid);
   };
 
