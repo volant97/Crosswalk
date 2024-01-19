@@ -95,7 +95,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           className={`w-[177px] h-[50px] px-[1.25rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem]  mt-[1.2rem] `}
           size="md"
         >
-          <span className="text-gray-AAA text-[18px] leading-[20px] font-semibold"></span>로그아웃
+          <span className="text-gray-AAA text-[18px] leading-[20px] font-semibold">로그아웃</span>
         </Button>
         <Button
           onClick={() => {

@@ -2,6 +2,8 @@ import Image from 'next/image';
 import React, { Fragment } from 'react';
 import FlirtingModal from '../common/modal/FlirtingModal';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { currentIndexState } from '@/recoil/currentIndex';
 
 type Props = {
   age: number;
@@ -9,12 +11,14 @@ type Props = {
   name: string;
   interest: string[];
   flirtingUserUid: string;
+  index: number;
 };
 
-function UserCard({ age, avatar, name, interest, flirtingUserUid }: Props) {
+function UserCard({ age, avatar, name, interest, flirtingUserUid, index }: Props) {
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   return (
     <div className="relative">
-      <Link href={`/main/${flirtingUserUid}`}>
+      <Link href={`/main/${flirtingUserUid}?index=${currentIndex}`}>
         <div className="relative w-full aspect-[2/3]">
           <Image
             className="rounded-[1.5rem]"

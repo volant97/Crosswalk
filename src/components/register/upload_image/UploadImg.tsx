@@ -5,6 +5,7 @@ import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
 import { isUserState } from '@/recoil/auth';
 import { registerState } from '@/recoil/register';
+import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -12,8 +13,8 @@ import { PiPlusThin } from 'react-icons/pi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 function UploadImg() {
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const { uid, ...all } = useRecoilValue(isUserState);
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const uid = registerData?.id;
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
   const { openModal, AlertModal } = useAlertModal();
@@ -78,6 +79,8 @@ function UploadImg() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData.user_img]);
 
+  console.log('!!!!', registerData);
+
   return (
     <div
       id="imgUpload"
@@ -112,7 +115,7 @@ function UploadImg() {
         }`}
         onClick={handleNextBtn}
       >
-        NEXT
+        Completion
       </Button>
       {AlertModal()}
     </div>
