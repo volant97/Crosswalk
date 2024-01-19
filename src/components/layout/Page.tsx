@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import Header from './Header';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import Link from 'next/link';
+import NavBar from '../common/ui/NavBar';
 
 interface PageProps {
   noHeader?: boolean;

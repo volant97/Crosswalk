@@ -32,19 +32,19 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
             fill
           />
         </div>
-        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[64px] px-[20px] mb-[10px]">
+        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[46px] px-[20px] mb-[10px]">
           <h1 className="text-[24px] font-bold w-full h-[24px] leading-[24px]">{name}</h1>
-          <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[88px] mb-[1.5px] ml-[1px] leading-[16px] pt-[1px] font-medium">
+          <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[68px] mb-[2px] ml-[1px] leading-[16px] pt-[1px] font-medium">
             {age}
           </h2>
         </div>
-        <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[1.8rem] ml-[20px]">
+        <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[24px] ml-[20px]">
           {interest?.map((item, index) => {
             return (
               <>
                 <div
                   key={index}
-                  className="flex items-center justify-center text-center border-[2px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
+                  className="flex items-center justify-center text-center border-[1px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
                 >
                   {item}
                 </div>
@@ -63,7 +63,7 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
               {height}cm
             </div>
             <div
-              className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] font-medium rounded-[20px] border-[1px] bg-customGreen2`}
+              className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px]  rounded-[20px] border-[1px] bg-customGreen2`}
             >
               {gender === 'M' ? '남자' : '여자'}
             </div>
@@ -80,7 +80,7 @@ function ProfileCard({ age, avatar, name, interest, height, gender, mbti, nextCa
           </div>
         </div>
       </div>
-      <div className="flex gap-3  flex justify-between gap-[8px] w-full">
+      <div className="flex gap-3  justify-between w-full">
         <Button onClick={() => {}} color="default" size="md">
           <IoClose size={20} /> 괜찮아요
         </Button>

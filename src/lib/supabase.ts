@@ -3,22 +3,22 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
-      chat_list: {
+      chat_room: {
         Row: {
           flirting_list_id: number;
-          room_id: string;
+          id: string;
         };
         Insert: {
           flirting_list_id: number;
-          room_id?: string;
+          id?: string;
         };
         Update: {
           flirting_list_id?: number;
-          room_id?: string;
+          id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'chat_list_flirting_list_id_fkey';
+            foreignKeyName: 'chat_room_flirting_list_id_fkey';
             columns: ['flirting_list_id'];
             isOneToOne: true;
             referencedRelation: 'flirting_list';
@@ -124,81 +124,35 @@ export interface Database {
           }
         ];
       };
-      receiver_message: {
+      message: {
         Row: {
           congratulations_message: number;
           created_at: string;
+          id: number;
           is_read: boolean;
           message: string;
-          receiver_uid: string;
-          room_id: string;
           total_chat_count: number;
-        };
-        Insert: {
-          congratulations_message: number;
-          created_at?: string;
-          is_read?: boolean;
-          message: string;
-          receiver_uid: string;
-          room_id: string;
-          total_chat_count: number;
-        };
-        Update: {
-          congratulations_message?: number;
-          created_at?: string;
-          is_read?: boolean;
-          message?: string;
-          receiver_uid?: string;
-          room_id?: string;
-          total_chat_count?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'receiver_message_room_id_fkey';
-            columns: ['room_id'];
-            isOneToOne: true;
-            referencedRelation: 'chat_list';
-            referencedColumns: ['room_id'];
-          }
-        ];
-      };
-      sender_message: {
-        Row: {
-          congratulations_message: number;
-          created_at: string;
-          is_read: boolean;
-          message: string;
-          room_id: string;
-          sender_uid: string;
-          total_chat_count: number;
+          user_uid: string;
         };
         Insert: {
           congratulations_message?: number;
           created_at?: string;
+          id?: number;
           is_read?: boolean;
           message: string;
-          room_id: string;
-          sender_uid: string;
           total_chat_count?: number;
+          user_uid?: string;
         };
         Update: {
           congratulations_message?: number;
           created_at?: string;
+          id?: number;
           is_read?: boolean;
           message?: string;
-          room_id?: string;
-          sender_uid?: string;
           total_chat_count?: number;
+          user_uid?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'sender_message_room_id_fkey';
-            columns: ['room_id'];
-            isOneToOne: true;
-            referencedRelation: 'chat_list';
-            referencedColumns: ['room_id'];
-          }
-        ];
+        Relationships: [];
       };
     };
     Views: {

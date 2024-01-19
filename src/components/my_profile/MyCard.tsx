@@ -35,19 +35,19 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
             fill
           />
         </div>
-        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[64px] px-[20px] mb-[10px]">
+        <div className="flex items-start w-[895px] h-[24px] gap-[4px] absolute bottom-[46px] px-[20px] mb-[10px]">
           <h1 className="text-[24px] font-bold w-full h-[24px] leading-[24px]">{name}</h1>
           <h2 className="w-[18px] h-[16px] text-[16px] absolute bottom-0 left-[88px] mb-[1.5px] ml-[1px] leading-[16px] pt-[1px] font-medium">
             {age}
           </h2>
         </div>
-        <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[1.8rem] ml-[20px]">
+        <div className="flex flex-warp w-full items-center gap-[4px] absolute bottom-[24px] ml-[20px]">
           {interest?.map((item, index) => {
             return (
               <>
                 <div
                   key={index}
-                  className="flex items-center justify-center text-center border-[2px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
+                  className="flex items-center justify-center text-center border-[1px] border-solid border-white px-[4px] py-[10px] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] w-[43px]"
                 >
                   {item}
                 </div>
@@ -103,7 +103,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           onClick={() => {
             router.push('/my-profile/edit');
           }}
-          className={`w-[177px] h-[50px] px-[1.25rem]  text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
+          className={`w-[177px] h-[50px] px-[1.25rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
           size="md"
         >
           <span className="text-black text-[18px] leading-[20px] font-semibold">프로필 수정</span>

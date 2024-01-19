@@ -10,9 +10,9 @@ const active = ' font-bold border-b-3 border-solid border-black';
 function NavBar() {
   const pathname = usePathname();
   return (
-    <nav className="flex h-[2.5rem] bg-white shadow-navBarShadow grid grid-cols-3 items-center w-full pl-[20px] pr-[20px] fixed z-100">
+    <nav className="h-[2.5rem] bg-white shadow-navBarShadow grid grid-cols-3 items-center w-full pl-[20px] pr-[20px] ">
       <div
-        className={`w-[full] flex justify-center items-center pb-[1px] ${
+        className={`w-[full] h-full flex justify-center items-center pb-[1px] ${
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
       >
@@ -43,7 +43,7 @@ function NavBar() {
       </div>
 
       <div
-        className={` w-[full] flex justify-center justify-center items-center ${
+        className={` w-[full] h-full flex justify-center  items-center ${
           pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
       >
@@ -74,7 +74,7 @@ function NavBar() {
       </div>
 
       <div
-        className={` w-[full] flex justify-center justify-center items-center ${
+        className={` w-[full] h-full flex justify-center  items-center ${
           pathname.startsWith('/my-profile') ? `${active}` : 'text-slate-300'
         }`}
       >
