@@ -149,67 +149,70 @@ export async function updateIsReadInNotiReceiverSide(id: number | null): Promise
   }
 }
 
-// export async function getUnMatchedData(myUid: string) {
-//   if (!myUid) return;
+export async function getUnMatchedData(myUid: string, gender: string) {
+  if (!myUid) return;
+  if (!gender) return;
 
-//   // 내가 보냈던 사람의 Uid
-//   const { data, error } = await supabase.from('flirting_list').select('receiver_uid').eq('sender_uid', myUid);
-//   const uidsIFlirted = data?.map((item) => {
-//     return item.receiver_uid;
-//   });
-//   // console.log('uidsIFlirted', uidsIFlirted);
+  // 내가 보냈던 사람의 Uid
+  const { data, error } = await supabase.from('flirting_list').select('receiver_uid').eq('sender_uid', myUid);
+  const uidsIFlirted = data?.map((item) => {
+    return item.receiver_uid;
+  });
+  // console.log('uidsIFlirted', uidsIFlirted);
 
-//   // 내가 보냈던 사람의 Uid를 뺀 나머지 데이터
-//   const { data: data2 } = await supabase
-//     .from('custom_users')
-//     .select('*')
-//     .not('uid', 'in', `(${uidsIFlirted?.join(',')})`);
-//   // console.log('data2', data2);
+  // 내가 보냈던 사람의 Uid를 뺀 나머지 데이터
+  const { data: data2 } = await supabase
+    .from('custom_users')
+    .select('*')
+    .not('uid', 'in', `(${uidsIFlirted?.join(',')})`);
+  // console.log('data2', data2);
 
-//   // 상태가 READ 또는 UNREAD 인 것만 보여주는 데이터
-//   const { data: data3 } = await supabase
-//     .from('custom_users')
-//     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)')
-//     .eq('flirting_list.sender_uid', myUid)
-//     .in('flirting_list.status', ['READ', 'UNREAD']);
-//   // console.log('data3', data3);
+  // 상태가 READ 또는 UNREAD 인 것만 보여주는 데이터
+  const { data: data3 } = await supabase
+    .from('custom_users')
+    .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)')
+    .eq('flirting_list.sender_uid', myUid)
+    .in('flirting_list.status', ['READ', 'UNREAD']);
+  // console.log('data3', data3);
 
-//   // 받았던 사람 또는 내가 보냈던 사람의 Uid
-//   const { data: receivedUserData } = await supabase
-//     .from('flirting_list')
-//     .select('sender_uid')
-//     .eq('receiver_uid', myUid);
-//   const uidsReceivedFlirted = receivedUserData?.map((item) => {
-//     return item.sender_uid;
-//   });
-//   console.log('uidsreceivedFlirted', uidsReceivedFlirted);
+  // 받았던 사람 또는 내가 보냈던 사람의 Uid
+  const { data: receivedUserData } = await supabase
+    .from('flirting_list')
+    .select('sender_uid')
+    .eq('receiver_uid', myUid);
+  const uidsReceivedFlirted = receivedUserData?.map((item) => {
+    return item.sender_uid;
+  });
+  console.log('uidsreceivedFlirted', uidsReceivedFlirted);
 
-//   // 받았던 사람과 보냈던 사람의 Uid를 뺀 나머지 데이터
-//   const { data: filteredUserData } = await supabase
-//     .from('custom_users')
-//     .select('*')
-//     .not('uid', 'in', `(${uidsReceivedFlirted?.join(',')})`)
-//     .not('uid', 'in', `(${uidsIFlirted?.join(',')})`);
-//   console.log('filteredUserData', filteredUserData);
+  // 받았던 사람과 보냈던 사람의 Uid를 뺀 나머지 데이터
+  const { data: filteredUserData } = await supabase
+    .from('custom_users')
+    .select('*')
+    // .not('uid', 'in', `(${uidsReceivedFlirted?.join(',')})`);
+    .not('uid', 'in', `(${myUid},${uidsIFlirted?.join(',')})`)
+    .not('gender', 'in', `(${gender})`);
+  console.log('filteredUserData', filteredUserData);
 
-//   // 상태가 READ 또는 UNREAD 인 것만 보여주는 데이터
-//   const { data: unMatchedUser } = await supabase
-//     .from('custom_users')
-//     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)!flirting_list_sender_uid_fkey(*)')
-//     // .eq('flirting_list.sender_uid', myUid)
-//     // .eq('flirting_list.receiver_uid', myUid)
-//     .in('flirting_list.status', ['READ', 'UNREAD']);
-//   console.log('unMatchedUser', unMatchedUser);
+  // 상태가 READ 또는 UNREAD 인 것만 보여주는 데이터
+  const { data: MatchedUser } = await supabase
+    .from('custom_users')
+    .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)!flirting_list_sender_uid_fkey(*)')
+    // .eq('flirting_list.sender_uid', myUid)
+    // .eq('flirting_list.receiver_uid', myUid)
+    .in('flirting_list.status', ['ACCEPT']);
+  console.log('MatchedUser', MatchedUser);
 
-//   const users = [...(filteredUserData || []), ...(unMatchedUser || [])];
-//   console.log('users', users);
+  const users = filteredUserData;
+  console.log('users', users);
 
-//   if (error) {
-//     console.error('Error getUnMatchedData', error);
-//     throw new Error('Error getUnMatchedData');
-//   }
-//   return users;
-// }
+  if (error) {
+    console.error('Error getUnMatchedData', error);
+    throw new Error('Error getUnMatchedData');
+  }
+  return users;
+}
+
 export async function getMessage(subscribe_room_id: string): Promise<MessageType[]> {
   const { data, error } = await supabase
     .from('message')

@@ -42,37 +42,18 @@ function FetchUserCards() {
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   const [testState, setTestState] = useRecoilState(nextSlideState);
-  const [unMatchedData, setUnmatchedData] = useState<[] | null>([]);
-  const [matchedUids, setMatchedUids] = useState<any>();
 
   const getUerCards = async () => {
     try {
       if (!myUid) return;
-      const userCards = await getAllData();
-      // let repeatedUserCards: any = [];
-
-      // const repeatCount = 6; // 임시방편 무한루프
-
-      // for (let i = 0; i < repeatCount; i++) {
-      //   repeatedUserCards = repeatedUserCards.concat(userCards);
-      // }
+      if (!myGender) return;
+      const userCards = await getUnMatchedData(myUid, myGender);
       if (!userCards) return;
+
       setUserCards(userCards);
-
-      const uids = userCards
-        .filter((item) => item?.uid !== myUid && item?.gender !== myGender)
-        .map((item: any) => item.uid);
+      const uids = userCards.map((item: any) => item.uid);
       setUserUids(uids);
-
-      const { data: unMatchedUser } = await supabase
-        .from('custom_users')
-        .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)!flirting_list_sender_uid_fkey(*)')
-        // .eq('flirting_list.sender_uid', myUid)
-        // .eq('flirting_list.receiver_uid', myUid)
-        .in('flirting_list.status', ['ACCEPT']);
-
-      console.log('unMatchedUser', unMatchedUser);
-      setUnmatchedData(unMatchedUser);
+      console.log('userCards', userCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
@@ -88,31 +69,26 @@ function FetchUserCards() {
 
     console.log('Active User UID:', activeUserUid);
   };
+  useEffect(() => {
+    getUerCards();
+  }, [registerData]);
 
   useEffect(() => {
     if (testState === true && swiper) {
       swiper.slideNext();
     }
-    getUerCards();
     return () => {
       setTestState(false);
     };
   }, [currentIndex]);
 
-  const filterMathcedUid = unMatchedData?.map((item: any) => item.uid) || [];
-  console.log('filterMathcedUid', filterMathcedUid);
-
-  const filteredCards = userCards?.filter(
-    (item) => item.uid !== myUid && item.gender !== myGender && item.uid && !filterMathcedUid.includes(item.uid)
-  );
-  console.log('filteredCards', filteredCards);
   const flirtingUserUids =
     userCards?.filter((item: any) => item.uid !== myUid && item.gender !== myGender)?.map((item: any) => item.uid) ||
     [];
 
   const handleLike = () => {
     const likedUserUid = userUids[currentIndex];
-    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex, filteredCards.length - 1);
+    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex, userCards.length - 1);
     console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
   };
 
@@ -137,7 +113,7 @@ function FetchUserCards() {
         initialSlide={initialSlide}
         onTransitionEnd={(swiper) => setCurrentIndex(swiper.realIndex)}
       >
-        {filteredCards?.map((item: any, index) => (
+        {userCards?.map((item: any, index) => (
           <SwiperSlide key={item.uid}>
             <UserCard
               index={index}
@@ -157,7 +133,7 @@ function FetchUserCards() {
               swiper.slideNext();
               router.push(`/main?i=${currentIndex + 1}`); // 문제되는 부분
             }
-            if (currentIndex === filteredCards.length - 1) {
+            if (currentIndex === userCards.length - 1) {
               openModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
 
               setCurrentIndex(0);
