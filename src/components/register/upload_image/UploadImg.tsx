@@ -118,6 +118,7 @@ const UploadImg = () => {
 
     console.log('6', register);
     await postData();
+    route.push('/main');
     console.log('7', register);
   };
 

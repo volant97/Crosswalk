@@ -4,7 +4,7 @@ import React from 'react';
 
 function MyProfileEdit() {
   return (
-    <Page>
+    <Page noBackMain>
       <EditMyProfile />
     </Page>
   );

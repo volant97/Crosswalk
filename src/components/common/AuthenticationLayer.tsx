@@ -18,7 +18,7 @@ function AuthenticationLayer({ children }: Props) {
   const pathname = usePathname();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authlistener } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         supabase
           .from('custom_users')
@@ -33,9 +33,13 @@ function AuthenticationLayer({ children }: Props) {
       } else {
         setUser(null);
       }
+      console.log('!!!!!!');
       setIsAuthInitialized(true);
     });
-    console.log('user', user);
+    // console.log('user', user);
+    // return () => {
+    //   if (authlistener) authlistener.unsubscribe();
+    // };
   }, [isAuthInitialized, setUser]);
 
   return (
@@ -44,10 +48,10 @@ function AuthenticationLayer({ children }: Props) {
       {/* <div>{isAuthInitialized || pathname.toString() === '/' ? children : <Loading />}</div> */}
       <div>{isAuthInitialized ? children : <Loading />}</div>
       {/* test */}
-      <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
+      {/* <div>로그인 여부 : {!!user?.id ? 'true' : 'false'}</div>
       <div>회원등록 여부 : {user?.profile?.information_agreement ? 'true' : 'false'}</div>
       <Logout />
-      <TempHome />
+      <TempHome /> */}
     </>
   );
 }
