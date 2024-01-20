@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
 import type { unMatchedDataType } from '@/types/registerType';
-import { getUnMatchedData } from '@/lib/api/SupabaseApi';
+import { getAllData, getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 
 // Import Swiper React components
@@ -22,6 +22,7 @@ import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase-config';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
@@ -41,11 +42,13 @@ function FetchUserCards() {
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   const [testState, setTestState] = useRecoilState(nextSlideState);
+  const [unMatchedData, setUnmatchedData] = useState<[] | null>([]);
+  const [matchedUids, setMatchedUids] = useState<any>();
 
   const getUerCards = async () => {
     try {
       if (!myUid) return;
-      const userCards = await getUnMatchedData(myUid);
+      const userCards = await getAllData();
       // let repeatedUserCards: any = [];
 
       // const repeatCount = 6; // 임시방편 무한루프
@@ -60,6 +63,16 @@ function FetchUserCards() {
         .filter((item) => item?.uid !== myUid && item?.gender !== myGender)
         .map((item: any) => item.uid);
       setUserUids(uids);
+
+      const { data: unMatchedUser } = await supabase
+        .from('custom_users')
+        .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)!flirting_list_sender_uid_fkey(*)')
+        // .eq('flirting_list.sender_uid', myUid)
+        // .eq('flirting_list.receiver_uid', myUid)
+        .in('flirting_list.status', ['ACCEPT']);
+
+      console.log('unMatchedUser', unMatchedUser);
+      setUnmatchedData(unMatchedUser);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
@@ -86,7 +99,13 @@ function FetchUserCards() {
     };
   }, [currentIndex]);
 
-  const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
+  const filterMathcedUid = unMatchedData?.map((item: any) => item.uid) || [];
+  console.log('filterMathcedUid', filterMathcedUid);
+
+  const filteredCards = userCards?.filter(
+    (item) => item.uid !== myUid && item.gender !== myGender && item.uid && !filterMathcedUid.includes(item.uid)
+  );
+  console.log('filteredCards', filteredCards);
   const flirtingUserUids =
     userCards?.filter((item: any) => item.uid !== myUid && item.gender !== myGender)?.map((item: any) => item.uid) ||
     [];
@@ -158,7 +177,8 @@ function FetchUserCards() {
           color="green"
           size="lg"
         >
-          <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" /> 어필하기
+          <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
+          <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
         </Button>
       </div>
       {flirtingModal()}

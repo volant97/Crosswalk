@@ -78,13 +78,13 @@ const useFlirtingModal = () => {
                 <form
                   onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
-                    // if (flirtingMessage === '') {
-                    //   openModal('내용 입력은 필수 입니다.');
-                    //   return false;
-                    // }
-                    // sendFlirtingMessage();
-                    // setFlirtingMessage('');
-                    // onClose();
+                    if (flirtingMessage === '') {
+                      openModal('내용 입력은 필수 입니다.');
+                      return false;
+                    }
+                    sendFlirtingMessage();
+                    setFlirtingMessage('');
+                    onClose();
                     if (userDatas === currentIndex) {
                       openModal('마지막분께 어필을 하셨습니다 다시 처음으로 돌아갑니다!');
                       router.push('/main');

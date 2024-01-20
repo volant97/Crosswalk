@@ -3,18 +3,20 @@ import NotiBell from '../common/ui/NotiBell';
 import NavBar from '../common/ui/NavBar';
 import Link from 'next/link';
 import Image from 'next/image';
+import GoToBackBtn from './GoToBackBtn';
 
 interface PageProps {
   noBack?: boolean;
   noNavBar?: boolean;
   noNotiBell?: boolean;
+  noBackMain?: boolean;
 }
 
-function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
+function Header({ noBack, noNavBar, noNotiBell, noBackMain }: PageProps) {
   return (
     <div className="sticky top-0  bg-white z-50">
       <div className="relative flex font-virgil h-[64px] items-center justify-center border-b-[1px] border-[#E9EAEB] ">
-        {!noBack && (
+        {!noBack && !noBackMain && (
           <Link href="/main" className="absolute left-4">
             <Image
               src="/assets/figmaImg/arrow.png"
@@ -25,6 +27,7 @@ function Header({ noBack, noNavBar, noNotiBell }: PageProps) {
             />
           </Link>
         )}
+        {!noBack && noBackMain && <GoToBackBtn />}
         <Link href={'/main'}>
           <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
             Crosswalk

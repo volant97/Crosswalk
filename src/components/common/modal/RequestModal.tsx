@@ -6,6 +6,7 @@ import { IoCheckmark } from 'react-icons/io5';
 import { RiLightbulbFlashFill } from 'react-icons/ri';
 import { supabase } from '@/lib/supabase-config';
 import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
+import { IconContext } from 'react-icons';
 
 const useRequestModal = (listId: number) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,8 +34,8 @@ const useRequestModal = (listId: number) => {
       <ModalContent>
         {(onClose) => (
           <div>
-            <ModalHeader className="flex items-center flex-col text-center gap-1 ">
-              <RiLightbulbFlashFill size={50} />
+            <ModalHeader className="flex items-center flex-col text-center gap-1">
+              <RiLightbulbFlashFill size={50} className="fill-yellow-400" />
               {title}
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
@@ -75,7 +76,7 @@ const useRequestModal = (listId: number) => {
         {(onClose) => (
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-1 ">
-              <RiLightbulbFlashFill size={50} />
+              <RiLightbulbFlashFill size={50} className="fill-customRed" />
               {title}
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 w-15 gap-2">
