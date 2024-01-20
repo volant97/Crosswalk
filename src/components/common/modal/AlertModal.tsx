@@ -38,8 +38,8 @@ const useAlertModal = () => {
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               {pathname === '/main' ? (
-                <>
-                  <form>
+                <form>
+                  <>
                     <Button
                       color="danger"
                       variant="ghost"
@@ -52,8 +52,8 @@ const useAlertModal = () => {
                     >
                       <IoCheckmark size={50} />
                     </Button>
-                  </form>
-                </>
+                  </>
+                </form>
               ) : (
                 <>
                   <Button
