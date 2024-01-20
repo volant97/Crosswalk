@@ -6,6 +6,10 @@ import { useRecoilState } from 'recoil';
 import { isUserState } from '@/recoil/auth';
 import type { IsLoginType } from '@/types/isLoginType';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import useAlertModal from '../common/modal/AlertModal';
+import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
+import { userState } from '@/recoil/user';
 
 const tags = ['음악', '여행', '맛집'];
 
@@ -23,7 +27,8 @@ type Props = {
 
 function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
   const router = useRouter();
-  const [userState, setUserState] = useRecoilState<IsLoginType>(isUserState);
+  const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
+  const [user, setUser] = useRecoilState(userState);
   return (
     <div className="relative">
       <div className="relative">
@@ -35,6 +40,12 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
               alt="유저 아바타 이미지"
               fill
             />
+            <Link
+              href="./my-profile/edit"
+              className="w-[32px] h-[32px] flex justify-center items-center gap-[10px] rounded-[30px] bg-white bg-opacity-80 absolute right-[12px] top-[12px]"
+            >
+              <Image src="/assets/figmaImg/logout_pen.png" width={16} height={16} alt="edit my profile" className="" />
+            </Link>
           </div>
           <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
             <div className="flex items-end w-full gap-[4px]">
@@ -58,7 +69,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col  h-[11.5rem] w-full rounded-b-[1.5rem] bg-customGreen2  px-[1.25rem]">
+      <div className="flex flex-col  h-[164px] w-full  bg-customGreen2  px-[1.25rem]">
         <div className="flex flex-col gap-[8px] my-[1.5rem] h-[52px]">
           <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
           <div className="flex flex-row gap-[0.25rem] h-[26px]">
@@ -85,32 +96,18 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex justify-between gap-[8px] w-full">
-        <Button
-          color="default"
-          onClick={() => {
-            logout();
-            setUserState({
-              uid: null,
-              isLogin: false
-            });
-            router.push('/');
-          }}
-          className={`w-[177px] h-[50px] px-[1.25rem] mr-[0.75rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mb-[0.75rem]  mt-[1.2rem] bg-gray-F6 `}
-          size="md"
-        >
-          <span className="text-gray-AAA text-[18px] leading-[20px] font-semibold">로그아웃</span>
-        </Button>
-        <Button
-          onClick={() => {
-            router.push('/my-profile/edit');
-          }}
-          className={`w-[177px] h-[50px] px-[1.25rem] text-[1rem] font-semibold rounded-3xl cursor-pointer mt-[1.2rem] mb-[0.75rem] bg-customGreen`}
-          size="md"
-        >
-          <span className="text-black text-[18px] leading-[20px] font-semibold">프로필 수정</span>
-        </Button>
+      <div
+        className="flex flex-col py-[12px] px-[20px] items-center gap-[24px]  w-full h-[40px] bg-[#F7F7F7] rounded-b-[1.5rem] cursor-pointer"
+        onClick={() => {
+          openLogoutModal('로그아웃 되었습니다.');
+        }}
+      >
+        <div className="flex justify-center items-center gap-[8px]">
+          <p className="text-[16px] text-gray-888 font-normal leading-[16px] ">로그아웃</p>
+          <Image src="/assets/figmaImg/logout_icon.png" height={16} width={16} alt="log out" />
+        </div>
       </div>
+      {LogoutAlertModal()}
     </div>
   );
 }

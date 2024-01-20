@@ -12,13 +12,16 @@ function StartOrRegister() {
 
   return user ? (
     user.profile?.information_agreement ? (
-      <Button className="w-full h-full bg-customGreen rounded-3xl cursor-pointer">
-        <Link href={'/main'} className="flex justify-center items-center w-full h-full">
+      <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
+        <Link
+          href={'/main'}
+          className="flex justify-center items-center w-full h-full text-[18px] text-white font-semibold"
+        >
           시작하기
         </Link>
       </Button>
     ) : (
-      <Button className="w-full h-full bg-customYellow rounded-3xl cursor-pointer">
+      <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
         <Link href={'/register'} className="flex justify-center items-center w-full h-full">
           등록하기
         </Link>
