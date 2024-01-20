@@ -33,7 +33,6 @@ function AuthenticationLayer({ children }: Props) {
       } else {
         setUser(null);
       }
-      console.log('!!!!!!');
       setIsAuthInitialized(true);
     });
     // console.log('user', user);
