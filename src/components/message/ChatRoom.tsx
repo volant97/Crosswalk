@@ -2,10 +2,12 @@
 
 import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, MessageType, SendMessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
+import { format, parseISO } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import Image from 'next/image';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ChatProps {
   roomId: string;
@@ -13,27 +15,24 @@ interface ChatProps {
   getUid: UserState;
 }
 
-const defaultMessageData = {
-  subscribe_room_id: '',
-  user_uid: '',
-  message: '',
-  congratulations_message: 0,
-  total_chat_count: 0,
-  is_read: false
-};
-
 function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
-  const [sendMessageData, setSendMessageData] = useState<MessageType>(defaultMessageData);
+  const [sendMessageData, setSendMessageData] = useState<SendMessageType>({
+    subscribe_room_id: roomId,
+    user_uid: getUid?.id,
+    message: inputValue,
+    congratulations_message: 0,
+    total_chat_count: 0,
+    is_read: false
+  });
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setInputValue(e.target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (roomInfo?.flirting_list.status === 'ACCEPT') {
       setSendMessageData((prevValue: any) => ({
         ...prevValue,
@@ -41,7 +40,12 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         message: inputValue,
         subscribe_room_id: roomInfo.id
       }));
-      postMessage(sendMessageData);
+      if (sendMessageData.message === '') {
+        return alert('메세지를 입력해주세요');
+      }
+
+      await postMessage(sendMessageData);
+      await setInputValue('');
     }
   };
   async function getData(subscribe_room_id: string) {
@@ -55,7 +59,6 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   useEffect(() => {
     // 컴포넌트 마운트 시에 구독
     subscribeChatRoom(roomId, (payload: any) => {
-      console.log(payload);
       getData(roomId);
     });
 
@@ -73,11 +76,36 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     }
   }, [messageData]);
 
-  const getCurrentTime = () => {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${hours} : ${minutes}`;
+  const getCurrentTime = (time: string) => {
+    const formattedTime = format(parseISO(time), 'p');
+    return formattedTime;
+  };
+
+  function displayDateTime(date: string) {
+    if (date) {
+      const formattedDate = format(parseISO(date), 'yyyy년 MM월 dd일');
+      return (
+        <div className="flex mr-auto ml-auto justify-center mt-[1rem]">
+          <div className="flex justify-center items-center border-1 border-solid border-gray-DDD  py-[0.5rem] rounded-[3.125rem] text-[0.875rem] px-[1rem] text-gray-999">
+            <Image
+              src="/assets/figmaImg/Calendar.png"
+              className="w-[1rem] h-[1rem] mr-[0.25rem]"
+              width={50}
+              height={50}
+              alt="캘린더"
+            />
+            {formattedDate}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  const convertedDate = (date: string) => {
+    if (date) {
+      const formattedDate = format(parseISO(date), 'P');
+      return formattedDate;
+    }
   };
 
   const statusMessage = (status: string | undefined) => {
@@ -117,113 +145,59 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         className="relative flex flex-col items-end w-full h-[33.5rem] overflow-y-auto scrollbar-hide"
       >
         {statusMessage(roomInfo?.flirting_list.status)}
-        <div className="flex mr-auto ml-auto justify-center my-[1rem]">
-          <div className="flex justify-center items-center border-1 border-solid border-gray-DDD  py-[0.5rem] rounded-[3.125rem] text-[0.875rem] px-[1rem] text-gray-999">
-            <Image
-              src="/assets/figmaImg/Calendar.png"
-              className="w-[1rem] h-[1rem] mr-[0.25rem]"
-              width={50}
-              height={50}
-              alt="캘린더"
-            />
-            2023년 12월 31일
-          </div>
-        </div>
 
         {messageData?.map((data, idx) => {
-          console.log(data);
+          const nextData = messageData[idx + 1];
           if (roomInfo?.flirting_list.sender_uid.uid === getUid?.id) {
             return (
-              <div className="w-[15rem] flex justify-end " key={idx}>
-                <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                  <div className="relative text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
-                    <h1 className="font-medium break-all">{data.message}</h1>
-                    <h1 className="absolute text-[0.75rem] text-gray-999 bottom-[1px] left-[-40px] whitespace-nowrap">
-                      {getCurrentTime()}
-                    </h1>
+              <>
+                {idx === 0
+                  ? displayDateTime(data.created_at)
+                  : convertedDate(data.created_at) !== convertedDate(nextData?.created_at)
+                  ? displayDateTime(nextData?.created_at)
+                  : null}
+                <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
+                  <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{getCurrentTime(data.created_at)}</h1>
+                  <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                    <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
+                      <h1 className="font-medium break-all">{data.message}</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             );
           } else {
             return (
-              <div className="mr-auto " key={idx}>
-                <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                  <Avatar
-                    size="sm"
-                    src={`/assets/avatar/avatar${roomInfo?.flirting_list.receiver_uid.avatar}.png`}
-                    alt="유저 아바타 이미지"
-                  />
-                  <div className="relative text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-[15rem]">
-                    <h1 className="font-medium break-all">{data.message}</h1>
-                    <h1 className="absolute text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap bottom-[1px] right-[-40px]">
-                      {getCurrentTime()}
+              <>
+                {idx === 0
+                  ? displayDateTime(data.created_at)
+                  : convertedDate(data.created_at) !== convertedDate(nextData?.created_at)
+                  ? displayDateTime(nextData?.created_at)
+                  : null}
+                <div className="mr-auto " key={idx}>
+                  <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                    <Avatar
+                      size="sm"
+                      src={`/assets/avatar/avatar${roomInfo?.flirting_list.receiver_uid.avatar}.png`}
+                      alt="유저 아바타 이미지"
+                    />
+                    <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-[15rem]">
+                      <h1 className="font-medium break-all">{data.message}</h1>
+                    </div>
+                    <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
+                      {getCurrentTime(data.created_at)}
                     </h1>
                   </div>
                 </div>
-              </div>
+              </>
             );
           }
         })}
-
-        {/* <div className="absolute left-[5px] flex flex-row gap-[0.38rem] mt-[4.5rem]">
-          <Image
-            src="/assets/avatar/avatar0.png"
-            className="rounded-full w-[1.875rem] h-[1.875rem]"
-            width={100}
-            height={100}
-            alt="아바타 이미지"
-          />
-          <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem]">
-            <h1 className="font-medium">네, 방 나가고 싶어요.</h1>
-          </div>
-          <h1 className="text-[0.75rem] text-gray-999 mt-[20px]">18 : 23</h1>
-        </div>
-        <div className="absolute right-[5px] flex flex-row gap-[0.38rem] mt-[8rem]">
-          <h1 className="text-[0.75rem] text-gray-999 mt-[20px]">18 : 23</h1>
-          <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem]">
-            <h1 className="font-medium">네, 방 나가고 싶어요.</h1>
-          </div>
-        </div>
-        <div className="absolute left-[5px] flex flex-row gap-[0.38rem] mt-[11.5rem]">
-          <Image
-            src="/assets/avatar/avatar0.png"
-            className="rounded-full w-[1.875rem] h-[1.875rem]"
-            width={100}
-            height={100}
-            alt="아바타 이미지"
-          />
-          <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem]">
-            <h1 className="font-medium">네, 방 나가고 싶어요.</h1>
-          </div>
-          <h1 className="text-[0.75rem] text-gray-999 mt-[20px]">18 : 23</h1>
-        </div>
-        <div className="absolute left-[5px] flex flex-row gap-[0.38rem] mt-[15rem]">
-          <Image
-            src="/assets/avatar/avatar0.png"
-            className="rounded-full w-[1.875rem] h-[1.875rem]"
-            width={100}
-            height={100}
-            alt="아바타 이미지"
-          />
-          <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] w-[170px] ">
-            <h1 className="font-medium">안녕하세요~ 반갑습니다. 여행 좋아하시나봐요? 저도 여행좋아해요.</h1>
-          </div>
-        </div>
-        <div className="absolute left-[40px] flex flex-row gap-[0.38rem] mt-[21.5rem]">
-          <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem]">
-            <h1 className="font-medium">네, 방 나가고 싶어요.</h1>
-          </div>
-          <h1 className="text-[0.75rem] text-gray-999 mt-[20px]">18 : 23</h1>
-        </div> */}
       </div>
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           handleSendMessage();
-          // handleSenderMessage(inputValue);
-          // handleReceiverMessage(inputValue);
-          setInputValue('');
         }}
         className="absolute flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-[1.8rem] border-1 border-gray-DDD border-solid rounded-full "
       >
