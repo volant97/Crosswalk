@@ -40,7 +40,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
         <div className="relative">
           <div className="relative w-full aspect-[2/3]">
             <Image
-              className="rounded-[1.5rem]"
+              className="rounded-t-[1.5rem]"
               src={`/assets/avatar/avatar${avatar}.png`}
               alt="유저 아바타 이미지"
               fill

@@ -24,6 +24,7 @@ const config: Config = {
         customYellow: '#FFF200',
         customGreen: '#05F600',
         customGreen2: '#F1FCED',
+        customGreen3: '#02DB3E',
         lightRed: '#FF002E',
         lightGreen: '#ACFF8E',
         melona: '#F1FCED',
@@ -39,7 +40,8 @@ const config: Config = {
           888: '#888888' /* 888888 */,
           666: '#666666' /* 666666 */,
           F6: '#F6F6F6' /* F6F6F6 */,
-          FA: '#FAFAFA' /* FAFAFA */
+          FA: '#FAFAFA' /* FAFAFA */,
+          F5: '#F5F8F5' /* F5F8F5 */
         }
       },
       boxShadow: {
