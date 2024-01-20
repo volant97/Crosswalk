@@ -8,11 +8,12 @@ import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
 import { RegisterType } from '@/types/registerType';
+import { userState } from '@/recoil/user';
 
 const MbtiModal = () => {
-  const [registerData, setRegisterData] = useRecoilState(registerState);
-  const myInfo = registerData;
-  const [selectedMbti, setSelectedMbti] = useState<string | null>(myInfo.mbti);
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myInfo = registerData?.profile;
+  const [selectedMbti, setSelectedMbti] = useState<string | undefined | null>(myInfo?.mbti);
   const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -60,9 +61,12 @@ const MbtiModal = () => {
                       return;
                     }
                     // any타입
-                    setRegisterData((prevValue: any) => ({
-                      ...prevValue,
-                      mbti: selectedMbti
+                    setRegisterData((prevData: any) => ({
+                      ...prevData,
+                      profile: {
+                        ...prevData?.profile,
+                        mbti: selectedMbti
+                      }
                     }));
 
                     onClose();

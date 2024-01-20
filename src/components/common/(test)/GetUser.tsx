@@ -82,6 +82,31 @@
 //     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, [isLoading, register.information_agreement]);
 
+<<<<<<< HEAD
+  // return <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>;
+  return (
+    <>
+      <div>{isLoading ? <Loading /> : <div>{children}</div>}</div>
+      {/* <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div> */}
+      {/* test */}
+      {/* <div>로그인 여부 : {!!userState.uid ? 'true' : 'false'}</div>
+      <div>회원등록 여부 : {register.information_agreement ? 'true' : 'false'}</div>
+      <button
+        onClick={() => {
+          setRegister({
+            ...register,
+            information_agreement: !register.information_agreement
+          });
+        }}
+      >
+        회원등록 토글
+      </button>
+      <Logout />
+      <TempHome /> */}
+    </>
+  );
+}
+=======
 //   // return <div>{isLoading ? pathname.toString() === '/' ? <Landing /> : <Loading /> : <div>{children}</div>}</div>;
 //   return (
 //     <>
@@ -105,5 +130,6 @@
 //     </>
 //   );
 // }
+>>>>>>> d798d33dfe66976067e1301dd198325721dd0da4
 
 // export default AuthenticationLayer;
