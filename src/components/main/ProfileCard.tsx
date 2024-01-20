@@ -16,13 +16,13 @@ const tags = ['음악', '여행', '맛집'];
 const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 type Props = {
-  age: number | null | undefined;
-  avatar: number | null | undefined;
-  name: string | null | undefined;
-  interest: string[] | null | undefined;
-  height: number | null | undefined;
-  gender: string | null | undefined;
-  mbti: string | null | undefined;
+  age: number;
+  avatar: number;
+  name: string;
+  interest: string[];
+  height: number;
+  gender: string;
+  mbti: string;
   flirtingUserId: any;
   index: any;
 };
@@ -35,7 +35,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
   console.log('index', index);
 
   const handleLike = () => {
-    openFlirtingModal(flirtingUserId, currentIndex, Number(index - 2));
+    openFlirtingModal(flirtingUserId, currentIndex, Number(index - 1));
     console.log('userId', flirtingUserId);
   };
   return (
@@ -103,7 +103,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
         <SlideButon
           nextCard={() => {
             router.push(`/main?i=${currentIndex + 1}`);
-            if (currentIndex === index - 2) {
+            if (currentIndex === index - 1) {
               // openReloadCardModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
 
               setCurrentIndex(0);

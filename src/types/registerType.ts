@@ -28,9 +28,9 @@ export type unNullRegisterType = {
 };
 
 export type unMatchedDataType = {
-  uid: string
+  uid: string;
   name: string | null;
-  gender: 'M' | 'F' | null;
+  gender: 'M' | 'F';
   mbti: string | null;
   age: number | null;
   height: number | null;
