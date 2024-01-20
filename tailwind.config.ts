@@ -40,7 +40,8 @@ const config: Config = {
           888: '#888888' /* 888888 */,
           666: '#666666' /* 666666 */,
           F6: '#F6F6F6' /* F6F6F6 */,
-          FA: '#FAFAFA' /* FAFAFA */
+          FA: '#FAFAFA' /* FAFAFA */,
+          F5: '#F5F8F5' /* F5F8F5 */
         }
       },
       boxShadow: {
