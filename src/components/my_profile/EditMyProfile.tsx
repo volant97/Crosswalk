@@ -204,7 +204,7 @@ function EditMyProfile() {
           {/* 사진 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>사진</label>
-            <label className="relative" htmlFor="usersImg">
+            <label className="relative cursor-pointer" htmlFor="usersImg">
               <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
               {selectedImg === '' ? (
                 // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요

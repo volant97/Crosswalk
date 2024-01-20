@@ -27,8 +27,10 @@ import Image from 'next/image';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
+  console.log('searchParams', searchParams.get('i'));
   const router = useRouter();
   const initialSlide = Number(searchParams.get('i') || 0);
+  // 리코일 상태로 전역상태 관리하여 스테이트 값으로 하나씩 증가
   const { openModal, AlertModal } = useAlertModal();
   const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
@@ -73,6 +75,7 @@ function FetchUserCards() {
 
     console.log('Active User UID:', activeUserUid);
   };
+
   useEffect(() => {
     getUerCards();
   }, []);
@@ -102,8 +105,8 @@ function FetchUserCards() {
         className="!px-[1.5rem] !py-[2rem]"
         navigation={true}
         touchRatio={0}
-        // loop={true}
-        // loopAdditionalSlides={0}
+        loop={true}
+        loopAdditionalSlides={0}
         initialSlide={initialSlide}
         onTransitionEnd={(swiper) => setCurrentIndex(swiper.realIndex)}
       >
@@ -125,7 +128,7 @@ function FetchUserCards() {
           nextCard={() => {
             if (swiper) {
               swiper.slideNext();
-              router.push(`/main?i=${currentIndex + 1}`);
+              router.push(`/main?i=${currentIndex + 1}`); // 문제되는 부분
             }
             if (currentIndex === filteredCards.length - 1) {
               openModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');

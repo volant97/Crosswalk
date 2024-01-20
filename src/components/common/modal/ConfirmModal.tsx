@@ -62,6 +62,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+    console.log('지훈님:', userImg);
     const updatedImg = file !== 'test' ? userImg?.publicUrl : myInfo?.user_img;
     // any타입
     setRegisterData((prevData: any) => ({

@@ -17,8 +17,8 @@ type Props = {
 function UserCard({ age, avatar, name, interest, flirtingUserUid, index }: Props) {
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   return (
-    <div className="relative">
-      <Link href={`/main/${flirtingUserUid}?index=${currentIndex}`}>
+    <Link href={`/main/${flirtingUserUid}?index=${currentIndex}`}>
+      <div className="relative">
         <div className="relative w-full aspect-[2/3]">
           <Image
             className="rounded-[1.5rem]"
@@ -27,26 +27,28 @@ function UserCard({ age, avatar, name, interest, flirtingUserUid, index }: Props
             fill
           />
         </div>
-      </Link>
-      <div className="flex items-center gap-[5px] absolute bottom-[3.75rem] px-[1.4rem]">
-        <h1 className="text-[1.375rem] font-semibold">{name}</h1>
-        <h2 className="font-medium">{age}</h2>
+        <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
+          <div className="flex items-end w-full gap-[4px]">
+            <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
+            <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
+          </div>
+          <div className="flex flex-warp w-full items-center gap-[4px] ">
+            {interest?.map((item, index) => {
+              return (
+                <Fragment key={index}>
+                  <div
+                    key={index}
+                    className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]"
+                  >
+                    {item}
+                  </div>
+                </Fragment>
+              );
+            })}
+          </div>
+        </div>
       </div>
-      <div className="flex flex-warp w-full items-center gap-[5px] absolute bottom-[1.8rem] px-[1.4rem]">
-        {interest?.map((item, index) => {
-          return (
-            <Fragment key={index}>
-              <div
-                key={index}
-                className="border-[2px] border-solid border-white px-[0.63rem] py-[0.25rem] text-white bg-slate-300/50 rounded-[1rem] text-[0.8125rem] font-semibold"
-              >
-                {item}
-              </div>
-            </Fragment>
-          );
-        })}
-      </div>
-    </div>
+    </Link>
   );
 }
 

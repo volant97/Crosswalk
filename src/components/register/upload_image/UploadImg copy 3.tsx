@@ -8,8 +8,6 @@ import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -20,91 +18,66 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
 // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
 
-const UploadImg = () => {
-  const [register, setRegister] = useRecoilState(userState);
-  const uid = register?.id;
+function UploadImg() {
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const uid = registerData?.id;
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
   const { openModal, AlertModal } = useAlertModal();
-  const route = useRouter();
-  const [testToggle, setTestToggole] = useState<boolean>(false);
 
-  const handleError = (error: any) => {
-    console.error('Server communication error', error);
-    openModal('서버와의 통신을 실패했습니다.');
+  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
+  const previewImg = (event: any) => {
+    const imgFile = event.target.files[0];
+
+    if (imgFile) {
+      setFile(imgFile);
+      const imgUrl = URL.createObjectURL(imgFile);
+      setSelectedImg(imgUrl);
+    }
   };
 
-  async function uploadFile(file: any, imgUrl: string) {
+  async function uploadFile(file: any) {
     try {
       // 2. 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
-        console.log('2', register);
-        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-      } else {
-        return null;
+        const { data, error } = await supabase.storage
+          .from('usersImg')
+          .upload(`/usersImg/${uid}/${selectedImg}`, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
       }
     } catch (error) {
-      console.log('uploadFile error', error);
-      handleError(error);
+      console.log('error', error);
+      openModal('사진변경 중 오류 발생');
     }
+    await getImgLink();
   }
 
   // 3. 수파베이스에서 저장된 링크를 가져오기 get
   const getImgLink = async () => {
     try {
-      console.log('3', register);
-      const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-      console.log('selectedImg', selectedImg);
-      if (userImg) {
-        setTestToggole(!testToggle);
-      }
-      return userImg;
+      const { data: userImg } = await supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
+      setRegisterData((prevData: any) => ({
+        ...prevData,
+        user_img: userImg,
+        avatar: Math.floor(Math.random() * 15),
+        uid: uid
+      }));
     } catch (error) {
       console.error('getImgLink error', error);
-      handleError(error);
-    }
-  };
-
-  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
-  const previewImg = async (event: any) => {
-    const imgFile = event.target.files[0];
-
-    if (imgFile) {
-      console.log('1', register);
-      setFile(imgFile);
-      const imgUrl = URL.createObjectURL(imgFile);
-      console.log('imgUrl', imgUrl);
-      setSelectedImg(imgUrl);
-      console.log('selectedImg', selectedImg);
-      await uploadFile(imgFile, imgUrl);
-      const userImgPath = await getImgLink();
-      console.log('userImgPath', userImgPath);
-      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
-      // setRegister((prevData: any) => ({
-      //   ...prevData,
-      //   profile: {
-      //     ...prevData.profile,
-      //     user_img: userImgPath?.publicUrl,
-      //     avatar: Math.floor(Math.random() * 15),
-      //     uid: uid
-      //   }
-      // }));
-      console.log('4-1', register);
     }
   };
 
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
-  const postData = async () => {
+  async function postData() {
     try {
-      console.log('5', register);
-      await postRegister(uid, register?.profile);
+      await postRegister(uid, registerData);
     } catch (error) {
-      handleError(error);
+      openModal('서버와의 통신을 실패했습니다.');
     }
-  };
+  }
 
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
   const handleNextBtn = async () => {
@@ -112,46 +85,24 @@ const UploadImg = () => {
       openModal('사진을 올려주세요!');
       return;
     }
-    console.log('NextBtn', register);
-    // await uploadFile(file);
-    // await getImgLink();
-
-    console.log('6', register);
-    await postData();
-    console.log('7', register);
+    console.log('NextBtn', registerData);
+    postData();
   };
 
-  // const effectFunction = async () => {
-  //   console.log('effectFunction', registerData);
-  //   await uploadFile(file);
-  //   await getImgLink();
-  //   await postData();
-  // };
-
-  // useEffect(() => {
-  //   if (file) {
-  //     // effectFunction();
-  //     console.log('useEffect', register);
-  //   } else {
-  //     alert('file 없음');
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [file]);
+  const effectFunction = async () => {
+    await uploadFile(file);
+    await getImgLink();
+  };
 
   useEffect(() => {
-    const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    console.log('selectedImg', selectedImg);
-    setRegister((prevData: any) => ({
-      ...prevData,
-      profile: {
-        ...prevData.profile,
-        user_img: userImg?.publicUrl,
-        avatar: Math.floor(Math.random() * 15),
-        uid: uid
-      }
-    }));
+    if (file) {
+      effectFunction();
+      console.log('useEffect', registerData);
+    } else {
+      alert('file 없음');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testToggle]);
+  }, [file]);
 
   return (
     <div
@@ -192,6 +143,6 @@ const UploadImg = () => {
       {AlertModal()}
     </div>
   );
-};
+}
 
 export default UploadImg;
