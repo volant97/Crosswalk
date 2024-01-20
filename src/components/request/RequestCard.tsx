@@ -16,7 +16,13 @@ function RequestCard({ listId, avatar, senderName, age, message }: Props) {
     <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]">
       <div className="flex items-center gap-[8px] self-stretch">
         <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full ">
-          <Image className="rounded-full object-cover" src={`/assets/avatar/avatar${avatar}.png`} alt="avatar" fill />
+          <Image
+            className="rounded-full object-cover"
+            src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`}
+            alt="avatar"
+            width={42}
+            height={42}
+          />
         </div>
         <div className="flex flex-col items-start gap-[6px]">
           <div className="flex items-end gap-[4px]">

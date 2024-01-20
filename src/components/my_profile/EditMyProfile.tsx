@@ -59,12 +59,13 @@ function EditMyProfile() {
         <div className="relative flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona rounded-[24px]">
           {/* 아바타 */}
           <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
-            <div className="relative h-[100px] w-[100px] bg-slate-400 rounded-full">
+            <div className="relative h-[100px] w-[100px] bg-gray-EF rounded-full">
               <Image
                 className="h-[100px] w-[100px] rounded-full object-cover"
-                src={`/assets/avatar/avatar${myInfo?.avatar}.png`}
+                src={`/assets/avatar/avatar-circle/avatar${myInfo?.avatar}-circle.png`}
                 alt="avatar"
-                fill
+                width={100}
+                height={100}
               />
             </div>
             <div className="absolute top-[1px]">
