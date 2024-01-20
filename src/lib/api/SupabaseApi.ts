@@ -5,7 +5,7 @@ import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/f
 import type { MessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
 
-const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+// const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
 export async function getAllData(): Promise<RegisterType[]> {
   const { data, error } = await supabase.from('custom_users').select().returns<RegisterType[]>();
@@ -39,7 +39,7 @@ export async function getFlirtingRequestData() {
 }
 
 export async function getNotificationDetail(): Promise<FlirtingListInNotificationType[]> {
-  const { data: notificationData, error } = await client
+  const { data: notificationData, error } = await supabase
     .from('flirting_list')
     .select('*')
     .order('created_at', { ascending: false })
@@ -52,7 +52,7 @@ export async function getNotificationDetail(): Promise<FlirtingListInNotificatio
 }
 
 export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
-  const { data: user1Data, error } = await client
+  const { data: user1Data, error } = await supabase
     .from('custom_users')
     .select('name')
     .eq('uid', notificationData.sender_uid)
@@ -65,7 +65,7 @@ export async function getUser1NameNotification(notificationData: FlirtingListInN
 }
 
 export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
-  const { data: user2Data, error } = await client
+  const { data: user2Data, error } = await supabase
     .from('custom_users')
     .select('name')
     .eq('uid', notificationData.receiver_uid)
@@ -78,7 +78,7 @@ export async function getUser2NameNotification(notificationData: FlirtingListInN
 }
 
 export async function subscribeFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
-  client
+  supabase
     .channel('room1')
     .on(
       'postgres_changes',
@@ -123,8 +123,8 @@ export async function getChatList(): Promise<ChatListType[]> {
   return data;
 }
 
-export async function updateIsReadInNotiSenderSide(id: number | null): Promise<void> {
-  const { data, error } = await client
+export async function updateIsReadInNotiSenderSide(id: number): Promise<void> {
+  const { data, error } = await supabase
     .from('flirting_list')
     .update({ sender_is_read_in_noti: true })
     .eq('id', id)
@@ -136,8 +136,8 @@ export async function updateIsReadInNotiSenderSide(id: number | null): Promise<v
   }
 }
 
-export async function updateIsReadInNotiReceiverSide(id: number | null): Promise<void> {
-  const { data, error } = await client
+export async function updateIsReadInNotiReceiverSide(id: number): Promise<void> {
+  const { data, error } = await supabase
     .from('flirting_list')
     .update({ receiver_is_read_in_noti: true })
     .eq('id', id)
