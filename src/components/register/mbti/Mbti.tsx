@@ -71,7 +71,7 @@ function Mbti() {
         }`}
         onClick={handleNextBtn}
       >
-        NEXT
+        다음 단계
       </Button>
       {AlertModal()}
     </div>

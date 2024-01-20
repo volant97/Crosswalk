@@ -86,7 +86,7 @@ function Interest() {
         }`}
         onClick={handleNextBtn}
       >
-        NEXT ({activeStates.length}/{maxSelectedInterests})
+        다음 단계 ({activeStates.length}/{maxSelectedInterests})
       </Button>
       {AlertModal()}
     </div>
