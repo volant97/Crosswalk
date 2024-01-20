@@ -16,11 +16,13 @@ type Props = {
 };
 
 function FetchUserProfile({ userId }: Props) {
+  const searchParams = useSearchParams();
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [getUid, setGetUid] = useRecoilState(isUserState);
   const myUid = getUid.uid;
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myGender = registerData?.profile?.gender;
+  const index = Number(searchParams.get('index') || 0);
   // const [currentIndex, setCurrentIndex] = useState(0);
   // const handleNext = () => {
   //   setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -44,12 +46,13 @@ function FetchUserProfile({ userId }: Props) {
   // }, [currentIndex]);
 
   const filteredCards = userCards?.find((item) => item?.uid == userId && item.gender !== myGender);
-
-  console.log('filteredCards', filteredCards);
+  const filteredCardslength = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
+  console.log('filteredCardslength', filteredCardslength.length);
 
   return (
     <div className="w-full px-[1.5rem] py-[2rem]">
       <ProfileCard
+        index={filteredCardslength.length}
         key={filteredCards?.uid}
         age={filteredCards?.age}
         name={filteredCards?.name}

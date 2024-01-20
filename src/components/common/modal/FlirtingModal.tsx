@@ -18,7 +18,9 @@ import { useRecoilState } from 'recoil';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { registerState } from '@/recoil/register';
-import { currentIndexState } from '@/recoil/currentIndex';
+import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
+import { userState } from '@/recoil/user';
+import useReloadCardModal from './ReloadCardModal';
 
 const useFlirtingModal = () => {
   const router = useRouter();
@@ -26,13 +28,18 @@ const useFlirtingModal = () => {
   const index = Number(searchParams.get('index') || 0);
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
+  const { openReloadCardModal, reloadCardModal } = useReloadCardModal();
   const { openModal, AlertModal } = useAlertModal();
-  const [getUid, setGetUid] = useRecoilState(registerState);
+  const [getUid, setGetUid] = useRecoilState(userState);
+  const myUid = getUid?.id;
   const [isOpen, setIsOpen] = useState(false);
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+  const [testState, setTestState] = useRecoilState(nextSlideState);
+  const [userDatas, setUserDatas] = useState(0);
 
-  const openFlirtingModal = (userId: string, currentIndex: number) => {
+  const openFlirtingModal = (userId: string, currentIndex: number, userData: number) => {
+    setUserDatas(userData);
     setFlirtingUserUid(userId);
     setCurrentIndex(currentIndex);
     setIsOpen(true);
@@ -43,9 +50,8 @@ const useFlirtingModal = () => {
   };
 
   const sendFlirtingMessage = async () => {
-    if (getUid.uid !== null) {
-      await sendFlirting(getUid.uid, flirtingMessage, flirtingUserUid);
-    }
+    if (!myUid) return;
+    await sendFlirting(myUid, flirtingMessage, flirtingUserUid);
   };
 
   const MessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +85,18 @@ const useFlirtingModal = () => {
                     sendFlirtingMessage();
                     setFlirtingMessage('');
                     onClose();
+                    if (userDatas === currentIndex) {
+                      openModal('마지막분께 어필을 하셨습니다 다시 처음으로 돌아갑니다!');
+                      router.push('/main');
+                      setCurrentIndex(0);
+                      return false;
+                    }
+
                     router.push(`/main?i=${currentIndex + 1}`);
                     setCurrentIndex(currentIndex + 1);
                     console.log('플러팅 모달에서의 Uid', flirtingUserUid);
+                    setTestState(true);
+                    console.log('확인');
                   }}
                 >
                   <Input
@@ -114,6 +129,7 @@ const useFlirtingModal = () => {
           )}
         </ModalContent>
       </Modal>
+      {reloadCardModal()}
       {AlertModal()}
     </>
   );
