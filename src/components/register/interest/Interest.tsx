@@ -29,7 +29,7 @@ function Interest() {
   };
 
   const handleNextBtn = () => {
-    if (activeStates.length < 1) {
+    if (activeStates.length < 3) {
       openModal('관심사를 선택해주세요!');
       return;
     }
@@ -81,8 +81,8 @@ function Interest() {
         </ul>
       </div>
       <Button
-        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
-          activeStates.length === maxSelectedInterests ? 'bg-customGreen' : 'bg-customYellow'
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+          activeStates.length === maxSelectedInterests ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         onClick={handleNextBtn}
       >

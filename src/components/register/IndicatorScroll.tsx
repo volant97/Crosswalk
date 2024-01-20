@@ -29,7 +29,7 @@ const Indicator = () => {
 
   return (
     <div
-      className="absolute bottom-0 left-0 h-1 px-8 bg-customGreen transition-width duration-200 "
+      className="absolute bottom-0 left-0 h-1 px-8 bg-customGreen3 transition-width duration-200 "
       style={{ width: `${scrollPercent}%` }}
     />
   );
