@@ -9,6 +9,7 @@ import SlideButon from '../SlideButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { currentIndexState } from '@/recoil/currentIndex';
+import useReloadCardModal from '../common/modal/ReloadCardModal';
 
 const tags = ['음악', '여행', '맛집'];
 
@@ -23,15 +24,18 @@ type Props = {
   gender: string | null | undefined;
   mbti: string | null | undefined;
   flirtingUserId: any;
+  index: any;
 };
 
-function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gender, mbti }: Props) {
+function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gender, mbti, index }: Props) {
   const router = useRouter();
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+  const { openReloadCardModal, reloadCardModal } = useReloadCardModal();
+  console.log('index', index);
 
   const handleLike = () => {
-    openFlirtingModal(flirtingUserId, currentIndex);
+    openFlirtingModal(flirtingUserId, currentIndex, Number(index - 2));
     console.log('userId', flirtingUserId);
   };
   return (
@@ -99,6 +103,12 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
         <SlideButon
           nextCard={() => {
             router.push(`/main?i=${currentIndex + 1}`);
+            if (currentIndex === index - 2) {
+              // openReloadCardModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
+
+              setCurrentIndex(0);
+              router.push(`/main`);
+            }
           }}
           color="default"
           size="md"
@@ -117,6 +127,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
         </Button>
       </div>
       {flirtingModal()}
+      {reloadCardModal()}
     </div>
   );
 }

@@ -7,11 +7,12 @@ import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
 import { RegisterType } from '@/types/registerType';
+import { userState } from '@/recoil/user';
 
 const InterestModal = () => {
   const { interests } = interestData;
-  const [registerData, setRegisterData] = useRecoilState<RegisterType>(registerState);
-  const myInfo = registerData;
+  const [registerData, setRegisterData] = useRecoilState(userState);
+  const myInfo = registerData?.profile;
   const [activeStates, setActiveStates] = useState<any>(myInfo?.interest);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
   const { openModal, AlertModal } = useAlertModal();
@@ -70,10 +71,14 @@ const InterestModal = () => {
                       return;
                     }
                     // any타입
-                    setRegisterData((prevValue: any) => ({
-                      ...prevValue,
-                      interest: activeStates
+                    setRegisterData((prevData: any) => ({
+                      ...prevData,
+                      profile: {
+                        ...prevData?.profile,
+                        interest: activeStates
+                      }
                     }));
+
                     onClose();
                   }}
                   className="w-[18.75rem] bg-customGreen rounded-3xl cursor-pointer mb-0 font-semibold text-[1.125rem] mb-[1.1rem]"

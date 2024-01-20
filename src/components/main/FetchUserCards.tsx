@@ -2,11 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
-import type { RegisterType, unMatchedDataType } from '@/types/registerType';
-import { getAllData, getUnMatchedData } from '@/lib/api/SupabaseApi';
+import type { unMatchedDataType } from '@/types/registerType';
+import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
-import FlirtingModal from '../common/modal/FlirtingModal';
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -16,19 +15,19 @@ import { userState } from '@/recoil/user';
 import Button from '../Button';
 import { IoClose } from 'react-icons/io5';
 import useFlirtingModal from '../common/modal/FlirtingModal';
-import { GoHeartFill } from 'react-icons/go';
 import SlideButton from '../SlideButton';
 import { Navigation } from 'swiper/modules';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { currentIndexState } from '@/recoil/currentIndex';
+import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
-import { supabase } from '@/lib/supabase-config';
+
 import Image from 'next/image';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
   console.log('searchParams', searchParams.get('i'));
   const router = useRouter();
+  const index = Number(searchParams.get('index') || 0);
   const initialSlide = Number(searchParams.get('i') || 0);
   // 리코일 상태로 전역상태 관리하여 스테이트 값으로 하나씩 증가
   const { openModal, AlertModal } = useAlertModal();
@@ -41,6 +40,7 @@ function FetchUserCards() {
   const myUid = registerData?.profile?.uid;
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
+  const [testState, setTestState] = useRecoilState(nextSlideState);
 
   const getUerCards = async () => {
     try {
@@ -62,7 +62,7 @@ function FetchUserCards() {
       setUserUids(uids);
     } catch (error) {
       console.error('Error fetching my posts:', error);
-      alert('불러오는 도중 문제가 발생하였습니다.');
+      openModal('불러오는 도중 문제가 발생하였습니다.');
     }
   };
 
@@ -77,8 +77,14 @@ function FetchUserCards() {
   };
 
   useEffect(() => {
+    if (testState === true && swiper) {
+      swiper.slideNext();
+    }
     getUerCards();
-  }, []);
+    return () => {
+      setTestState(false);
+    };
+  }, [currentIndex]);
 
   const filteredCards = userCards?.filter((item) => item.uid !== myUid && item.gender !== myGender);
   const flirtingUserUids =
@@ -87,7 +93,7 @@ function FetchUserCards() {
 
   const handleLike = () => {
     const likedUserUid = userUids[currentIndex];
-    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex);
+    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex, filteredCards.length - 1);
     console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
   };
 
@@ -101,12 +107,14 @@ function FetchUserCards() {
         onSlideChange={(swiper: any) => {
           handleSlideChange(swiper);
         }}
-        onSwiper={(swiper: any) => setSwiper(swiper)}
+        onSwiper={(swiper: any) => {
+          setSwiper(swiper);
+        }}
         className="!px-[1.5rem] !py-[2rem]"
         navigation={true}
         touchRatio={0}
-        loop={true}
-        loopAdditionalSlides={0}
+        // loop={true}
+        // loopAdditionalSlides={1}
         initialSlide={initialSlide}
         onTransitionEnd={(swiper) => setCurrentIndex(swiper.realIndex)}
       >
