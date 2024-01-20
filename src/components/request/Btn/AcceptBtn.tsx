@@ -11,11 +11,7 @@ function AcceptBtn({ listId }: Props) {
 
   /**수락 버튼 클릭시 모달창 오픈, 확인 클릭시 업데이트 */
   const handleAcceptBtn = () => {
-    openModal(
-      `축하합니다!
-    신호등에 노란색 불이 켜졌어요.
-    대화를 나누고 호감도를 올려보세요!`
-    );
+    openModal('');
   };
 
   return (

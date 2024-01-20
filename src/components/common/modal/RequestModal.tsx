@@ -4,17 +4,15 @@ import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
 import { IoCheckmark } from 'react-icons/io5';
 import { RiLightbulbFlashFill } from 'react-icons/ri';
-import { supabase } from '@/lib/supabase-config';
 import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
-import { IconContext } from 'react-icons';
 
 const useRequestModal = (listId: number) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>('');
   const backdrop = 'blur';
 
-  const openModal = (newTitle: string) => {
-    setTitle(newTitle);
+  const openModal = (title: string) => {
+    setTitle(title);
     setIsOpen(true);
   };
 
@@ -36,7 +34,9 @@ const useRequestModal = (listId: number) => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-1">
               <RiLightbulbFlashFill size={50} className="fill-yellow-400" />
-              {title}
+              <p>축하합니다! </p>
+              <p>신호등에 노란색 불이 켜졌어요.</p>
+              <p>대화를 나누고 호감도를 올려보세요!</p>
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               <Button
@@ -77,7 +77,9 @@ const useRequestModal = (listId: number) => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-1 ">
               <RiLightbulbFlashFill size={50} className="fill-customRed" />
-              {title}
+              <p>아쉬워요.</p>
+              <p>신호등에 빨간색 불이 들어왔네요.</p>
+              <p>더 좋은 만남을 기대할게요!</p>
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 w-15 gap-2">
               <Button
