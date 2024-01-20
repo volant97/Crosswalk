@@ -123,7 +123,7 @@ function FetchUserCards() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="flex gap-3 px-[20px] flex justify-between gap-x-2">
+      <div className="flex gap-3 px-[20px] justify-between gap-x-2">
         <SlideButton
           nextCard={() => {
             if (swiper) {

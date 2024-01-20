@@ -24,6 +24,7 @@ const config: Config = {
         customYellow: '#FFF200',
         customGreen: '#05F600',
         customGreen2: '#F1FCED',
+        customGreen3: '#02DB3E',
         lightRed: '#FF002E',
         lightGreen: '#ACFF8E',
         melona: '#F1FCED',
