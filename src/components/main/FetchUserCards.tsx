@@ -149,8 +149,8 @@ function FetchUserCards() {
           color="green"
           size="lg"
         >
-          <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" />{' '}
-          <span className="text-black text-[18px] leading-[20px] font-semibold">어필하기</span>
+          <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
+          <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
         </Button>
       </div>
       {flirtingModal()}
