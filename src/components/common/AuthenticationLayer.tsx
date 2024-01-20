@@ -18,7 +18,7 @@ function AuthenticationLayer({ children }: Props) {
   const pathname = usePathname();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authlistener } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         supabase
           .from('custom_users')
@@ -33,9 +33,13 @@ function AuthenticationLayer({ children }: Props) {
       } else {
         setUser(null);
       }
+      console.log('!!!!!!');
       setIsAuthInitialized(true);
     });
-    console.log('user', user);
+    // console.log('user', user);
+    // return () => {
+    //   if (authlistener) authlistener.unsubscribe();
+    // };
   }, [isAuthInitialized, setUser]);
 
   return (
