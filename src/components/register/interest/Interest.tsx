@@ -29,7 +29,7 @@ function Interest() {
   };
 
   const handleNextBtn = () => {
-    if (activeStates.length < 1) {
+    if (activeStates.length < 3) {
       openModal('관심사를 선택해주세요!');
       return;
     }

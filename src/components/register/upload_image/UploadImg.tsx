@@ -118,6 +118,7 @@ const UploadImg = () => {
 
     console.log('6', register);
     await postData();
+    route.push('/main');
     console.log('7', register);
   };
 
@@ -144,7 +145,7 @@ const UploadImg = () => {
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
-        ...prevData.profile,
+        ...prevData?.profile,
         user_img: userImg?.publicUrl,
         avatar: Math.floor(Math.random() * 15),
         uid: uid
