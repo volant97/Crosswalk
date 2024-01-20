@@ -155,7 +155,7 @@ function EditMyProfile() {
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>나이</label>
             <input
-              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
               value={age}
               onChange={ageHandler}
               type="number"
@@ -169,7 +169,7 @@ function EditMyProfile() {
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>키</label>
             <input
-              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
               value={height}
               onChange={heightHandler}
               type="number"

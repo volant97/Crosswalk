@@ -100,7 +100,7 @@ function Name() {
         }`}
         type="submit"
       >
-        NEXT
+        다음 단계
       </Button>
       {AlertModal()}
     </form>

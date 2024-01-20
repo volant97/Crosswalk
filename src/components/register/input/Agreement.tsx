@@ -118,7 +118,7 @@ function Agreement() {
         }`}
         onClick={handleNextBtn}
       >
-        전송하기
+        다음 단계
       </Button>
 
       {AlertModal()}

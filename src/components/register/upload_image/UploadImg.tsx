@@ -104,6 +104,7 @@ const UploadImg = () => {
     } catch (error) {
       handleError(error);
     }
+    route.push('/welcome');
   };
 
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
@@ -118,7 +119,6 @@ const UploadImg = () => {
 
     console.log('6', register);
     await postData();
-    route.push('/main');
     console.log('7', register);
   };
 
@@ -190,7 +190,7 @@ const UploadImg = () => {
         }`}
         onClick={handleNextBtn}
       >
-        Completion
+        회원 등록 완료
       </Button>
       {AlertModal()}
     </div>
