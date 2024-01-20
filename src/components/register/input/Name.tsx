@@ -57,7 +57,7 @@ function Name() {
             이름
           </label>
           <input
-            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD"
+            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
             id="inputName"
             type="text"
             value={name}
@@ -95,8 +95,8 @@ function Name() {
         </div>
       </div>
       <Button
-        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold bg-customYellow text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
-          name && gender ? 'bg-customGreen' : 'bg-customYellow'
+        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+          name && gender ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         type="submit"
       >
