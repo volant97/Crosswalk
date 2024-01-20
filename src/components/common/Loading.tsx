@@ -4,7 +4,7 @@ import React from 'react';
 function Loading() {
   return (
     <div className="flex justify-center items-center w-screen h-screen">
-      <div className="flex justify-center items-center w-48 h-20 border-4 border-black rounded-lg">
+      <div className="flex justify-center items-center w-[200px] h-[60px] border-3 border-black rounded-lg">
         <Spinner color="danger" size="lg" />
         <Spacer x={2} />
         <Spinner color="warning" size="lg" />
