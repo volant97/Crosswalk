@@ -6,21 +6,25 @@ interface PageProps {
   noBack?: boolean;
   noNavBar?: boolean;
   noNotiBell?: boolean;
+  noBackMain?: boolean;
 }
 
-function Page({ noHeader, noBack, noNavBar, noNotiBell, children }: PropsWithChildren<PageProps>) {
+function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, children }: PropsWithChildren<PageProps>) {
   return (
     <main id="page">
       {/* 헤더 */}
 
-      {/* 마이프로필, 마이프로필수정, 리퀘스트 */}
-      {!noHeader && !noBack && !noNotiBell && !noNavBar && <Header />}
+      {/* 마이프로필, 리퀘스트 */}
+      {!noHeader && !noBack && !noNotiBell && !noNavBar && !noBackMain && <Header />}
 
       {/* 메인 */}
-      {!noHeader && noBack && !noNotiBell && !noNavBar && <Header noBack />}
+      {!noHeader && noBack && !noNotiBell && !noNavBar && !noBackMain && <Header noBack />}
 
       {/* 알림창 */}
-      {!noHeader && !noBack && !noNotiBell && noNavBar && <Header noNavBar />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && <Header noNavBar />}
+
+      {/* 마이프로필수정 */}
+      {!noHeader && !noBack && !noNotiBell && !noNavBar && noBackMain && <Header noBackMain />}
 
       {/* {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
       {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />} */}
