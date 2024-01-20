@@ -6,7 +6,7 @@ import Image from 'next/image';
 function SpotifyLoginBtn() {
   return (
     <button className="relative w-[52px] h-[52px] rounded-full bg-white" type="button" onClick={spotifyLogin}>
-      <Image src={spotify} alt="spotify" fill />
+      <Image src={spotify} alt="spotify" width={52} height={52} />
     </button>
   );
 }

@@ -11,7 +11,7 @@ function StartIn3Seconds() {
           3초만에 시작하기
         </div>
         <div className="relative w-[20px] h-[20px]">
-          <Image src={rocket} alt="rocket" fill />
+          <Image src={rocket} alt="rocket" width={20} height={20} />
         </div>
       </div>
       <div className="w-[40px] h-[1px] bg-gray-E6" />
