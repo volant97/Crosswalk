@@ -87,6 +87,9 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messageData]);
+  console.log(roomInfo?.flirting_list.sender_uid.uid);
+  console.log(roomInfo?.flirting_list.sender_uid.uid === getUid?.id);
+  console.log(getUid?.id);
 
   return (
     <>
@@ -98,10 +101,9 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
 
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
-          if (roomInfo?.flirting_list.sender_uid.uid === getUid?.id) {
-            return (
-              <>
-                {/* <div className=" flex justify-end items-end gap-[0.38rem]">
+          return data.user_uid === getUid?.id ? (
+            <>
+              {/* <div className=" flex justify-end items-end gap-[0.38rem]">
                   <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">
                     {GetCurrentTime(roomInfo?.flirting_list.created_at)}
                   </h1>
@@ -111,46 +113,43 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
                     </div>
                   </div>
                 </div> */}
-                {idx === 0 ? DisplayDateTime(data.created_at) : null}
-                <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
-                  <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{GetCurrentTime(data.created_at)}</h1>
-                  <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                    <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
-                      <h1 className="font-medium break-all">{data.message}</h1>
-                    </div>
+              {idx === 0 ? DisplayDateTime(data.created_at) : null}
+              <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
+                <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{GetCurrentTime(data.created_at)}</h1>
+                <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                  <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
+                    <h1 className="font-medium break-all">{data.message}</h1>
                   </div>
                 </div>
-                {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
-                  ? DisplayDateTime(nextData?.created_at)
-                  : null}
-              </>
-            );
-          } else {
-            return (
-              <>
-                {idx === 0 ? DisplayDateTime(data.created_at) : null}
-                <div className="mr-auto " key={idx}>
-                  <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                    <Avatar
-                      size="sm"
-                      src={`/assets/avatar/avatar${roomInfo?.flirting_list.receiver_uid.avatar}.png`}
-                      alt="유저 아바타 이미지"
-                    />
-                    <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-[15rem]">
-                      <h1 className="font-medium break-all">{data.message}</h1>
-                    </div>
-                    <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
-                      {GetCurrentTime(data.created_at)}
-                    </h1>
+              </div>
+              {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
+                ? DisplayDateTime(nextData?.created_at)
+                : null}
+            </>
+          ) : (
+            <>
+              {idx === 0 ? DisplayDateTime(data.created_at) : null}
+              <div className="mr-auto " key={idx}>
+                <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                  <Avatar
+                    size="sm"
+                    src={`/assets/avatar/avatar${roomInfo?.flirting_list.receiver_uid.avatar}.png`}
+                    alt="유저 아바타 이미지"
+                  />
+                  <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-[15rem]">
+                    <h1 className="font-medium break-all">{data.message}</h1>
                   </div>
+                  <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
+                    {GetCurrentTime(data.created_at)}
+                  </h1>
                 </div>
+              </div>
 
-                {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
-                  ? DisplayDateTime(nextData?.created_at)
-                  : null}
-              </>
-            );
-          }
+              {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
+                ? DisplayDateTime(nextData?.created_at)
+                : null}
+            </>
+          );
         })}
       </div>
       <form
