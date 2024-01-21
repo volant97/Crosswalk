@@ -2,7 +2,7 @@ import { supabase } from '../supabase-config';
 import { createClient } from '@supabase/supabase-js';
 import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
-import type { MessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import type { MessageType, SendMessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
 
 // const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
@@ -213,7 +213,7 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
     .from('message')
     .select('*')
     .eq('subscribe_room_id', subscribe_room_id)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: true })
     .returns<MessageType[]>();
 
   if (error || null) {
@@ -223,7 +223,7 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
   return data;
 }
 
-export async function postMessage(message_data: MessageType) {
+export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
   console.log(message_data);
   if (error) {
