@@ -19,7 +19,7 @@ function DeclineBtn({ listId }: Props) {
     <>
       {AlertRedModal()}
       <button
-        className="w-full h-full px-[20px] self-stretch bg-customYellow rounded-full text-[12px] font-[600] text-black leading-[20px]"
+        className="w-full h-full px-[20px] self-stretch bg-gray-E9 rounded-full text-[12px] font-[600] text-gray-666 leading-[20px]"
         onClick={handleDeclineBtn}
       >
         거절

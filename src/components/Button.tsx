@@ -12,7 +12,7 @@ function Button({ color, children, size, openFlirtingModal }: PropsWithChildren<
     <NextButton
       onClick={openFlirtingModal}
       className={`w-full h-[50px] px-[20px] flex gap-x-[10px] rounded-[30px] text-[18px] bg-[#F6F6F6] font-semibold text-[#AAAAAA] ${
-        color === 'green' ? '!bg-customGreen !text-white' : ''
+        color === 'green' ? '!bg-customGreen3 !text-white' : ''
       } ${size === 'md' && 'mt-[1.25rem]'}`}
     >
       {children}

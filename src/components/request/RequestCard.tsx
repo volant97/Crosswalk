@@ -14,7 +14,7 @@ type Props = {
 function RequestCard({ listId, avatar, senderName, age, message }: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]">
-      <div className="flex items-center gap-[8px] self-stretch">
+      <div className="flex items-center gap-[8px] self-stretch h-[42px]">
         <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full ">
           <Image
             className="rounded-full object-cover"
@@ -26,8 +26,8 @@ function RequestCard({ listId, avatar, senderName, age, message }: Props) {
         </div>
         <div className="flex flex-col items-start gap-[6px]">
           <div className="flex items-end gap-[4px]">
-            <p className="text-[16px] font-[500] leading-normal">{senderName}</p>
-            <p className="text-[14px] font-[400] text-gray-999 leading-normal">{age}</p>
+            <p className="text-[16px] font-[500] leading-[16px]">{senderName}</p>
+            <p className="text-[14px] font-[400] text-gray-999 leading-[14px]">{age}</p>
           </div>
           <p className="text-[14px] font-[400] text-gray-666 leading-[20px] capitalize">{message}</p>
         </div>
