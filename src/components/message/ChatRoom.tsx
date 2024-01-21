@@ -129,7 +129,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
             return (
               <>
                 {idx === 0 ? DisplayDateTime(data.created_at) : null}
-                <div className="mr-auto " key={idx}>
+                <div className="mr-auto" key={idx}>
                   <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                     <Avatar
                       size="sm"

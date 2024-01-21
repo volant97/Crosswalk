@@ -1,4 +1,5 @@
 'use client';
+import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { getChatList } from '@/lib/api/SupabaseApi';
 import { UserState, userState } from '@/recoil/user';
@@ -41,14 +42,14 @@ export default function ChatListPage() {
   };
 
   return (
-    <>
-      <ul>
+    <Page noNavBar>
+      <ul className="px-5">
         {chatList?.map((list, idx) => {
           if (getUid?.id === list.flirting_list.sender_uid.uid) {
             return (
               <li
                 key={idx}
-                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                className="py-3 flex flex-row gap-4 cursor-pointer"
                 onClick={() => {
                   // list.id가 존재할 때만 이동하도록 수정
                   router.push(`/chat-list/${list.id}`);
@@ -57,7 +58,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem]">
+                <div className="">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
@@ -96,6 +97,6 @@ export default function ChatListPage() {
           }
         })}
       </ul>
-    </>
+    </Page>
   );
 }

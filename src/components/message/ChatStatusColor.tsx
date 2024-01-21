@@ -7,7 +7,7 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
     case 'UNREAD':
       return (
         <div className="rounded-full border-gray-999 border-2 p-[0.2rem]">
-          <Avatar size="sm" src={`/assets/avatar/avatar${avatar}.png`} alt="유저 아바타 이미지" />
+          <Avatar size="sm" src={`/assets/avatar/avatar${avatar}-.png`} alt="유저 아바타 이미지" />
         </div>
       );
     case 'READ':
