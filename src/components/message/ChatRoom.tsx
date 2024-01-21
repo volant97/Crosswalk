@@ -2,12 +2,14 @@
 
 import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType, SendMessageType } from '@/types/realTimeType';
+import { ChatListType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import { format, parseISO } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
+import { StatusMessage } from './ChatStatusColor';
+import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 
 interface ChatProps {
   roomId: string;
@@ -18,14 +20,6 @@ interface ChatProps {
 function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
-  const [sendMessageData, setSendMessageData] = useState<SendMessageType>({
-    subscribe_room_id: roomId,
-    user_uid: getUid?.id,
-    message: inputValue,
-    congratulations_message: 0,
-    total_chat_count: 0,
-    is_read: false
-  });
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,17 +28,19 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
 
   const handleSendMessage = async () => {
     if (roomInfo?.flirting_list.status === 'ACCEPT') {
-      setSendMessageData((prevValue: any) => ({
-        ...prevValue,
+      const sendData = {
+        subscribe_room_id: roomId,
         user_uid: getUid?.id,
         message: inputValue,
-        subscribe_room_id: roomInfo.id
-      }));
-      if (sendMessageData.message === '') {
+        congratulations_message: 0,
+        total_chat_count: 0,
+        is_read: false
+      };
+
+      if (sendData.message === '') {
         return alert('메세지를 입력해주세요');
       }
-
-      await postMessage(sendMessageData);
+      await postMessage(sendData);
       await setInputValue('');
     }
   };
@@ -56,6 +52,22 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       alert('서버와의 통신을 실패했습니다.');
     }
   }
+  // useEffect(() => {
+  //   if (roomInfo) {
+  //     const firstMessage = {
+  //       created_at: roomInfo?.flirting_list.created_at,
+  //       id: roomInfo?.flirting_list.id,
+  //       is_read: false,
+  //       message: roomInfo?.flirting_list.flirting_message,
+  //       subscribe_room_id: roomInfo?.id,
+  //       user_uid: roomInfo?.flirting_list.sender_uid.uid,
+  //       congratulations_message: 0,
+  //       total_chat_count: 0
+  //     };
+  //     messageData.unshift(firstMessage);
+  //   }
+  // }, []);
+
   useEffect(() => {
     // 컴포넌트 마운트 시에 구독
     subscribeChatRoom(roomId, (payload: any) => {
@@ -76,104 +88,47 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     }
   }, [messageData]);
 
-  const getCurrentTime = (time: string) => {
-    const formattedTime = format(parseISO(time), 'p');
-    return formattedTime;
-  };
-
-  function displayDateTime(date: string) {
-    if (date) {
-      const formattedDate = format(parseISO(date), 'yyyy년 MM월 dd일');
-      return (
-        <div className="flex mr-auto ml-auto justify-center mt-[1rem]">
-          <div className="flex justify-center items-center border-1 border-solid border-gray-DDD  py-[0.5rem] rounded-[3.125rem] text-[0.875rem] px-[1rem] text-gray-999">
-            <Image
-              src="/assets/figmaImg/Calendar.png"
-              className="w-[1rem] h-[1rem] mr-[0.25rem]"
-              width={50}
-              height={50}
-              alt="캘린더"
-            />
-            {formattedDate}
-          </div>
-        </div>
-      );
-    }
-  }
-
-  const convertedDate = (date: string) => {
-    if (date) {
-      const formattedDate = format(parseISO(date), 'P');
-      return formattedDate;
-    }
-  };
-
-  const statusMessage = (status: string | undefined) => {
-    switch (status) {
-      case 'ACCEPT':
-        return (
-          <div className="flex justify-center items-center border-1 border-solid border-gray-DDD w-full py-[0.5rem] rounded-[3.125rem] text-[0.875rem]">
-            <Image
-              src="/assets/figmaImg/yellowLight.png"
-              className="w-[1rem] h-[1rem] mr-[0.25rem]"
-              width={50}
-              height={50}
-              alt="노란불"
-            />
-            신호등이 켜졌습니다. 서로에게 다가가세요!
-          </div>
-        );
-      case 'DECLINE':
-        return (
-          <div className="flex justify-center items-center border-1 border-solid border-gray-DDD w-full py-[0.5rem] rounded-[3.125rem] text-[0.875rem]">
-            <Image
-              src="/assets/figmaImg/redLight.png"
-              className="w-[1rem] h-[1rem] mr-[0.25rem]"
-              width={50}
-              height={50}
-              alt="빨간불"
-            />
-            신호등이 꺼졌습니다.
-          </div>
-        );
-    }
-  };
   return (
     <>
       <div
         ref={chatContainerRef}
         className="relative flex flex-col items-end w-full h-[33.5rem] overflow-y-auto scrollbar-hide"
       >
-        {statusMessage(roomInfo?.flirting_list.status)}
+        {StatusMessage(roomInfo?.flirting_list.status)}
 
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
           if (roomInfo?.flirting_list.sender_uid.uid === getUid?.id) {
             return (
               <>
-                {idx === 0
-                  ? displayDateTime(data.created_at)
-                  : convertedDate(data.created_at) !== convertedDate(nextData?.created_at)
-                  ? displayDateTime(nextData?.created_at)
-                  : null}
+                {/* <div className=" flex justify-end items-end gap-[0.38rem]">
+                  <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">
+                    {GetCurrentTime(roomInfo?.flirting_list.created_at)}
+                  </h1>
+                  <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                    <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
+                      <h1 className="font-medium break-all">{roomInfo?.flirting_list.flirting_message}</h1>
+                    </div>
+                  </div>
+                </div> */}
+                {idx === 0 ? DisplayDateTime(data.created_at) : null}
                 <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
-                  <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{getCurrentTime(data.created_at)}</h1>
+                  <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{GetCurrentTime(data.created_at)}</h1>
                   <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                     <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-[15rem]">
                       <h1 className="font-medium break-all">{data.message}</h1>
                     </div>
                   </div>
                 </div>
+                {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
+                  ? DisplayDateTime(nextData?.created_at)
+                  : null}
               </>
             );
           } else {
             return (
               <>
-                {idx === 0
-                  ? displayDateTime(data.created_at)
-                  : convertedDate(data.created_at) !== convertedDate(nextData?.created_at)
-                  ? displayDateTime(nextData?.created_at)
-                  : null}
+                {idx === 0 ? DisplayDateTime(data.created_at) : null}
                 <div className="mr-auto " key={idx}>
                   <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                     <Avatar
@@ -185,10 +140,14 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
                       <h1 className="font-medium break-all">{data.message}</h1>
                     </div>
                     <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
-                      {getCurrentTime(data.created_at)}
+                      {GetCurrentTime(data.created_at)}
                     </h1>
                   </div>
                 </div>
+
+                {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
+                  ? DisplayDateTime(nextData?.created_at)
+                  : null}
               </>
             );
           }
