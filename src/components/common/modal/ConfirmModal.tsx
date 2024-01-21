@@ -121,7 +121,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     <Fragment>
       <Button
         onPress={onOpen}
-        className="flex justify-center items-center w-[320px] h-[50px] bg-customGreen rounded-full cursor-pointer text-[18px] font-[600] leading-[20px] capitalize"
+        className="flex justify-center items-center w-[320px] h-[50px] bg-customGreen3 rounded-full cursor-pointer text-[18px] font-[600] leading-[20px] capitalize text-white"
         type="submit"
       >
         수정하기

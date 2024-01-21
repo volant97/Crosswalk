@@ -145,13 +145,13 @@ const NotificationList = () => {
                     }
                   }}
                 >
-                  <li className="flex flex-col justify-center w-full h-[63px] pl-[22px] pr-[22px] pt-[13px] pb-[13px] cursor-pointer gap-[5px]">
+                  <li className="flex flex-col justify-center w-full h-[70px] pl-[22px] pr-[22px] pt-[13px] pb-[13px] cursor-pointer gap-[5px]">
                     <div className="flex justify-between">
-                      <div className="flex flex-col justify-center items-center text-center font-medium leading-[16px] h-[16px] text-[16px] ">
+                      <div className="flex flex-col justify-center items-center text-center font-medium leading-[16px] h-[20px] text-[16px] ">
                         {notification.status === 'ACCEPT' ? (
-                          <h2 className="flex flex-col justify-center ">{notification.status} 💚 Connected!</h2>
+                          <h2 className="flex flex-col justify-center ">💚 Connected!</h2>
                         ) : (
-                          <h2>{notification.status} ⚡ Request</h2>
+                          <h2>⚡ Request</h2>
                         )}
                       </div>
                       <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA] text-[12px] ">

@@ -62,7 +62,7 @@ function SignalOffModal() {
                     onClose;
                     router.back();
                   }}
-                  className="w-[15rem] bg-customYellow rounded-3xl cursor-pointer mb-0 font-medium"
+                  className="w-[15rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
                 >
                   네, 방 나가고 싶어요.
