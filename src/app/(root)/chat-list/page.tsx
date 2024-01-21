@@ -49,7 +49,7 @@ export default function ChatListPage() {
             return (
               <li
                 key={idx}
-                className="py-3 flex flex-row gap-4 cursor-pointer"
+                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
                 onClick={() => {
                   // list.id가 존재할 때만 이동하도록 수정
                   router.push(`/chat-list/${list.id}`);
@@ -58,7 +58,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                 </div>
-                <div className="">
+                <div className="w-[12.5rem] ml-[-60px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
@@ -82,7 +82,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem]">
+                <div className="w-[12.5rem] ml-[-60px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
