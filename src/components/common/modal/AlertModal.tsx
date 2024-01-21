@@ -34,7 +34,14 @@ const useAlertModal = () => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-1 ">
               <TiWarning size={50} />
-              {title}
+              {pathname === '/main' ? (
+                <>
+                  <p>마지막 카드입니다.</p>
+                  <p> 다시 처음으로 돌아갑니다!</p>
+                </>
+              ) : (
+                title
+              )}
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               {pathname === '/main' ? (
