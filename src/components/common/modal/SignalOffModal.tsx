@@ -12,18 +12,20 @@ import {
 } from '@nextui-org/react';
 import Image from 'next/image';
 import { HiOutlineEmojiSad } from 'react-icons/hi';
+import { useRouter } from 'next/navigation';
 
 function SignalOffModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
+  const router = useRouter();
 
   return (
     <div>
       <button
         onClick={onOpen}
-        className="absolute top-[5px] right-[1px] flex items-center justify-center border-1 border-solid border-black px-[0.5rem] py-[0.25rem] rounded-full w-[3.875rem] h-[2rem] mt-[0.75rem] text-gray-666"
+        className="absolute top-[5px] right-6 flex items-center justify-center border-1 border-solid border-black px-[0.5rem] py-[0.25rem] rounded-full w-[3.875rem] h-[2rem] mt-[0.75rem] text-gray-666"
       >
-        <h1 className="pt-[5px] text-[0.75rem] mr-[0.25rem]">거절</h1>
+        <h1 className="text-[0.75rem] mr-[0.25rem]">거절</h1>
         <Image src="/assets/figmaImg/sadCircle.png" className="w-[1rem] h-[1rem]" width={100} height={100} alt="거절" />
       </button>
       <Modal
@@ -56,7 +58,10 @@ function SignalOffModal() {
               </ModalHeader>
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
-                  onPress={onClose}
+                  onPress={() => {
+                    onClose;
+                    router.back();
+                  }}
                   className="w-[15rem] bg-customYellow rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
                 >
