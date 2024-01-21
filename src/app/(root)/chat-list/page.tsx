@@ -58,7 +58,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem] ml-[-60px]">
+                <div className="w-[12.5rem] ml-[-20px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
@@ -82,7 +82,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem] ml-[-60px]">
+                <div className="w-[12.5rem] ml-[-20px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
