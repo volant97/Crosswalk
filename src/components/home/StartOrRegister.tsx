@@ -22,7 +22,10 @@ function StartOrRegister() {
       </Button>
     ) : (
       <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
-        <Link href={'/register'} className="flex justify-center items-center w-full h-full">
+        <Link
+          href={'/register'}
+          className="flex justify-center items-center w-full h-full text-white text-[18px] leading-[20px] font-semibold "
+        >
           등록하기
         </Link>
       </Button>

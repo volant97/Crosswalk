@@ -146,7 +146,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
                     onClose();
                     router.push('/my-profile'); // 페이지 이동을 수행합니다.
                   }}
-                  className="w-[15rem] bg-customYellow rounded-3xl cursor-pointer mb-0 font-medium"
+                  className="w-[15rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
                 >
                   네
