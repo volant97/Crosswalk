@@ -134,7 +134,7 @@ function FetchUserCards() {
               router.push(`/main?i=${currentIndex + 1}`); // 문제되는 부분
             }
             if (currentIndex === userCards.length - 1) {
-              openModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
+              openModal('');
 
               setCurrentIndex(0);
               router.push(`/main`);
