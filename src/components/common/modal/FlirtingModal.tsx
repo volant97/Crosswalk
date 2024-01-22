@@ -94,9 +94,7 @@ const useFlirtingModal = () => {
 
                     router.push(`/main?i=${currentIndex + 1}`);
                     setCurrentIndex(currentIndex + 1);
-                    console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                     setTestState(true);
-                    console.log('확인');
                   }}
                 >
                   <Input

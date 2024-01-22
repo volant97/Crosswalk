@@ -43,7 +43,6 @@ const UploadImg = () => {
         });
       }
     } catch (error) {
-      console.log('uploadFile error', error);
       handleError(error);
     }
   }
@@ -79,7 +78,6 @@ const UploadImg = () => {
       openModal('사진을 올려주세요!');
       return;
     }
-    console.log('NextBtn', registerData);
     await uploadFile(file);
     await getImgLink();
     await postData();
@@ -94,7 +92,6 @@ const UploadImg = () => {
   useEffect(() => {
     if (file) {
       effectFunction();
-      console.log('useEffect', registerData);
     } else {
       alert('file 없음');
     }

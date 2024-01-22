@@ -32,11 +32,9 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
   const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
   const { openReloadCardModal, reloadCardModal } = useReloadCardModal();
-  console.log('index', index);
 
   const handleLike = () => {
     openFlirtingModal(flirtingUserId, currentIndex, Number(index - 1));
-    console.log('userId', flirtingUserId);
   };
   return (
     <div className="relative">

@@ -8,7 +8,6 @@ import React from 'react';
 function ProfleDetailPage() {
   const pathname = usePathname();
   const userId = pathname.substring(6, 42);
-  console.log('pathname', userId);
   return (
     <Page>
       <FetchUserProfile userId={userId} />

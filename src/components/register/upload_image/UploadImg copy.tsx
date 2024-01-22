@@ -52,7 +52,7 @@ function UploadImg() {
         return null;
       }
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
       openModal('사진변경 중 오류 발생');
     }
 
@@ -105,15 +105,6 @@ function UploadImg() {
       postData();
     }
   };
-
-  // useEffect(() => {
-  //   if (register?.profile?.user_img) {
-  //     postData();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [register?.profile?.user_img]);
-
-  console.log('!!!!', register);
 
   return (
     <div

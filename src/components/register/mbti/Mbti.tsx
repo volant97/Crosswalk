@@ -34,7 +34,6 @@ function Mbti() {
         mbti: selectedMbti
       }
     }));
-    console.log('!!!!!mbti', register);
     router.push('#age');
   };
 

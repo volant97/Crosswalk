@@ -42,13 +42,10 @@ function Interest() {
         interest: activeStates
       }
     }));
-    console.log('!!!!!Interest', register);
     router.push('#imgUpload');
   };
 
-  useEffect(() => {
-    console.log('activeStates~~ : ', activeStates);
-  }, [activeStates]);
+  useEffect(() => {}, [activeStates]);
 
   return (
     <div

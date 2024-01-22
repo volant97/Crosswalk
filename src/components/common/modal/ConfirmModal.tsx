@@ -1,19 +1,8 @@
 'use client';
 import React, { Fragment, useEffect } from 'react';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  ModalProps
-} from '@nextui-org/react';
-import { isUserState } from '@/recoil/auth';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { supabase } from '@/lib/supabase-config';
-import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { postRegister } from '@/lib/api/SupabaseApi';
@@ -27,14 +16,6 @@ type Props = {
   selectedImg: string;
   file: any;
 };
-// type Props = {
-//   name: string | null;
-//   height: number | null;
-//   age: number | null;
-//   gender: string | null;
-//   selectedImg: string;
-//   file: any;
-// };
 
 function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   const router = useRouter();
@@ -43,7 +24,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
   const { openModal, AlertModal } = useAlertModal();
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo = registerData?.profile;
-  // const { uid } = useRecoilValue(isUserState);
   const uid = registerData?.id;
 
   async function uploadFile(file: any) {
@@ -57,12 +37,11 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
         return null;
       }
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
       openModal('사진변경 중 오류 발생');
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    console.log('지훈님:', userImg);
     const updatedImg = file !== 'test' ? userImg?.publicUrl : myInfo?.user_img;
     // any타입
     setRegisterData((prevData: any) => ({
@@ -81,8 +60,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
 
   async function updateData() {
     try {
-      // dd
-      console.log('registerData !!!', registerData);
       await postRegister(registerData?.id, registerData?.profile);
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
@@ -103,19 +80,8 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
       updateData();
     }
 
-    console.log('updateData', registerData);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
-  // 임시로 주석해줬음
-  // useEffect(() => {
-  //   if (registerData === null) {
-  //     updateData();
-  //   }
-
-  //   console.log('updateData', registerData);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [registerData]);
 
   return (
     <Fragment>
@@ -142,7 +108,6 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
                 <Button
                   onClick={async () => {
                     await uploadAndNavigate(file);
-                    console.log('확인');
                     onClose();
                     router.push('/my-profile'); // 페이지 이동을 수행합니다.
                   }}

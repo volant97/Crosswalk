@@ -43,7 +43,6 @@ export async function subscribeRequestedFlirtingList(callback: SpecificSubscribe
       callback
     )
     .subscribe();
-  // console.log('Request 채널 구독 시작');
 }
 
 /**Request 채널 구독해제 */
@@ -51,7 +50,6 @@ export async function untrackRequestedFlirtingList() {
   const requestRoom = supabase.channel('request');
   await requestRoom.subscribe();
   await requestRoom.untrack();
-  // console.log('Request 채널 구독 해제');
 }
 
 /**수락 버튼 클릭 */

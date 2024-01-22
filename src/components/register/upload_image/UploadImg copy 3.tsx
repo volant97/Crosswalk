@@ -48,7 +48,7 @@ function UploadImg() {
           });
       }
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
       openModal('사진변경 중 오류 발생');
     }
     await getImgLink();
@@ -85,7 +85,6 @@ function UploadImg() {
       openModal('사진을 올려주세요!');
       return;
     }
-    console.log('NextBtn', registerData);
     postData();
   };
 
@@ -97,7 +96,6 @@ function UploadImg() {
   useEffect(() => {
     if (file) {
       effectFunction();
-      console.log('useEffect', registerData);
     } else {
       alert('file 없음');
     }

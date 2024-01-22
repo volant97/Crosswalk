@@ -33,7 +33,6 @@ function Name() {
         gender
       }
     }));
-    console.log('!!!!!name', register);
     router.push('#mbti');
   };
 

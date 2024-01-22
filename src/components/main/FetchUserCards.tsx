@@ -22,11 +22,9 @@ import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase-config';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
-  console.log('searchParams', searchParams.get('i'));
   const router = useRouter();
   const index = Number(searchParams.get('index') || 0);
   const initialSlide = Number(searchParams.get('i') || 0);
@@ -53,7 +51,6 @@ function FetchUserCards() {
       setUserCards(userCards);
       const uids = userCards.map((item: any) => item.uid);
       setUserUids(uids);
-      console.log('userCards', userCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
@@ -66,8 +63,6 @@ function FetchUserCards() {
 
     const activeUserUid = userUids[activeIndex];
     setActiveUserUid(activeUserUid);
-
-    console.log('Active User UID:', activeUserUid);
   };
   useEffect(() => {
     getUerCards();
@@ -89,10 +84,8 @@ function FetchUserCards() {
   const handleLike = () => {
     const likedUserUid = userUids[currentIndex];
     openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex, userCards.length - 1);
-    console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
   };
 
-  console.log('currentIndex', currentIndex);
   return (
     <div className="w-full">
       <Swiper

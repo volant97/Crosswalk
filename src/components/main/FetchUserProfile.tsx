@@ -23,22 +23,14 @@ function FetchUserProfile({ userId }: Props) {
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myGender = registerData?.profile?.gender;
   const index = Number(searchParams.get('index') || 0);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  // const handleNext = () => {
-  //   setCurrentIndex((prevIndex) => prevIndex + 1);
-  // };
 
   const getUerCards = async () => {
     try {
-      console.log('1');
       if (!myUid) return;
       if (!myGender) return;
-      console.log('2');
       const userCards = await getUnMatchedData(myUid, myGender);
-      console.log('3');
       if (!userCards) return;
       setUserCards(userCards);
-      console.log('userCards', userCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
@@ -50,7 +42,6 @@ function FetchUserProfile({ userId }: Props) {
 
   const filteredCards = userCards?.find((item) => item?.uid == userId);
   const filteredCardslength = userCards?.length;
-  console.log('filteredCardslength', filteredCardslength);
 
   return (
     <div className="w-full px-[1.5rem] py-[2rem]">

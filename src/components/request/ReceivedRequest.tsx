@@ -59,7 +59,6 @@ const ReceivedRequest = () => {
     // 실시간 realtime
     // callback
     subscribeRequestedFlirtingList((payload: any) => {
-      // console.log('요청함 payload : ', payload);
       landingRequest();
     });
 

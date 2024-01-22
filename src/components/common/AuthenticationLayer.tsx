@@ -35,10 +35,6 @@ function AuthenticationLayer({ children }: Props) {
       }
       setIsAuthInitialized(true);
     });
-    // console.log('user', user);
-    // return () => {
-    //   if (authlistener) authlistener.unsubscribe();
-    // };
   }, [isAuthInitialized, setUser]);
 
   return (

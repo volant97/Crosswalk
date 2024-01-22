@@ -54,7 +54,7 @@ function FavorableRatingAlgorithms() {
 
   useEffect(() => {
     // 현재 호감도 % 확인
-    console.log('rating : ', Math.floor(favorableRating), '%');
+    // ('rating : ', Math.floor(favorableRating), '%');
   }, [favorableRating]);
 
   return (

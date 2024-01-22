@@ -43,7 +43,6 @@ const NotificationList = () => {
   const fetchNotificationData = async () => {
     try {
       const data = await getNotificationDetail();
-      console.log('fetchNotificationData', data);
       setNotificationData(data);
     } catch (error) {
       openModal('서버와의 통신 중 에러가 발생했습니다.');
@@ -52,7 +51,6 @@ const NotificationList = () => {
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
-      console.log('payload입니다:', payload);
       fetchNotificationData();
     });
 
@@ -67,8 +65,6 @@ const NotificationList = () => {
           notificationData.map(async (notification) => {
             const senderData: any = await getUser1NameNotification(notification);
             const receiverData: any = await getUser2NameNotification(notification);
-            // console.log('senderData', senderData);
-            // console.log('receiverData', receiverData);
             return {
               sender: senderData[0]?.name || 'Unknown',
               receiver: receiverData[0]?.name || 'Unknown'

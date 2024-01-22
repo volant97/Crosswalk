@@ -23,7 +23,6 @@ export default function ChatFunction() {
   async function data() {
     try {
       const chatList = await getChatList();
-      console.log(chatList);
 
       chatList?.forEach((list) => {
         if (list.flirting_list.status === 'ACCEPT') {
@@ -35,8 +34,6 @@ export default function ChatFunction() {
           }));
           return sendMessageData;
         }
-        console.log(sendMessageData);
-        console.log(list);
       });
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
@@ -71,7 +68,6 @@ export default function ChatFunction() {
       <button onClick={() => postMessage(sendMessageData)}>보내기</button>
       <br />
       {messageData.map((message, idx) => {
-        console.log(message);
         return <div key={idx}>{message.message}</div>;
       })}
     </div>

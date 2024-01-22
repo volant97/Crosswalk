@@ -42,7 +42,7 @@ function UploadImg() {
         return null;
       }
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
       openModal('사진변경 중 오류 발생');
     }
 
@@ -78,8 +78,6 @@ function UploadImg() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData.user_img]);
-
-  console.log('!!!!', registerData);
 
   return (
     <div

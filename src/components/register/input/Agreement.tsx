@@ -32,7 +32,6 @@ function Agreement() {
           information_agreement: true
         }
       }));
-      console.log('!!!!!', register);
       router.push('#name');
     } else {
       openModal('모든 체크박스를 선택해주세요.');
@@ -49,16 +48,12 @@ function Agreement() {
 
   const handleCheckAll = (data: boolean) => {
     setIsSelectedAll((prev) => !prev); //
-    console.log('data:', data);
     if (data) {
       setCheckItems(['one', 'two', 'three', 'four']);
     } else {
       setCheckItems([]);
     }
   };
-
-  // console.log('checkItems', checkItems);
-  // console.log('register', register);
 
   return (
     <div className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
