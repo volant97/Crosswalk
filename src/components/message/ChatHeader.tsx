@@ -27,7 +27,9 @@ function ChatHeader({ roomInfo, getUid }: ChatProps) {
           <SignalOffModal />
         </div>
         <div className="flex items-center gap-[0.75rem] absolute top-[10px] left-12">
-          {ChatStatusColor(roomInfo?.flirting_list?.status, roomInfo?.flirting_list?.receiver_uid?.avatar)}
+          {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id
+            ? ChatStatusColor(roomInfo?.flirting_list?.status, roomInfo?.flirting_list?.sender_uid?.avatar)
+            : ChatStatusColor(roomInfo?.flirting_list?.status, roomInfo?.flirting_list?.receiver_uid?.avatar)}
           <div>
             {roomInfo?.flirting_list.sender_uid.uid === getUid?.id ? (
               <div>{roomInfo?.flirting_list.receiver_uid.name}</div>
