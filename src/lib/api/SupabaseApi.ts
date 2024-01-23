@@ -4,6 +4,7 @@ import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/type
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { MessageType, SendMessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
+import { format } from 'date-fns';
 
 // const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -222,7 +223,24 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
   }
   return data;
 }
-export async function getLastMessage(subscribe_room_id: string): Promise<MessageType[]> {
+// export async function getLastMessage(subscribe_room_id: string): Promise<MessageType[]> {
+//   const { data, error } = await supabase
+//     .from('message')
+//     .select('*')
+//     .eq('subscribe_room_id', subscribe_room_id)
+//     .order('created_at', { ascending: false })
+//     .limit(1)
+//     .returns<MessageType[]>();
+
+//   if (error || null) {
+//     console.log('Error creating a posts data', error);
+//     throw new Error('error while fetching posts data');
+//   }
+//   return data;
+// }
+export async function getLastMessageWithTime(
+  subscribe_room_id: string
+): Promise<{ lastMessage: MessageType; time: string }> {
   const { data, error } = await supabase
     .from('message')
     .select('*')
@@ -231,11 +249,15 @@ export async function getLastMessage(subscribe_room_id: string): Promise<Message
     .limit(1)
     .returns<MessageType[]>();
 
-  if (error || null) {
-    console.log('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+  if (error || !data || data.length === 0) {
+    console.log('Error fetching last message', error);
+    throw new Error('Error fetching last message');
   }
-  return data;
+
+  const lastMessage = data[0];
+  const time = format(new Date(lastMessage.created_at), 'yyyy-MM-dd HH:mm:ss'); // 예제에서는 'yyyy-MM-dd HH:mm:ss' 형식으로 포맷팅
+
+  return { lastMessage, time };
 }
 
 export async function postMessage(message_data: SendMessageType) {
@@ -245,6 +267,25 @@ export async function postMessage(message_data: SendMessageType) {
     console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
+}
+export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
+  supabase
+    .channel('chat_room')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'chat_room'
+      },
+      callback
+    )
+    .subscribe();
+}
+export async function untrackChatList() {
+  const chatList = supabase.channel('chat_room');
+  await chatList.subscribe();
+  await chatList.untrack();
 }
 
 export async function subscribeChatRoom(roomId: string, callback: SpecificSubscribeFlirtingListCallbackType) {
@@ -265,5 +306,4 @@ export async function untrackChatRoom(roomId: string) {
   const chatRoom = supabase.channel(roomId);
   await chatRoom.subscribe();
   await chatRoom.untrack();
-  // console.log('Request 채널 구독 해제');
 }
