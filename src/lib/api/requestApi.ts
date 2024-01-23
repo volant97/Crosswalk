@@ -1,6 +1,7 @@
 import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '../supabase-config';
 import { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import { unNullRegisterType } from '@/types/registerType';
 
 /**커스텀 데이터 */
 export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {
@@ -78,4 +79,19 @@ export async function handleDeclinetBtn(listId: number): Promise<void> {
     console.error('에러 발생', error);
     throw new Error('error while fetching posts data');
   }
+}
+
+/**sender 정보 가져오기 */
+export async function getSenderCustomUsers(senderId: string): Promise<unNullRegisterType> {
+  const { data, error } = await supabase
+    .from('custom_users')
+    .select()
+    .eq('uid', senderId)
+    .returns<unNullRegisterType>()
+    .single();
+  if (error || null) {
+    console.error('에러 발생', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
 }

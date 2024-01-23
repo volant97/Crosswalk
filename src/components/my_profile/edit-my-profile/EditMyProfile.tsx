@@ -8,8 +8,8 @@ import { LuPencil } from 'react-icons/lu';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { registerState } from '@/recoil/register';
 import { TfiReload } from 'react-icons/tfi';
-import MbtiModal from '../common/modal/MbtiModal';
-import InterestModal from '../common/modal/InterestModal';
+import MbtiModal from '../../common/modal/MbtiModal';
+import InterestModal from '../../common/modal/InterestModal';
 import { RegisterType } from '@/types/registerType';
 import { UserState, userState } from '@/recoil/user';
 
