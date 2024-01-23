@@ -22,8 +22,8 @@ function EditMyProfile() {
   const { openInterestModal, interestModal } = InterestModal();
   const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
-  const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
-  const [height, setHeight] = useState<number | undefined>(myInfo?.height || undefined);
+  const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
+  const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -135,7 +135,7 @@ function EditMyProfile() {
             <label>나이</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
-              value={age}
+              value={age?.toString()}
               onChange={ageHandler}
               type="number"
               name="age"
@@ -149,7 +149,7 @@ function EditMyProfile() {
             <label>키</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
-              value={height}
+              value={height?.toString()}
               onChange={heightHandler}
               type="number"
               name="height"
