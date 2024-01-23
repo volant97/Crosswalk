@@ -1,19 +1,8 @@
 'use client';
 import React, { Fragment, useEffect } from 'react';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  ModalProps
-} from '@nextui-org/react';
-import { isUserState } from '@/recoil/auth';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
+import { useRecoilState } from 'recoil';
 import { supabase } from '@/lib/supabase-config';
-import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
 import { useRouter } from 'next/navigation';
 import { postRegister } from '@/lib/api/SupabaseApi';
@@ -21,8 +10,8 @@ import { userState } from '@/recoil/user';
 
 type Props = {
   name: string | undefined;
-  height: number | undefined;
-  age: number | undefined;
+  height: number | string | undefined;
+  age: number | string | undefined;
   selectedImg: string;
   file: any;
 };

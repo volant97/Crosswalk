@@ -1,17 +1,13 @@
 'use client';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import Image from 'next/image';
-import React, { FormEventHandler, use, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
-import { Button } from '@nextui-org/react';
 import { LuPencil } from 'react-icons/lu';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { registerState } from '@/recoil/register';
-import { TfiReload } from 'react-icons/tfi';
+import { useRecoilState } from 'recoil';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
-import { RegisterType } from '@/types/registerType';
-import { UserState, userState } from '@/recoil/user';
+import { userState } from '@/recoil/user';
 
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
@@ -131,7 +127,7 @@ function EditMyProfile() {
             </div>
           </div>
           {/* 나이 */}
-          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+          <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>나이</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
@@ -143,9 +139,10 @@ function EditMyProfile() {
               autoComplete="off"
               placeholder={'27세'}
             />
+            <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">세</p>
           </div>
           {/* 키 */}
-          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+          <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>키</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
@@ -156,7 +153,8 @@ function EditMyProfile() {
               id="height"
               autoComplete="off"
               placeholder={'180cm'}
-            />
+            ></input>
+            <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">cm</p>
           </div>
           {/* 관심사 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
