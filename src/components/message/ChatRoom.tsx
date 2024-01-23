@@ -73,8 +73,6 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     }
   }, [messageData]);
 
-  if (!roomInfo?.flirting_list.receiver_uid.avatar) return;
-
   return (
     <>
       <div
@@ -105,11 +103,19 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
               {idx === 0 ? DisplayDateTime(data.created_at) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                  <Avatar
-                    size="sm"
-                    src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.receiver_uid.avatar}-circle.png`}
-                    alt="유저 아바타 이미지"
-                  />
+                  {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
+                    <Avatar
+                      size="sm"
+                      src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.sender_uid.avatar}-circle.png`}
+                      alt="유저 아바타 이미지"
+                    />
+                  ) : (
+                    <Avatar
+                      size="sm"
+                      src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.receiver_uid.avatar}-circle.png`}
+                      alt="유저 아바타 이미지"
+                    />
+                  )}
                   <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-48">
                     <h1 className="font-medium break-all">{data.message}</h1>
                   </div>

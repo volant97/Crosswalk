@@ -222,6 +222,21 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
   }
   return data;
 }
+export async function getLastMessage(subscribe_room_id: string): Promise<MessageType[]> {
+  const { data, error } = await supabase
+    .from('message')
+    .select('*')
+    .eq('subscribe_room_id', subscribe_room_id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .returns<MessageType[]>();
+
+  if (error || null) {
+    console.log('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
 
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
