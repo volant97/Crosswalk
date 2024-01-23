@@ -62,7 +62,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    console.log('지훈님:', userImg);
+    // console.log('지훈님:', userImg);
     const updatedImg = file !== 'test' ? userImg?.publicUrl : myInfo?.user_img;
     // any타입
     setRegisterData((prevData: any) => ({
@@ -81,8 +81,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
 
   async function updateData() {
     try {
-      // dd
-      console.log('registerData !!!', registerData);
+      // console.log('registerData !!!', registerData);
       await postRegister(registerData?.id, registerData?.profile);
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
@@ -103,7 +102,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
       updateData();
     }
 
-    console.log('updateData', registerData);
+    // console.log('updateData', registerData);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
@@ -142,7 +141,7 @@ function ConfirmModal({ name, height, age, gender, selectedImg, file }: Props) {
                 <Button
                   onClick={async () => {
                     await uploadAndNavigate(file);
-                    console.log('확인');
+                    // console.log('확인');
                     onClose();
                     router.push('/my-profile'); // 페이지 이동을 수행합니다.
                   }}
