@@ -33,9 +33,9 @@ function SenderProfile({ senderId }: Props) {
     <div className="w-full px-[24px] py-[32px]">
       <div>
         <div className="relative">
-          <div className="w-full aspect-[2/3]">
+          <div className="w-full rounded-t-[24px] aspect-[2/3]">
             <Image
-              className="rounded-t-[1.5rem]"
+              className="rounded-t-[24px]"
               src={`/assets/avatar/avatar${senderInfo?.avatar}.png`}
               alt="유저 아바타 이미지"
               fill
