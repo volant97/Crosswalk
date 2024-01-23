@@ -38,6 +38,7 @@ export default function ChatListPage() {
   useEffect(() => {
     data();
   }, [getUid?.id]);
+
   useEffect(() => {
     chatList?.forEach((list) => {
       lastData(list.id);
@@ -57,66 +58,69 @@ export default function ChatListPage() {
     }
     return format(d, 'PPP EEE p', { locale: ko });
   };
-
   return (
     <Page noNavBar>
-      <ul className="px-5">
-        {chatList?.map((list, idx) => {
-          if (getUid?.id === list.flirting_list.sender_uid.uid) {
-            return (
-              <li
-                key={idx}
-                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
-                onClick={() => {
-                  // list.id가 존재할 때만 이동하도록 수정
-                  router.push(`/chat-list/${list.id}`);
-                }}
-              >
-                <div className="flex items-center">
-                  {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
-                </div>
-                <div className="w-[12.5rem] ml-[-60px]">
-                  <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
-                  <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                    {lastMessage[0] && list.id === lastMessage[0]?.subscribe_room_id
-                      ? lastMessage[0]?.message
-                      : list.flirting_list.flirting_message}
-                    {/* {list.flirting_list.flirting_message} */}
+      {!chatList ? (
+        <div className="h-screen flex items-center justify-center">대화할수있는 방이 없어요</div>
+      ) : (
+        <ul className="px-5">
+          {chatList?.map((list, idx) => {
+            if (getUid?.id === list.flirting_list.sender_uid.uid) {
+              return (
+                <li
+                  key={idx}
+                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  onClick={() => {
+                    // list.id가 존재할 때만 이동하도록 수정
+                    router.push(`/chat-list/${list.id}`);
+                  }}
+                >
+                  <div className="flex items-center">
+                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                   </div>
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
-                  <div></div>
-                </div>
-              </li>
-            );
-          } else if (getUid?.id === list.flirting_list.receiver_uid.uid && list.flirting_list.status === 'ACCEPT') {
-            return (
-              <li
-                key={idx}
-                className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
-                onClick={() => {
-                  router.push(`/chat-list/${list.id}`);
-                }}
-              >
-                <div className="flex items-center">
-                  {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
-                </div>
-                <div className="w-[12.5rem] ml-[-60px]">
-                  <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
-                  <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                    {list.flirting_list.flirting_message}
+                  <div className="w-[12.5rem] ml-[-60px]">
+                    <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
+                    <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
+                      {lastMessage[0] && list.id === lastMessage[0]?.subscribe_room_id
+                        ? lastMessage[0]?.message
+                        : list.flirting_list.flirting_message}
+                      {/* {list.flirting_list.flirting_message} */}
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
-                  <div></div>
-                </div>
-              </li>
-            );
-          }
-        })}
-      </ul>
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
+                    <div></div>
+                  </div>
+                </li>
+              );
+            } else if (getUid?.id === list.flirting_list.receiver_uid.uid && list.flirting_list.status === 'ACCEPT') {
+              return (
+                <li
+                  key={idx}
+                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  onClick={() => {
+                    router.push(`/chat-list/${list.id}`);
+                  }}
+                >
+                  <div className="flex items-center">
+                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
+                  </div>
+                  <div className="w-[12.5rem] ml-[-60px]">
+                    <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
+                    <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
+                      {list.flirting_list.flirting_message}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
+                    <div></div>
+                  </div>
+                </li>
+              );
+            }
+          })}
+        </ul>
+      )}
     </Page>
   );
 }
