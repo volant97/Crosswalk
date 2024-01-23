@@ -58,7 +58,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
                   <Fragment key={index}>
                     <div
                       key={index}
-                      className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]"
+                      className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-gray-800 bg-opacity-10"
                     >
                       {item}
                     </div>
