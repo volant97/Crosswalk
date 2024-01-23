@@ -58,6 +58,12 @@ export default function ChatListPage() {
     }
     return format(d, 'PPP EEE p', { locale: ko });
   };
+
+  const routerLink = (linkId: string, status: string) => {
+    if (status === 'ACCEPT') {
+      router.push(`/chat-list/${linkId}`);
+    } else return alert('신호 대기 중 입니다!');
+  };
   return (
     <Page noNavBar>
       {!chatList ? (
@@ -71,8 +77,7 @@ export default function ChatListPage() {
                   key={idx}
                   className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
                   onClick={() => {
-                    // list.id가 존재할 때만 이동하도록 수정
-                    router.push(`/chat-list/${list.id}`);
+                    routerLink(list.id, list.flirting_list.status);
                   }}
                 >
                   <div className="flex items-center">
