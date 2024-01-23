@@ -1,10 +1,9 @@
 'use client';
 import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { getChatList } from '@/lib/api/SupabaseApi';
+import { getChatList, getLastMessage } from '@/lib/api/SupabaseApi';
 import { UserState, userState } from '@/recoil/user';
-import { ChatListType } from '@/types/realTimeType';
-import { Avatar } from '@nextui-org/react';
+import { ChatListType, MessageType } from '@/types/realTimeType';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
@@ -14,6 +13,7 @@ import { useRecoilState } from 'recoil';
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
   const [getUid, setGetUid] = useRecoilState<UserState>(userState);
+  const [lastMessage, setLastMessage] = useState<MessageType[]>([]);
   const router = useRouter();
   async function data() {
     try {
@@ -23,9 +23,26 @@ export default function ChatListPage() {
       alert('서버와의 통신을 실패했습니다.');
     }
   }
+  async function lastData(subscribe_room_id: string) {
+    try {
+      const data = await getLastMessage(subscribe_room_id);
+      console.log(data);
+      console.log(data[0]);
+      const test = data[0];
+      setLastMessage((prev: any) => [...prev, test]);
+    } catch (error) {
+      alert('서버와의 통신을 실패했습니다.');
+    }
+  }
+
   useEffect(() => {
     data();
   }, [getUid?.id]);
+  useEffect(() => {
+    chatList?.forEach((list) => {
+      lastData(list.id);
+    });
+  }, []);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
@@ -58,10 +75,13 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem] ml-[-20px]">
+                <div className="w-[12.5rem] ml-[-60px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                    {list.flirting_list.flirting_message}
+                    {lastMessage[0] && list.id === lastMessage[0]?.subscribe_room_id
+                      ? lastMessage[0]?.message
+                      : list.flirting_list.flirting_message}
+                    {/* {list.flirting_list.flirting_message} */}
                   </div>
                 </div>
                 <div className="flex flex-col items-start">
@@ -82,7 +102,7 @@ export default function ChatListPage() {
                 <div className="flex items-center">
                   {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
                 </div>
-                <div className="w-[12.5rem] ml-[-20px]">
+                <div className="w-[12.5rem] ml-[-60px]">
                   <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                   <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                     {list.flirting_list.flirting_message}
