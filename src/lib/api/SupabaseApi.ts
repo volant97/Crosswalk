@@ -11,7 +11,7 @@ export async function getAllData(): Promise<RegisterType[]> {
   const { data, error } = await supabase.from('custom_users').select().returns<RegisterType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -21,7 +21,7 @@ export async function postRegister(uid: any, registerData: any) {
   const { data, error } = await supabase.from('custom_users').update(registerData).eq('uid', uid).select();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -31,7 +31,7 @@ export async function getFlirtingRequestData() {
   const { data, error } = await supabase.from('flirting_list').select('*').returns<FlirtingListType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 
@@ -104,7 +104,7 @@ export async function sendFlirting(senderUid: string, message: string, recevierU
   });
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 }
@@ -117,7 +117,7 @@ export async function getChatList(): Promise<ChatListType[]> {
     .returns<ChatListType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -167,21 +167,21 @@ export async function getUnMatchedData(myUid: string, gender: string) {
   const uidsReceivedFlirted = receivedUserData?.map((item) => {
     return item.sender_uid;
   });
-  console.log('uidsreceivedFlirted', uidsReceivedFlirted);
+  // console.log('uidsreceivedFlirted', uidsReceivedFlirted);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender일 때)
   const { data: MatchedUser1 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_sender_uid_fkey(*)')
     .in('flirting_list.status', ['ACCEPT']);
-  console.log('MatchedUser', MatchedUser1);
+  // console.log('MatchedUser', MatchedUser1);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 receiver일 때)
   const { data: MatchedUser2 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)')
     .in('flirting_list.status', ['ACCEPT']);
-  console.log('MatchedUser', MatchedUser2);
+  // console.log('MatchedUser', MatchedUser2);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender) + (현재 유저가 receiver)
   const MatchedUser = [...(MatchedUser1 || []), ...(MatchedUser2 || [])];
@@ -197,9 +197,9 @@ export async function getUnMatchedData(myUid: string, gender: string) {
 
   const filteredUserDataWithoutMatchedUser =
     filteredUserData?.filter((item) => !matchedUserUids.includes(item.uid)) || [];
-  console.log('test', filteredUserDataWithoutMatchedUser);
+  // console.log('test', filteredUserDataWithoutMatchedUser);
   const users = filteredUserDataWithoutMatchedUser;
-  console.log('users', users);
+  // console.log('users', users);
 
   if (error) {
     console.error('Error getUnMatchedData', error);
@@ -217,7 +217,7 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
     .returns<MessageType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -225,9 +225,9 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
 
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
-  console.log(message_data);
+  // console.log(message_data);
   if (error) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 }
