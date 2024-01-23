@@ -246,6 +246,25 @@ export async function postMessage(message_data: SendMessageType) {
     throw new Error('error while fetching posts data');
   }
 }
+export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
+  supabase
+    .channel('chat_room')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'chat_room'
+      },
+      callback
+    )
+    .subscribe();
+}
+export async function untrackChatList() {
+  const chatList = supabase.channel('chat_room');
+  await chatList.subscribe();
+  await chatList.untrack();
+}
 
 export async function subscribeChatRoom(roomId: string, callback: SpecificSubscribeFlirtingListCallbackType) {
   supabase
@@ -265,5 +284,4 @@ export async function untrackChatRoom(roomId: string) {
   const chatRoom = supabase.channel(roomId);
   await chatRoom.subscribe();
   await chatRoom.untrack();
-  // console.log('Request 채널 구독 해제');
 }

@@ -1,7 +1,7 @@
 'use client';
 import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { getChatList, getLastMessage } from '@/lib/api/SupabaseApi';
+import { getChatList, getLastMessage, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
 import { UserState, userState } from '@/recoil/user';
 import { ChatListType, MessageType } from '@/types/realTimeType';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -36,14 +36,16 @@ export default function ChatListPage() {
   }
 
   useEffect(() => {
-    data();
-  }, [getUid?.id]);
-
-  useEffect(() => {
-    chatList?.forEach((list) => {
-      lastData(list.id);
+    subscribeChatList((payload: any) => {
+      data();
     });
-  }, []);
+
+    data();
+    // 컴포넌트 언마운트 시에 구독 해제
+    return () => {
+      untrackChatList();
+    };
+  }, [getUid?.id]);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
