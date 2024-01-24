@@ -9,7 +9,7 @@ import { GoHeartFill } from 'react-icons/go';
 function MainPage() {
   return (
     <Page noBack>
-      <div className="flex flex-col justify-center h-[calc(100dvh-16dvh)]">
+      <div className="flex flex-col justify-center h-[calc(100dvh-17dvh)]">
         <FetchUserCards />
       </div>
     </Page>

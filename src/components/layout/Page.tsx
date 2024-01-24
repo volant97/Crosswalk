@@ -26,6 +26,9 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, children }: 
       {/* 마이프로필수정 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && noBackMain && <Header noBackMain />}
 
+      {/* 고객센터 */}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && <Header noNavBar noBackMain />}
+
       {/* {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
       {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />} */}
       {/* 페이지 본문 */}

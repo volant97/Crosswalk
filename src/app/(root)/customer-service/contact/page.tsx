@@ -1,7 +1,13 @@
 import React from 'react';
+import Page from '@/components/layout/Page';
+import ContactPage from '@/components/customer-service/contact/Contact';
 
 function Contact() {
-  return <div>문의하기</div>;
+  return (
+    <Page noNavBar noBackMain>
+      <ContactPage />
+    </Page>
+  );
 }
 
 export default Contact;
