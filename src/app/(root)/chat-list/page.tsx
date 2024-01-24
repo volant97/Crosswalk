@@ -18,6 +18,7 @@ import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 type lastMessageArray = ({
   congratulations_message: number;
@@ -35,6 +36,7 @@ export default function ChatListPage() {
   const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
   const [lastMsg, setLastMsg] = useState<lastMessageArray>();
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
   /* TODO: 
   1. ChatRoom에서 각각 Recoil에(배열타입) 마지막 메세지 데이터(객체타입)를 담는다. 
@@ -189,7 +191,7 @@ export default function ChatListPage() {
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT') {
       router.push(`/chat-list/${linkId}`);
-    } else return alert('신호 대기 중 입니다!');
+    } else return openModal('신호 대기중입니다!');
   };
 
   console.log('lastMsg', lastMsg);
@@ -216,7 +218,8 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>}
+                      {lastMsg && lastMsg[idx] ? lastMsg[idx]?.message : <div>상대방의 수락을 기다리고 있어요 ...</div>}
+                      {/* {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>} */}
                       {/* {lastMsg[idx] ? lastMsg[idx].message : <div>로딩중<div/>} */}
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.message ||
                         list.flirting_list.flirting_message} */}
@@ -233,7 +236,11 @@ export default function ChatListPage() {
                         ? formatDate(String(lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at))
                         : formatDate(String(list.flirting_list.created_at))} */}
                       {/* ---아래함수 */}
-                      {lastMsg && lastMsg[idx] ? formatDate(String(lastMsg[idx]?.created_at)) : <div>로딩중</div>}
+                      {lastMsg && lastMsg[idx] ? (
+                        formatDate(String(lastMsg[idx]?.created_at))
+                      ) : (
+                        <div className="text-xs text-gray-AAA">대기중</div>
+                      )}
                       {/* {formatDate(
                         String(
                           lastMessage
@@ -262,7 +269,8 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>}
+                      {lastMsg && lastMsg[idx] ? lastMsg[idx]?.message : <div>상대방의 수락을 기다리고 있어요 ...</div>}
+                      {/* {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>} */}
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.message ||
                         list.flirting_list.flirting_message} */}
                       {/* ---아래함수 */}
@@ -278,7 +286,11 @@ export default function ChatListPage() {
                         ? formatDate(String(lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at))
                         : formatDate(String(list.flirting_list.created_at))} */}
                       {/* ---아래함수 */}
-                      {lastMsg && lastMsg[idx] ? formatDate(String(lastMsg[idx]?.created_at)) : <div>로딩중</div>}
+                      {lastMsg && lastMsg[idx] ? (
+                        formatDate(String(lastMsg[idx]?.created_at))
+                      ) : (
+                        <div className="text-xs text-gray-AAA">대기중</div>
+                      )}
 
                       {/* {formatDate(
                         String(
@@ -297,6 +309,7 @@ export default function ChatListPage() {
           })}
         </ul>
       )}
+      {AlertModal()}
     </Page>
   );
 }
