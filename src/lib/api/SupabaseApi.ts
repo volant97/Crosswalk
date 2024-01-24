@@ -250,60 +250,6 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
   return lastMessageArray;
 }
 
-// export async function getMessagesByChatRoomsIds(chatRoomIds: any) {
-//   try {
-//     const { data, error } = await supabase.from('message').select('*').in('subscribe_room_id', chatRoomIds);
-
-//     if (error) {
-//       console.error('Error fetching messages', error);
-//       throw new Error('Error fetching messages');
-//     }
-
-//     return data;
-//   } catch (error) {
-//     console.error('API request failed', error);
-//     throw new Error('API request failed');
-//   }
-// }
-// export async function getLastMessage(subscribe_room_id: string): Promise<MessageType[]> {
-//   const { data, error } = await supabase
-//     .from('message')
-//     .select('*')
-//     .eq('subscribe_room_id', subscribe_room_id)
-//     .order('created_at', { ascending: false })
-//     .limit(1)
-//     .returns<MessageType[]>();
-
-//   if (error || null) {
-//     console.log('Error creating a posts data', error);
-//     throw new Error('error while fetching posts data');
-//   }
-//   return data;
-// }
-
-// export async function getLastMessageWithTime(
-//   subscribe_room_id: string
-// ): Promise<{ lastMessage: MessageType; time: string }> {
-//   console.log('subscribe_room_id', subscribe_room_id);
-//   const { data, error } = await supabase
-//     .from('message')
-//     .select('*')
-//     .eq('subscribe_room_id', subscribe_room_id)
-//     .order('created_at', { ascending: false })
-//     .limit(1)
-//     .returns<MessageType[]>();
-//   console.log('data::', data);
-//   if (error || !data) {
-//     console.log('Error fetching last message', error);
-//     throw new Error('Error fetching last message');
-//   }
-
-//   const lastMessage = data[0];
-//   const time = format(new Date(lastMessage.created_at), 'yyyy-MM-dd HH:mm:ss'); // 예제에서는 'yyyy-MM-dd HH:mm:ss' 형식으로 포맷팅
-
-//   return { lastMessage, time };
-// }
-
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
   // console.log(message_data);
@@ -314,13 +260,13 @@ export async function postMessage(message_data: SendMessageType) {
 }
 export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
   supabase
-    .channel('chat_room')
+    .channel('chatlist')
     .on(
       'postgres_changes',
       {
         event: '*',
         schema: 'public',
-        table: 'chat_room'
+        table: 'message'
       },
       callback
     )
@@ -328,7 +274,7 @@ export async function subscribeChatList(callback: SpecificSubscribeFlirtingListC
 }
 
 export async function untrackChatList() {
-  const chatList = supabase.channel('chat_room');
+  const chatList = supabase.channel('chatlist');
   await chatList.subscribe();
   await chatList.untrack();
 }

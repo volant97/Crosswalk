@@ -1,6 +1,6 @@
 import Page from '@/components/layout/Page';
 import NotificationList from '@/components/notification/NotificationList';
-import { Props } from '@/types/childrenPropsType';
+import { Props } from '@/types/lastMessageArrayType';
 import React from 'react';
 
 function Notification() {
