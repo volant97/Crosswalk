@@ -2,8 +2,9 @@
 import { userState } from '@/recoil/user';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { addMonths, format } from 'date-fns';
 import { Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { supabase } from '@/lib/supabase-config';
+import { useRouter } from 'next/navigation';
 
 type contactContentsType = {
   uid: string | null | undefined;
@@ -13,13 +14,10 @@ type contactContentsType = {
   category: string | undefined;
   content: string | undefined;
   emailAgree: boolean;
-  created_at: string;
 };
 
 function ContactPage() {
-  const currentDate = new Date();
-  const dateFormat = 'yyyy-MM-dd HH:mm:ss XXX';
-  const customDate = format(currentDate, dateFormat);
+  const router = useRouter();
 
   const [registerData, setRegisterData] = useRecoilState(userState);
   const userInfo = registerData?.profile;
@@ -30,8 +28,7 @@ function ContactPage() {
     email: undefined,
     category: undefined,
     content: undefined,
-    emailAgree: false,
-    created_at: customDate
+    emailAgree: false
   });
 
   const contactCategoryArr = ['이용 문의', '서비스 제안', '버그 제보', '유저 신고', '회원 탈퇴', '기타'];
@@ -64,7 +61,7 @@ function ContactPage() {
     });
   };
 
-  const handleSendBtn = () => {
+  const handleSendBtn = async () => {
     if (
       !contactContents.email ||
       !contactContents.category ||
@@ -73,7 +70,29 @@ function ContactPage() {
     ) {
       return alert('모든 내용을 작성 및 선택해주세요');
     }
-    alert('전송됨');
+
+    try {
+      const { data, error } = await supabase.from('contact').insert({
+        uid: contactContents.uid,
+        name: contactContents.name,
+        gender: contactContents.gender,
+        email: contactContents.email,
+        category: contactContents.category,
+        content: contactContents.content,
+        email_agree: contactContents.emailAgree
+      });
+      if (error) {
+        console.error(error);
+        return alert('서버와의 통신을 실패했습니다.');
+      }
+      if (data) {
+        console.log('data : ', data);
+      }
+      alert('문의가 정상적으로 접수되었습니다.');
+      router.push('/main');
+    } catch (error) {
+      alert('서버와의 통신을 실패했습니다.');
+    }
   };
 
   useEffect(() => {
