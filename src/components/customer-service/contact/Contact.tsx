@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { userState } from '@/recoil/user';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { supabase } from '@/lib/supabase-config';
 import { useRouter } from 'next/navigation';
 
@@ -32,6 +33,7 @@ function ContactPage() {
   });
 
   const contactCategoryArr = ['이용 문의', '서비스 제안', '버그 제보', '유저 신고', '회원 탈퇴', '기타'];
+  const [validity, setValidity] = useState<boolean>(false);
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContactContents({
@@ -85,9 +87,6 @@ function ContactPage() {
         console.error(error);
         return alert('서버와의 통신을 실패했습니다.');
       }
-      if (data) {
-        // console.log('data : ', data);
-      }
       alert('문의가 정상적으로 접수되었습니다.');
       router.push('/main');
     } catch (error) {
@@ -96,7 +95,11 @@ function ContactPage() {
   };
 
   useEffect(() => {
-    // console.log('contactContents : ', contactContents);
+    if (contactContents.email && contactContents.category && contactContents.content && contactContents.emailAgree) {
+      setValidity(true);
+    } else {
+      setValidity(false);
+    }
   }, [contactContents]);
 
   return (
@@ -146,9 +149,14 @@ function ContactPage() {
           </p>
         </div>
         {/* 전송 버튼 */}
-        <button className="w-full h-[40px] rounded-full bg-customGreen3" onClick={handleSendBtn}>
+        <Button
+          className={`w-full h-[40px] font-[600] bg-gray-F5 text-black rounded-dull cursor-pointer text-[15px]  pl-[20px] pr-[20px] mb-10 ${
+            validity ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
+          }`}
+          onClick={handleSendBtn}
+        >
           전송
-        </button>
+        </Button>
       </div>
     </div>
   );
