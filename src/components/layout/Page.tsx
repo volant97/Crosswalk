@@ -7,28 +7,33 @@ interface PageProps {
   noNavBar?: boolean;
   noNotiBell?: boolean;
   noBackMain?: boolean;
+  cs?: boolean;
 }
 
-function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, children }: PropsWithChildren<PageProps>) {
+function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children }: PropsWithChildren<PageProps>) {
   return (
     <main id="page">
       {/* 헤더 */}
 
-      {/* 마이프로필, 리퀘스트 */}
-      {!noHeader && !noBack && !noNotiBell && !noNavBar && !noBackMain && <Header />}
+      {/* 받은요청함 */}
+      {!noHeader && !noBack && !noNotiBell && !noNavBar && !noBackMain && !cs && <Header />}
 
       {/* 메인 */}
-      {!noHeader && noBack && !noNotiBell && !noNavBar && !noBackMain && <Header noBack />}
+      {!noHeader && noBack && !noNotiBell && !noNavBar && !noBackMain && !cs && <Header noBack />}
 
       {/* 알림창 */}
-      {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && <Header noNavBar />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && !cs && <Header noNavBar />}
+
+      {/* 마이프로필 */}
+      {!noHeader && !noBack && noNotiBell && !noNavBar && !noBackMain && cs && <Header noNotiBell cs />}
 
       {/* 마이프로필수정 */}
-      {!noHeader && !noBack && !noNotiBell && !noNavBar && noBackMain && <Header noBackMain />}
+      {!noHeader && !noBack && noNotiBell && !noNavBar && noBackMain && cs && <Header noBackMain noNotiBell cs />}
 
       {/* 고객센터 */}
-      {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && <Header noNavBar noBackMain />}
+      {!noHeader && !noBack && noNotiBell && noNavBar && noBackMain && !cs && <Header noNavBar noBackMain noNotiBell />}
 
+      {/* {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && <Header noNavBar noBackMain />} */}
       {/* {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
       {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />} */}
       {/* 페이지 본문 */}

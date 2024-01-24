@@ -4,7 +4,7 @@ import ContactPage from '@/components/customer-service/contact/Contact';
 
 function Contact() {
   return (
-    <Page noNavBar noBackMain>
+    <Page noNavBar noBackMain noNotiBell>
       <ContactPage />
     </Page>
   );
