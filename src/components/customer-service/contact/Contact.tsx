@@ -117,7 +117,7 @@ function ContactPage() {
         </div>
         {/* 문의 유형 */}
         <div className="flex flex-col w-full">
-          <Select label="문의 유형" className="max-w-xs" variant="bordered" onChange={handleCategorySelect}>
+          <Select label="문의 유형" className="w-full" variant="bordered" onChange={handleCategorySelect}>
             {contactCategoryArr.map((cate, index) => (
               <SelectItem key={index} value={cate}>
                 {cate}
@@ -129,7 +129,7 @@ function ContactPage() {
         <div className="flex flex-col w-full">
           <Textarea
             label="문의 내용"
-            className="max-w-xs"
+            className="w-full"
             errorMessage={`글자수 ${contactContents?.content?.length} / 300 자`}
             variant="bordered"
             maxLength={300}
@@ -137,16 +137,16 @@ function ContactPage() {
           />
         </div>
         {/* 이메일 정보 제공 동의 */}
-        <div className="flex flex-col w-full">
-          <Checkbox onValueChange={handleEmailAgreeCheckBox}>
-            <p>이메일 정보 제공 동의</p>
+        <div className="flex flex-col w-fulls">
+          <Checkbox color="success" onValueChange={handleEmailAgreeCheckBox}>
+            <p className="text-[13px]">이메일 정보 제공 동의</p>
           </Checkbox>
-          <p className="text-[13px] ml-[28px]">
+          <p className="text-[11px] ml-[28px]">
             보내주신 질문에 답변드리기 위해 이메일 정보 제공에 동의해 주시기 바랍니다.
           </p>
         </div>
         {/* 전송 버튼 */}
-        <button className="w-full border-3" onClick={handleSendBtn}>
+        <button className="w-full h-[40px] rounded-full bg-customGreen3" onClick={handleSendBtn}>
           전송
         </button>
       </div>
