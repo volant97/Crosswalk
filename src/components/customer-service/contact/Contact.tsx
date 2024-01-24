@@ -96,7 +96,7 @@ function ContactPage() {
   };
 
   useEffect(() => {
-    console.log('contactContents : ', contactContents);
+    // console.log('contactContents : ', contactContents);
   }, [contactContents]);
 
   return (
@@ -130,7 +130,7 @@ function ContactPage() {
           <Textarea
             label="문의 내용"
             className="w-full"
-            errorMessage={`글자수 ${contactContents?.content?.length} / 300 자`}
+            errorMessage={`글자수 ${contactContents?.content ? contactContents?.content?.length : 0} / 300 자`}
             variant="bordered"
             maxLength={300}
             onChange={handleContentTextarea}
