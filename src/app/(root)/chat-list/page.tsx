@@ -1,62 +1,117 @@
 'use client';
 import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { getChatList, getLastMessageWithTime, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import {
+  getChatList,
+  getMessage,
+  getMessageChatList,
+  subscribeChatList,
+  subscribeChatRoom,
+  untrackChatList
+} from '@/lib/api/SupabaseApi';
+import { supabase } from '@/lib/supabase-config';
+import { LastMessageState } from '@/recoil/lastMessageData';
 import { UserState, userState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
+type lastMessageArray = ({
+  congratulations_message: number;
+  created_at: string;
+  id: number;
+  is_read: boolean;
+  message: string;
+  total_chat_count: number;
+  user_uid: string;
+} | null)[];
+
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
   const [getUid, setGetUid] = useRecoilState<UserState>(userState);
-  const [lastMessage, setLastMessage] = useState<MessageType[]>([]);
+  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
+  const [lastMsg, setLastMsg] = useState<lastMessageArray>();
   const router = useRouter();
-  async function data() {
-    try {
-      const data = await getChatList();
 
-      setChatList(data);
+  /* TODO: 
+  1. ChatRoom에서 각각 Recoil에(배열타입) 마지막 메세지 데이터(객체타입)를 담는다. 
+  2. chat-list/page.tsx에서 Recoil에 저장되어 있는 마지막 메세지 데이터들을 꺼내 map을 돌려 화면에 뿌려준다.
+  */
+
+  const fetchChatListData = async () => {
+    try {
+      const chatListData = await getChatList();
+      console.log('chatListData', chatListData);
+      setChatList(chatListData);
+      const roomIds = chatListData.map((item) => {
+        return item.id;
+      });
+      // const getLastMessage = await getMessageChatList(roomIds);
+      let lastMessageArray = [];
+
+      for (let i = 0; i < roomIds.length; i++) {
+        const { data: getLastMessage } = await supabase
+          .from('message')
+          .select('*')
+          .eq('subscribe_room_id', roomIds[i])
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+        lastMessageArray.push(getLastMessage);
+      }
+      setLastMsg(lastMessageArray);
     } catch (error) {
-      alert('서버와의 통신을 실패했습니다.');
+      alert('서버와의 통신을 실패했습니다.2');
     }
-  }
+  };
+
+  // ------------
+  // export async function getMessageChatList(subscribe_room_id: string[]): Promise<any> {
+  //   const roomIds = subscribe_room_id;
+
+  //   let lastMessageArray = [];
+  //   for (let i = 0; i < roomIds.length; i++) {
+  //     console.log('!!!!', i);
+  //     let { data, error } = await supabase
+  //       .from('message')
+  //       .select('*')
+  //       .eq('subscribe_room_id', roomIds[i])
+  //       .order('created_at', { ascending: false })
+  //       .limit(1)
+  //       .returns<MessageType[]>()
+  //       .single();
+  //     console.log('data api', data);
+  //     // if (error || null) {
+  //     //   console.error('Error creating a posts data', error);
+  //     //   throw new Error('error while fetching posts data');
+  //     // }
+
+  //     lastMessageArray.push(data);
+  //   }
+  //   return lastMessageArray;
+  // }
+  // ------------
+
   // async function lastData(subscribe_room_id: string) {
   //   try {
-  //     const data = await getLastMessage(subscribe_room_id);
-  //     console.log('data:', data);
-  //     console.log('test:', data[0]);
-  //     const test = data[0];
-  //     setLastMessage((prev: any) => [...prev, test]);
-  //   } catch (error) {
-  //     alert('서버와의 통신을 실패했습니다.');
+  //     if (!data) {
+  //       return;
+  //     } else {
+  //       const messageData = await getMessage(subscribe_room_id);
+  //       console.log('messageData', messageData);
+  //       // const data = await getLastMessageWithTime(subscribe_room_id);
+  //       // console.log('data:', data);
+  //       // const test = data.lastMessage;
+  //       // setLastMessage((prev: any) => [...prev, test]);
+  //     }
+  //   } catch (error: any) {
+  //     console.log('error:', error.message);
+  //     alert('서버와의 통신을 실패했습니다.?');
   //   }
   // }
-
-  async function lastData(subscribe_room_id: string) {
-    try {
-      const data = await getLastMessageWithTime(subscribe_room_id);
-      console.log('data:', data);
-      const test = data.lastMessage;
-      setLastMessage((prev: any) => [...prev, test]);
-    } catch (error) {
-      alert('서버와의 통신을 실패했습니다.?');
-    }
-  }
-
-  // useEffect(() => {
-  //   subscribeChatList((payload: any) => {
-  //     data();
-  //   });
-  //   data();
-  //   // 컴포넌트 언마운트 시에 구독 해제
-  //   return () => {
-  //     untrackChatList();
-  //   };
-  // }, [getUid?.id]);
 
   // subscribeChatList를 통해 신규 메세지가 도착하면 해당 대화방의 마지막 메세지를 가져오는 lastData 함수 호출. 또한 chatList가 변경될때마다 각 대화방의 마지막 메세지를 가져오도록 함
   // useEffect(() => {
@@ -72,17 +127,24 @@ export default function ChatListPage() {
   //     // chatListSubscription.unsubscribe(); // 구독 해제
   //   };
   // }, [getUid?.id]);
+
   useEffect(() => {
     subscribeChatList((payload: any) => {
-      data();
-      const subscribeRoomId = payload.new.flirting_list.id;
-      lastData(subscribeRoomId);
+      console.log('payload:', payload);
+      // 채팅방 목록 가져오기
+      fetchChatListData();
+      // 메세지 데이터 가져오기
+
+      // fetchMessageData();
+      // lastData(subscribeRoomId);
+
       // 새로운 메시지가 도착했을 때 마지막 메시지 상태를 업데이트
-      setLastMessage((prevMessages) => [...prevMessages, payload.new]);
-      console.log('New message arrived:', payload.new);
-      console.log('Updated lastMessage state:', lastMessage);
+      // setLastMessage((prevMessages) => [...prevMessages, payload.new]);
+      // console.log('New message arrived:', payload.new);
+      // console.log('Updated lastMessage state:', lastMessage);
     });
-    data();
+
+    fetchChatListData();
 
     return () => {
       untrackChatList();
@@ -90,27 +152,15 @@ export default function ChatListPage() {
   }, [getUid?.id]);
 
   useEffect(() => {
-    chatList?.forEach((item) => {
-      lastData(item.id);
-    });
+    if (chatList) {
+      // fetchChatListData();
+    } else {
+      return;
+    }
   }, [chatList]);
 
   console.log('chatList:', chatList);
-  console.log('lastMessage:', lastMessage);
-  // useEffect(() => {
-  //   chatList?.map((item, idx) => {});
-  //   lastData();
-  // }, []);
-
-  // const getLastMessageTime = async (subscribeRoomId: string) => {
-  //   try {
-  //     const { time } = await getLastMessageWithTime(subscribeRoomId);
-  //     return time;
-  //   } catch (error) {
-  //     console.error('Error fetching last message time', error);
-  //     return '';
-  //   }
-  // };
+  console.log('lastMessage:', lastMessageData);
 
   // const getLastMessageTime = async (subscribeRoomId: string) => {
   //   try {
@@ -142,13 +192,7 @@ export default function ChatListPage() {
     } else return alert('신호 대기 중 입니다!');
   };
 
-  // const renderLastMessageTime = (subscribeRoomId: string) => {
-  //   const lastMessageData = lastMessage?.find((msg) => msg?.subscribe_room_id === subscribeRoomId);
-  //   if (lastMessageData) {
-  //     return formatDate(lastMessageData.created_at);
-  //   }
-  //   return '';
-  // };
+  console.log('lastMsg', lastMsg);
 
   return (
     <Page noNavBar>
@@ -172,33 +216,32 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
+                      {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>}
+                      {/* {lastMsg[idx] ? lastMsg[idx].message : <div>로딩중<div/>} */}
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.message ||
                         list.flirting_list.flirting_message} */}
-                      {lastMessage
+                      {/* ---아래함수 */}
+                      {/* {lastMessage
                         ?.filter((msg) => msg.subscribe_room_id === list.id)
                         .map((msg) => msg.message)
-                        .pop() || list.flirting_list.flirting_message}
-                      {/* {lastMessage[0] && list.id === lastMessage[0]?.subscribe_room_id
-                        ? lastMessage[0]?.message
-                        : list.flirting_list.flirting_message} */}
-                      {/* {list.flirting_list.flirting_message} */}
+                        .pop() || list.flirting_list.flirting_message} */}
                     </div>
                   </div>
                   <div className="flex flex-col items-start">
-                    {/* <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span> */}
-                    {/* <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span> */}
                     <span className="text-xs text-gray-AAA">
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at
                         ? formatDate(String(lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at))
                         : formatDate(String(list.flirting_list.created_at))} */}
-                      {formatDate(
+                      {/* ---아래함수 */}
+                      {lastMsg && lastMsg[idx] ? formatDate(String(lastMsg[idx]?.created_at)) : <div>로딩중</div>}
+                      {/* {formatDate(
                         String(
                           lastMessage
                             ?.filter((msg) => msg.subscribe_room_id === list.id)
                             .map((msg) => msg.created_at)
                             .pop() || list.flirting_list.created_at
                         )
-                      )}
+                      )} */}
                     </span>
                     <div></div>
                   </div>
@@ -219,30 +262,32 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
+                      {lastMsg ? lastMsg[idx]?.message : <div>로딩중</div>}
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.message ||
                         list.flirting_list.flirting_message} */}
-                      {lastMessage
+                      {/* ---아래함수 */}
+                      {/* {lastMessage
                         ?.filter((msg) => msg.subscribe_room_id === list.id)
                         .map((msg) => msg.message)
-                        .pop() || list.flirting_list.flirting_message}
-                      {/* {list.flirting_list.flirting_message} */}
+                        .pop() || list.flirting_list.flirting_message} */}
                     </div>
                   </div>
                   <div className="flex flex-col items-start">
-                    {/* <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span> */}
-                    {/* <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span> */}
                     <span className="text-xs text-gray-AAA">
                       {/* {lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at
                         ? formatDate(String(lastMessage?.find((msg) => msg?.subscribe_room_id === list.id)?.created_at))
                         : formatDate(String(list.flirting_list.created_at))} */}
-                      {formatDate(
+                      {/* ---아래함수 */}
+                      {lastMsg && lastMsg[idx] ? formatDate(String(lastMsg[idx]?.created_at)) : <div>로딩중</div>}
+
+                      {/* {formatDate(
                         String(
                           lastMessage
                             ?.filter((msg) => msg.subscribe_room_id === list.id)
                             .map((msg) => msg.created_at)
                             .pop() || list.flirting_list.created_at
                         )
-                      )}
+                      )} */}
                     </span>
                     <div></div>
                   </div>

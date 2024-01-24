@@ -84,3 +84,13 @@ export type MessageType = {
   total_chat_count: number;
   is_read: boolean;
 };
+
+export type LastMessageDataType = {
+  created_at: Date;
+  subscribe_room_id: string | null;
+  user_uid: string | null;
+  message: string | null;
+  congratulations_message: number | null;
+  total_chat_count: number | null;
+  is_read: boolean;
+};

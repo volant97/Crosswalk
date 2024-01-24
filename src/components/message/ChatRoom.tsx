@@ -2,7 +2,7 @@
 
 import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import { format, parseISO } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -10,6 +10,8 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
+import { useRecoilState } from 'recoil';
+import { LastMessageState } from '@/recoil/lastMessageData';
 
 interface ChatProps {
   roomId: string;
@@ -21,6 +23,8 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
+  const lastMessage = messageData[messageData.length - 1];
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -71,6 +75,9 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+    console.log('messageData:', messageData);
+    setLastMessageData(lastMessage);
+    console.log('lastMessageData Recoil:', lastMessageData);
   }, [messageData]);
 
   return (
