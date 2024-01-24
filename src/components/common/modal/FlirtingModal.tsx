@@ -18,7 +18,7 @@ import { useRecoilState } from 'recoil';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { registerState } from '@/recoil/register';
-import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
+import { nextSlideState } from '@/recoil/currentIndex';
 import { userState } from '@/recoil/user';
 import useReloadCardModal from './ReloadCardModal';
 
@@ -34,14 +34,12 @@ const useFlirtingModal = () => {
   const myUid = getUid?.id;
   const [isOpen, setIsOpen] = useState(false);
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
-  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
-  const [testState, setTestState] = useRecoilState(nextSlideState);
-  const [userDatas, setUserDatas] = useState(0);
+  const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
+  const [swiper, setSwiper] = useState<any>(null);
 
-  const openFlirtingModal = (userId: string, currentIndex: number, userData: number) => {
-    setUserDatas(userData);
+  const openFlirtingModal = (userId: string, swiper: any) => {
     setFlirtingUserUid(userId);
-    setCurrentIndex(currentIndex);
+    setSwiper(swiper);
     setIsOpen(true);
   };
 
@@ -56,6 +54,10 @@ const useFlirtingModal = () => {
 
   const MessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlirtingMessage(e.target.value);
+  };
+
+  const firstNextSlide = () => {
+    swiper.slideTo(1, 400, false);
   };
 
   const flirtingModal = () => (
@@ -78,6 +80,7 @@ const useFlirtingModal = () => {
                 <form
                   onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
+                    firstNextSlide();
                     if (flirtingMessage === '') {
                       openModal('내용 입력은 필수 입니다.');
                       return false;
@@ -85,17 +88,10 @@ const useFlirtingModal = () => {
                     sendFlirtingMessage();
                     setFlirtingMessage('');
                     onClose();
-                    if (userDatas === currentIndex) {
-                      openModal('마지막분께 어필을 하셨습니다 다시 처음으로 돌아갑니다!');
-                      router.push('/main');
-                      setCurrentIndex(0);
-                      return false;
-                    }
 
-                    router.push(`/main?i=${currentIndex + 1}`);
-                    setCurrentIndex(currentIndex + 1);
                     console.log('플러팅 모달에서의 Uid', flirtingUserUid);
-                    setTestState(true);
+                    setIsSwitchNextSlide(true);
+
                     console.log('확인');
                   }}
                 >
@@ -110,7 +106,7 @@ const useFlirtingModal = () => {
                     required
                   />
                   <Button
-                    className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 font-medium mt-[30px] font-semibold text-center"
+                    className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 mt-[30px] font-semibold text-center"
                     type="submit"
                     onPress={onClose}
                   >

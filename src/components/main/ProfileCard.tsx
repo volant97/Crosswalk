@@ -35,7 +35,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
   console.log('index', index);
 
   const handleLike = () => {
-    openFlirtingModal(flirtingUserId, currentIndex, Number(index - 1));
+    // openFlirtingModal(flirtingUserId);
     console.log('userId', flirtingUserId);
   };
   return (
@@ -103,12 +103,12 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
         <SlideButon
           nextCard={() => {
             router.push(`/main?i=${currentIndex + 1}`);
-            if (currentIndex === index - 1) {
-              // openReloadCardModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
+            // if (currentIndex === index - 1) {
+            //   // openReloadCardModal('마지막 카드입니다. 다시 처음으로 돌아갑니다!');
 
-              setCurrentIndex(0);
-              router.push(`/main`);
-            }
+            //   setCurrentIndex(0);
+            //   router.push(`/main`);
+            // }
           }}
           color="default"
           size="md"
