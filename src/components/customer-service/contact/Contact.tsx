@@ -86,7 +86,7 @@ function ContactPage() {
         return alert('서버와의 통신을 실패했습니다.');
       }
       if (data) {
-        console.log('data : ', data);
+        // console.log('data : ', data);
       }
       alert('문의가 정상적으로 접수되었습니다.');
       router.push('/main');
@@ -100,10 +100,10 @@ function ContactPage() {
   }, [contactContents]);
 
   return (
-    <div className="h-screen w-full max-w-[430px] min-w-[360px] border-x !overflow-y-hidden overflow-x-hidden scrollbar-hide">
-      <div className=" flex flex-col items-start gap-[10px] w-full min-h-[calc(100dvh-2rem)] h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
+    <div className="h-screen w-full max-w-[430px] min-w-[360px] h-[calc(100dvh-9dvh)] border-x overflow-x-hidden scrollbar-hide">
+      <div className="relative flex flex-col items-start gap-[20px] w-full pl-[30px] pr-[30px] pt-[20px] text-[13px]">
         {/* 안내 문구 */}
-        <p className="text-[12px] text-center w-full">
+        <p className="text-center w-full">
           Crosswalk를 이용해 주셔서 감사드립니다.
           <br />
           궁금한 점이나 도움이 필요하신 사항이 있으신가요.
@@ -130,8 +130,9 @@ function ContactPage() {
           <Textarea
             label="문의 내용"
             className="max-w-xs"
-            errorMessage="글자수 제한"
+            errorMessage={`글자수 ${contactContents?.content?.length} / 300 자`}
             variant="bordered"
+            maxLength={300}
             onChange={handleContentTextarea}
           />
         </div>
