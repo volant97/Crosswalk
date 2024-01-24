@@ -14,9 +14,10 @@ type Props = {
   age: number | string | undefined;
   selectedImg: string;
   file: any;
+  avatar: number | undefined;
 };
 
-function ConfirmModal({ name, height, age, selectedImg, file }: Props) {
+function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,7 +54,8 @@ function ConfirmModal({ name, height, age, selectedImg, file }: Props) {
         name: name,
         age: Number(age),
         height: Number(height),
-        uid
+        uid,
+        avatar
       }
     }));
   }

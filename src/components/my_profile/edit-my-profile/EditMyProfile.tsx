@@ -20,6 +20,7 @@ function EditMyProfile() {
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
   const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
+  const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -31,6 +32,10 @@ function EditMyProfile() {
 
   const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAge(Number(e.target.value));
+  };
+
+  const handleAvatarChange = () => {
+    setAvatar(Math.floor(Math.random() * 15));
   };
 
   const previewImg = (event: any) => {
@@ -58,7 +63,7 @@ function EditMyProfile() {
             <div className="relative h-[100px] w-[100px] bg-gray-EF rounded-full">
               <Image
                 className="h-[100px] w-[100px] rounded-full object-cover"
-                src={`/assets/avatar/avatar-circle/avatar${myInfo?.avatar}-circle.png`}
+                src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`}
                 alt="avatar"
                 width={100}
                 height={100}
@@ -66,16 +71,7 @@ function EditMyProfile() {
             </div>
             <div className="absolute top-[1px]">
               <button
-                onClick={() => {
-                  // any타입
-                  setRegisterData((prevData: any) => ({
-                    ...prevData,
-                    profile: {
-                      ...prevData.profile,
-                      avatar: Math.floor(Math.random() * 15)
-                    }
-                  }));
-                }}
+                onClick={handleAvatarChange}
                 className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
               >
                 <Image
@@ -202,7 +198,7 @@ function EditMyProfile() {
         </div>
       </form>
       {/* 수정하기 버튼 */}
-      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} />
+      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} avatar={avatar} />
       {mbtiModal()}
       {interestModal()}
     </div>
