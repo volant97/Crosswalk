@@ -91,7 +91,6 @@ const useFlirtingModal = () => {
 
                     console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                     setIsSwitchNextSlide(true);
-
                     console.log('확인');
                   }}
                 >

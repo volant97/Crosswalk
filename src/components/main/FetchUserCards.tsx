@@ -122,7 +122,7 @@ function FetchUserCards() {
 
   return (
     <div className="w-full">
-      {isLoading === true && <SkeletonMain />}
+      {isLoading === false && <SkeletonMain />}
       <SlideEffect isHateEffect={isHateEffect} />
       <Swiper
         modules={[Navigation]}
@@ -144,7 +144,7 @@ function FetchUserCards() {
       >
         {userCards?.map((item: any) => (
           <SwiperSlide
-            className="min-h-[34rem] md:min-h-[36rem] md:max-h-[29rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+            className="min-h-[34rem] md:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
             key={item.uid}
           >
             <UserCard

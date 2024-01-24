@@ -29,7 +29,7 @@ function FetchMyProfileCard() {
     try {
       await postRegister(myUid, userInfo);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   const updateProfile = async () => {

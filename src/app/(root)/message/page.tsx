@@ -1,7 +1,4 @@
-import ChooseAvatarModal from '@/components/common/modal/ChooseAvatarModal';
 import SignalOffModal from '@/components/common/modal/SignalOffModal';
-import NavBar from '@/components/common/ui/NavBar';
-import NotiBell from '@/components/common/ui/NotiBell';
 import ChatFunction from '@/components/message/ChatFunction';
 import ChatHeader from '@/components/message/ChatHeader';
 import ChatRoom from '@/components/message/ChatRoom';
@@ -23,9 +20,11 @@ function Message() {
           <SignalOffModal />
         </div>
       </header>
-      <ChatHeader />
+      {/* Todo */}
+      {/* <ChatHeader /> */}
       <div className="min-h-[calc(100dvh-12rem)] overflow-y-hidden max-h-[calc(100dvh-7rem)]">
-        <ChatRoom />
+        {/* Todo */}
+        {/* <ChatRoom /> */}
         <ChatFunction />
       </div>
     </div>

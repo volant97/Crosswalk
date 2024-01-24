@@ -109,31 +109,10 @@ function EditMyProfile() {
           {/* 성별 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>성별</label>
-            <div className="flex justify-center gap-[8px] w-full">
-              <Button
-                value={gender}
-                type="button"
-                className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
-                  gender === 'M' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                }`}
-                onClick={() => {
-                  setGender('M');
-                }}
-              >
-                남자
-              </Button>
-              <Button
-                value={gender}
-                type="button"
-                className={`w-full px-[20px] py-[8px] bg-white rounded-full cursor-pointer border ${
-                  gender === 'F' ? 'border-1 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                }`}
-                onClick={() => {
-                  setGender('F');
-                }}
-              >
-                여자
-              </Button>
+            <div className="flex justify-start gap-[8px] w-full">
+              <div className="relative flex justify-center items-center w-[70px] h-[40px] text-[14px] font-[400] leading-[20px] capitalize text-gray-500 bg-gray-200 border-1 border-solid border-gray-300 rounded-full">
+                {gender === 'M' ? '남자' : '여자'}
+              </div>
             </div>
           </div>
           {/* MBTI */}
@@ -222,10 +201,10 @@ function EditMyProfile() {
               </div>
             </label>
           </div>
-          {/* 수정하기 버튼 */}
         </div>
       </form>
-      <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
+      {/* 수정하기 버튼 */}
+      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} />
       {mbtiModal()}
       {interestModal()}
     </div>

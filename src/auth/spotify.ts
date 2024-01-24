@@ -12,6 +12,6 @@ export async function spotifyLogin() {
     //   }
     // }
   });
-  console.log(data);
+  // console.log(data);
   if (error) console.error('login error : ', error);
 }
