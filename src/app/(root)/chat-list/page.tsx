@@ -18,6 +18,7 @@ export default function ChatListPage() {
   async function data() {
     try {
       const data = await getChatList();
+      console.log(data);
       setChatList(data);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
@@ -37,11 +38,11 @@ export default function ChatListPage() {
 
   useEffect(() => {
     subscribeChatList((payload: any) => {
+      console.log(payload);
       data();
     });
-
     data();
-    // 컴포넌트 언마운트 시에 구독 해제
+
     return () => {
       untrackChatList();
     };
@@ -83,7 +84,11 @@ export default function ChatListPage() {
                   }}
                 >
                   <div className="flex items-center">
-                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
+                    {ChatStatusColor(
+                      list.flirting_list.status,
+                      list.flirting_list.receiver_uid.avatar,
+                      list.flirting_list.receiver_uid.uid
+                    )}
                   </div>
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
@@ -100,17 +105,21 @@ export default function ChatListPage() {
                   </div>
                 </li>
               );
-            } else if (getUid?.id === list.flirting_list.receiver_uid.uid && list.flirting_list.status === 'ACCEPT') {
+            } else if (getUid?.id === list.flirting_list.receiver_uid.uid) {
               return (
                 <li
                   key={idx}
                   className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
                   onClick={() => {
-                    router.push(`/chat-list/${list.id}`);
+                    routerLink(list.id, list.flirting_list.status);
                   }}
                 >
                   <div className="flex items-center">
-                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
+                    {ChatStatusColor(
+                      list.flirting_list.status,
+                      list.flirting_list.sender_uid.avatar,
+                      list.flirting_list.sender_uid.uid
+                    )}
                   </div>
                   <div className="w-[12.5rem] ml-[-60px]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
