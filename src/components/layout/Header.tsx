@@ -39,7 +39,6 @@ function Header({ noBack, noNavBar, noNotiBell, noBackMain }: PageProps) {
           </div>
         )}
       </div>
-      {!noNavBar && <NavBar />}
     </div>
   );
 }

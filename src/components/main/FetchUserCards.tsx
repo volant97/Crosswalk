@@ -46,6 +46,7 @@ function FetchUserCards() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHateEffect, setIsHateEffect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRandomSwitch, setIsRandomSwitch] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserCards = async () => {
@@ -79,7 +80,7 @@ function FetchUserCards() {
     setActiveUserUids(activeUserUid);
     setIsFlipped(false);
 
-    if (activeUserUid) {
+    if (activeUserUid && isRandomSwitch === false) {
       setIsHateEffect(true);
     } else {
       setIsHateEffect(false);
@@ -104,13 +105,14 @@ function FetchUserCards() {
     };
   }, [activeUserUids, isSwitchNextSlide, setIsSwitchNextSlide, swiper]);
 
-  // useEffect(() => {
-  //   const randomIndex = Math.floor(Math.random() * userCards.length);
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * userCards.length);
 
-  //   if (swiper) {
-  //     swiper?.slideTo(randomIndex, 0, false);
-  //   }
-  // }, [userCards, swiper]);
+    if (swiper) {
+      setIsRandomSwitch(true);
+      swiper?.slideTo(randomIndex, 0, false);
+    }
+  }, [userCards, swiper]);
 
   const flirtingUserUids = userCards?.map((item: any) => item.uid) || [];
 

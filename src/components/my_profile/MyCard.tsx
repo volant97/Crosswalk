@@ -30,7 +30,7 @@ function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
   const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
   const [user, setUser] = useRecoilState(userState);
   return (
-    <div className="relative">
+    <div className="relative mb-[50px]">
       <div className="relative">
         <div className="relative">
           <div className="relative w-full aspect-[2/3]">

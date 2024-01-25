@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import NavBar from '@/components/common/ui/NavBar';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
@@ -177,6 +178,7 @@ export default function ChatListPage() {
         </ul>
       )}
       {AlertModal()}
+      <NavBar />
     </Page>
   );
 }
