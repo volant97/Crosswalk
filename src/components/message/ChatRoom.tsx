@@ -8,6 +8,7 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
+import { useRouter } from 'next/navigation';
 
 interface ChatProps {
   roomId: string;
@@ -20,6 +21,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [prevMessage, setPrevMessage] = useState<MessageType>();
+  const router = useRouter();
 
   const [favorableRating, setFavorableRating] = useState<number>();
   const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
@@ -130,10 +132,25 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       setMyContinualCount(prevMessage.user_continual_count);
       setUserContinualCount(prevMessage.another_continual_count);
     }
-  }, []);
+  }, [prevMessage]);
+
+  useEffect(() => {
+    console.log('myScore', myScore);
+    console.log('myContinualCount', myContinualCount);
+    console.log('userScore', userScore);
+    console.log('userContinualCount', userContinualCount);
+    console.log('favorableRating', favorableRating);
+    console.log('=======================');
+  }, [myContinualCount, userContinualCount]);
 
   console.log(prevMessage);
   console.log(favorableRating);
+
+  const routerLink = (uid: string | undefined) => {
+    if (uid !== undefined) {
+      router.push(`/${uid}`);
+    }
+  };
 
   return (
     <>
@@ -167,12 +184,18 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                   {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
                     <Avatar
+                      onClick={() => {
+                        routerLink(roomInfo?.flirting_list.sender_uid.uid);
+                      }}
                       size="sm"
                       src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.sender_uid.avatar}-circle.png`}
                       alt="유저 아바타 이미지"
                     />
                   ) : (
                     <Avatar
+                      onClick={() => {
+                        routerLink(roomInfo?.flirting_list.receiver_uid.uid);
+                      }}
                       size="sm"
                       src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.receiver_uid.avatar}-circle.png`}
                       alt="유저 아바타 이미지"
