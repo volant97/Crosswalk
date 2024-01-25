@@ -1,17 +1,13 @@
 'use client';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import Image from 'next/image';
-import React, { FormEventHandler, use, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
-import { Button } from '@nextui-org/react';
 import { LuPencil } from 'react-icons/lu';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { registerState } from '@/recoil/register';
-import { TfiReload } from 'react-icons/tfi';
-import MbtiModal from '../common/modal/MbtiModal';
-import InterestModal from '../common/modal/InterestModal';
-import { RegisterType } from '@/types/registerType';
-import { UserState, userState } from '@/recoil/user';
+import { useRecoilState } from 'recoil';
+import MbtiModal from '../../common/modal/MbtiModal';
+import InterestModal from '../../common/modal/InterestModal';
+import { userState } from '@/recoil/user';
 
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
@@ -22,8 +18,9 @@ function EditMyProfile() {
   const { openInterestModal, interestModal } = InterestModal();
   const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
-  const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
-  const [height, setHeight] = useState<number | undefined>(myInfo?.height || undefined);
+  const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
+  const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
+  const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
@@ -38,6 +35,10 @@ function EditMyProfile() {
 
   const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAge(Number(e.target.value));
+  };
+
+  const handleAvatarChange = () => {
+    setAvatar(Math.floor(Math.random() * 15));
   };
 
   const previewImg = (event: any) => {
@@ -71,7 +72,7 @@ function EditMyProfile() {
             <div className="relative h-[100px] w-[100px] bg-gray-EF rounded-full">
               <Image
                 className="h-[100px] w-[100px] rounded-full object-cover"
-                src={`/assets/avatar/avatar-circle/avatar${myInfo?.avatar}-circle.png`}
+                src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`}
                 alt="avatar"
                 width={100}
                 height={100}
@@ -79,16 +80,7 @@ function EditMyProfile() {
             </div>
             <div className="absolute top-[1px]">
               <button
-                onClick={() => {
-                  // any타입
-                  setRegisterData((prevData: any) => ({
-                    ...prevData,
-                    profile: {
-                      ...prevData.profile,
-                      avatar: updateGender(myInfo?.gender)
-                    }
-                  }));
-                }}
+                onClick={handleAvatarChange}
                 className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
               >
                 <Image
@@ -140,11 +132,11 @@ function EditMyProfile() {
             </div>
           </div>
           {/* 나이 */}
-          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+          <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>나이</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
-              value={age}
+              value={age?.toString()}
               onChange={ageHandler}
               type="number"
               name="age"
@@ -152,20 +144,22 @@ function EditMyProfile() {
               autoComplete="off"
               placeholder={'27세'}
             />
+            <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">세</p>
           </div>
           {/* 키 */}
-          <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
+          <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>키</label>
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
-              value={height}
+              value={height?.toString()}
               onChange={heightHandler}
               type="number"
               name="height"
               id="height"
               autoComplete="off"
               placeholder={'180cm'}
-            />
+            ></input>
+            <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">cm</p>
           </div>
           {/* 관심사 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
@@ -213,7 +207,7 @@ function EditMyProfile() {
         </div>
       </form>
       {/* 수정하기 버튼 */}
-      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} />
+      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} avatar={avatar} />
       {mbtiModal()}
       {interestModal()}
     </div>
