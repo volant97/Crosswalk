@@ -24,7 +24,7 @@ function ChatHeader({ roomInfo, getUid }: ChatProps) {
         </div>
 
         <div className="ml-auto">
-          <SignalOffModal />
+          <SignalOffModal flirting_list_id={roomInfo?.flirting_list_id} />
         </div>
         <div className="flex items-center gap-[0.75rem] absolute top-[10px] left-12">
           {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id

@@ -29,6 +29,14 @@ export async function changeStatusToRead(receiverUid: string): Promise<void> {
   }
 }
 
+export async function changeStatusToDecline(flirting_list_id: number): Promise<void> {
+  const { error } = await supabase.from('flirting_list').update({ status: 'DECLINE' }).eq('id', flirting_list_id);
+  if (error || null) {
+    console.error('에러 발생', error);
+    throw new Error('error while fetching posts data');
+  }
+}
+
 /**Request 채널 구독 */
 export async function subscribeRequestedFlirtingList(callback: SpecificSubscribeFlirtingListCallbackType) {
   supabase
