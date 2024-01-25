@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
+
 import { UserState, userState } from '@/recoil/user';
-import { ChatListType } from '@/types/realTimeType';
+import { ChatListType, MessageType } from '@/types/realTimeType';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { ChatStatusColor } from './ChatStatusColor';
@@ -9,13 +12,15 @@ import Link from 'next/link';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import SignalOffModal from '../common/modal/SignalOffModal';
 import GoToBackBtn from '../layout/GoToBackBtn';
+import { getMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 
 interface ChatProps {
   roomInfo?: ChatListType;
   getUid: UserState;
+  favorableRating: number;
 }
 
-function ChatHeader({ roomInfo, getUid }: ChatProps) {
+function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
   return (
     <>
       <header className="relative flex font-virgil w-full h-16 sticky bg-white top-0 items-center mb-[1.5rem] border-b-2 border-solid px-6">
@@ -44,7 +49,7 @@ function ChatHeader({ roomInfo, getUid }: ChatProps) {
                 height={50}
                 alt="호감도"
               />
-              <h1 className="text-[0.875rem] text-gray-888">10%</h1>
+              <h1 className="text-[0.875rem] text-gray-888">{favorableRating}%</h1>
             </div>
           </div>
         </div>

@@ -1,17 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import SignalOffModal from '@/components/common/modal/SignalOffModal';
 import Page from '@/components/layout/Page';
-import ChatFunction from '@/components/message/ChatFunction';
 import ChatHeader from '@/components/message/ChatHeader';
 import ChatRoom from '@/components/message/ChatRoom';
-import { getChatList } from '@/lib/api/SupabaseApi';
+import { getChatList, getMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { userState } from '@/recoil/user';
-import { ChatListType } from '@/types/realTimeType';
-import Link from 'next/link';
+import { ChatListType, MessageType } from '@/types/realTimeType';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useRecoilState } from 'recoil';
 
 function ChatRoomPage() {
@@ -19,6 +15,9 @@ function ChatRoomPage() {
   const roomId = pathname.split('/')[2];
   const [getUid, setGetUid] = useRecoilState(userState);
   const [roomInfo, setRoomInfo] = useState<ChatListType>();
+
+  const [messageData, setMessageData] = useState<MessageType[]>([]);
+  const favorableRating = messageData[messageData.length - 1]?.favorable_rating;
 
   async function data() {
     try {
@@ -33,14 +32,37 @@ function ChatRoomPage() {
       alert('서버와의 통신을 실패했습니다.');
     }
   }
+
   useEffect(() => {
     data();
   }, [roomId]);
 
+  async function getData(subscribe_room_id: string) {
+    try {
+      const getMessageData = await getMessage(subscribe_room_id);
+      setMessageData(getMessageData);
+    } catch (error) {
+      alert('서버와의 통신을 실패했습니다.1');
+    }
+  }
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시에 구독
+    subscribeChatRoom(roomId, (payload: any) => {
+      getData(roomId);
+    });
+
+    getData(roomId);
+    // 컴포넌트 언마운트 시에 구독 해제
+    return () => {
+      untrackChatRoom(roomId);
+    };
+  }, [getUid, roomId]);
+
   return (
     <Page noHeader>
-      <ChatHeader roomInfo={roomInfo} getUid={getUid} />
-      <ChatRoom roomId={roomId} roomInfo={roomInfo} getUid={getUid} />
+      <ChatHeader roomInfo={roomInfo} getUid={getUid} favorableRating={favorableRating} />
+      <ChatRoom roomId={roomId} roomInfo={roomInfo} getUid={getUid} messageData={messageData} />
     </Page>
   );
 }
