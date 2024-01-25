@@ -90,22 +90,24 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
           const nextData = messageData[idx + 1];
           return data.user_uid === getUid?.id ? (
             <>
-              {idx === 0 ? DisplayDateTime(data.created_at) : null}
+              {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
-                <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">{GetCurrentTime(data.created_at)}</h1>
+                <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">
+                  {GetCurrentTime(String(data.created_at))}
+                </h1>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                   <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-lightGreen rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-bl-[1.8rem] max-w-48">
                     <h1 className="font-medium break-all">{data.message}</h1>
                   </div>
                 </div>
               </div>
-              {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
-                ? DisplayDateTime(nextData?.created_at)
+              {ConvertedDate(String(data.created_at), idx) !== ConvertedDate(String(nextData?.created_at), idx)
+                ? DisplayDateTime(String(nextData?.created_at))
                 : null}
             </>
           ) : (
             <>
-              {idx === 0 ? DisplayDateTime(data.created_at) : null}
+              {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
                   {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
@@ -125,13 +127,13 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
                     <h1 className="font-medium break-all">{data.message}</h1>
                   </div>
                   <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
-                    {GetCurrentTime(data.created_at)}
+                    {GetCurrentTime(String(data.created_at))}
                   </h1>
                 </div>
               </div>
 
-              {ConvertedDate(data.created_at, idx) !== ConvertedDate(nextData?.created_at, idx)
-                ? DisplayDateTime(nextData?.created_at)
+              {ConvertedDate(String(data.created_at), idx) !== ConvertedDate(String(nextData?.created_at), idx)
+                ? DisplayDateTime(String(nextData?.created_at))
                 : null}
             </>
           );
