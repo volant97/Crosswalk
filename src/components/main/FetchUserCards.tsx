@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
 import type { unMatchedDataType } from '@/types/registerType';
-import { getAllData, getUnMatchedData } from '@/lib/api/SupabaseApi';
+import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 
 // Import Swiper React components
@@ -19,87 +18,117 @@ import useFlirtingModal from '../common/modal/FlirtingModal';
 import SlideButton from '../SlideButton';
 import { Navigation } from 'swiper/modules';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { currentIndexState, nextSlideState } from '@/recoil/currentIndex';
+import { nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase-config';
-import { Spacer } from '@nextui-org/react';
+
+import SlideEffect from './SlideEffect';
+import SkeletonMain from './SkeletonMain';
 
 function FetchUserCards() {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   // console.log('searchParams', searchParams.get('i'));
-  const router = useRouter();
-  const index = Number(searchParams.get('index') || 0);
-  const initialSlide = Number(searchParams.get('i') || 0);
+  // const router = useRouter();
+  // const index = Number(searchParams.get('index') || 0);
+  // const initialSlide = Number(searchParams.get('i') || 0);
   // 리코일 상태로 전역상태 관리하여 스테이트 값으로 하나씩 증가
   const { openModal, AlertModal } = useAlertModal();
   const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const [userUids, setUserUids] = useState<any>([]);
-  const [activeUserUid, setActiveUserUid] = useState<string>('');
+  const [activeUserUids, setActiveUserUids] = useState<string>('');
   const [swiper, setSwiper] = useState<any>(null);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
-  const [currentIndex, setCurrentIndex] = useRecoilState(currentIndexState);
-  const [testState, setTestState] = useRecoilState(nextSlideState);
+  const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isHateEffect, setIsHateEffect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getUerCards = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getUserCards = async () => {
     try {
       if (!myUid) return;
       if (!myGender) return;
+      setIsLoading(true);
       const userCards = await getUnMatchedData(myUid, myGender);
       if (!userCards) return;
 
       setUserCards(userCards);
-      const uids = userCards.map((item: any) => item.uid);
+      const uids = userCards?.map((item: any) => item.uid);
       setUserUids(uids);
-      // console.log('userCards', userCards);
+      console.log('userCards', userCards);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
     }
   };
 
+  const firstNextSlide = () => {
+    swiper.slideTo(1, 400, false);
+  };
+
   // 슬라이드 할 때 마다 값 가져오기
   const handleSlideChange = (swiper: any) => {
-    const activeIndex = swiper.activeIndex;
+    const activeIndex = swiper.realIndex;
 
     const activeUserUid = userUids[activeIndex];
-    setActiveUserUid(activeUserUid);
+    setActiveUserUids(activeUserUid);
+    setIsFlipped(false);
 
-    // console.log('Active User UID:', activeUserUid);
+    if (activeUserUid) {
+      setIsHateEffect(true);
+    } else {
+      setIsHateEffect(false);
+    }
   };
+
   useEffect(() => {
-    getUerCards();
+    getUserCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   useEffect(() => {
-    if (testState === true && swiper) {
+    if (activeUserUids && isSwitchNextSlide === true && swiper) {
       swiper.slideNext();
+      setIsHateEffect(false);
     }
     return () => {
-      setTestState(false);
+      setIsSwitchNextSlide(false);
+      setTimeout(() => {
+        setIsHateEffect(false);
+      }, 350);
     };
-  }, [currentIndex]);
+  }, [activeUserUids, isSwitchNextSlide, setIsSwitchNextSlide, swiper]);
 
-  const flirtingUserUids =
-    userCards?.filter((item: any) => item.uid !== myUid && item.gender !== myGender)?.map((item: any) => item.uid) ||
-    [];
+  // useEffect(() => {
+  //   const randomIndex = Math.floor(Math.random() * userCards.length);
+
+  //   if (swiper) {
+  //     swiper?.slideTo(randomIndex, 0, false);
+  //   }
+  // }, [userCards, swiper]);
+
+  const flirtingUserUids = userCards?.map((item: any) => item.uid) || [];
 
   const handleLike = () => {
-    const likedUserUid = userUids[currentIndex];
-    openFlirtingModal(likedUserUid || flirtingUserUids[0], currentIndex, userCards.length - 1);
-    // console.log('activeUserUid', likedUserUid || flirtingUserUids[0]);
+    const likedUserUid = activeUserUids;
+    const targetUid = likedUserUid || flirtingUserUids[0];
+    openFlirtingModal(targetUid, swiper);
+    console.log('activeUserUid', targetUid);
   };
 
-  // console.log('currentIndex', currentIndex);
   return (
-    <div className="w-full px-[20px] py-[32px]">
+    <div className="relative w-full">
+      {isLoading === true && <SkeletonMain />}
+      <SlideEffect isHateEffect={isHateEffect} />
       <Swiper
         modules={[Navigation]}
-        spaceBetween={24}
+        allowSlidePrev={false}
+        spaceBetween={30}
         slidesPerView={1}
         onSlideChange={(swiper: any) => {
           handleSlideChange(swiper);
@@ -107,39 +136,40 @@ function FetchUserCards() {
         onSwiper={(swiper: any) => {
           setSwiper(swiper);
         }}
-        className=" "
+        className="!px-[1.5rem] !pb-[2rem]"
         navigation={true}
-        touchRatio={0}
-        // loop={true}
-        // loopAdditionalSlides={1}
-        initialSlide={initialSlide}
-        onTransitionEnd={(swiper) => setCurrentIndex(swiper.realIndex)}
+        touchRatio={1}
+        loop={true}
+        loopAdditionalSlides={1}
+        allowTouchMove={false}
       >
-        {userCards?.map((item: any, index) => (
-          <SwiperSlide key={item.uid}>
+        {userCards?.map((item: any) => (
+          <SwiperSlide
+            className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+            key={item.uid}
+          >
             <UserCard
-              index={index}
               age={item.age}
               name={item.name}
               interest={item.interest}
               avatar={item.avatar}
               flirtingUserUid={item.uid}
+              height={item.height}
+              gender={item.gender}
+              mbti={item.mbti}
+              isFlipped={isFlipped}
+              setIsFlipped={setIsFlipped}
+              userImg={item.user_img}
             />
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="flex gap-3 mt-[20px] justify-between gap-x-2">
+      <div className="flex gap-3 px-[20px] justify-between gap-x-2">
         <SlideButton
           nextCard={() => {
+            firstNextSlide();
             if (swiper) {
               swiper.slideNext();
-              router.push(`/main?i=${currentIndex + 1}`); // 문제되는 부분
-            }
-            if (currentIndex === userCards.length - 1) {
-              openModal('');
-
-              setCurrentIndex(0);
-              router.push(`/main`);
             }
           }}
           color="default"

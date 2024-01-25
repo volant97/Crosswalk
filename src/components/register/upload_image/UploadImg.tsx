@@ -28,6 +28,10 @@ const UploadImg = () => {
   const { openModal, AlertModal } = useAlertModal();
   const route = useRouter();
   const [testToggle, setTestToggole] = useState<boolean>(false);
+  const myInfo: any = register?.profile;
+
+  const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
+  const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);
@@ -139,6 +143,12 @@ const UploadImg = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [file]);
 
+  const updateGender = (gender: string) => {
+    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
+    const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
+    return avatarNumbers[randomIndex];
+  };
+
   useEffect(() => {
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
     // console.log('selectedImg', selectedImg);
@@ -147,7 +157,7 @@ const UploadImg = () => {
       profile: {
         ...prevData?.profile,
         user_img: userImg?.publicUrl,
-        avatar: Math.floor(Math.random() * 15),
+        avatar: updateGender(myInfo.gender),
         uid: uid
       }
     }));

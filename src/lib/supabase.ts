@@ -166,7 +166,7 @@ export interface Database {
       message: {
         Row: {
           created_at: string;
-          favorable_rating: number | null;
+          favorable_rating: number;
           id: number;
           is_read: boolean;
           message: string;
@@ -176,7 +176,7 @@ export interface Database {
         };
         Insert: {
           created_at?: string;
-          favorable_rating?: number | null;
+          favorable_rating?: number;
           id?: number;
           is_read?: boolean;
           message: string;
@@ -186,7 +186,7 @@ export interface Database {
         };
         Update: {
           created_at?: string;
-          favorable_rating?: number | null;
+          favorable_rating?: number;
           id?: number;
           is_read?: boolean;
           message?: string;
