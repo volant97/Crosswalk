@@ -250,6 +250,19 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
   return lastMessageArray;
 }
 
+export async function changeMessageToRead(uid: string, roomId: string): Promise<void> {
+  const { error } = await supabase
+    .from('message')
+    .update({ is_read: true })
+    .eq('is_read', false)
+    .eq('subscribe_room_id', roomId)
+    .neq('user_uid', uid);
+  if (error || null) {
+    console.error('에러 발생', error);
+    throw new Error('error while fetching posts data');
+  }
+}
+
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
   // console.log(message_data);
