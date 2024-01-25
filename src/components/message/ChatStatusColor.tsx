@@ -1,30 +1,57 @@
 import { Avatar } from '@nextui-org/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export function ChatStatusColor(status: string | undefined, avatar: number | undefined) {
+export function ChatStatusColor(status: string | undefined, avatar: number | undefined, uid: string | undefined) {
+  const router = useRouter();
+  const routerLink = (uid: string | undefined) => {
+    if (uid !== undefined) {
+      router.push(`/${uid}`);
+    }
+  };
   switch (status) {
     case 'UNREAD':
       return (
-        <div className="rounded-full border-gray-999 border-2 p-[0.2rem]">
+        <div
+          className="rounded-full border-gray-999 border-2 p-[0.2rem]"
+          onClick={() => {
+            routerLink(uid);
+          }}
+        >
           <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
         </div>
       );
     case 'READ':
       return (
-        <div className="rounded-full border-gray-999 border-2 p-[0.2rem]">
+        <div
+          className="rounded-full border-gray-999 border-2 p-[0.2rem]"
+          onClick={() => {
+            routerLink(uid);
+          }}
+        >
           <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
         </div>
       );
     case 'ACCEPT':
       return (
-        <div className="rounded-full border-customYellow border-2 p-[0.2rem]">
+        <div
+          className="rounded-full border-customYellow border-2 p-[0.2rem]"
+          onClick={() => {
+            routerLink(uid);
+          }}
+        >
           <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
         </div>
       );
     case 'DECLINE':
       return (
-        <div className="rounded-full border-customRed border-2 p-[0.2rem]">
+        <div
+          className="rounded-full border-customRed border-2 p-[0.2rem]"
+          onClick={() => {
+            routerLink(uid);
+          }}
+        >
           <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
         </div>
       );
