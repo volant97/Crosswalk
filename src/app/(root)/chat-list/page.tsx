@@ -98,21 +98,21 @@ export default function ChatListPage() {
       {!chatList ? (
         <div className="h-screen flex items-center justify-center">대화할수있는 방이 없어요</div>
       ) : (
-        <ul className="px-5">
+        <ul className=" ">
           {chatList?.map((list, idx) => {
             if (getUid?.id === list.flirting_list.sender_uid.uid) {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0] px-[20px]"
                   onClick={() => {
                     routerLink(list.id, list.flirting_list.status);
                   }}
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
                   </div>
-                  <div className="w-[12.5rem] ml-[-60px]">
+                  <div className="w-[12.5rem]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                       {lastMsg && lastMsg[idx] ? (
@@ -124,7 +124,7 @@ export default function ChatListPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-start">
+                  <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
                       {lastMsg && lastMsg[idx] ? (
                         formatDate(String(lastMsg[idx]?.created_at))
@@ -140,7 +140,7 @@ export default function ChatListPage() {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer px-[20px] transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     routerLink(list.id, list.flirting_list.status);
                   }}
@@ -148,7 +148,7 @@ export default function ChatListPage() {
                   <div className="flex items-center">
                     {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
                   </div>
-                  <div className="w-[12.5rem] ml-[-60px]">
+                  <div className="w-[12.5rem] ">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
                       {lastMsg && lastMsg[idx] ? (
@@ -160,7 +160,7 @@ export default function ChatListPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-start">
+                  <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
                       {lastMsg && lastMsg[idx] ? (
                         formatDate(String(lastMsg[idx]?.created_at))

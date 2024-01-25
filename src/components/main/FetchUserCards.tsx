@@ -24,6 +24,7 @@ import useAlertModal from '../common/modal/AlertModal';
 
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase-config';
+import { Spacer } from '@nextui-org/react';
 
 function FetchUserCards() {
   const searchParams = useSearchParams();
@@ -95,7 +96,7 @@ function FetchUserCards() {
 
   // console.log('currentIndex', currentIndex);
   return (
-    <div className="w-full">
+    <div className="w-full px-[20px] py-[32px]">
       <Swiper
         modules={[Navigation]}
         spaceBetween={24}
@@ -106,7 +107,7 @@ function FetchUserCards() {
         onSwiper={(swiper: any) => {
           setSwiper(swiper);
         }}
-        className="!px-[1.5rem] !py-[2rem]"
+        className=" "
         navigation={true}
         touchRatio={0}
         // loop={true}
@@ -127,7 +128,7 @@ function FetchUserCards() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="flex gap-3 px-[20px] justify-between gap-x-2">
+      <div className="flex gap-3 mt-[20px] justify-between gap-x-2">
         <SlideButton
           nextCard={() => {
             if (swiper) {

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function HTMLLayout({ children }: Props) {
   return (
-    <html lang="ko" className="">
+    <html lang="ko">
       <body>
         <Provider>{children}</Provider>
       </body>
