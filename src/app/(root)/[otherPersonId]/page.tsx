@@ -1,19 +1,19 @@
 import Page from '@/components/layout/Page';
-import SenderProfile from '@/components/request/sender-profile/SenderProfile';
+import OtherPersonProfile from '@/components/other-person-profile/OtherPersonProfile';
 import React from 'react';
 
 type Props = {
   params: {
-    senderId: string;
+    otherPersonId: string;
   };
 };
 
 function ProfleDetailPage({ params }: Props) {
-  const { senderId } = params;
+  const { otherPersonId } = params;
 
   return (
     <Page noBackMain noNavBar>
-      <SenderProfile senderId={senderId} />
+      <OtherPersonProfile otherPersonId={otherPersonId} />
     </Page>
   );
 }

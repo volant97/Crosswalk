@@ -2,25 +2,29 @@
 'use client';
 
 import { getSenderCustomUsers } from '@/lib/api/requestApi';
+import { userState } from '@/recoil/user';
 import { unNullRegisterType } from '@/types/registerType';
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { Fragment, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 type Props = {
-  senderId: string;
+  otherPersonId: string;
 };
 
-function SenderProfile({ senderId }: Props) {
-  const [senderInfo, setSenderInfo] = useState<unNullRegisterType>();
+function OtherPersonProfile({ otherPersonId }: Props) {
+  const [register, setRegister] = useRecoilState(userState);
+  const myProfile = register?.profile;
+  const [otherProfile, setOtherProfile] = useState<unNullRegisterType>();
   const aaa = true;
+  // otherPersonProfile
 
   const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
   const getSenderInfo = async () => {
     try {
-      const data = await getSenderCustomUsers(senderId);
-      setSenderInfo(data);
+      const data = await getSenderCustomUsers(otherPersonId);
+      setOtherProfile(data);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
     }
@@ -35,12 +39,12 @@ function SenderProfile({ senderId }: Props) {
       <div>
         <div className="relative">
           <div className="relative w-full rounded-t-[24px] aspect-[2/3]">
-            {aaa && senderInfo ? (
+            {aaa && otherProfile ? (
               // 최종매칭 O
               <Fragment>
                 <Image
                   className="rounded-t-[24px] object-cover"
-                  src={senderInfo?.user_img}
+                  src={otherProfile?.user_img}
                   alt="유저 아바타 이미지"
                   fill
                 />
@@ -52,7 +56,7 @@ function SenderProfile({ senderId }: Props) {
               // 최종매칭 X
               <Image
                 className="rounded-t-[24px]"
-                src={`/assets/avatar/avatar${senderInfo?.avatar}.png`}
+                src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
                 alt="유저 아바타 이미지"
                 fill
               />
@@ -60,11 +64,11 @@ function SenderProfile({ senderId }: Props) {
           </div>
           <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
             <div className="flex items-end w-full gap-[4px]">
-              <h1 className="text-[24px] font-bold leading-[24px]">{senderInfo?.name}</h1>
-              <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{senderInfo?.age}</h2>
+              <h1 className="text-[24px] font-bold leading-[24px]">{otherProfile?.name}</h1>
+              <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{otherProfile?.age}</h2>
             </div>
             <div className="flex flex-warp w-full items-center gap-[4px] ">
-              {senderInfo?.interest?.map((item, index) => {
+              {otherProfile?.interest?.map((item, index) => {
                 return (
                   <Fragment key={index}>
                     <div
@@ -87,12 +91,12 @@ function SenderProfile({ senderId }: Props) {
             <div
               className={`${border} flex justify-center items-center px-[10px] py-[4px] text-[13px] font-medium leading-[13px] rounded-full border-[1px] bg-customGreen2`}
             >
-              {senderInfo?.height}cm
+              {otherProfile?.height}cm
             </div>
             <div
               className={`${border} flex justify-center items-center px-[10px] py-[4px] text-[13px] font-medium leading-[13px] rounded-full border-[1px] bg-customGreen2`}
             >
-              {senderInfo?.gender === 'M' ? '남자' : '여자'}
+              {otherProfile?.gender === 'M' ? '남자' : '여자'}
             </div>
           </div>
         </div>
@@ -102,7 +106,7 @@ function SenderProfile({ senderId }: Props) {
             <div
               className={`${border} flex justify-center items-center px-[10px] py-[4px] text-[13px] font-medium leading-[13px] rounded-full border-[1px] bg-customGreen2`}
             >
-              {senderInfo?.mbti}
+              {otherProfile?.mbti}
             </div>
           </div>
         </div>
@@ -111,4 +115,4 @@ function SenderProfile({ senderId }: Props) {
   );
 }
 
-export default SenderProfile;
+export default OtherPersonProfile;
