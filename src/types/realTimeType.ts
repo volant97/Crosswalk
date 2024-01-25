@@ -69,8 +69,6 @@ export type SendMessageType = {
   subscribe_room_id: string;
   user_uid: string | undefined;
   message: string;
-  congratulations_message: number;
-  total_chat_count: number;
   is_read: boolean;
 };
 
@@ -80,8 +78,6 @@ export type MessageType = {
   subscribe_room_id: string;
   user_uid: string;
   message: string;
-  congratulations_message: number;
-  total_chat_count: number;
   is_read: boolean;
 };
 
@@ -90,7 +86,5 @@ export type LastMessageDataType = {
   subscribe_room_id: string | null;
   user_uid: string | null;
   message: string | null;
-  congratulations_message: number | null;
-  total_chat_count: number | null;
   is_read: boolean;
 };

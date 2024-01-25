@@ -9,8 +9,6 @@ export const LastMessageState = atom<LastMessageDataType>({
     subscribe_room_id: null,
     user_uid: null,
     message: null,
-    congratulations_message: null,
-    total_chat_count: null,
     is_read: false
   }
 });

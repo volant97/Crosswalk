@@ -36,8 +36,6 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         subscribe_room_id: roomId,
         user_uid: getUid?.id,
         message: inputValue,
-        congratulations_message: 0,
-        total_chat_count: 0,
         is_read: false
       };
 
