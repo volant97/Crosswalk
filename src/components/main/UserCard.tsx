@@ -47,10 +47,17 @@ function UserCard({
         <div className={`relative card-front ${isFlipped ? 'hidden' : ''}`}>
           <div className="relative w-full aspect-[2/3]">
             <Image
-              className="rounded-[1.5rem]"
+              className="rounded-[1.5rem] object-cover"
               src={`/assets/avatar/avatar${avatar}.png`}
               alt="유저 아바타 이미지"
               fill
+            />
+            <Image
+              className="border-black-4 absolute right-[15px] bottom-[15px]"
+              src={'/assets/figmaImg/information.png'}
+              alt="information"
+              width={25}
+              height={25}
             />
             <div className="absolute flex flex-col gap-[10px] bottom-4 left-[24px]">
               <div className="flex items-end w-full gap-[4px]">
@@ -76,7 +83,16 @@ function UserCard({
         </div>
         <div className={`card-back ${isFlipped ? '' : 'hidden'}`}>
           <div className="relative w-full aspect-[2/3]">
-            <Image className="rounded-[1.5rem] blur-md" src={userImg} alt="유저 아바타 이미지" fill />
+            {/* Image 아바타 mt-[15px ]추가함 */}
+            <Image
+              className="rounded-[1.5rem] blur-[10px] opacity-60 mt-[15px] object-cover card-back-img "
+              src={userImg}
+              alt="유저 아바타 이미지"
+              fill
+            />
+            {/* <p className="text-customRed text-[90px] font-extrabold rotate-45 absolute top-[30%] right-[88%] ">
+              ::SCERET::
+            </p> */}
             <div className="absolute flex flex-col gap-[10px] bottom-[100px] left-[24px]">
               <div className="flex items-end w-full gap-[4px]">
                 <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
@@ -101,17 +117,17 @@ function UserCard({
               <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
               <div className="flex flex-row gap-[0.25rem] h-[26px] w-[270px]">
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10`}
                 >
                   {height}cm
                 </div>
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px]  rounded-[20px] border-[1px]`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px]  rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10`}
                 >
                   {gender === 'M' ? '남자' : '여자'}
                 </div>
                 <div
-                  className={`${border} flex justify-center items-center px-[12px] py-[4px]  text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]`}
+                  className={`${border} flex justify-center items-center px-[12px] py-[4px]  text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10`}
                 >
                   {mbti}
                 </div>
@@ -139,6 +155,7 @@ function UserCard({
           position: absolute;
           width: 100%;
           height: 100%;
+          object-fit: cover;
         }
       `}</style>
     </>
