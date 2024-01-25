@@ -34,49 +34,23 @@ const useAlertModal = () => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-1 ">
               <TiWarning size={50} />
-              {pathname === '/main' ? (
-                <>
-                  <p>마지막 카드입니다.</p>
-                  <p> 다시 처음으로 돌아갑니다!</p>
-                </>
-              ) : (
-                title
-              )}
+              {title}
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
-              {pathname === '/main' ? (
-                <form>
-                  <>
-                    <Button
-                      color="danger"
-                      variant="ghost"
-                      onPress={() => {
-                        onClose();
-                        setTitle('');
-                      }}
-                      className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
-                      type="submit"
-                    >
-                      <IoCheckmark size={50} />
-                    </Button>
-                  </>
-                </form>
-              ) : (
-                <>
-                  <Button
-                    color="danger"
-                    variant="ghost"
-                    onPress={() => {
-                      onClose();
-                      setTitle('');
-                    }}
-                    className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
-                    type="submit"
-                  >
-                    <IoCheckmark size={50} />
-                  </Button>
-                </>
-              )}
+              <>
+                <Button
+                  color="danger"
+                  variant="ghost"
+                  onPress={() => {
+                    onClose();
+                    setTitle('');
+                  }}
+                  className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
+                  type="submit"
+                >
+                  <IoCheckmark size={50} />
+                </Button>
+              </>
             </ModalFooter>
           </div>
         )}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Provider from '@/components/provider/Provider';
-import { Props } from '@/types/childrenPropsType';
+import { Props } from '@/types/lastMessageArrayType';
 
 export const metadata: Metadata = {
   title: 'Crosswalk',
