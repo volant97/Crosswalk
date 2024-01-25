@@ -54,7 +54,7 @@ export type ChatListType = {
   id: string;
   flirting_list_id: number;
   flirting_list: {
-    created_at: string;
+    created_at: Date;
     flirting_message: string;
     id: number;
     status: string;
