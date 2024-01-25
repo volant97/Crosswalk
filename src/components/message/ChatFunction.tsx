@@ -9,11 +9,17 @@ import { useRecoilState } from 'recoil';
 export default function ChatFunction() {
   const defaultMessageData = {
     // Todo created_at이 없었음
-    created_at: '',
+    // 기존 created_at : Date  수정 후 created_at : new Date()
+    created_at: new Date(),
     subscribe_room_id: '',
     user_uid: '',
     message: '',
-    is_read: false
+    is_read: false,
+    user_score: 0,
+    another_score: 0,
+    user_continual_count: 0,
+    another_continual_count: 0,
+    favorable_rating: 0
   };
 
   const [messageData, setMessageData] = useState<MessageType[]>([]);
