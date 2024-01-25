@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase-config';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 import { usePathname } from 'next/navigation';
-import { Props } from '@/types/childrenPropsType';
+import { Props } from '@/types/lastMessageArrayType';
 import { RegisterType } from '@/types/registerType';
 import Logout from './Logout';
 import Loading from './Loading';

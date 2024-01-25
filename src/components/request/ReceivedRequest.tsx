@@ -83,6 +83,7 @@ const ReceivedRequest = () => {
               <RequestCard
                 key={item.id}
                 listId={item.id}
+                senderId={item.sender_uid}
                 avatar={item.custom_users.avatar}
                 senderName={item.custom_users.name}
                 age={item.custom_users.age}
@@ -103,7 +104,3 @@ const ReceivedRequest = () => {
 };
 
 export default ReceivedRequest;
-
-// import { ScrollShadow } from '@nextui-org/react';
-//   <ScrollShadow size={100} hideScrollBar className="w-[300px] h-[800px]"></ScrollShadow>
-//   <h1 className="flex  text-xl border-2 border-black">받은 요청 {flirtingData.length}건</h1>

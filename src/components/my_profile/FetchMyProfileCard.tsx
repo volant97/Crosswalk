@@ -8,6 +8,7 @@ import { isUserState } from '@/recoil/auth';
 import MyCard from './MyCard';
 import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
+import Link from 'next/link';
 
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
@@ -29,7 +30,7 @@ function FetchMyProfileCard() {
     try {
       await postRegister(myUid, userInfo);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   const updateProfile = async () => {
@@ -63,6 +64,11 @@ function FetchMyProfileCard() {
             </div>
           );
         })}
+      <Link href={'/customer-service/contact'}>
+        <div className="flex justify-end mt-[10px] pr-[10px] cursor-pointer">
+          <p className="text-gray-888">고객센터</p>
+        </div>
+      </Link>
     </div>
   );
 }

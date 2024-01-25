@@ -42,12 +42,12 @@ function Interest() {
         interest: activeStates
       }
     }));
-    console.log('!!!!!Interest', register);
+    // console.log('!!!!!Interest', register);
     router.push('#imgUpload');
   };
 
   useEffect(() => {
-    console.log('activeStates~~ : ', activeStates);
+    // console.log('activeStates~~ : ', activeStates);
   }, [activeStates]);
 
   return (

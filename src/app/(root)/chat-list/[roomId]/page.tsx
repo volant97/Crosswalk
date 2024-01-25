@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import SignalOffModal from '@/components/common/modal/SignalOffModal';
 import Page from '@/components/layout/Page';

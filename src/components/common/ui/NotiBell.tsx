@@ -129,7 +129,7 @@ function NotiBell() {
               // 알림있음
               <Image
                 src="/assets/figmaImg/redDot.png"
-                alt="red dot"
+                alt="new notification"
                 width={8}
                 height={8}
                 className="absolute top-0 right-0"

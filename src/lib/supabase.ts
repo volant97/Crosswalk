@@ -26,6 +26,45 @@ export interface Database {
           }
         ];
       };
+      contact: {
+        Row: {
+          category: string | null;
+          content: string | null;
+          created_at: string;
+          email: string | null;
+          email_agree: boolean | null;
+          gender: Database['public']['Enums']['GenderType'] | null;
+          id: number;
+          is_solved: boolean;
+          name: string | null;
+          uid: string | null;
+        };
+        Insert: {
+          category?: string | null;
+          content?: string | null;
+          created_at?: string;
+          email?: string | null;
+          email_agree?: boolean | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          id?: number;
+          is_solved?: boolean;
+          name?: string | null;
+          uid?: string | null;
+        };
+        Update: {
+          category?: string | null;
+          content?: string | null;
+          created_at?: string;
+          email?: string | null;
+          email_agree?: boolean | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          id?: number;
+          is_solved?: boolean;
+          name?: string | null;
+          uid?: string | null;
+        };
+        Relationships: [];
+      };
       custom_users: {
         Row: {
           age: number | null;
@@ -126,33 +165,44 @@ export interface Database {
       };
       message: {
         Row: {
-          congratulations_message: number;
           created_at: string;
+          favorable_rating: number;
           id: number;
           is_read: boolean;
           message: string;
-          total_chat_count: number;
+          score: number;
+          subscribe_room_id: string;
           user_uid: string;
         };
         Insert: {
-          congratulations_message?: number;
           created_at?: string;
+          favorable_rating?: number;
           id?: number;
           is_read?: boolean;
           message: string;
-          total_chat_count?: number;
+          score?: number;
+          subscribe_room_id: string;
           user_uid?: string;
         };
         Update: {
-          congratulations_message?: number;
           created_at?: string;
+          favorable_rating?: number;
           id?: number;
           is_read?: boolean;
           message?: string;
-          total_chat_count?: number;
+          score?: number;
+          subscribe_room_id?: string;
           user_uid?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'message_subscribe_room_id_fkey';
+            columns: ['subscribe_room_id'];
+            isOneToOne: false;
+            referencedRelation: 'chat_room';
+            referencedColumns: ['id'];
+          }
+        ];
       };
     };
     Views: {
@@ -163,7 +213,7 @@ export interface Database {
     };
     Enums: {
       GenderType: 'M' | 'F';
-      'STATUS Type': 'UNREAD' | 'READ' | 'DECLINE' | 'ACCEPT';
+      'STATUS Type': 'UNREAD' | 'READ' | 'DECLINE' | 'ACCEPT' | 'SOULMATE';
     };
     CompositeTypes: {
       [_ in never]: never;

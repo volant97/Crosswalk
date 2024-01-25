@@ -1,52 +1,77 @@
 'use client';
 import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { getChatList, getLastMessage, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import { getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import { supabase } from '@/lib/supabase-config';
+import { LastMessageState } from '@/recoil/lastMessageData';
 import { UserState, userState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import useAlertModal from '@/components/common/modal/AlertModal';
+import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
   const [getUid, setGetUid] = useRecoilState<UserState>(userState);
-  const [lastMessage, setLastMessage] = useState<MessageType[]>([]);
+  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
+  const [lastMsg, setLastMsg] = useState<LastMessageArrayType>();
   const router = useRouter();
-  async function data() {
+  const { openModal, AlertModal } = useAlertModal();
+
+  const fetchChatListData = async () => {
     try {
-      const data = await getChatList();
-      console.log(data);
-      setChatList(data);
+
+      const chatListData = await getChatList();
+      setChatList(chatListData);
+      const roomIds = chatListData.map((item) => item.id);
+
+      const lastMessageArray = await fetchLastMessages(roomIds);
+      setLastMsg(lastMessageArray);
+      console.log('lastMsg in fetchChatListData', lastMsg);
+
     } catch (error) {
-      alert('서버와의 통신을 실패했습니다.');
+      console.log('error in fetchChatList', error);
+      alert('서버와의 통신을 실패했습니다.2');
     }
-  }
-  async function lastData(subscribe_room_id: string) {
-    try {
-      const data = await getLastMessage(subscribe_room_id);
-      console.log(data);
-      console.log(data[0]);
-      const test = data[0];
-      setLastMessage((prev: any) => [...prev, test]);
-    } catch (error) {
-      alert('서버와의 통신을 실패했습니다.');
+  };
+
+  async function fetchLastMessages(roomIds: string[]): Promise<LastMessageArrayType> {
+    let lastMessageArray = [];
+
+    for (let i = 0; i < roomIds.length; i++) {
+      const { data: getLastMessage } = await supabase
+        .from('message')
+        .select('*')
+        .eq('subscribe_room_id', roomIds[i])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      lastMessageArray.push(getLastMessage);
     }
+    return lastMessageArray;
   }
 
   useEffect(() => {
     subscribeChatList((payload: any) => {
-      console.log(payload);
-      data();
+      console.log('payload:', payload);
+      fetchChatListData();
     });
-    data();
-
+    fetchChatListData();
     return () => {
       untrackChatList();
     };
-  }, [getUid?.id]);
+  }, []);
+
+  useEffect(() => {
+    // console.log('lastMsg가 업데이트되었습니다');
+  }, [lastMsg]);
+
+  console.log('chatList:', chatList);
+  console.log('lastMessage:', lastMessageData);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
@@ -65,20 +90,23 @@ export default function ChatListPage() {
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT') {
       router.push(`/chat-list/${linkId}`);
-    } else return alert('신호 대기 중 입니다!');
+    } else return openModal('신호 대기중입니다!');
   };
+
+  console.log('lastMsg', lastMsg);
+
   return (
     <Page noNavBar>
       {!chatList ? (
         <div className="h-screen flex items-center justify-center">대화할수있는 방이 없어요</div>
       ) : (
-        <ul className="px-5">
+        <ul className=" ">
           {chatList?.map((list, idx) => {
             if (getUid?.id === list.flirting_list.sender_uid.uid) {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0] px-[20px]"
                   onClick={() => {
                     routerLink(list.id, list.flirting_list.status);
                   }}
@@ -90,17 +118,26 @@ export default function ChatListPage() {
                       list.flirting_list.receiver_uid.uid
                     )}
                   </div>
-                  <div className="w-[12.5rem] ml-[-60px]">
+                  <div className="w-[12.5rem]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMessage[0] && list.id === lastMessage[0]?.subscribe_room_id
-                        ? lastMessage[0]?.message
-                        : list.flirting_list.flirting_message}
-                      {/* {list.flirting_list.flirting_message} */}
+                      {lastMsg && lastMsg[idx] ? (
+                        lastMsg[idx]?.message
+                      ) : (
+                        <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
+                          상대방의 수락을 기다리고 있어요.
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-start">
-                    <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
+                  <div className="flex flex-col items-end w-[55px]">
+                    <span className="text-xs text-gray-AAA">
+                      {lastMsg && lastMsg[idx] ? (
+                        formatDate(String(lastMsg[idx]?.created_at))
+                      ) : (
+                        <div className="text-xs text-gray-AAA">대기중</div>
+                      )}
+                    </span>
                     <div></div>
                   </div>
                 </li>
@@ -109,7 +146,7 @@ export default function ChatListPage() {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-4 justify-between cursor-pointer"
+                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer px-[20px] transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     routerLink(list.id, list.flirting_list.status);
                   }}
@@ -121,14 +158,26 @@ export default function ChatListPage() {
                       list.flirting_list.sender_uid.uid
                     )}
                   </div>
-                  <div className="w-[12.5rem] ml-[-60px]">
+                  <div className="w-[12.5rem] ">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {list.flirting_list.flirting_message}
+                      {lastMsg && lastMsg[idx] ? (
+                        lastMsg[idx]?.message
+                      ) : (
+                        <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
+                          회원님의 수락을 기다리고 있어요.
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-start">
-                    <span className="text-xs text-gray-AAA">{formatDate(list.flirting_list.created_at)}</span>
+                  <div className="flex flex-col items-end w-[55px]">
+                    <span className="text-xs text-gray-AAA">
+                      {lastMsg && lastMsg[idx] ? (
+                        formatDate(String(lastMsg[idx]?.created_at))
+                      ) : (
+                        <div className="text-xs text-gray-AAA">대기중</div>
+                      )}
+                    </span>
                     <div></div>
                   </div>
                 </li>
@@ -137,6 +186,7 @@ export default function ChatListPage() {
           })}
         </ul>
       )}
+      {AlertModal()}
     </Page>
   );
 }

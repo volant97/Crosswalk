@@ -2,13 +2,15 @@
 
 import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { LastMessageState } from '@/recoil/lastMessageData';
 
 interface ChatProps {
   roomId: string;
@@ -31,6 +33,8 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [userContinualCount, setUserContinualCount] = useState<number>(0);
 
   const favorableRatingGoal = 100;
+  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
+  const lastMessage = messageData[messageData.length - 1];
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -70,7 +74,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         user_continual_count: myContinualCount,
         another_continual_count: userContinualCount,
         is_read: false,
-        favorable_rating: favorableRating
+        favorable_rating: favorableRating,
       };
 
       if (sendData.message === '') {
@@ -123,6 +127,9 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+    console.log('messageData:', messageData);
+    setLastMessageData(lastMessage);
+    console.log('lastMessageData Recoil:', lastMessageData);
   }, [messageData]);
   useEffect(() => {
     if (prevMessage) {

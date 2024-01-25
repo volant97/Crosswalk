@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -30,15 +31,15 @@ function FetchUserProfile({ userId }: Props) {
 
   const getUerCards = async () => {
     try {
-      console.log('1');
+      // console.log('1');
       if (!myUid) return;
       if (!myGender) return;
-      console.log('2');
+      // console.log('2');
       const userCards = await getUnMatchedData(myUid, myGender);
-      console.log('3');
+      // console.log('3');
       if (!userCards) return;
       setUserCards(userCards);
-      console.log('userCards', userCards);
+      // console.log('userCards', userCards);
     } catch (error) {
       console.error('Error fetching my posts:', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
@@ -50,7 +51,7 @@ function FetchUserProfile({ userId }: Props) {
 
   const filteredCards = userCards?.find((item) => item?.uid == userId);
   const filteredCardslength = userCards?.length;
-  console.log('filteredCardslength', filteredCardslength);
+  // console.log('filteredCardslength', filteredCardslength);
 
   return (
     <div className="w-full px-[1.5rem] py-[2rem]">

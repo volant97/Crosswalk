@@ -4,6 +4,7 @@ import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/type
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { MessageType, SendMessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
+import { format } from 'date-fns';
 
 // const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -11,7 +12,7 @@ export async function getAllData(): Promise<RegisterType[]> {
   const { data, error } = await supabase.from('custom_users').select().returns<RegisterType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -21,7 +22,7 @@ export async function postRegister(uid: any, registerData: any) {
   const { data, error } = await supabase.from('custom_users').update(registerData).eq('uid', uid).select();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -31,7 +32,7 @@ export async function getFlirtingRequestData() {
   const { data, error } = await supabase.from('flirting_list').select('*').returns<FlirtingListType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 
@@ -54,7 +55,7 @@ export async function getNotificationDetail(): Promise<FlirtingListInNotificatio
 export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user1Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.sender_uid)
     .returns();
   if (error) {
@@ -67,7 +68,7 @@ export async function getUser1NameNotification(notificationData: FlirtingListInN
 export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user2Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.receiver_uid)
     .returns();
   if (error) {
@@ -104,7 +105,7 @@ export async function sendFlirting(senderUid: string, message: string, recevierU
   });
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 }
@@ -117,7 +118,7 @@ export async function getChatList(): Promise<ChatListType[]> {
     .returns<ChatListType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
@@ -167,21 +168,21 @@ export async function getUnMatchedData(myUid: string, gender: string) {
   const uidsReceivedFlirted = receivedUserData?.map((item) => {
     return item.sender_uid;
   });
-  console.log('uidsreceivedFlirted', uidsReceivedFlirted);
+  // console.log('uidsreceivedFlirted', uidsReceivedFlirted);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender일 때)
   const { data: MatchedUser1 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_sender_uid_fkey(*)')
-    .in('flirting_list.status', ['ACCEPT']);
-  console.log('MatchedUser', MatchedUser1);
+    .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
+  // console.log('MatchedUser', MatchedUser1);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 receiver일 때)
   const { data: MatchedUser2 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)')
-    .in('flirting_list.status', ['ACCEPT']);
-  console.log('MatchedUser', MatchedUser2);
+    .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
+  // console.log('MatchedUser', MatchedUser2);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender) + (현재 유저가 receiver)
   const MatchedUser = [...(MatchedUser1 || []), ...(MatchedUser2 || [])];
@@ -197,9 +198,9 @@ export async function getUnMatchedData(myUid: string, gender: string) {
 
   const filteredUserDataWithoutMatchedUser =
     filteredUserData?.filter((item) => !matchedUserUids.includes(item.uid)) || [];
-  console.log('test', filteredUserDataWithoutMatchedUser);
+  // console.log('test', filteredUserDataWithoutMatchedUser);
   const users = filteredUserDataWithoutMatchedUser;
-  console.log('users', users);
+  // console.log('users', users);
 
   if (error) {
     console.error('Error getUnMatchedData', error);
@@ -217,51 +218,63 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
     .returns<MessageType[]>();
 
   if (error || null) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
   return data;
 }
-export async function getLastMessage(subscribe_room_id: string): Promise<MessageType[]> {
-  const { data, error } = await supabase
-    .from('message')
-    .select('*')
-    .eq('subscribe_room_id', subscribe_room_id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .returns<MessageType[]>();
 
-  if (error || null) {
-    console.log('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+//채팅리스트에서 메세지 all 가져오기
+export async function getMessageChatList(subscribe_room_id: string[]): Promise<any> {
+  const roomIds = subscribe_room_id;
+
+  let lastMessageArray = [];
+  for (let i = 0; i < roomIds.length; i++) {
+    console.log('!!!!', i);
+    let { data, error } = await supabase
+      .from('message')
+      .select('*')
+      .eq('subscribe_room_id', roomIds[i])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .returns<MessageType[]>()
+      .maybeSingle();
+    console.log('data api', data);
+    // if (error || null) {
+    //   console.error('Error creating a posts data', error);
+    //   throw new Error('error while fetching posts data');
+    // }
+
+    lastMessageArray.push(data);
   }
-  return data;
+  return lastMessageArray;
 }
 
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
-  console.log(message_data);
+  // console.log(message_data);
   if (error) {
-    console.log('Error creating a posts data', error);
+    console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
 }
 export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
   supabase
-    .channel('chat_room')
+    .channel('chatlist')
     .on(
       'postgres_changes',
       {
         event: '*',
         schema: 'public',
-        table: 'chat_room'
+        table: 'message'
       },
       callback
     )
     .subscribe();
 }
+
 export async function untrackChatList() {
-  const chatList = supabase.channel('chat_room');
+  const chatList = supabase.channel('chatlist');
   await chatList.subscribe();
   await chatList.untrack();
 }
@@ -284,4 +297,66 @@ export async function untrackChatRoom(roomId: string) {
   const chatRoom = supabase.channel(roomId);
   await chatRoom.subscribe();
   await chatRoom.untrack();
+}
+
+// navbar 메세지 알림관련 api 통신로직
+export async function subscribeMessageForNotification(callback: SpecificSubscribeFlirtingListCallbackType) {
+  console.log('야!!');
+  supabase
+    .channel('message_notification')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'message'
+      },
+      callback
+    )
+    .subscribe();
+}
+
+export async function untrackMessageForNotification() {
+  const chatList = supabase.channel('message_notification');
+  await chatList.subscribe();
+  await chatList.untrack();
+}
+
+export async function getChatListForMessageNotification(): Promise<ChatListType[]> {
+  const { data, error } = await supabase
+    .from('chat_room')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    .order('flirting_list(created_at)', { ascending: false })
+    .returns<ChatListType[]>();
+
+  if (error || null) {
+    console.error('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+export async function getLastMessageForMessageNotification(subscribe_room_id: string[]): Promise<any> {
+  const roomIds = subscribe_room_id;
+
+  let lastMessageArray = [];
+  for (let i = 0; i < roomIds.length; i++) {
+    console.log('!!!!', i);
+    let { data, error } = await supabase
+      .from('message')
+      .select('*')
+      .eq('subscribe_room_id', roomIds[i])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .returns<MessageType[]>()
+      .maybeSingle();
+    console.log('data556', data);
+    // if (error || null) {
+    //   console.error('Error creating a posts data', error);
+    //   throw new Error('error while fetching posts data');
+    // }
+
+    lastMessageArray.push(data);
+  }
+  return lastMessageArray;
 }

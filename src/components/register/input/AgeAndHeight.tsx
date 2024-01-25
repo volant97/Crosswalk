@@ -32,7 +32,7 @@ function AgeAndHeight() {
         height: Number(height)
       }
     }));
-    console.log('!!!!!AgeAndHeight', register);
+    // console.log('!!!!!AgeAndHeight', register);
     router.push('#interest');
   };
 
