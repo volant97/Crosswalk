@@ -13,11 +13,27 @@ import {
 import Image from 'next/image';
 import { HiOutlineEmojiSad } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
+import useAlertModal from './AlertModal';
+import { changeStatusToDecline } from '@/lib/api/requestApi';
 
-function SignalOffModal() {
+interface SignalOffModalProps {
+  flirting_list_id?: number;
+}
+
+function SignalOffModal({ flirting_list_id }: SignalOffModalProps) {
+  const { openModal } = useAlertModal();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
   const router = useRouter();
+  const exitChatRoom = async () => {
+    try {
+      if (flirting_list_id) {
+        await changeStatusToDecline(flirting_list_id);
+      }
+    } catch {
+      openModal('서버와의 통신 중 에러가 발생했습니다.');
+    }
+  };
 
   return (
     <div>
@@ -59,7 +75,8 @@ function SignalOffModal() {
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
                   onPress={() => {
-                    onClose;
+                    onClose();
+                    exitChatRoom();
                     router.back();
                   }}
                   className="w-[15rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-medium"

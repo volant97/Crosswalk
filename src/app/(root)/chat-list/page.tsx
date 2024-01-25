@@ -25,6 +25,7 @@ export default function ChatListPage() {
 
   const fetchChatListData = async () => {
     try {
+
       const chatListData = await getChatList();
       setChatList(chatListData);
       const roomIds = chatListData.map((item) => item.id);
@@ -32,6 +33,7 @@ export default function ChatListPage() {
       const lastMessageArray = await fetchLastMessages(roomIds);
       setLastMsg(lastMessageArray);
       console.log('lastMsg in fetchChatListData', lastMsg);
+
     } catch (error) {
       console.log('error in fetchChatList', error);
       alert('서버와의 통신을 실패했습니다.2');
@@ -110,8 +112,12 @@ export default function ChatListPage() {
                     routerLink(list.id, list.flirting_list.status);
                   }}
                 >
-                  <div className="flex items-center ">
-                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.receiver_uid.avatar)}
+                  <div className="flex items-center">
+                    {ChatStatusColor(
+                      list.flirting_list.status,
+                      list.flirting_list.receiver_uid.avatar,
+                      list.flirting_list.receiver_uid.uid
+                    )}
                   </div>
                   <div className="w-[12.5rem]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
@@ -147,7 +153,11 @@ export default function ChatListPage() {
                   }}
                 >
                   <div className="flex items-center">
-                    {ChatStatusColor(list.flirting_list.status, list.flirting_list.sender_uid.avatar)}
+                    {ChatStatusColor(
+                      list.flirting_list.status,
+                      list.flirting_list.sender_uid.avatar,
+                      list.flirting_list.sender_uid.uid
+                    )}
                   </div>
                   <div className="w-[12.5rem] ">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
