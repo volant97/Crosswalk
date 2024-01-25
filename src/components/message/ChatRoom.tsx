@@ -1,6 +1,12 @@
 'use client';
 
-import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
+import {
+  changeMessageToRead,
+  getMessage,
+  postMessage,
+  subscribeChatRoom,
+  untrackChatRoom
+} from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
 import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
@@ -93,6 +99,15 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       alert('서버와의 통신을 실패했습니다.');
     }
   }
+  async function handleToRead(subscribe_room_id: string) {
+    try {
+      if (getUid) {
+        await changeMessageToRead(getUid.id, subscribe_room_id);
+      }
+    } catch (error) {
+      alert('서버와의 통신을 실패했습니다.');
+    }
+  }
 
   /**호감도 % 계산 및 100% 달성시 축하메시지 상태 true로 변경 */
   const increaseFavorableRating = (myScore: number, userScore: number) => {
@@ -111,9 +126,11 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     // 컴포넌트 마운트 시에 구독
     subscribeChatRoom(roomId, (payload: any) => {
       getData(roomId);
+      handleToRead(roomId);
     });
 
     getData(roomId);
+    handleToRead(roomId);
     // 컴포넌트 언마운트 시에 구독 해제
     return () => {
       untrackChatRoom(roomId);
