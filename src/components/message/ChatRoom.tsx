@@ -2,7 +2,7 @@
 
 import { getMessage, postMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { Avatar } from '@nextui-org/react';
 import { format, parseISO } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -10,6 +10,8 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
+import { useRecoilState } from 'recoil';
+import { LastMessageState } from '@/recoil/lastMessageData';
 
 interface ChatProps {
   roomId: string;
@@ -21,6 +23,8 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
+  const lastMessage = messageData[messageData.length - 1];
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -32,8 +36,6 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         subscribe_room_id: roomId,
         user_uid: getUid?.id,
         message: inputValue,
-        congratulations_message: 0,
-        total_chat_count: 0,
         is_read: false
       };
 
@@ -71,9 +73,10 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+    console.log('messageData:', messageData);
+    setLastMessageData(lastMessage);
+    console.log('lastMessageData Recoil:', lastMessageData);
   }, [messageData]);
-
-  if (!roomInfo?.flirting_list.receiver_uid.avatar) return;
 
   return (
     <>
@@ -105,11 +108,19 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
               {idx === 0 ? DisplayDateTime(data.created_at) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                  <Avatar
-                    size="sm"
-                    src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.receiver_uid.avatar}-circle.png`}
-                    alt="유저 아바타 이미지"
-                  />
+                  {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
+                    <Avatar
+                      size="sm"
+                      src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.sender_uid.avatar}-circle.png`}
+                      alt="유저 아바타 이미지"
+                    />
+                  ) : (
+                    <Avatar
+                      size="sm"
+                      src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.receiver_uid.avatar}-circle.png`}
+                      alt="유저 아바타 이미지"
+                    />
+                  )}
                   <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-48">
                     <h1 className="font-medium break-all">{data.message}</h1>
                   </div>

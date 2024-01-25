@@ -13,8 +13,6 @@ export default function ChatFunction() {
     subscribe_room_id: '',
     user_uid: '',
     message: '',
-    congratulations_message: 0,
-    total_chat_count: 0,
     is_read: false
   };
 

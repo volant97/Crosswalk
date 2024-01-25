@@ -69,17 +69,22 @@ export type SendMessageType = {
   subscribe_room_id: string;
   user_uid: string | undefined;
   message: string;
-  congratulations_message: number;
-  total_chat_count: number;
   is_read: boolean;
 };
 
+// TODO 01/24 03:09 created_at의 type을 string에서 Date로 바꿈
 export type MessageType = {
-  created_at: string;
+  created_at: Date;
   subscribe_room_id: string;
   user_uid: string;
   message: string;
-  congratulations_message: number;
-  total_chat_count: number;
+  is_read: boolean;
+};
+
+export type LastMessageDataType = {
+  created_at: Date;
+  subscribe_room_id: string | null;
+  user_uid: string | null;
+  message: string | null;
   is_read: boolean;
 };
