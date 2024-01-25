@@ -15,7 +15,7 @@ import { UserState, userState } from '@/recoil/user';
 
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
-  const myInfo = registerData?.profile;
+  const myInfo: any = registerData?.profile;
   const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
   const [file, setFile] = useState<any | null>('test');
   const { openMbtiModal, mbtiModal } = MbtiModal();
@@ -24,6 +24,9 @@ function EditMyProfile() {
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
   const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | undefined>(myInfo?.height || undefined);
+
+  const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
+  const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -53,6 +56,12 @@ function EditMyProfile() {
     e.preventDefault();
   };
 
+  const updateGender = (gender: string) => {
+    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
+    const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
+    return avatarNumbers[randomIndex];
+  };
+
   return (
     <div className="flex flex-col items-center justify-start h-full">
       <form className="w-[320px] h-[67dvh] my-[25px] overflow-y-auto scrollbar-hide" onSubmit={onSubmitHandelr}>
@@ -76,7 +85,7 @@ function EditMyProfile() {
                     ...prevData,
                     profile: {
                       ...prevData.profile,
-                      avatar: Math.floor(Math.random() * 15)
+                      avatar: updateGender(myInfo?.gender)
                     }
                   }));
                 }}

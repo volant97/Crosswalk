@@ -15,7 +15,8 @@ type Props = {
   userImg: string;
 };
 
-const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
+const border =
+  'border-2 border-solid border-white text-white px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 function UserCard({
   age,
@@ -37,6 +38,7 @@ function UserCard({
 
   useEffect(() => {
     setIsFlipped(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -75,7 +77,7 @@ function UserCard({
         <div className={`card-back ${isFlipped ? '' : 'hidden'}`}>
           <div className="relative w-full aspect-[2/3]">
             <Image className="rounded-[1.5rem] blur-md" src={userImg} alt="유저 아바타 이미지" fill />
-            <div className="absolute flex flex-col gap-[10px] bottom-[150px] left-[24px]">
+            <div className="absolute flex flex-col gap-[10px] bottom-[100px] left-[24px]">
               <div className="flex items-end w-full gap-[4px]">
                 <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
                 <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
@@ -95,26 +97,21 @@ function UserCard({
                 })}
               </div>
             </div>
-            <div className="absolute bottom-[60px] flex flex-col gap-[8px] my-[1.5rem] h-[52px] left-[24px]">
+            <div className="absolute bottom-[5px] flex flex-col gap-[8px] my-[1.5rem] h-[52px] left-[24px]">
               <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
-              <div className="flex flex-row gap-[0.25rem] h-[26px]">
+              <div className="flex flex-row gap-[0.25rem] h-[26px] w-[270px]">
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px] bg-customGreen2`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]`}
                 >
                   {height}cm
                 </div>
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px]  rounded-[20px] border-[1px] bg-customGreen2`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px]  rounded-[20px] border-[1px]`}
                 >
                   {gender === 'M' ? '남자' : '여자'}
                 </div>
-              </div>
-            </div>
-            <div className="absolute bottom-4 flex flex-col h-[52px] left-[24px] ">
-              <h1 className="text-[18px] leading-[18px] font-medium">MBTI</h1>
-              <div className="flex flex-row gap-[0.25rem] h-[26px] mt-[0.5rem] ">
                 <div
-                  className={`${border} flex justify-center items-center px-[12px] py-[4px]  text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px] bg-customGreen2`}
+                  className={`${border} flex justify-center items-center px-[12px] py-[4px]  text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]`}
                 >
                   {mbti}
                 </div>

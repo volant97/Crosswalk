@@ -88,6 +88,7 @@ function FetchUserCards() {
 
   useEffect(() => {
     getUserCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   useEffect(() => {
@@ -121,8 +122,8 @@ function FetchUserCards() {
   };
 
   return (
-    <div className="w-full">
-      {isLoading === false && <SkeletonMain />}
+    <div className="relative w-full">
+      {isLoading === true && <SkeletonMain />}
       <SlideEffect isHateEffect={isHateEffect} />
       <Swiper
         modules={[Navigation]}
@@ -135,7 +136,7 @@ function FetchUserCards() {
         onSwiper={(swiper: any) => {
           setSwiper(swiper);
         }}
-        className="!px-[1.5rem] !py-[2rem]"
+        className="!px-[1.5rem] !pb-[2rem]"
         navigation={true}
         touchRatio={1}
         loop={true}
@@ -144,7 +145,7 @@ function FetchUserCards() {
       >
         {userCards?.map((item: any) => (
           <SwiperSlide
-            className="min-h-[34rem] md:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+            className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
             key={item.uid}
           >
             <UserCard
