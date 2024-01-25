@@ -19,9 +19,14 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   const [inputValue, setInputValue] = useState('');
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  // const [prevMessage, setPrevMessage] = useState<MessageType>();
+  const [prevMessage, setPrevMessage] = useState<MessageType>();
 
+  const [favorableRating, setFavorableRating] = useState<number>(0);
   const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
+  const [myScore, setMyScore] = useState<number>(0);
+  const [myContinualCount, setMyContinualCount] = useState<number>(0);
+  const [userScore, setUserScore] = useState<number>(0);
+  const [userContinualCount, setUserContinualCount] = useState<number>(0);
 
   const favorableRatingGoal = 100;
 
@@ -29,64 +34,51 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     setInputValue(e.target.value);
   };
 
-  const prevMessage = messageData[messageData.length - 1];
+  const calcFavorable = async () => {
+    if (prevMessage?.user_uid === getUid?.id) {
+      // console.log('상대 초기화');
+      setUserContinualCount(0);
+      if (myContinualCount < 3) {
+        setMyScore(Number(myScore + 1));
+        setFavorableRating(myScore + userScore + 1);
+        // increaseFavorableRating(myScore, userScore);
+      }
+      setMyContinualCount(myContinualCount + 1);
+    } else {
+      // console.log('상대 초기화');
+      // console.log('어째서 실행이 안되지?');
+      setMyContinualCount(0);
+      if (userContinualCount < 3) {
+        setUserScore(userScore + 1);
+        setFavorableRating(myScore + userScore + 1);
+        // increaseFavorableRating(myScore, userScore);
+      }
+      setUserContinualCount(userContinualCount + 1);
+    }
 
-  const getScores = () => {
-    // if (prevMessage?.user_uid === getUid?.id) {
-    //   console.log('상대 초기화');
-    //   setUserContinualCount(0);
-    //   if (myContinualCount < 3) {
-    //     setMyScore(myScore + 1);
-    //     increaseFavorableRating(myScore, userScore);
-    //   }
-    //   setMyContinualCount(myContinualCount + 1);
-    // } else {
-    //   console.log('상대 초기화');
-    //   console.log('어째서 실행이 안되지?');
-    //   setMyContinualCount(0);
-    //   if (userContinualCount < 3) {
-    //     setUserScore(userScore + 1);
-    //     increaseFavorableRating(myScore, userScore);
-    //   }
-    //   setUserContinualCount(userContinualCount + 1);
-    // }
-
-    const userScore = prevMessage.user_score + 1;
-    const anotherScore = prevMessage.another_score + 1;
-    const userContinualCount = prevMessage.user_continual_count + 1;
-    const anotherContinualCount = prevMessage.another_continual_count + 1;
-    const favorable_rating = prevMessage.favorable_rating + 1;
-
-    return {
-      userScore,
-      anotherScore,
-      userContinualCount,
-      anotherContinualCount,
-      favorable_rating
-    };
+    // await handleSendMessage();
   };
 
   const handleSendMessage = async () => {
     if (roomInfo?.flirting_list.status === 'ACCEPT') {
-      if (inputValue === '') {
-        return alert('메세지를 입력해주세요');
-      }
-
-      const { anotherContinualCount, anotherScore, favorable_rating, userContinualCount, userScore } = getScores();
       const sendData = {
         subscribe_room_id: roomId,
         user_uid: getUid?.id,
         message: inputValue,
-        user_score: userScore,
-        another_score: anotherScore,
-        user_continual_count: userContinualCount,
-        another_continual_count: anotherContinualCount,
+        user_score: myScore,
+        another_score: userScore,
+        user_continual_count: myContinualCount,
+        another_continual_count: userContinualCount,
         is_read: false,
-        favorable_rating: favorable_rating
+        favorable_rating: favorableRating
       };
 
+      if (sendData.message === '') {
+        return alert('메세지를 입력해주세요');
+      }
+
       await postMessage(sendData);
-      setInputValue('');
+      await setInputValue('');
     }
   };
   async function getData(subscribe_room_id: string) {
@@ -99,17 +91,17 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
   }
 
   /**호감도 % 계산 및 100% 달성시 축하메시지 상태 true로 변경 */
-  // const increaseFavorableRating = (myScore: number, userScore: number) => {
-  //   console.log('호감도 계산 진행 중');
-  //   console.log('myScore', myScore);
-  //   console.log('userScore', userScore);
-  //   const totalScore = myScore + userScore + 1;
-  //   const rating = (totalScore / favorableRatingGoal) * 100;
-  //   if (rating >= 100) {
-  //     return setCongratulationsMessage(true);
-  //   }
-  //   setFavorableRating(Math.floor(rating));
-  // };
+  const increaseFavorableRating = (myScore: number, userScore: number) => {
+    // console.log('호감도 계산 진행 중');
+    // console.log('myScore', myScore);
+    // console.log('userScore', userScore);
+    const totalScore = myScore + userScore + 1;
+    const rating = (totalScore / favorableRatingGoal) * 100;
+    if (rating >= 100) {
+      return setCongratulationsMessage(true);
+    }
+    setFavorableRating(Math.floor(rating));
+  };
 
   useEffect(() => {
     // 컴포넌트 마운트 시에 구독
@@ -126,27 +118,38 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
 
   useEffect(() => {
     // 새로운 채팅이 들어올 떄 스크롤을 맨 아래로 이동
-    // setPrevMessage(messageData[messageData.length - 1]);
+    setPrevMessage(messageData[messageData.length - 1]);
 
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messageData]);
 
-  // useEffect(() => {
-  //   if (prevMessage) {
-  //     setFavorableRating(prevMessage.favorable_rating);
-  //     setMyScore(prevMessage.user_score);
-  //     setUserScore(prevMessage.another_score);
-  //     setMyContinualCount(prevMessage.user_continual_count);
-  //     setUserContinualCount(prevMessage.another_continual_count);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (prevMessage) {
+      setFavorableRating(prevMessage.favorable_rating);
+      setMyScore(prevMessage.user_score);
+      setUserScore(prevMessage.another_score);
+      setMyContinualCount(prevMessage.user_continual_count);
+      setUserContinualCount(prevMessage.another_continual_count);
+    }
+  }, [prevMessage]);
 
   // console.log(prevMessage);
   // console.log(favorableRating);
 
-  console.log('!!!', prevMessage);
+  useEffect(() => {
+    console.log('myScore', myScore);
+    console.log('myContinualCount', myContinualCount);
+    console.log('userScore', userScore);
+    console.log('userContinualCount', userContinualCount);
+    console.log('favorableRating', favorableRating);
+    console.log('=======================');
+  }, [myContinualCount, userContinualCount]);
+
+  const handleSendBtn = async () => {
+    calcFavorable;
+  };
 
   return (
     <>
@@ -210,7 +213,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          handleSendMessage();
+          calcFavorable();
         }}
         className="absolute ml-4 flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-[1.8rem] border-1 border-gray-DDD border-solid rounded-full "
       >
