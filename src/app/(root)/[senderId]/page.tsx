@@ -12,7 +12,7 @@ function ProfleDetailPage({ params }: Props) {
   const { senderId } = params;
 
   return (
-    <Page noBackMain>
+    <Page noBackMain noNavBar>
       <SenderProfile senderId={senderId} />
     </Page>
   );

@@ -16,7 +16,7 @@ type Props = {
 function RequestCard({ listId, senderId, avatar, senderName, age, message }: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]">
-      <Link className="flex items-center gap-[8px] self-stretch h-[42px] cursor-pointer" href={`request/${senderId}`}>
+      <Link className="flex items-center gap-[8px] self-stretch h-[42px] cursor-pointer" href={`/${senderId}`}>
         <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full">
           <Image
             className="rounded-full object-cover"

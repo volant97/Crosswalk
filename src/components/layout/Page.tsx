@@ -25,7 +25,7 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && !cs && <Header noNavBar />}
 
       {/* 상대 상세페이지 */}
-      {!noHeader && !noBack && !noNotiBell && !noNavBar && noBackMain && !cs && <Header noBackMain />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && !cs && <Header noNavBar noBackMain />}
 
       {/* 마이프로필 */}
       {!noHeader && !noBack && noNotiBell && !noNavBar && !noBackMain && cs && <Header noNotiBell cs />}
