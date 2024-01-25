@@ -55,7 +55,7 @@ export async function getNotificationDetail(): Promise<FlirtingListInNotificatio
 export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user1Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.sender_uid)
     .returns();
   if (error) {
@@ -68,7 +68,7 @@ export async function getUser1NameNotification(notificationData: FlirtingListInN
 export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user2Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.receiver_uid)
     .returns();
   if (error) {
