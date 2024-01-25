@@ -85,7 +85,7 @@ function UserCard({
           <div className="relative w-full aspect-[2/3]">
             {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
-              className="rounded-[1.5rem] blur-[10px] opacity-60 mt-[15px] object-cover card-back-img "
+              className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img "
               src={userImg}
               alt="유저 아바타 이미지"
               fill

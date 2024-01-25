@@ -25,6 +25,7 @@ import Image from 'next/image';
 
 import SlideEffect from './SlideEffect';
 import SkeletonMain from './SkeletonMain';
+import { truncate } from 'fs';
 
 function FetchUserCards() {
   // const searchParams = useSearchParams();
@@ -94,7 +95,6 @@ function FetchUserCards() {
   useEffect(() => {
     if (activeUserUids && isSwitchNextSlide === true && swiper) {
       swiper.slideNext();
-      setIsHateEffect(false);
     }
     return () => {
       setIsSwitchNextSlide(false);
@@ -104,13 +104,14 @@ function FetchUserCards() {
     };
   }, [activeUserUids, isSwitchNextSlide, setIsSwitchNextSlide, swiper]);
 
-  // useEffect(() => {
-  //   const randomIndex = Math.floor(Math.random() * userCards.length);
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * userCards.length);
 
-  //   if (swiper) {
-  //     swiper?.slideTo(randomIndex, 0, false);
-  //   }
-  // }, [userCards, swiper]);
+    if (swiper) {
+      swiper?.slideTo(randomIndex, 0, false);
+    }
+    setIsHateEffect(false);
+  }, [userCards, swiper]);
 
   const flirtingUserUids = userCards?.map((item: any) => item.uid) || [];
 
@@ -148,7 +149,7 @@ function FetchUserCards() {
           >
             {userCards?.map((item: any) => (
               <SwiperSlide
-                className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+                className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
                 key={item.uid}
               >
                 <UserCard
@@ -168,7 +169,7 @@ function FetchUserCards() {
             ))}
           </Swiper>
 
-          <div className="flex gap-3 px-[20px] justify-between gap-x-2">
+          <div className="flex gap-3 px-[20px] justify-between gap-x-2 mt-4">
             <SlideButton
               nextCard={() => {
                 firstNextSlide();

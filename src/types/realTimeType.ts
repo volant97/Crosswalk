@@ -88,6 +88,7 @@ export type MessageType = {
   user_continual_count: number;
   another_continual_count: number;
   is_read: boolean;
+  favorable_rating: number;
 };
 
 export type LastMessageDataType = {

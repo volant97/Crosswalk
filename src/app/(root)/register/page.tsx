@@ -27,7 +27,7 @@ function RegisterPage() {
           />
         </div> */}
         <Link href={'/'}>
-          <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
+          <div className="flex items-center justify-center w-full h-full pt-[5px] text-[3dvh] font-virgil font-[500]">
             Crosswalk
           </div>
         </Link>

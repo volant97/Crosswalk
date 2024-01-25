@@ -21,6 +21,7 @@ function EditMyProfile() {
   const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
   const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
+  console.log(myInfo);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
@@ -35,10 +36,6 @@ function EditMyProfile() {
 
   const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAge(Number(e.target.value));
-  };
-
-  const handleAvatarChange = () => {
-    setAvatar(Math.floor(Math.random() * 15));
   };
 
   const previewImg = (event: any) => {
@@ -60,7 +57,7 @@ function EditMyProfile() {
   const updateGender = (gender: string) => {
     const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
     const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
-    return avatarNumbers[randomIndex];
+    setAvatar(avatarNumbers[randomIndex]);
   };
 
   return (
@@ -80,7 +77,9 @@ function EditMyProfile() {
             </div>
             <div className="absolute top-[1px]">
               <button
-                onClick={handleAvatarChange}
+                onClick={() => {
+                  updateGender(myInfo?.gender);
+                }}
                 className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
               >
                 <Image

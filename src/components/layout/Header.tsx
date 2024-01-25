@@ -32,23 +32,22 @@ function Header({ noBack, noNavBar, noNotiBell, noBackMain, cs }: PageProps) {
         )}
         {!noBack && noBackMain && <GoToBackBtn />}
         <Link href={'/main'}>
-          <div className="flex items-center justify-center w-full h-full pt-[5px] text-[19px] font-virgil font-[500]">
+          <div className="flex items-center justify-center w-full h-full pt-[5px] text-[3dvh] font-virgil font-[500]">
             Crosswalk
           </div>
         </Link>
         {!noNotiBell && (
-          <div className="absolute right-[20px]">
+          <div className="absolute right-[25px]">
             <NotiBell />
           </div>
         )}
         {cs && (
-          <Link href={'/customer-service/contact'} className="absolute right-5">
+          <Link href={'/customer-service/contact'} className="absolute right-[25px]">
             <MdSupportAgent size={24} />
             {/* <IoMdSettings size={24} /> //추후에 설정페이지 만들면 적용 = 설정아이콘 */}
           </Link>
         )}
       </div>
-      {!noNavBar && <NavBar />}
     </div>
   );
 }
