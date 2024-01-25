@@ -38,16 +38,16 @@ function NavBar() {
 
   // const router = useRouter();
 
-  const filtering = async () => {
-    if (lastMsg === undefined) {
-      return;
-    } else {
-      const filteredData = lastMsg?.filter((item: any) => {
-        return item?.user_uid !== getUid?.id && item?.is_read === false;
-      });
-      console.log('이하민바보', lastMsg);
-    }
-  };
+  // const filtering = async () => {
+  //   if (lastMsg === undefined) {
+  //     return;
+  //   } else {
+  //     const filteredData = lastMsg?.filter((item: any) => {
+  //       return item?.user_uid !== getUid?.id && item?.is_read === false;
+  //     });
+  //     console.log('이하민바보', lastMsg);
+  //   }
+  // };
 
   const fetchChatListDataForMessageNotification = async () => {
     try {
@@ -55,84 +55,20 @@ function NavBar() {
       setChatList(chatListDataMessageNotification);
 
       const roomIds = chatListDataMessageNotification.map((item: any) => item.id);
-      console.log('roomIds', roomIds);
+      // console.log('roomIds', roomIds);
 
       const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
       setLastMsg(lastMessageArray);
-      console.log('lastMessageArray 여기까지지?', lastMessageArray);
-
-      // lastMsg에 의존하는 코드를 이 블록 내부로 이동
-      // const filteredData = lastMessageArray?.filter((item: any) => {
-      //   return item?.user_uid !== getUid?.id && item?.is_read === false;
-      // });
-      // const filterUnreadMessages = await filtering();
-      // if (filterUnreadMessages === undefined) {
-      //   return;
-      // } else {
-      //   console.log('필터링잘되나', filterUnreadMessages);
-      //   setFilteredUnreadMessage(filterUnreadMessages as unknown as filteredUnreadMessage[]);
-      //   console.log('filterUnreadMessages:::::', filterUnreadMessages);
-      // }
-
-      // console.log('filteredData', filteredData);
-
-      // setFilteredData(filteredData);
-
-      // const countUnreadMessage = filteredData?.length;
-      // console.log('내가 안읽은 메세지', countUnreadMessage);
-      // setCountUnreadMessage(countUnreadMessage);
-      // console.log('최종 set된 안읽은 메세지 숫자', countUnreadMessage);
+      // console.log('lastMessageArray', lastMessageArray);
     } catch (error) {
       console.log('fetchChatList에서 에러 발생', error);
       alert('서버와의 통신을 실패했습니다.');
     }
   };
 
-  // const fetchChatListDataForMessageNotification = async () => {
-  //   try {
-  //     const chatListDataMessageNotification = await getChatListForMessageNotification();
-  //     console.log('병아리', chatListDataMessageNotification);
-  //     setChatList(chatListDataMessageNotification);
-  //     const roomIds = chatListDataMessageNotification.map((item: any) => item.id);
-
-  //     const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
-  //     setLastMsg(lastMessageArray);
-  //     console.log('닭', lastMsg);
-
-  //     const filteredData = lastMsg?.filter((item) => {
-  //       return item?.user_uid !== getUid?.id && item?.is_read === false;
-  //     });
-  //     console.log('filteredData', filteredData);
-  //     setFilteredUnreadMessage(filteredData as unknown as filteredUnreadMessage[]);
-
-  //     console.log('소간지', filteredUnreadMessage);
-  //     const countUnreadMessage = filteredUnreadMessage?.length;
-  //     console.log('내가 안읽은 메세지', countUnreadMessage);
-  //     setCountUnreadMessage(countUnreadMessage);
-  //     console.log('최종set된 안읽은 메세지 숫자', countUnreadMessage);
-  //   } catch (error) {
-  //     console.log('error in fetchChatList', error);
-  //     alert('서버와의 통신을 실패했습니다.');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   subscribeMessageForNotification((payload: any) => {
-  //     console.log('payload:', payload);
-  //     fetchChatListDataForMessageNotification();
-  //   });
-  //   fetchChatListDataForMessageNotification();
-  //   return () => {
-  //     untrackMessageForNotification();
-  //   };
-  // }, []);
-
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await fetchChatListDataForMessageNotification();
-    // };
     subscribeMessageForNotification((payload: any) => {
-      console.log('payload:', payload);
+      // console.log('payload:', payload);
       fetchChatListDataForMessageNotification();
     });
     fetchChatListDataForMessageNotification();
@@ -142,19 +78,12 @@ function NavBar() {
   }, []);
 
   useEffect(() => {
-    console.log('lastMsg가 업데이트되었습니다');
+    // console.log('lastMsg가 업데이트되었습니다');
   }, [lastMsg]);
 
   useEffect(() => {
-    console.log('filteredData가 업데이트되었습니다');
+    // console.log('filteredData가 업데이트되었습니다');
   }, [filteredData]);
-
-  // useEffect(() => {
-  //   const countUnreadMessage = filteredUnreadMessage?.length;
-  //   console.log('내가 안읽은 메세지 use', countUnreadMessage);
-  //   setCountUnreadMessage(countUnreadMessage);
-  //   console.log('최종set된 안읽은 메세지 숫자 use', countUnreadMessage);
-  // }, [filteredUnreadMessage]);
 
   return (
     <nav className="h-[7dvh] bg-white shadow-navBarShadow grid grid-cols-3 items-center w-full pl-[20px] pr-[20px] ">
@@ -229,7 +158,6 @@ function NavBar() {
                 height={100}
                 alt="채팅함 이미지"
               />
-              {/* 내가 받은 메세지를 봤냐 안봣냐 */}
               {lastMsg !== undefined ? (
                 lastMsg?.filter((item) => item?.user_uid !== getUid?.id).some((item) => item?.is_read === false) ? (
                   <Image
