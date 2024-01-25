@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { getSenderCustomUsers } from '@/lib/api/requestApi';
+import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
 import { userState } from '@/recoil/user';
 import { unNullRegisterType } from '@/types/registerType';
 import Image from 'next/image';
@@ -15,15 +15,18 @@ type Props = {
 function OtherPersonProfile({ otherPersonId }: Props) {
   const [register, setRegister] = useRecoilState(userState);
   const myProfile = register?.profile;
+  const myId = register?.profile?.uid;
+
   const [otherProfile, setOtherProfile] = useState<unNullRegisterType>();
+  const otherId = otherProfile?.uid;
+
   const aaa = true;
-  // otherPersonProfile
 
   const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
   const getSenderInfo = async () => {
     try {
-      const data = await getSenderCustomUsers(otherPersonId);
+      const data = await getOtherPersonCustomUsers(otherPersonId);
       setOtherProfile(data);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
