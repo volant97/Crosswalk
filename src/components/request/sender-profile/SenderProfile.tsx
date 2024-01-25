@@ -13,6 +13,7 @@ type Props = {
 
 function SenderProfile({ senderId }: Props) {
   const [senderInfo, setSenderInfo] = useState<unNullRegisterType>();
+  const aaa = true;
 
   const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
@@ -33,13 +34,29 @@ function SenderProfile({ senderId }: Props) {
     <div className="w-full px-[24px] py-[32px]">
       <div>
         <div className="relative">
-          <div className="w-full rounded-t-[24px] aspect-[2/3]">
-            <Image
-              className="rounded-t-[24px]"
-              src={`/assets/avatar/avatar${senderInfo?.avatar}.png`}
-              alt="유저 아바타 이미지"
-              fill
-            />
+          <div className="relative w-full rounded-t-[24px] aspect-[2/3]">
+            {aaa && senderInfo ? (
+              // 최종매칭 O
+              <Fragment>
+                <Image
+                  className="rounded-t-[24px] object-cover"
+                  src={senderInfo?.user_img}
+                  alt="유저 아바타 이미지"
+                  fill
+                />
+                <p className="absolute right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-customGreen3 text-customGreen3  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-gray-800 bg-opacity-10">
+                  소울메이트
+                </p>
+              </Fragment>
+            ) : (
+              // 최종매칭 X
+              <Image
+                className="rounded-t-[24px]"
+                src={`/assets/avatar/avatar${senderInfo?.avatar}.png`}
+                alt="유저 아바타 이미지"
+                fill
+              />
+            )}
           </div>
           <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
             <div className="flex items-end w-full gap-[4px]">
