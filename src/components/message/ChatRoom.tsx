@@ -74,7 +74,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
         user_continual_count: myContinualCount,
         another_continual_count: userContinualCount,
         is_read: false,
-        favorable_rating: favorableRating,
+        favorable_rating: favorableRating
       };
 
       if (sendData.message === '') {
@@ -235,7 +235,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
       >
         <input
           value={inputValue}
-          className="flex w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
+          className="flex ml-[12px] w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
           placeholder="write a message "
           onChange={inputValueHandler}
         />

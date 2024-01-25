@@ -176,21 +176,6 @@ function NavBar() {
                 alt="채팅함 이미지"
               />
               <h1>채팅</h1>
-              {lastMsg !== undefined ? (
-                lastMsg?.filter((item) => item?.user_uid !== getUid?.id).some((item) => item?.is_read === false) ? (
-                  <Image
-                    src="/assets/figmaImg/greenDot.png"
-                    alt="new message"
-                    width={8}
-                    height={8}
-                    className="absolute top-[-1px] right-[-6px]"
-                  />
-                ) : (
-                  <p></p>
-                )
-              ) : (
-                <p></p>
-              )}
             </div>
           ) : (
             <div className="flex items-center justify-center relative">
