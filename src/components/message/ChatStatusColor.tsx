@@ -28,6 +28,12 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
           <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
         </div>
       );
+    case 'SOULMATE':
+      return (
+        <div className="rounded-full border-customGreen3 border-2 p-[0.2rem]">
+          <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
+        </div>
+      );
   }
 }
 
