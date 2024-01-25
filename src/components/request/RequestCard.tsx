@@ -1,21 +1,23 @@
 import React from 'react';
-import AcceptBtn from './Btn/AcceptBtn';
-import DeclineBtn from './Btn/DeclineBtn';
+import AcceptBtn from './btn/AcceptBtn';
+import DeclineBtn from './btn/DeclineBtn';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   listId: number;
+  senderId: string;
   avatar: number;
   senderName: string;
   age: number;
   message: string;
 };
 
-function RequestCard({ listId, avatar, senderName, age, message }: Props) {
+function RequestCard({ listId, senderId, avatar, senderName, age, message }: Props) {
   return (
     <div className="flex flex-col items-center justify-center gap-[12px] w-[320px] p-[16px] font-pretendard bg-gray-FA rounded-[16px]">
-      <div className="flex items-center gap-[8px] self-stretch h-[42px]">
-        <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full ">
+      <Link className="flex items-center gap-[8px] self-stretch h-[42px] cursor-pointer" href={`/${senderId}`}>
+        <div className="relative flex justify-center items-center w-[42px] h-[42px] rounded-full">
           <Image
             className="rounded-full object-cover"
             src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`}
@@ -31,7 +33,7 @@ function RequestCard({ listId, avatar, senderName, age, message }: Props) {
           </div>
           <p className="text-[14px] font-[400] text-gray-666 leading-[20px] capitalize">{message}</p>
         </div>
-      </div>
+      </Link>
       <div className="flex items-start w-[200px] h-[32px] gap-[8px]">
         <DeclineBtn listId={listId} />
         <AcceptBtn listId={listId} />

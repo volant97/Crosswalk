@@ -45,14 +45,14 @@ function FetchUserCards() {
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHateEffect, setIsHateEffect] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserCards = async () => {
     try {
       if (!myUid) return;
       if (!myGender) return;
-      setIsLoading(true);
+      // setIsLoading(true);
       const userCards = await getUnMatchedData(myUid, myGender);
       if (!userCards) return;
 
@@ -123,72 +123,78 @@ function FetchUserCards() {
 
   return (
     <div className="relative w-full">
-      {isLoading === true && <SkeletonMain />}
-      <SlideEffect isHateEffect={isHateEffect} />
-      <Swiper
-        modules={[Navigation]}
-        allowSlidePrev={false}
-        spaceBetween={30}
-        slidesPerView={1}
-        onSlideChange={(swiper: any) => {
-          handleSlideChange(swiper);
-        }}
-        onSwiper={(swiper: any) => {
-          setSwiper(swiper);
-        }}
-        className="!px-[1.5rem] !pb-[2rem]"
-        navigation={true}
-        touchRatio={1}
-        loop={true}
-        loopAdditionalSlides={1}
-        allowTouchMove={false}
-      >
-        {userCards?.map((item: any) => (
-          <SwiperSlide
-            className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
-            key={item.uid}
+      {isLoading ? (
+        <SkeletonMain />
+      ) : (
+        <>
+          <SlideEffect isHateEffect={isHateEffect} />
+          <Swiper
+            modules={[Navigation]}
+            allowSlidePrev={false}
+            spaceBetween={30}
+            slidesPerView={1}
+            onSlideChange={(swiper: any) => {
+              handleSlideChange(swiper);
+            }}
+            onSwiper={(swiper: any) => {
+              setSwiper(swiper);
+            }}
+            className="!px-[1.5rem] !pb-[2rem]"
+            navigation={true}
+            touchRatio={1}
+            loop={true}
+            loopAdditionalSlides={1}
+            allowTouchMove={false}
           >
-            <UserCard
-              age={item.age}
-              name={item.name}
-              interest={item.interest}
-              avatar={item.avatar}
-              flirtingUserUid={item.uid}
-              height={item.height}
-              gender={item.gender}
-              mbti={item.mbti}
-              isFlipped={isFlipped}
-              setIsFlipped={setIsFlipped}
-              userImg={item.user_img}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <div className="flex gap-3 px-[20px] justify-between gap-x-2">
-        <SlideButton
-          nextCard={() => {
-            firstNextSlide();
-            if (swiper) {
-              swiper.slideNext();
-            }
-          }}
-          color="default"
-          size="lg"
-        >
-          <IoClose size={20} /> 괜찮아요
-        </SlideButton>
+            {userCards?.map((item: any) => (
+              <SwiperSlide
+                className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+                key={item.uid}
+              >
+                <UserCard
+                  age={item.age}
+                  name={item.name}
+                  interest={item.interest}
+                  avatar={item.avatar}
+                  flirtingUserUid={item.uid}
+                  height={item.height}
+                  gender={item.gender}
+                  mbti={item.mbti}
+                  isFlipped={isFlipped}
+                  setIsFlipped={setIsFlipped}
+                  userImg={item.user_img}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-        <Button
-          openFlirtingModal={() => {
-            handleLike();
-          }}
-          color="green"
-          size="lg"
-        >
-          <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
-          <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
-        </Button>
-      </div>
+          <div className="flex gap-3 px-[20px] justify-between gap-x-2">
+            <SlideButton
+              nextCard={() => {
+                firstNextSlide();
+                if (swiper) {
+                  swiper.slideNext();
+                }
+              }}
+              color="default"
+              size="lg"
+            >
+              <IoClose size={20} /> 괜찮아요
+            </SlideButton>
+
+            <Button
+              openFlirtingModal={() => {
+                handleLike();
+              }}
+              color="green"
+              size="lg"
+            >
+              <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
+              <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
+            </Button>
+          </div>
+        </>
+      )}
       {flirtingModal()}
       {AlertModal()}
     </div>
