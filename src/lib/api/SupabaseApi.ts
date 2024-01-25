@@ -4,6 +4,7 @@ import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/type
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { MessageType, SendMessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
+import { format } from 'date-fns';
 
 // const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
 
@@ -54,7 +55,7 @@ export async function getNotificationDetail(): Promise<FlirtingListInNotificatio
 export async function getUser1NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user1Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.sender_uid)
     .returns();
   if (error) {
@@ -67,7 +68,7 @@ export async function getUser1NameNotification(notificationData: FlirtingListInN
 export async function getUser2NameNotification(notificationData: FlirtingListInNotificationType) {
   const { data: user2Data, error } = await supabase
     .from('custom_users')
-    .select('name')
+    .select('name, uid')
     .eq('uid', notificationData.receiver_uid)
     .returns();
   if (error) {
@@ -223,6 +224,32 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
   return data;
 }
 
+//채팅리스트에서 메세지 all 가져오기
+export async function getMessageChatList(subscribe_room_id: string[]): Promise<any> {
+  const roomIds = subscribe_room_id;
+
+  let lastMessageArray = [];
+  for (let i = 0; i < roomIds.length; i++) {
+    console.log('!!!!', i);
+    let { data, error } = await supabase
+      .from('message')
+      .select('*')
+      .eq('subscribe_room_id', roomIds[i])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .returns<MessageType[]>()
+      .single();
+    console.log('data api', data);
+    // if (error || null) {
+    //   console.error('Error creating a posts data', error);
+    //   throw new Error('error while fetching posts data');
+    // }
+
+    lastMessageArray.push(data);
+  }
+  return lastMessageArray;
+}
+
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
   // console.log(message_data);
@@ -230,6 +257,26 @@ export async function postMessage(message_data: SendMessageType) {
     console.error('Error creating a posts data', error);
     throw new Error('error while fetching posts data');
   }
+}
+export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
+  supabase
+    .channel('chatlist')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'message'
+      },
+      callback
+    )
+    .subscribe();
+}
+
+export async function untrackChatList() {
+  const chatList = supabase.channel('chatlist');
+  await chatList.subscribe();
+  await chatList.untrack();
 }
 
 export async function subscribeChatRoom(roomId: string, callback: SpecificSubscribeFlirtingListCallbackType) {
@@ -250,5 +297,4 @@ export async function untrackChatRoom(roomId: string) {
   const chatRoom = supabase.channel(roomId);
   await chatRoom.subscribe();
   await chatRoom.untrack();
-  // console.log('Request 채널 구독 해제');
 }
