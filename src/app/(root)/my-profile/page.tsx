@@ -5,7 +5,7 @@ import React from 'react';
 
 function MyProfile() {
   return (
-    <Page>
+    <Page noNotiBell cs>
       <FetchMyProfileCard />
       <NavBar />
     </Page>

@@ -7,7 +7,7 @@ import NavBar from '@/components/common/ui/NavBar';
 function MainPage() {
   return (
     <Page noBack>
-      <div className="flex flex-col justify-center h-[calc(100vh-16vh)]">
+      <div className="flex flex-col justify-center h-[calc(100dvh-17dvh)]">
         <FetchUserCards />
       </div>
       <NavBar />

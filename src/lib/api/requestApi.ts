@@ -1,6 +1,7 @@
 import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '../supabase-config';
 import { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
+import { unNullRegisterType } from '@/types/registerType';
 
 /**커스텀 데이터 */
 export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {

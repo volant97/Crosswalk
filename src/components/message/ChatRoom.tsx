@@ -82,7 +82,7 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
     <>
       <div
         ref={chatContainerRef}
-        className="relative flex flex-col items-end w-full h-[34rem] overflow-y-auto scrollbar-hide px-6"
+        className="relative flex flex-col items-end w-full h-[calc(100dvh-23dvh)] overflow-y-auto scrollbar-hide px-6 "
       >
         {StatusMessage(roomInfo?.flirting_list.status)}
 
@@ -142,11 +142,11 @@ function ChatRoom({ roomId, roomInfo, getUid }: ChatProps) {
           e.preventDefault();
           handleSendMessage();
         }}
-        className="absolute ml-4 flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-[1.8rem] border-1 border-gray-DDD border-solid rounded-full "
+        className="absolute left-1/2 transform -translate-x-1/2 flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-[1.8rem] border-1 border-gray-DDD border-solid rounded-full "
       >
         <input
           value={inputValue}
-          className="flex flex-warp  ml-[12px] w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
+          className="flex w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
           placeholder="write a message "
           onChange={inputValueHandler}
         />
