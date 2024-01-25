@@ -238,7 +238,7 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
       .order('created_at', { ascending: false })
       .limit(1)
       .returns<MessageType[]>()
-      .single();
+      .maybeSingle();
     console.log('data api', data);
     // if (error || null) {
     //   console.error('Error creating a posts data', error);
@@ -297,4 +297,66 @@ export async function untrackChatRoom(roomId: string) {
   const chatRoom = supabase.channel(roomId);
   await chatRoom.subscribe();
   await chatRoom.untrack();
+}
+
+// navbar 메세지 알림관련 api 통신로직
+export async function subscribeMessageForNotification(callback: SpecificSubscribeFlirtingListCallbackType) {
+  console.log('야!!');
+  supabase
+    .channel('message_notification')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'message'
+      },
+      callback
+    )
+    .subscribe();
+}
+
+export async function untrackMessageForNotification() {
+  const chatList = supabase.channel('message_notification');
+  await chatList.subscribe();
+  await chatList.untrack();
+}
+
+export async function getChatListForMessageNotification(): Promise<ChatListType[]> {
+  const { data, error } = await supabase
+    .from('chat_room')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    .order('flirting_list(created_at)', { ascending: false })
+    .returns<ChatListType[]>();
+
+  if (error || null) {
+    console.error('Error creating a posts data', error);
+    throw new Error('error while fetching posts data');
+  }
+  return data;
+}
+
+export async function getLastMessageForMessageNotification(subscribe_room_id: string[]): Promise<any> {
+  const roomIds = subscribe_room_id;
+
+  let lastMessageArray = [];
+  for (let i = 0; i < roomIds.length; i++) {
+    console.log('!!!!', i);
+    let { data, error } = await supabase
+      .from('message')
+      .select('*')
+      .eq('subscribe_room_id', roomIds[i])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .returns<MessageType[]>()
+      .maybeSingle();
+    console.log('data556', data);
+    // if (error || null) {
+    //   console.error('Error creating a posts data', error);
+    //   throw new Error('error while fetching posts data');
+    // }
+
+    lastMessageArray.push(data);
+  }
+  return lastMessageArray;
 }
