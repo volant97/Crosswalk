@@ -2,32 +2,59 @@
 'use client';
 
 import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
-import { userState } from '@/recoil/user';
+import { supabase } from '@/lib/supabase-config';
 import { unNullRegisterType } from '@/types/registerType';
+import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { Fragment, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 type Props = {
   otherPersonId: string;
 };
 
-function OtherPersonProfile({ otherPersonId }: Props) {
-  const [register, setRegister] = useRecoilState(userState);
-  const myProfile = register?.profile;
-  const myId = register?.profile?.uid;
+type getSoulmateStatus = {
+  sender_uid: string;
+  receiver_uid: string;
+  status: string;
+};
 
+function OtherPersonProfile({ otherPersonId }: Props) {
   const [otherProfile, setOtherProfile] = useState<unNullRegisterType>();
   const otherId = otherProfile?.uid;
 
-  const aaa = true;
+  const [isSoulmate, setIsSoulmate] = useState<boolean>(false);
+  const [checkSoulmate, setCheckSoulmate] = useState<boolean>(false);
 
   const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
   const getSenderInfo = async () => {
     try {
-      const data = await getOtherPersonCustomUsers(otherPersonId);
-      setOtherProfile(data);
+      const OtherPersonCustomUsersData = await getOtherPersonCustomUsers(otherPersonId);
+      setOtherProfile(OtherPersonCustomUsersData);
+
+      const { data, error } = await supabase
+        .from('flirting_list')
+        .select('sender_uid, receiver_uid, status')
+        .eq('status', 'SOULMATE')
+        .returns<getSoulmateStatus[]>();
+
+      if (data?.length) {
+        data.forEach((item) => {
+          if (!otherId) return;
+          if (item.receiver_uid === otherId || item.sender_uid === otherId) {
+            setIsSoulmate(true);
+            return setCheckSoulmate(true);
+          } else {
+            setIsSoulmate(false);
+            return setCheckSoulmate(true);
+          }
+        });
+      } else {
+        setIsSoulmate(false);
+        return setCheckSoulmate(true);
+      }
+
+      if (error) return console.error('status 가져오기 에러 : ', error);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
     }
@@ -35,34 +62,38 @@ function OtherPersonProfile({ otherPersonId }: Props) {
 
   useEffect(() => {
     getSenderInfo();
-  }, []);
+  }, [otherId]);
 
   return (
     <div className="w-full px-[24px] py-[32px]">
       <div>
         <div className="relative">
           <div className="relative w-full rounded-t-[24px] aspect-[2/3]">
-            {aaa && otherProfile ? (
-              // 최종매칭 O
-              <Fragment>
+            {otherId && checkSoulmate ? (
+              isSoulmate ? (
+                // 최종매칭 O
+                <Fragment>
+                  <Image
+                    className="rounded-t-[24px] object-cover"
+                    src={otherProfile?.user_img}
+                    alt="유저 아바타 이미지"
+                    fill
+                  />
+                  <p className="absolute right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-customGreen3 text-customGreen3  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-gray-800 bg-opacity-10">
+                    소울메이트
+                  </p>
+                </Fragment>
+              ) : (
+                // 최종매칭 X
                 <Image
-                  className="rounded-t-[24px] object-cover"
-                  src={otherProfile?.user_img}
+                  className="rounded-t-[24px]"
+                  src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
                   alt="유저 아바타 이미지"
                   fill
                 />
-                <p className="absolute right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-customGreen3 text-customGreen3  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-gray-800 bg-opacity-10">
-                  소울메이트
-                </p>
-              </Fragment>
+              )
             ) : (
-              // 최종매칭 X
-              <Image
-                className="rounded-t-[24px]"
-                src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
-                alt="유저 아바타 이미지"
-                fill
-              />
+              <Skeleton className="w-full h-full rounded-t-[24px]" />
             )}
           </div>
           <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
