@@ -175,14 +175,12 @@ export async function getUnMatchedData(myUid: string, gender: string) {
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_sender_uid_fkey(*)')
     .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
-  // console.log('MatchedUser', MatchedUser1);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 receiver일 때)
   const { data: MatchedUser2 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)')
     .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
-  // console.log('MatchedUser', MatchedUser2);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender) + (현재 유저가 receiver)
   const MatchedUser = [...(MatchedUser1 || []), ...(MatchedUser2 || [])];

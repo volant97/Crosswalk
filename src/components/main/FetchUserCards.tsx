@@ -60,7 +60,7 @@ function FetchUserCards() {
       setUserCards(userCards);
       const uids = userCards?.map((item: any) => item.uid);
       setUserUids(uids);
-      console.log('userCards', userCards);
+      // console.log('userCards', userCards);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching my posts:', error);
@@ -119,7 +119,7 @@ function FetchUserCards() {
     const likedUserUid = activeUserUids;
     const targetUid = likedUserUid || flirtingUserUids[0];
     openFlirtingModal(targetUid, swiper);
-    console.log('activeUserUid', targetUid);
+    // console.log('activeUserUid', targetUid);
   };
 
   return (

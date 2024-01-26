@@ -36,7 +36,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
 
   const handleLike = () => {
     // openFlirtingModal(flirtingUserId);
-    console.log('userId', flirtingUserId);
+    // console.log('userId', flirtingUserId);
   };
   return (
     <div className="relative">

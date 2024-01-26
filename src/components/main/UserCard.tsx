@@ -33,7 +33,7 @@ function UserCard({
 }: Props) {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
-    console.log(flirtingUserUid);
+    // console.log(flirtingUserUid);
   };
 
   useEffect(() => {
