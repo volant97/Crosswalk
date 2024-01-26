@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { postMessage } from '@/lib/api/SupabaseApi';
@@ -9,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
+import useCongratModal from '../common/modal/CongratModal';
 
 interface ChatProps {
   roomId: string;
@@ -24,6 +26,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
   const favorableRatingGoal = 100;
+  const { openModal, AlertCongratModal } = useCongratModal();
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -43,6 +46,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
       const totalScore = userScore + anotherScore;
       const rating = (totalScore / favorableRatingGoal) * 100;
       if (rating >= 100) {
+        favorable_rating = 100;
         return setCongratulationsMessage(true);
       }
       favorable_rating = Math.floor(rating);
@@ -76,7 +80,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   };
 
   const handleSendMessage = async () => {
-    if (roomInfo?.flirting_list.status === 'ACCEPT') {
+    if (roomInfo?.flirting_list.status === 'ACCEPT' || roomInfo?.flirting_list.status === 'SOULMATE') {
       if (inputValue === '') {
         return alert('메세지를 입력해주세요');
       }
@@ -111,6 +115,12 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messageData]);
+
+  useEffect(() => {
+    if (congratulationsMessage) {
+      openModal('');
+    }
+  }, [congratulationsMessage]);
 
   return (
     <>
@@ -202,6 +212,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
           />
         </button>
       </form>
+      {AlertCongratModal()}
     </>
   );
 }
