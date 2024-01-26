@@ -94,15 +94,16 @@ function NavBar() {
 
   const active = `font-bold 
      bg-customGreen2 
-    rounded-[0.375rem] transition duration-700 ease-in-out`;
+    rounded-[0.375rem]`;
 
   return (
     <nav
-      className={`fixed left-0 right-0 bottom-0  h-[7dvh] bg-white shadow-navBarShadow gap-12 flex flex-row justify-center items-center w-full px-6 `}
+      className={`fixed left-0 right-0 bottom-0 max-w-[26.8rem] mr-auto ml-auto  h-[7dvh] bg-white shadow-navBarShadow flex flex-row justify-center items-center px-6 `}
     >
       <div
-        onClick={handleClick}
-        className={` flex justify-center items-center ${pathname.startsWith('/main') ? `${active}` : 'text-slate-300'}`}
+        className={` flex justify-center items-center w-[25%] ${
+          pathname.startsWith('/main') ? `${active}` : 'text-slate-300'
+        }`}
       >
         <Link className="flex items-center justify-center text-[14px]" href="/main">
           {pathname.startsWith('/main') ? (
@@ -130,7 +131,7 @@ function NavBar() {
         </Link>
       </div>
       <div
-        className={` flex justify-center items-center  ${
+        className={` flex justify-center items-center w-[25%]  ${
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
       >
@@ -161,7 +162,7 @@ function NavBar() {
       </div>
 
       <div
-        className={` flex justify-center  items-center  ${
+        className={` flex justify-center  items-center w-[25%]  ${
           pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
       >
@@ -207,7 +208,7 @@ function NavBar() {
       </div>
 
       <div
-        className={` flex justify-center  items-center  ${
+        className={` flex justify-center  items-center w-[25%]  ${
           pathname.startsWith('/my-profile') ? `${active}` : 'text-slate-300'
         }`}
       >
