@@ -69,8 +69,8 @@ export default function ChatListPage() {
     // console.log('lastMsg가 업데이트되었습니다');
   }, [lastMsg]);
 
-  console.log('chatList:', chatList);
-  console.log('lastMessage:', lastMessageData);
+  // console.log('chatList:', chatList);
+  // console.log('lastMessage:', lastMessageData);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
