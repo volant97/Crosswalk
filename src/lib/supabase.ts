@@ -3,29 +3,206 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
-      lists: {
+      chat_room: {
         Row: {
-          content: string;
-          create_at: string | null;
+          flirting_list_id: number;
           id: string;
-          title: string;
-          who: string;
         };
         Insert: {
-          content: string;
-          create_at?: string | null;
+          flirting_list_id: number;
           id?: string;
-          title: string;
-          who: string;
         };
         Update: {
-          content?: string;
-          create_at?: string | null;
+          flirting_list_id?: number;
           id?: string;
-          title?: string;
-          who?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'chat_room_flirting_list_id_fkey';
+            columns: ['flirting_list_id'];
+            isOneToOne: true;
+            referencedRelation: 'flirting_list';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      contact: {
+        Row: {
+          category: string | null;
+          content: string | null;
+          created_at: string;
+          email: string | null;
+          email_agree: boolean | null;
+          gender: Database['public']['Enums']['GenderType'] | null;
+          id: number;
+          is_solved: boolean;
+          name: string | null;
+          uid: string | null;
+        };
+        Insert: {
+          category?: string | null;
+          content?: string | null;
+          created_at?: string;
+          email?: string | null;
+          email_agree?: boolean | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          id?: number;
+          is_solved?: boolean;
+          name?: string | null;
+          uid?: string | null;
+        };
+        Update: {
+          category?: string | null;
+          content?: string | null;
+          created_at?: string;
+          email?: string | null;
+          email_agree?: boolean | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          id?: number;
+          is_solved?: boolean;
+          name?: string | null;
+          uid?: string | null;
         };
         Relationships: [];
+      };
+      custom_users: {
+        Row: {
+          age: number | null;
+          avatar: number | null;
+          gender: Database['public']['Enums']['GenderType'] | null;
+          height: number | null;
+          information_agreement: boolean | null;
+          information_use_period: string | null;
+          interest: Json | null;
+          mbti: string | null;
+          name: string | null;
+          uid: string;
+          user_img: string | null;
+        };
+        Insert: {
+          age?: number | null;
+          avatar?: number | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          height?: number | null;
+          information_agreement?: boolean | null;
+          information_use_period?: string | null;
+          interest?: Json | null;
+          mbti?: string | null;
+          name?: string | null;
+          uid: string;
+          user_img?: string | null;
+        };
+        Update: {
+          age?: number | null;
+          avatar?: number | null;
+          gender?: Database['public']['Enums']['GenderType'] | null;
+          height?: number | null;
+          information_agreement?: boolean | null;
+          information_use_period?: string | null;
+          interest?: Json | null;
+          mbti?: string | null;
+          name?: string | null;
+          uid?: string;
+          user_img?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'custom_users_uid_fkey';
+            columns: ['uid'];
+            isOneToOne: true;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      flirting_list: {
+        Row: {
+          created_at: string;
+          flirting_message: string;
+          id: number;
+          receiver_is_read_in_noti: boolean | null;
+          receiver_uid: string;
+          sender_is_read_in_noti: boolean | null;
+          sender_uid: string;
+          status: Database['public']['Enums']['STATUS Type'];
+        };
+        Insert: {
+          created_at: string;
+          flirting_message: string;
+          id?: number;
+          receiver_is_read_in_noti?: boolean | null;
+          receiver_uid: string;
+          sender_is_read_in_noti?: boolean | null;
+          sender_uid: string;
+          status?: Database['public']['Enums']['STATUS Type'];
+        };
+        Update: {
+          created_at?: string;
+          flirting_message?: string;
+          id?: number;
+          receiver_is_read_in_noti?: boolean | null;
+          receiver_uid?: string;
+          sender_is_read_in_noti?: boolean | null;
+          sender_uid?: string;
+          status?: Database['public']['Enums']['STATUS Type'];
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'flirting_list_receiver_uid_fkey';
+            columns: ['receiver_uid'];
+            isOneToOne: false;
+            referencedRelation: 'custom_users';
+            referencedColumns: ['uid'];
+          },
+          {
+            foreignKeyName: 'flirting_list_sender_uid_fkey';
+            columns: ['sender_uid'];
+            isOneToOne: false;
+            referencedRelation: 'custom_users';
+            referencedColumns: ['uid'];
+          }
+        ];
+      };
+      message: {
+        Row: {
+          created_at: string;
+          favorable_rating: number;
+          id: number;
+          is_read: boolean;
+          message: string;
+          score: number;
+          subscribe_room_id: string;
+          user_uid: string;
+        };
+        Insert: {
+          created_at?: string;
+          favorable_rating?: number;
+          id?: number;
+          is_read?: boolean;
+          message: string;
+          score?: number;
+          subscribe_room_id: string;
+          user_uid?: string;
+        };
+        Update: {
+          created_at?: string;
+          favorable_rating?: number;
+          id?: number;
+          is_read?: boolean;
+          message?: string;
+          score?: number;
+          subscribe_room_id?: string;
+          user_uid?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'message_subscribe_room_id_fkey';
+            columns: ['subscribe_room_id'];
+            isOneToOne: false;
+            referencedRelation: 'chat_room';
+            referencedColumns: ['id'];
+          }
+        ];
       };
     };
     Views: {
@@ -35,7 +212,8 @@ export interface Database {
       [_ in never]: never;
     };
     Enums: {
-      [_ in never]: never;
+      GenderType: 'M' | 'F';
+      'STATUS Type': 'UNREAD' | 'READ' | 'DECLINE' | 'ACCEPT' | 'SOULMATE';
     };
     CompositeTypes: {
       [_ in never]: never;
