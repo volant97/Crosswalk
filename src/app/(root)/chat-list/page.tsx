@@ -114,7 +114,8 @@ export default function ChatListPage() {
                     {ChatStatusColor(
                       list.flirting_list.status,
                       list.flirting_list.receiver_uid.avatar,
-                      list.flirting_list.receiver_uid.uid
+                      list.flirting_list.receiver_uid.uid,
+                      list.flirting_list.receiver_uid.user_img
                     )}
                   </div>
                   <div className="w-[12.5rem]">
@@ -154,7 +155,8 @@ export default function ChatListPage() {
                     {ChatStatusColor(
                       list.flirting_list.status,
                       list.flirting_list.sender_uid.avatar,
-                      list.flirting_list.sender_uid.uid
+                      list.flirting_list.sender_uid.uid,
+                      list.flirting_list.sender_uid.user_img
                     )}
                   </div>
                   <div className="w-[12.5rem] ">
