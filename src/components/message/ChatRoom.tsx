@@ -132,7 +132,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
-          console.log(roomInfo?.flirting_list);
           return data.user_uid === getUid?.id ? (
             <>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
