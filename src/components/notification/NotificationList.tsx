@@ -119,7 +119,7 @@ const NotificationList = () => {
       <div className="flex-col items-center justify-center w-[100%]  min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
         {Number(notificationData?.length) > 0 ? (
           notificationData.every(
-            (notification) => notification.receiver_is_read_in_noti || notification.sender_is_read_in_noti
+            (notification) => notification.receiver_is_read_in_noti && notification.sender_is_read_in_noti
           ) ? (
             <div className="flex flex-col item-center justify-center max-w-96 h-18 p-2 gap-1 ">
               <li className="flex flex-col item-center  max-w-96 h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
