@@ -177,6 +177,16 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
                         alt="유저 아바타 이미지"
                       />
                     )
+                  ) : roomInfo?.flirting_list.status === 'SOULMATE' ? (
+                    <Avatar
+                      className="cursor-pointer"
+                      onClick={() => {
+                        routerLink(roomInfo?.flirting_list.receiver_uid.uid);
+                      }}
+                      size="sm"
+                      src={roomInfo?.flirting_list.receiver_uid.user_img}
+                      alt="유저 아바타 이미지"
+                    />
                   ) : (
                     <Avatar
                       className="cursor-pointer"
