@@ -2,8 +2,8 @@ import React from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import DeclineBtn from './btn/DeclineBtn';
-import AcceptBtn from './btn/AcceptBtn';
+import DeclineBtn from './Btn/DeclineBtn';
+import AcceptBtn from './Btn/AcceptBtn';
 
 type Props = {
   listId: number;

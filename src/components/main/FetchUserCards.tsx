@@ -95,6 +95,7 @@ function FetchUserCards() {
   useEffect(() => {
     if (activeUserUids && isSwitchNextSlide === true && swiper) {
       swiper.slideNext();
+      setIsHateEffect(false);
     }
     return () => {
       setIsSwitchNextSlide(false);
