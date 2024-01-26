@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React from 'react';
-import hateImg from '@assets/hate/hate.png';
+import passImg from '@assets/hate/pass.png';
 
 type Props = {
   isHateEffect: boolean;
@@ -14,7 +14,7 @@ function SlideEffect({ isHateEffect }: Props) {
       {isHateEffect === true && (
         <>
           <div className="absolute w-full h-full flex justify-center items-center">
-            <Image className="absolute top-[220px]  z-10" src={hateImg} width={100} height={100} alt="거절" />
+            <Image className="absolute top-[220px]  z-10" src={passImg} width={300} height={300} alt="거절" />
           </div>
         </>
       )}
