@@ -77,9 +77,8 @@ export type SendMessageType = {
   favorable_rating: number | undefined;
 };
 
-// TODO 01/24 03:09 created_at의 type을 string에서 Date로 바꿈
 export type MessageType = {
-  created_at: Date;
+  created_at: string;
   subscribe_room_id: string;
   user_uid: string;
   message: string;
