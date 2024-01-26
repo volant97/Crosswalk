@@ -25,7 +25,6 @@ export default function ChatListPage() {
 
   const fetchChatListData = async () => {
     try {
-
       const chatListData = await getChatList();
       setChatList(chatListData);
       const roomIds = chatListData.map((item) => item.id);
@@ -33,7 +32,6 @@ export default function ChatListPage() {
       const lastMessageArray = await fetchLastMessages(roomIds);
       setLastMsg(lastMessageArray);
       console.log('lastMsg in fetchChatListData', lastMsg);
-
     } catch (error) {
       console.log('error in fetchChatList', error);
       alert('서버와의 통신을 실패했습니다.2');
@@ -98,8 +96,8 @@ export default function ChatListPage() {
 
   return (
     <Page noNavBar>
-      {!chatList ? (
-        <div className="h-screen flex items-center justify-center">대화할수있는 방이 없어요</div>
+      {!chatList?.length ? (
+        <div className="h-screen flex items-start justify-center py-5">대화할 수 있는 방이 없어요</div>
       ) : (
         <ul className=" ">
           {chatList?.map((list, idx) => {
