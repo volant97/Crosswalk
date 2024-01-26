@@ -97,7 +97,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
         is_read: false,
         favorable_rating: favorable_rating
       };
-      console.log('sendData: ', sendData);
+      // console.log('sendData: ', sendData);
       await postMessage(sendData);
       setInputValue('');
     }
