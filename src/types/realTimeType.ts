@@ -78,7 +78,7 @@ export type SendMessageType = {
 };
 
 export type MessageType = {
-  created_at: string;
+  created_at: Date;
   subscribe_room_id: string;
   user_uid: string;
   message: string;
