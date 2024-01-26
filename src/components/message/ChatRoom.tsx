@@ -122,6 +122,8 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
     }
   }, [congratulationsMessage]);
 
+  if (!roomInfo?.flirting_list.sender_uid.avatar) return;
+
   return (
     <>
       <div
@@ -154,7 +156,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
-                  {/* {roomInfo?.flirting_list.status === 'SOULMATE' ? :} */}
                   {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
                     roomInfo?.flirting_list.status === 'SOULMATE' ? (
                       <Avatar
@@ -164,7 +165,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
                         }}
                         size="sm"
                         src={roomInfo?.flirting_list.sender_uid.user_img}
-                        alt="유저 아바타 이미지"
+                        alt="유저 이미지"
                       />
                     ) : (
                       <Avatar
