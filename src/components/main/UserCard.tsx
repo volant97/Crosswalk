@@ -45,7 +45,7 @@ function UserCard({
     <>
       <div className={`card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
         <div className={`relative card-front ${isFlipped ? 'hidden' : ''}`}>
-          <div className="relative w-full aspect-[2/3]">
+          <div className="cursor-pointer relative w-full aspect-[2/3]">
             <Image
               className="rounded-[1.5rem] object-cover"
               src={`/assets/avatar/avatar${avatar}.png`}
@@ -82,7 +82,7 @@ function UserCard({
           </div>
         </div>
         <div className={`card-back ${isFlipped ? '' : 'hidden'}`}>
-          <div className="relative w-full aspect-[2/3]">
+          <div className="cursor-pointer relative w-full aspect-[2/3]">
             {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
               className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img "

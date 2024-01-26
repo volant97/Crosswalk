@@ -24,7 +24,7 @@ function EditMyProfile() {
   // console.log(myInfo);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
+  const womanNumber = [2, 4, 6, 8, 10, 12, 14];
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -58,6 +58,7 @@ function EditMyProfile() {
     const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
     const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
     setAvatar(avatarNumbers[randomIndex]);
+    return avatarNumbers[randomIndex];
   };
 
   return (
