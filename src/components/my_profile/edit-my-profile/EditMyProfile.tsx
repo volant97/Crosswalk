@@ -21,7 +21,7 @@ function EditMyProfile() {
   const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
   const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
-  console.log(myInfo);
+  // console.log(myInfo);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];

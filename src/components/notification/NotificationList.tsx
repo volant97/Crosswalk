@@ -27,7 +27,7 @@ const NotificationList = () => {
   const [userNames, setUserNames] = useState<
     { sender: { name: string; uid: string } | null; receiver: { name: string; uid: string } | null }[]
   >([]);
-  console.log('!!!', userNames);
+  // console.log('!!!', userNames);
   const formatDate = (date: Date) => {
     const d = new Date(date);
     const now = Date.now();
@@ -69,8 +69,8 @@ const NotificationList = () => {
           notificationData.map(async (notification) => {
             const senderData: any = await getUser1NameNotification(notification);
             const receiverData: any = await getUser2NameNotification(notification);
-            console.log('senderData', senderData);
-            console.log('receiverData', receiverData);
+            // console.log('senderData', senderData);
+            // console.log('receiverData', receiverData);
             return {
               sender: {
                 name: senderData[0]?.name || 'unknown',
@@ -113,7 +113,7 @@ const NotificationList = () => {
       openModal('알림을 읽는 중에 오류가 발생했습니다.');
     }
   };
-  console.log('notificcationDATAAA:', notificationData);
+  // console.log('notificcationDATAAA:', notificationData);
   return (
     <Fragment>
       <div className="flex-col items-center justify-center w-[100%]  min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">

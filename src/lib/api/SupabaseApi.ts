@@ -230,7 +230,7 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
 
   let lastMessageArray = [];
   for (let i = 0; i < roomIds.length; i++) {
-    console.log('!!!!', i);
+    // console.log('!!!!', i);
     let { data, error } = await supabase
       .from('message')
       .select('*')
@@ -239,7 +239,7 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
       .limit(1)
       .returns<MessageType[]>()
       .maybeSingle();
-    console.log('data api', data);
+    // console.log('data api', data);
     // if (error || null) {
     //   console.error('Error creating a posts data', error);
     //   throw new Error('error while fetching posts data');
@@ -314,7 +314,7 @@ export async function untrackChatRoom(roomId: string) {
 
 // navbar 메세지 알림관련 api 통신로직
 export async function subscribeMessageForNotification(callback: SpecificSubscribeFlirtingListCallbackType) {
-  console.log('야!!');
+  // console.log('야!!');
   supabase
     .channel('message_notification')
     .on(
@@ -354,7 +354,7 @@ export async function getLastMessageForMessageNotification(subscribe_room_id: st
 
   let lastMessageArray = [];
   for (let i = 0; i < roomIds.length; i++) {
-    console.log('!!!!', i);
+    // console.log('!!!!', i);
     let { data, error } = await supabase
       .from('message')
       .select('*')
@@ -363,7 +363,7 @@ export async function getLastMessageForMessageNotification(subscribe_room_id: st
       .limit(1)
       .returns<MessageType[]>()
       .maybeSingle();
-    console.log('data556', data);
+    // console.log('data556', data);
     // if (error || null) {
     //   console.error('Error creating a posts data', error);
     //   throw new Error('error while fetching posts data');
