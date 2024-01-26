@@ -113,7 +113,7 @@ export async function sendFlirting(senderUid: string, message: string, recevierU
 export async function getChatList(): Promise<ChatListType[]> {
   const { data, error } = await supabase
     .from('chat_room')
-    .select('*, flirting_list(*,sender_uid(uid,name,avatar),receiver_uid(uid,name,avatar))')
+    .select('*, flirting_list(*,sender_uid(uid,name,avatar,user_img),receiver_uid(uid,name,avatar,user_img))')
     .order('flirting_list(created_at)', { ascending: false })
     .returns<ChatListType[]>();
 

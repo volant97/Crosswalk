@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export function ChatStatusColor(status: string | undefined, avatar: number | undefined, uid: string | undefined) {
+export function ChatStatusColor(
+  status: string | undefined,
+  avatar: number | undefined,
+  uid: string | undefined,
+  userImg: string | undefined
+) {
   const router = useRouter();
   const routerLink = (uid: string | undefined) => {
     if (uid !== undefined) {
@@ -14,7 +19,7 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
     case 'UNREAD':
       return (
         <div
-          className="rounded-full border-gray-999 border-2 p-[0.2rem]"
+          className="rounded-full border-gray-999 border-2 p-[0.2rem] cursor-pointer"
           onClick={() => {
             routerLink(uid);
           }}
@@ -25,7 +30,7 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
     case 'READ':
       return (
         <div
-          className="rounded-full border-gray-999 border-2 p-[0.2rem]"
+          className="rounded-full border-gray-999 border-2 p-[0.2rem] cursor-pointer"
           onClick={() => {
             routerLink(uid);
           }}
@@ -36,18 +41,23 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
     case 'ACCEPT':
       return (
         <div
-          className="rounded-full border-customYellow border-2 p-[0.2rem]"
+          className="rounded-full border-customYellow border-2 p-[0.2rem] cursor-pointer"
           onClick={() => {
             routerLink(uid);
           }}
         >
-          <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
+          <Avatar
+            size="sm"
+            src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`}
+            alt="유저 아바타 이미지"
+            className="cursor-pointer"
+          />
         </div>
       );
     case 'DECLINE':
       return (
         <div
-          className="rounded-full border-customRed border-2 p-[0.2rem]"
+          className="rounded-full border-customRed border-2 p-[0.2rem] cursor-pointer"
           onClick={() => {
             routerLink(uid);
           }}
@@ -57,8 +67,8 @@ export function ChatStatusColor(status: string | undefined, avatar: number | und
       );
     case 'SOULMATE':
       return (
-        <div className="rounded-full border-customGreen3 border-2 p-[0.2rem]">
-          <Avatar size="sm" src={`/assets/avatar/avatar-circle/avatar${avatar}-circle.png`} alt="유저 아바타 이미지" />
+        <div className="rounded-full border-customGreen3 border-2 p-[0.2rem] cursor-pointer">
+          <Avatar size="sm" src={userImg} alt="유저 아바타 이미지" />
         </div>
       );
   }
