@@ -31,7 +31,7 @@ export default function ChatListPage() {
 
       const lastMessageArray = await fetchLastMessages(roomIds);
       setLastMsg(lastMessageArray);
-      console.log('lastMsg in fetchChatListData', lastMsg);
+      // console.log('lastMsg in fetchChatListData', lastMsg);
     } catch (error) {
       console.log('error in fetchChatList', error);
       alert('서버와의 통신을 실패했습니다.2');
@@ -56,7 +56,7 @@ export default function ChatListPage() {
 
   useEffect(() => {
     subscribeChatList((payload: any) => {
-      console.log('payload:', payload);
+      // console.log('payload:', payload);
       fetchChatListData();
     });
     fetchChatListData();
@@ -92,7 +92,7 @@ export default function ChatListPage() {
     } else return openModal('신호 대기중입니다!');
   };
 
-  console.log('lastMsg', lastMsg);
+  // console.log('lastMsg', lastMsg);
 
   return (
     <Page noNavBar>
