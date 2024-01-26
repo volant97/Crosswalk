@@ -132,6 +132,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
+          console.log(roomInfo?.flirting_list);
           return data.user_uid === getUid?.id ? (
             <>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
@@ -154,17 +155,32 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                  {/* {roomInfo?.flirting_list.status === 'SOULMATE' ? :} */}
                   {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
-                    <Avatar
-                      onClick={() => {
-                        routerLink(roomInfo?.flirting_list.sender_uid.uid);
-                      }}
-                      size="sm"
-                      src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.sender_uid.avatar}-circle.png`}
-                      alt="유저 아바타 이미지"
-                    />
+                    roomInfo?.flirting_list.status === 'SOULMATE' ? (
+                      <Avatar
+                        className="cursor-pointer"
+                        onClick={() => {
+                          routerLink(roomInfo?.flirting_list.sender_uid.uid);
+                        }}
+                        size="sm"
+                        src={roomInfo?.flirting_list.sender_uid.user_img}
+                        alt="유저 아바타 이미지"
+                      />
+                    ) : (
+                      <Avatar
+                        className="cursor-pointer"
+                        onClick={() => {
+                          routerLink(roomInfo?.flirting_list.sender_uid.uid);
+                        }}
+                        size="sm"
+                        src={`/assets/avatar/avatar-circle/avatar${roomInfo?.flirting_list.sender_uid.avatar}-circle.png`}
+                        alt="유저 아바타 이미지"
+                      />
+                    )
                   ) : (
                     <Avatar
+                      className="cursor-pointer"
                       onClick={() => {
                         routerLink(roomInfo?.flirting_list.receiver_uid.uid);
                       }}

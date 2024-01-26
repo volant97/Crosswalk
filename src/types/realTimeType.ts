@@ -60,8 +60,8 @@ export type ChatListType = {
     status: string;
     sender_is_read_in_noti: boolean;
     receiver_is_read_in_noti: boolean;
-    receiver_uid: { name: string; avatar: number; uid: string };
-    sender_uid: { name: string; avatar: number; uid: string };
+    receiver_uid: { name: string; avatar: number; uid: string; user_img: string };
+    sender_uid: { name: string; avatar: number; uid: string; user_img: string };
   };
 };
 

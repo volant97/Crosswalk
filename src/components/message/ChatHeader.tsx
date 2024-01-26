@@ -31,12 +31,15 @@ function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
             ? ChatStatusColor(
                 roomInfo?.flirting_list?.status,
                 roomInfo?.flirting_list?.sender_uid?.avatar,
-                roomInfo?.flirting_list?.sender_uid?.uid
+                roomInfo?.flirting_list?.sender_uid?.uid,
+                roomInfo?.flirting_list?.sender_uid?.user_img
               )
             : ChatStatusColor(
                 roomInfo?.flirting_list?.status,
                 roomInfo?.flirting_list?.receiver_uid?.avatar,
-                roomInfo?.flirting_list?.receiver_uid?.uid
+                roomInfo?.flirting_list?.receiver_uid?.uid,
+
+                roomInfo?.flirting_list?.sender_uid?.user_img
               )}
           <div>
             {roomInfo?.flirting_list.sender_uid.uid === getUid?.id ? (
