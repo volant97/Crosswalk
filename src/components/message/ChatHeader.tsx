@@ -39,7 +39,7 @@ function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
                 roomInfo?.flirting_list?.receiver_uid?.avatar,
                 roomInfo?.flirting_list?.receiver_uid?.uid,
 
-                roomInfo?.flirting_list?.sender_uid?.user_img
+                roomInfo?.flirting_list?.receiver_uid?.user_img
               )}
           <div>
             {roomInfo?.flirting_list.sender_uid.uid === getUid?.id ? (

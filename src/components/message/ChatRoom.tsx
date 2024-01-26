@@ -132,7 +132,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
-          console.log(roomInfo?.flirting_list);
           return data.user_uid === getUid?.id ? (
             <>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
@@ -178,6 +177,16 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
                         alt="유저 아바타 이미지"
                       />
                     )
+                  ) : roomInfo?.flirting_list.status === 'SOULMATE' ? (
+                    <Avatar
+                      className="cursor-pointer"
+                      onClick={() => {
+                        routerLink(roomInfo?.flirting_list.receiver_uid.uid);
+                      }}
+                      size="sm"
+                      src={roomInfo?.flirting_list.receiver_uid.user_img}
+                      alt="유저 아바타 이미지"
+                    />
                   ) : (
                     <Avatar
                       className="cursor-pointer"

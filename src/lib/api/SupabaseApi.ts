@@ -196,9 +196,8 @@ export async function getUnMatchedData(myUid: string, gender: string) {
 
   const filteredUserDataWithoutMatchedUser =
     filteredUserData?.filter((item) => !matchedUserUids.includes(item.uid)) || [];
-  // console.log('test', filteredUserDataWithoutMatchedUser);
+
   const users = filteredUserDataWithoutMatchedUser;
-  // console.log('users', users);
 
   if (error) {
     console.error('Error getUnMatchedData', error);
