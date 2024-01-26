@@ -3,7 +3,13 @@
 import Page from '@/components/layout/Page';
 import ChatHeader from '@/components/message/ChatHeader';
 import ChatRoom from '@/components/message/ChatRoom';
-import { getChatList, getMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
+import {
+  changeMessageToRead,
+  getChatList,
+  getMessage,
+  subscribeChatRoom,
+  untrackChatRoom
+} from '@/lib/api/SupabaseApi';
 import { userState } from '@/recoil/user';
 import { ChatListType, MessageType } from '@/types/realTimeType';
 import { usePathname } from 'next/navigation';
@@ -46,13 +52,26 @@ function ChatRoomPage() {
     }
   }
 
+  async function handleToRead(subscribe_room_id: string) {
+    try {
+      if (getUid) {
+        await changeMessageToRead(getUid.id, subscribe_room_id);
+      }
+    } catch (error) {
+      alert('서버와의 통신을 실패했습니다.');
+    }
+  }
+
   useEffect(() => {
     // 컴포넌트 마운트 시에 구독
     subscribeChatRoom(roomId, (payload: any) => {
       getData(roomId);
+      handleToRead(roomId);
     });
 
     getData(roomId);
+    handleToRead(roomId);
+
     // 컴포넌트 언마운트 시에 구독 해제
     return () => {
       untrackChatRoom(roomId);

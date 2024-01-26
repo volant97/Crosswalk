@@ -13,9 +13,3 @@ export const LastMessageState = atom<LastMessageDataType>({
     favorable_rating: 0
   }
 });
-
-// /**각 채팅방의 메시지*/
-// export const subscribeRoomAllMessageState = atom<MessageType[] | null>({
-//   key: 'subscribeRoomAllMessageState',
-//   default: null
-// });

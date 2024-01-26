@@ -1,18 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
+// 'use client';
 
-import { UserState, userState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
+import { UserState } from '@/recoil/user';
+import { ChatListType } from '@/types/realTimeType';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
-import { useRecoilState } from 'recoil';
+import React from 'react';
 import { ChatStatusColor } from './ChatStatusColor';
-import Link from 'next/link';
-import { IoIosArrowRoundBack } from 'react-icons/io';
 import SignalOffModal from '../common/modal/SignalOffModal';
 import GoToBackBtn from '../layout/GoToBackBtn';
-import { getMessage, subscribeChatRoom, untrackChatRoom } from '@/lib/api/SupabaseApi';
 
 interface ChatProps {
   roomInfo?: ChatListType;

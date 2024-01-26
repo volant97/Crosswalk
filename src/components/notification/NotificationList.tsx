@@ -121,8 +121,8 @@ const NotificationList = () => {
           notificationData.every(
             (notification) => notification.receiver_is_read_in_noti || notification.sender_is_read_in_noti
           ) ? (
-            <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">
-              <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">받은 알림이 없습니다.</li>
+            <div className="flex flex-col item-center justify-center max-w-96 h-18 p-2 gap-1 ">
+              <li className="flex flex-col item-center  max-w-96 h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
             </div>
           ) : (
             notificationData?.map((notification, index) => {
@@ -190,8 +190,8 @@ const NotificationList = () => {
             })
           )
         ) : (
-          <div className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">
-            <li className="flex flex-col item-center max-w-96 h-18 p-2 gap-1 ">받은 알림이 없습니다.</li>
+          <div className="flex flex-col item-center justify-center max-w-96 h-18 p-2 gap-1 ">
+            <li className="flex flex-col item-center  max-w-96 h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
           </div>
         )}
       </div>
