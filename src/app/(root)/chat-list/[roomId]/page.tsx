@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import Page from '@/components/layout/Page';
 import ChatHeader from '@/components/message/ChatHeader';
+import ChatInput from '@/components/message/ChatInput';
 import ChatRoom from '@/components/message/ChatRoom';
 import {
   changeMessageToRead,
@@ -79,12 +79,10 @@ function ChatRoomPage() {
   }, [getUid, roomId]);
 
   return (
-    // <Page noHeader noNavBar>
-    <>
+    <div className="h-screen">
       <ChatHeader roomInfo={roomInfo} getUid={getUid} favorableRating={favorableRating} />
       <ChatRoom roomId={roomId} roomInfo={roomInfo} getUid={getUid} messageData={messageData} />
-    </>
-    // </Page>
+    </div>
   );
 }
 
