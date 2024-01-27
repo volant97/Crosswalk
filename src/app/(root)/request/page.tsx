@@ -7,8 +7,7 @@ function Request() {
   return (
     <Page>
       <ReceivedRequest />
-
-      <NavBar />
+      {/* <NavBar /> */}
     </Page>
   );
 }

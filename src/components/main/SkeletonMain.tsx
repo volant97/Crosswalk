@@ -7,7 +7,7 @@ import Button from '../Button';
 
 export default function SkeletonMain() {
   return (
-    <div className="flex flex-col gap-[48px] justify-center items-center px-[20px]">
+    <div className="py-[30px] px-[24px] flex flex-col gap-[30px] justify-center h-[calc(100dvh-9dvh-8.5dvh)]">
       <Skeleton className="rounded-[24px] w-full min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] px-[4px]"></Skeleton>
 
       <div className="w-full flex gap-2">

@@ -113,7 +113,7 @@ const NotificationList = () => {
       openModal('알림을 읽는 중에 오류가 발생했습니다.');
     }
   };
-  // console.log('notificcationDATAAA:', notificationData);
+  console.log('notificcationDATAAA:', notificationData);
   return (
     <Fragment>
       <div className="flex-col items-center justify-center w-[100%]  min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">

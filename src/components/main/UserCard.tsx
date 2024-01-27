@@ -45,47 +45,49 @@ function UserCard({
     <>
       <div className={`card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
         <div className={`relative card-front ${isFlipped ? 'hidden' : ''}`}>
-          <div className="cursor-pointer relative w-full aspect-[2/3]">
-            <Image
-              className="rounded-[1.5rem] object-cover"
-              src={`/assets/avatar/avatar${avatar}.png`}
-              alt="유저 아바타 이미지"
-              fill
-            />
-            <Image
-              className="border-black-4 absolute right-[15px] bottom-[15px]"
-              src={'/assets/figmaImg/information.png'}
-              alt="information"
-              width={25}
-              height={25}
-            />
-            <div className="absolute flex flex-col gap-[10px] bottom-4 left-[24px]">
-              <div className="flex items-end w-full gap-[4px]">
-                <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
-                <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
-              </div>
-              <div className="flex flex-warp w-full items-center gap-[4px] ">
-                {interest?.map((item, index) => {
-                  return (
-                    <Fragment key={index}>
-                      <div
-                        key={index}
-                        className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px] bg-gray-800 bg-opacity-10"
-                      >
-                        {item}
-                      </div>
-                    </Fragment>
-                  );
-                })}
+          <div className="flex items-center">
+            <div className="cursor-pointer relative w-full aspect-[2/3]">
+              <Image
+                className="rounded-[1.5rem] object-cover"
+                src={`/assets/avatar/avatar${avatar}.png`}
+                alt="유저 아바타 이미지"
+                fill
+              />
+              <Image
+                className="border-black-4 absolute right-[15px] bottom-[15px]"
+                src={'/assets/figmaImg/information.png'}
+                alt="information"
+                width={25}
+                height={25}
+              />
+              <div className="absolute flex flex-col gap-[10px] bottom-4 left-[24px]">
+                <div className="flex items-end w-full gap-[4px]">
+                  <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
+                  <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
+                </div>
+                <div className="flex flex-warp w-full items-center gap-[4px] ">
+                  {interest?.map((item, index) => {
+                    return (
+                      <Fragment key={index}>
+                        <div
+                          key={index}
+                          className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px] bg-gray-800 bg-opacity-10"
+                        >
+                          {item}
+                        </div>
+                      </Fragment>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className={`card-back ${isFlipped ? '' : 'hidden'}`}>
-          <div className="cursor-pointer relative w-full aspect-[2/3]">
+        <div className={`card-back ${isFlipped ? '' : 'hidden'} `}>
+          <div className="cursor-pointer relative w-full aspect-[2/3] overflow-hidden rounded-[24px]">
             {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
-              className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img "
+              className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img"
               src={userImg}
               alt="유저 아바타 이미지"
               fill

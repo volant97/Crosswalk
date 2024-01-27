@@ -95,7 +95,7 @@ export default function ChatListPage() {
   };
 
   return (
-    <Page noNavBar>
+    <Page>
       {!chatList?.length ? (
         <div className="h-screen flex items-start justify-center py-5">대화할 수 있는 방이 없어요</div>
       ) : (
@@ -200,7 +200,7 @@ export default function ChatListPage() {
       )}
       {AlertModal()}
       {AlertChatListModal()}
-      <NavBar />
+      {/* <NavBar /> */}
     </Page>
   );
 }
