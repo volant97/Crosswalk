@@ -8,6 +8,7 @@ import React from 'react';
 import { ChatStatusColor } from './ChatStatusColor';
 import SignalOffModal from '../common/modal/SignalOffModal';
 import GoToBackBtn from '../layout/GoToBackBtn';
+import { useRouter } from 'next/navigation';
 
 interface ChatProps {
   roomInfo?: ChatListType;
@@ -16,9 +17,17 @@ interface ChatProps {
 }
 
 function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
+  const router = useRouter();
+
+  const routerLink = (uid: string | undefined) => {
+    if (uid !== undefined) {
+      router.push(`/${uid}`);
+    }
+  };
+
   return (
     <>
-      <header className="relative flex font-virgil w-full h-16 sticky bg-white top-0 items-center mb-[1.5rem] border-b-2 border-solid px-6">
+      <header className="sticky flex font-virgil w-full h-16 bg-white top-0 items-center border-b-2 border-solid px-6 z-50">
         <div className="mb-[25px]">
           <GoToBackBtn />
         </div>

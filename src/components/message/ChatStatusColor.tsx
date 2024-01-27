@@ -67,7 +67,12 @@ export function ChatStatusColor(
       );
     case 'SOULMATE':
       return (
-        <div className="rounded-full border-customGreen3 border-2 p-[0.2rem] cursor-pointer">
+        <div
+          className="rounded-full border-customGreen3 border-2 p-[0.2rem] cursor-pointer"
+          onClick={() => {
+            routerLink(uid);
+          }}
+        >
           <Avatar size="sm" src={userImg} alt="유저 아바타 이미지" />
         </div>
       );

@@ -63,7 +63,10 @@ function EditMyProfile() {
 
   return (
     <div className="flex flex-col items-center justify-start h-full">
-      <form className="w-[320px] h-[67dvh] my-[25px] overflow-y-auto scrollbar-hide" onSubmit={onSubmitHandelr}>
+      <form
+        className="flex flex-col gap-[20px] w-[320px] py-[25px] overflow-y-auto scrollbar-hide"
+        onSubmit={onSubmitHandelr}
+      >
         <div className="relative flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona rounded-[24px]">
           {/* 아바타 */}
           <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
@@ -205,9 +208,11 @@ function EditMyProfile() {
             </label>
           </div>
         </div>
+        {/* 수정하기 버튼 */}
+        <div>
+          <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} avatar={avatar} />
+        </div>
       </form>
-      {/* 수정하기 버튼 */}
-      <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} avatar={avatar} />
       {mbtiModal()}
       {interestModal()}
     </div>

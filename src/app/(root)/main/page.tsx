@@ -8,7 +8,6 @@ function MainPage() {
   return (
     <Page noBack>
       <FetchUserCards />
-      {/* <NavBar /> */}
     </Page>
   );
 }
