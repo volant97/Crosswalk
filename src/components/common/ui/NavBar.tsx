@@ -105,11 +105,11 @@ function NavBar() {
           pathname.startsWith('/main') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center justify-center text-[14px]" href="/main">
+        <Link className="flex items-center justify-center text-[14px] font-semibold leading-[14px]" href="/main">
           {pathname.startsWith('/main') ? (
             <div className=" w-[3.93rem] h-8 flex items-center justify-center">
               <Image
-                src="/assets/figmaImg/activeHome.png"
+                src="/assets/figmaImg/activeHome2.png"
                 className="w-[1.9rem] h-[1.9rem] mr-[0.38rem]"
                 width={100}
                 height={100}
@@ -120,7 +120,7 @@ function NavBar() {
           ) : (
             <div className="flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/home.png"
+                src="/assets/figmaImg/home2.png"
                 className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
@@ -135,11 +135,14 @@ function NavBar() {
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center justify-center gap-[4px] h-full text-[14px]" href="/request">
+        <Link
+          className="flex items-center justify-center gap-[4px] h-full text-[14px] font-semibold leading-[14px]"
+          href="/request"
+        >
           {pathname.startsWith('/request') ? (
             <div className=" w-[5.437rem] h-8 px-[0.25rem] py-[0.62rem] flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/activeRequest.png"
+                src="/assets/figmaImg/activeRequest2.png"
                 className="w-[1.9rem] h-[1.9rem] mr-[0.38rem]"
                 width={100}
                 height={100}
@@ -150,7 +153,7 @@ function NavBar() {
           ) : (
             <div className="flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/request.png"
+                src="/assets/figmaImg/request2.png"
                 className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
@@ -166,11 +169,14 @@ function NavBar() {
           pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center gap-[4px] h-full text-[14px] " href="/chat-list">
+        <Link
+          className="flex items-center gap-[4px] h-full text-[14px] font-semibold leading-[14px] "
+          href="/chat-list"
+        >
           {pathname.startsWith('/chat-list') ? (
             <div className="w-[4.6875rem] h-8 flex px-[0.25rem] py-[0.62rem] items-center justify-center relative">
               <Image
-                src="/assets/figmaImg/activeChat.png"
+                src="/assets/figmaImg/activeChat2.png"
                 className="w-[1.9rem] h-[1.9rem] mr-[0.38rem] "
                 width={100}
                 height={100}
@@ -181,7 +187,7 @@ function NavBar() {
           ) : (
             <div className="flex items-center justify-center relative">
               <Image
-                src="/assets/figmaImg/chat.png"
+                src="/assets/figmaImg/chat2.png"
                 className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
@@ -212,11 +218,14 @@ function NavBar() {
           pathname.startsWith('/my-profile') ? `${active}` : 'text-slate-300'
         }`}
       >
-        <Link className="flex items-center gap-[4px] h-full text-[14px] " href="/my-profile">
+        <Link
+          className="flex items-center gap-[4px] h-full text-[14px] font-semibold leading-[14px] "
+          href="/my-profile"
+        >
           {pathname.startsWith('/my-profile') ? (
             <div className="w-[5.437rem] h-8 px-[0.25rem] py-[0.62rem] flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/activeUserCircle.png"
+                src="/assets/figmaImg/activeUserCircle2.png"
                 className="w-[1.9rem] h-[1.9rem]  mr-[0.38rem]"
                 width={100}
                 height={100}
@@ -227,7 +236,7 @@ function NavBar() {
           ) : (
             <div className="flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/UserCircle.png"
+                src="/assets/figmaImg/UserCircle2.png"
                 className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
