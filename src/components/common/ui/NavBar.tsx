@@ -236,7 +236,7 @@ function NavBar() {
           ) : (
             <div className="flex items-center justify-center ">
               <Image
-                src="/assets/figmaImg/UserCircle2.png"
+                src="/assets/figmaImg/userCircle2.png"
                 className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
