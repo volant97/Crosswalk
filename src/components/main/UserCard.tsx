@@ -87,9 +87,9 @@ function UserCard({
           <div className="cursor-pointer relative w-full aspect-[2/3] overflow-hidden rounded-[24px]">
             {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
-              className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img"
+              className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img "
               src={userImg}
-              alt="유저 아바타 이미지"
+              alt="유저 이미지"
               fill
             />
             {/* <p className="text-customRed text-[90px] font-extrabold rotate-45 absolute top-[30%] right-[88%] ">
@@ -115,7 +115,7 @@ function UserCard({
                 })}
               </div>
             </div>
-            <div className="absolute bottom-[5px] flex flex-col gap-[8px] my-[1.5rem] h-[52px] left-[24px]">
+            <div className="absolute flex flex-col justify-end gap-[8px] w-full h-full my-[1.5rem] pb-[50px] left-[24px]">
               <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
               <div className="flex flex-row gap-[0.25rem] h-[26px] w-[270px]">
                 <div
