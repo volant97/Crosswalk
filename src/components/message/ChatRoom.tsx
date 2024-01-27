@@ -125,7 +125,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   if (!roomInfo?.flirting_list.sender_uid.avatar) return;
 
   return (
-    <>
+    <div className="flex flex-col justify-center">
       <div
         ref={chatContainerRef}
         className="relative flex flex-col items-end w-full overflow-y-auto scrollbar-hide px-6 "
@@ -215,31 +215,34 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
           );
         })}
       </div>
-      <form
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          handleSendMessage();
-        }}
-        className="absolute left-1/2 transform -translate-x-1/2 flex flex-row flex-warp gap-[0.75rem] items-center w-[20rem] h-[3.25rem] bottom-0 border-1 border-gray-DDD border-solid rounded-full "
-      >
-        <input
-          value={inputValue}
-          className="flex ml-[12px] w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
-          placeholder="write a message "
-          onChange={inputValueHandler}
-        />
-        <button className="absolute flex justify-center items-center right-[0.5rem] w-[2.25rem] h-[2.25rem] rounded-full bg-lightGreen hover:scale-110 transform transition-transform ease-in-out duration-300">
-          <Image
-            src="/assets/figmaImg/Plain.png"
-            className="w-[1.25rem] h-[1.25rem] "
-            width={100}
-            height={100}
-            alt="보내기"
+      <div className="px-[20px]">
+        <form
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            handleSendMessage();
+          }}
+          className="sticky flex flex-row flex-warp gap-[0.75rem] items-center w-full h-[3.25rem] bottom-0 border-1 border-gray-DDD border-solid rounded-full "
+        >
+          <input
+            type="text"
+            value={inputValue}
+            className="flex ml-[12px] w-[15.25rem] text-[1.125rem] pl-[1.25rem] py-[0.5rem] h-[2.75rem] outline-none resize-none overflow-y-hidden leading-[1.5rem]"
+            placeholder="write a message "
+            onChange={inputValueHandler}
           />
-        </button>
-      </form>
+          <button className="absolute flex justify-center items-center right-[0.5rem] w-[2.25rem] h-[2.25rem] rounded-full bg-lightGreen hover:scale-110 transform transition-transform ease-in-out duration-300">
+            <Image
+              src="/assets/figmaImg/Plain.png"
+              className="w-[1.25rem] h-[1.25rem] "
+              width={100}
+              height={100}
+              alt="보내기"
+            />
+          </button>
+        </form>
+      </div>
       {AlertCongratModal()}
-    </>
+    </div>
   );
 }
 
