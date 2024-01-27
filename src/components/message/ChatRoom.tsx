@@ -125,10 +125,10 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   if (!roomInfo?.flirting_list.sender_uid.avatar) return;
 
   return (
-    <div className="flex flex-col justify-center h-[calc[100dvh-64px-62px]]">
+    <div className="flex flex-col justify-center ">
       <div
         ref={chatContainerRef}
-        className="relative flex flex-col items-end w-full overflow-y-auto scrollbar-hide px-6 py-[24px] "
+        className="relative flex flex-col items-end w-full overflow-y-auto scrollbar-hide px-6 py-[24px] h-[calc(100dvh-64px-68px)]"
       >
         {StatusMessage(roomInfo?.flirting_list.status)}
 
@@ -215,11 +215,10 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
           );
         })}
       </div>
-      <div className="px-[20px] sticky h-[62px] bottom-0 bg-white">
+      <div className="px-[20px] sticky h-[68px] bottom-0 bg-white">
         <form
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            handleSendMessage();
           }}
           className="sticky flex flex-row flex-warp gap-[0.75rem] items-center w-full h-[3.25rem] bottom-0 border-1 border-gray-DDD border-solid rounded-full "
         >

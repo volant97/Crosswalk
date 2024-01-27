@@ -125,7 +125,10 @@ function FetchUserCards() {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full scale-[88%]">
+      {/* 
+    PWA용
+    <div className="relative w-full"> */}
       {isLoading ? (
         <SkeletonMain />
       ) : (
