@@ -98,7 +98,7 @@ function NavBar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 bottom-0 max-w-[26.8rem] mr-auto ml-auto  h-[7dvh] bg-white shadow-navBarShadow flex flex-row justify-center items-center px-6 `}
+      className={`sticky bottom-0  h-[8.5dvh] bg-white shadow-navBarShadow flex flex-row justify-center items-center px-6 z-50`}
     >
       <div
         className={` flex justify-center items-center w-[25%] ${
@@ -110,7 +110,7 @@ function NavBar() {
             <div className=" w-[3.93rem] h-8 flex items-center justify-center">
               <Image
                 src="/assets/figmaImg/activeHome.png"
-                className="w-[1.5rem] h-[1.5rem] mr-[0.38rem]"
+                className="w-[1.9rem] h-[1.9rem] mr-[0.38rem]"
                 width={100}
                 height={100}
                 alt="홈 이미지"
@@ -121,7 +121,7 @@ function NavBar() {
             <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/home.png"
-                className="w-[1.5rem] h-[1.5rem]"
+                className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
                 alt="홈 이미지"
@@ -140,7 +140,7 @@ function NavBar() {
             <div className=" w-[5.437rem] h-8 px-[0.25rem] py-[0.62rem] flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/activeRequest.png"
-                className="w-[1.5rem] h-[1.5rem] mr-[0.38rem]"
+                className="w-[1.9rem] h-[1.9rem] mr-[0.38rem]"
                 width={100}
                 height={100}
                 alt="받은 요청함 이미지"
@@ -151,7 +151,7 @@ function NavBar() {
             <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/request.png"
-                className="w-[1.5rem] h-[1.5rem]"
+                className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
                 alt="받은 요청함 이미지"
@@ -171,7 +171,7 @@ function NavBar() {
             <div className="w-[4.6875rem] h-8 flex px-[0.25rem] py-[0.62rem] items-center justify-center relative">
               <Image
                 src="/assets/figmaImg/activeChat.png"
-                className="w-[1.5rem] h-[1.5rem] mr-[0.38rem] "
+                className="w-[1.9rem] h-[1.9rem] mr-[0.38rem] "
                 width={100}
                 height={100}
                 alt="채팅함 이미지"
@@ -182,7 +182,7 @@ function NavBar() {
             <div className="flex items-center justify-center relative">
               <Image
                 src="/assets/figmaImg/chat.png"
-                className="w-[1.5rem] h-[1.5rem]"
+                className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
                 alt="채팅함 이미지"
@@ -217,7 +217,7 @@ function NavBar() {
             <div className="w-[5.437rem] h-8 px-[0.25rem] py-[0.62rem] flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/activeUserCircle.png"
-                className="w-[1.5rem] h-[1.5rem]  mr-[0.38rem]"
+                className="w-[1.9rem] h-[1.9rem]  mr-[0.38rem]"
                 width={100}
                 height={100}
                 alt="마이페이지 이미지"
@@ -228,7 +228,7 @@ function NavBar() {
             <div className="flex items-center justify-center ">
               <Image
                 src="/assets/figmaImg/UserCircle.png"
-                className="w-[1.5rem] h-[1.5rem]"
+                className="w-[1.9rem] h-[1.9rem]"
                 width={100}
                 height={100}
                 alt="마이페이지 이미지"

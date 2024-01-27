@@ -39,7 +39,7 @@ function Name() {
 
   return (
     <form
-      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
+      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
       onSubmit={handleSubmit}
       id="name"
     >
