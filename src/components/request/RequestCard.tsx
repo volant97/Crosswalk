@@ -2,8 +2,8 @@ import React from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import DeclineBtn from './dawawd/DeclineBtn';
-import AcceptBtn from './dawawd/AcceptBtn';
+import DeclineBtn from './btn/DeclineBtn';
+import AcceptBtn from './btn/AcceptBtn';
 // 여기 폴더명 변경했음
 
 type Props = {
