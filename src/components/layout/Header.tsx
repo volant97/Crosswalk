@@ -6,6 +6,7 @@ import Image from 'next/image';
 import GoToBackBtn from './GoToBackBtn';
 import { IoMdSettings } from 'react-icons/io';
 import { MdSupportAgent } from 'react-icons/md';
+import serviceImg from '@assets/figmaImg/customerService.png';
 
 interface PageProps {
   noBack?: boolean;
@@ -43,7 +44,7 @@ function Header({ noBack, noNavBar, noNotiBell, noBackMain, cs }: PageProps) {
         )}
         {cs && (
           <Link href={'/customer-service/contact'} className="absolute right-[25px]">
-            <MdSupportAgent size={24} />
+            <Image className="w-6 h-6" src={serviceImg} width={100} height={1000} alt="문의 이미지" />
             {/* <IoMdSettings size={24} /> //추후에 설정페이지 만들면 적용 = 설정아이콘 */}
           </Link>
         )}

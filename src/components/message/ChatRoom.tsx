@@ -228,7 +228,10 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
           placeholder="write a message "
           onChange={inputValueHandler}
         />
-        <button className="absolute flex justify-center items-center right-[0.5rem] w-[2.25rem] h-[2.25rem] rounded-full bg-lightGreen hover:scale-110 transform transition-transform ease-in-out duration-300">
+        <button
+          onClick={handleSendMessage}
+          className="absolute flex justify-center items-center right-[0.5rem] w-[2.25rem] h-[2.25rem] rounded-full bg-lightGreen hover:scale-110 transform transition-transform ease-in-out duration-300"
+        >
           <Image
             src="/assets/figmaImg/Plain.png"
             className="w-[1.25rem] h-[1.25rem] "

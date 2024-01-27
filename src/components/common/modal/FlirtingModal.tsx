@@ -105,9 +105,22 @@ const useFlirtingModal = () => {
                     required
                   />
                   <Button
+                    onClick={() => {
+                      firstNextSlide();
+                      if (flirtingMessage === '') {
+                        openModal('내용 입력은 필수 입니다.');
+                        return false;
+                      }
+                      sendFlirtingMessage();
+                      setFlirtingMessage('');
+                      onClose();
+
+                      // console.log('플러팅 모달에서의 Uid', flirtingUserUid);
+                      setIsSwitchNextSlide(true);
+                      // console.log('확인');
+                    }}
                     className="w-full bg-customGreen rounded-3xl cursor-pointer mb-10 mt-[30px] font-semibold text-center"
                     type="submit"
-                    onPress={onClose}
                   >
                     <Image
                       className="w-[1rem] h-[1rem]"
