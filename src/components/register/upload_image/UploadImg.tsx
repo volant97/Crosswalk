@@ -31,7 +31,7 @@ const UploadImg = () => {
   const myInfo: any = register?.profile;
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [0, 2, 4, 6, 8, 10, 12, 14];
+  const womanNumber = [2, 4, 6, 8, 10, 12, 14];
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);

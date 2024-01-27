@@ -148,7 +148,7 @@ const NotificationList = () => {
                         ? '/chat-list'
                         : notification.status === 'UNREAD' ||
                           (notification.status === 'READ' && currentUser?.id === userNames[index]?.sender?.uid)
-                        ? '/notification'
+                        ? '/chat-list'
                         : notification.status === 'UNREAD' ||
                           (notification.status === 'READ' && currentUser?.id === userNames[index]?.receiver?.uid)
                         ? '/request'

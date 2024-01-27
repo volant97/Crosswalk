@@ -14,14 +14,15 @@ import { useRecoilState } from 'recoil';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 import NavBar from '@/components/common/ui/NavBar';
+import useChatListModal from '@/components/common/modal/ChatListModal';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
   const [getUid, setGetUid] = useRecoilState<UserState>(userState);
-  const [lastMessageData, setLastMessageData] = useRecoilState<LastMessageDataType>(LastMessageState);
   const [lastMsg, setLastMsg] = useState<LastMessageArrayType>();
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
+  const { openModal: openChatListModal, AlertChatListModal } = useChatListModal();
 
   const fetchChatListData = async () => {
     try {
@@ -30,6 +31,7 @@ export default function ChatListPage() {
       const roomIds = chatListData.map((item) => item.id);
 
       const lastMessageArray = await fetchLastMessages(roomIds);
+
       setLastMsg(lastMessageArray);
       // console.log('lastMsg in fetchChatListData', lastMsg);
     } catch (error) {
@@ -92,8 +94,6 @@ export default function ChatListPage() {
     } else return openModal('신호 대기중입니다!');
   };
 
-  // console.log('lastMsg', lastMsg);
-
   return (
     <Page noNavBar>
       {!chatList?.length ? (
@@ -107,7 +107,12 @@ export default function ChatListPage() {
                   key={idx}
                   className="py-3 flex flex-row gap-0 justify-between cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0] px-[20px]"
                   onClick={() => {
-                    routerLink(list.id, list.flirting_list.status);
+                    if (!lastMsg) return;
+                    if (lastMsg[idx] === null) {
+                      return openChatListModal('');
+                    } else {
+                      routerLink(list.id, list.flirting_list.status);
+                    }
                   }}
                 >
                   <div className="flex items-center">
@@ -148,7 +153,13 @@ export default function ChatListPage() {
                   key={idx}
                   className="py-3 flex flex-row gap-0 justify-between cursor-pointer px-[20px] transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
-                    routerLink(list.id, list.flirting_list.status);
+                    if (!lastMsg) return;
+
+                    if (lastMsg[idx] === null) {
+                      return openChatListModal('');
+                    } else {
+                      routerLink(list.id, list.flirting_list.status);
+                    }
                   }}
                 >
                   <div className="flex items-center">
@@ -188,6 +199,7 @@ export default function ChatListPage() {
         </ul>
       )}
       {AlertModal()}
+      {AlertChatListModal()}
       <NavBar />
     </Page>
   );
