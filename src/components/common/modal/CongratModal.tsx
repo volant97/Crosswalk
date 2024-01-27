@@ -40,7 +40,10 @@ const useCongratModal = () => {
                 <span className="font-bold text-customGreen3">초록불</span>이 밝게 빛나고 있네요.
               </p>
               {/* <p>기다리시던 시크릿이 오픈되었습니다.</p> */}
-              <p className="text-[12px] text-gray-AAA">오픈된 시크릿을 상대 프로필을 통해서 확인해보세요.</p>
+              <div className="flex flex-col text-center gap-2">
+                <p className="text-[12px] text-gray-AAA mx-0 my-0 h-[12px]">오픈된 시크릿은 상대 프로필을</p>
+                <p className="text-[12px] text-gray-AAA mx-0 my-0 h-[12px]">통해서 확인해보세요.</p>
+              </div>
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               <Button
