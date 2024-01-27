@@ -7,7 +7,7 @@ function MyProfile() {
   return (
     <Page noNotiBell cs>
       <FetchMyProfileCard />
-      <NavBar />
+      {/* <NavBar /> */}
     </Page>
   );
 }
