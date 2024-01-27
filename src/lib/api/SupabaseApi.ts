@@ -168,7 +168,6 @@ export async function getUnMatchedData(myUid: string, gender: string) {
   const uidsReceivedFlirted = receivedUserData?.map((item) => {
     return item.sender_uid;
   });
-  // console.log('uidsreceivedFlirted', uidsReceivedFlirted);
 
   // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender일 때)
   const { data: MatchedUser1 } = await supabase
