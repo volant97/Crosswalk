@@ -26,6 +26,7 @@ import Image from 'next/image';
 import SlideEffect from './SlideEffect';
 import SkeletonMain from './SkeletonMain';
 import { truncate } from 'fs';
+import { Spacer } from '@nextui-org/react';
 
 function FetchUserCards() {
   // const searchParams = useSearchParams();
@@ -128,7 +129,7 @@ function FetchUserCards() {
       {isLoading ? (
         <SkeletonMain />
       ) : (
-        <div className=" border-4 py-[32px] px-[24px] flex flex-col justify-start">
+        <div className="py-[30px] px-[24px] flex flex-col justify-center h-[calc(100dvh-9dvh-8.5dvh)]">
           <div>
             <SlideEffect isHateEffect={isHateEffect} />
             <Swiper
@@ -142,7 +143,7 @@ function FetchUserCards() {
               onSwiper={(swiper: any) => {
                 setSwiper(swiper);
               }}
-              className="flex px-[1.5rem] py-[2rem] border-4 border-blue-700"
+              className="flex px-[1.5rem] py-[2rem] border-[5px] border-white"
               navigation={true}
               touchRatio={1}
               loop={true}
@@ -151,7 +152,7 @@ function FetchUserCards() {
             >
               {userCards?.map((item: any) => (
                 <SwiperSlide
-                  className=" min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+                  className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
                   key={item.uid}
                 >
                   <UserCard
@@ -171,8 +172,8 @@ function FetchUserCards() {
               ))}
             </Swiper>
           </div>
-
-          <div className="flex gap-3 pt-3 justify-between gap-x-2 border-4 border-red-700">
+          <Spacer y={1} />
+          <div className="flex gap-3 justify-between gap-x-2 px-[5px]">
             <SlideButton
               nextCard={() => {
                 firstNextSlide();
