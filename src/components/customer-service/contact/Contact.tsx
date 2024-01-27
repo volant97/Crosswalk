@@ -103,7 +103,7 @@ function ContactPage() {
   }, [contactContents]);
 
   return (
-    <div className="h-screen w-full max-w-[430px] min-w-[360px] h-[calc(100dvh-9dvh)] border-x overflow-x-hidden scrollbar-hide">
+    <div className="w-full max-w-[430px] min-w-[360px] border-x overflow-x-hidden scrollbar-hide">
       <div className="relative flex flex-col items-start gap-[20px] w-full pl-[30px] pr-[30px] pt-[20px] text-[13px]">
         {/* 안내 문구 */}
         <p className="text-center w-full">

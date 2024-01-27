@@ -41,7 +41,7 @@ function Mbti() {
   return (
     <div
       id="mbti"
-      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
+      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
     >
       <div className="flex flex-col w-[300px] h-[274px]  ">
         <h1 className="text-[22px] font-semibold text-black mb-[50px]  mt-[70px]">

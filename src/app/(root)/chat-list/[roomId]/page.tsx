@@ -79,7 +79,7 @@ function ChatRoomPage() {
   }, [getUid, roomId]);
 
   return (
-    <Page noHeader>
+    <Page noHeader noNavBar>
       <ChatHeader roomInfo={roomInfo} getUid={getUid} favorableRating={favorableRating} />
       <ChatRoom roomId={roomId} roomInfo={roomInfo} getUid={getUid} messageData={messageData} />
     </Page>

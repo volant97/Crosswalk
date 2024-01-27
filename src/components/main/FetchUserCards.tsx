@@ -128,49 +128,51 @@ function FetchUserCards() {
       {isLoading ? (
         <SkeletonMain />
       ) : (
-        <>
-          <SlideEffect isHateEffect={isHateEffect} />
-          <Swiper
-            modules={[Navigation]}
-            allowSlidePrev={false}
-            spaceBetween={30}
-            slidesPerView={1}
-            onSlideChange={(swiper: any) => {
-              handleSlideChange(swiper);
-            }}
-            onSwiper={(swiper: any) => {
-              setSwiper(swiper);
-            }}
-            className="!px-[1.5rem] !pb-[2rem]"
-            navigation={true}
-            touchRatio={1}
-            loop={true}
-            loopAdditionalSlides={1}
-            allowTouchMove={false}
-          >
-            {userCards?.map((item: any) => (
-              <SwiperSlide
-                className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
-                key={item.uid}
-              >
-                <UserCard
-                  age={item.age}
-                  name={item.name}
-                  interest={item.interest}
-                  avatar={item.avatar}
-                  flirtingUserUid={item.uid}
-                  height={item.height}
-                  gender={item.gender}
-                  mbti={item.mbti}
-                  isFlipped={isFlipped}
-                  setIsFlipped={setIsFlipped}
-                  userImg={item.user_img}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        <div className=" border-4 py-[32px] px-[24px] flex flex-col justify-start">
+          <div>
+            <SlideEffect isHateEffect={isHateEffect} />
+            <Swiper
+              modules={[Navigation]}
+              allowSlidePrev={false}
+              spaceBetween={30}
+              slidesPerView={1}
+              onSlideChange={(swiper: any) => {
+                handleSlideChange(swiper);
+              }}
+              onSwiper={(swiper: any) => {
+                setSwiper(swiper);
+              }}
+              className="flex px-[1.5rem] py-[2rem] border-4 border-blue-700"
+              navigation={true}
+              touchRatio={1}
+              loop={true}
+              loopAdditionalSlides={1}
+              allowTouchMove={false}
+            >
+              {userCards?.map((item: any) => (
+                <SwiperSlide
+                  className=" min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
+                  key={item.uid}
+                >
+                  <UserCard
+                    age={item.age}
+                    name={item.name}
+                    interest={item.interest}
+                    avatar={item.avatar}
+                    flirtingUserUid={item.uid}
+                    height={item.height}
+                    gender={item.gender}
+                    mbti={item.mbti}
+                    isFlipped={isFlipped}
+                    setIsFlipped={setIsFlipped}
+                    userImg={item.user_img}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
-          <div className="flex gap-3 px-[20px] justify-between gap-x-2 mt-4">
+          <div className="flex gap-3 pt-3 justify-between gap-x-2 border-4 border-red-700">
             <SlideButton
               nextCard={() => {
                 firstNextSlide();
@@ -195,7 +197,7 @@ function FetchUserCards() {
               <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
             </Button>
           </div>
-        </>
+        </div>
       )}
       {flirtingModal()}
       {AlertModal()}

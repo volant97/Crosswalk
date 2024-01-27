@@ -53,7 +53,7 @@ function Interest() {
   return (
     <div
       id="interest"
-      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[720px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
+      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
     >
       <div className="flex flex-col w-[300px] h-[296px] gap-[20px]">
         <h1 className="text-[22px] font-semibold text-black mt-[70px] mb-[40px]">
