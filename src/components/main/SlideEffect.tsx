@@ -14,7 +14,7 @@ function SlideEffect({ isHateEffect }: Props) {
       {isHateEffect === true && (
         <>
           <div className="absolute w-full h-full flex justify-center items-center">
-            <Image className="absolute top-[220px]  z-10" src={passImg} width={300} height={300} alt="거절" />
+            <Image className="absolute top-[220px] mr-10  z-10" src={passImg} width={300} height={300} alt="거절" />
           </div>
         </>
       )}
