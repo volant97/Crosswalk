@@ -29,7 +29,7 @@ function Mbti() {
       // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

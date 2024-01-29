@@ -19,11 +19,14 @@ function StartOrRegister() {
     !!user?.profile?.height &&
     !!user?.profile?.information_agreement &&
     !!user?.profile?.information_use_period &&
-    !!user?.profile?.interest &&
+    user?.profile?.interest?.length !== 0 &&
     !!user?.profile?.mbti &&
     !!user?.profile?.name &&
     !!user?.profile?.uid &&
     !!user?.profile?.user_img;
+
+  // if (!user?.profile?.interest && !user?.id) return;
+  // const isProfileFilled = user?.profile?.interest?.length !== 0;
 
   return user ? (
     isProfileFilled ? (

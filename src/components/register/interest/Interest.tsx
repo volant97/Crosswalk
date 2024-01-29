@@ -35,7 +35,7 @@ function Interest() {
       // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -49,10 +49,6 @@ function Interest() {
     postData();
     router.push('#imgUpload');
   };
-
-  useEffect(() => {
-    // console.log('activeStates~~ : ', activeStates);
-  }, [activeStates]);
 
   useEffect(() => {
     setRegister((prevData: any) => ({

@@ -35,7 +35,7 @@ export default function ChatListPage() {
       setLastMsg(lastMessageArray);
       // console.log('lastMsg in fetchChatListData', lastMsg);
     } catch (error) {
-      console.log('error in fetchChatList', error);
+      console.error('error in fetchChatList', error);
       alert('서버와의 통신을 실패했습니다.2');
     }
   };

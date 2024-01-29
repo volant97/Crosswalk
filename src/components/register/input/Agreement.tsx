@@ -27,7 +27,6 @@ function Agreement() {
   const handleNextBtn = () => {
     // 모든 체크박스가 선택된 경우를 확인
     if (checkItems.length > 3) {
-      console.log('postData 윗줄');
       postData();
       router.push('#name');
     } else {
@@ -40,7 +39,7 @@ function Agreement() {
       // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
