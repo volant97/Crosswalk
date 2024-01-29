@@ -12,8 +12,21 @@ function StartOrRegister() {
   const [user, setUser] = useRecoilState(userState);
   const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
 
+  const isProfileFilled =
+    !!user?.profile?.age &&
+    !!user?.profile?.avatar &&
+    !!user?.profile?.gender &&
+    !!user?.profile?.height &&
+    !!user?.profile?.information_agreement &&
+    !!user?.profile?.information_use_period &&
+    !!user?.profile?.interest &&
+    !!user?.profile?.mbti &&
+    !!user?.profile?.name &&
+    !!user?.profile?.uid &&
+    !!user?.profile?.user_img;
+
   return user ? (
-    user.profile?.information_agreement ? (
+    isProfileFilled ? (
       <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
         <Link
           href={'/main'}

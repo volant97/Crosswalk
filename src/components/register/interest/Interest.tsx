@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
 import interestData from '../../../data/interestData.json';
@@ -7,13 +8,14 @@ import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { userState } from '@/recoil/user';
+import { postRegister } from '@/lib/api/SupabaseApi';
 
 function Interest() {
   const { interests } = interestData;
   const [register, setRegister] = useRecoilState(userState);
+  const uid = register?.id;
   const [activeStates, setActiveStates] = useState<string[]>([]);
   const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
-
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
 
@@ -28,13 +30,31 @@ function Interest() {
     }
   };
 
+  const postData = async () => {
+    try {
+      // console.log('5', register);
+      await postRegister(uid, register?.profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleNextBtn = () => {
     if (activeStates.length < 3) {
       openModal('관심사를 선택해주세요!');
       return;
     }
 
-    // any타입
+    // console.log('!!!!!Interest', register);
+    postData();
+    router.push('#imgUpload');
+  };
+
+  useEffect(() => {
+    // console.log('activeStates~~ : ', activeStates);
+  }, [activeStates]);
+
+  useEffect(() => {
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
@@ -42,12 +62,6 @@ function Interest() {
         interest: activeStates
       }
     }));
-    // console.log('!!!!!Interest', register);
-    router.push('#imgUpload');
-  };
-
-  useEffect(() => {
-    // console.log('activeStates~~ : ', activeStates);
   }, [activeStates]);
 
   return (
