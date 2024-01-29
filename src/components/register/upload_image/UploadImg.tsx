@@ -157,7 +157,8 @@ const UploadImg = () => {
       profile: {
         ...prevData?.profile,
         user_img: userImg?.publicUrl,
-        avatar: updateGender(myInfo?.gender)
+        avatar: updateGender(myInfo?.gender),
+        uid
       }
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps

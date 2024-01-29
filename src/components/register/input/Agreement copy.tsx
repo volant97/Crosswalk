@@ -66,13 +66,20 @@ function Agreement() {
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
-        ...prevData?.profile,
+        uid,
+        name: '',
+        gender: 'M',
+        age: 0,
+        avatar: 0,
+        height: 0,
+        interest: [],
+        mbti: '',
+        user_img: '',
         information_use_period: format(period, dateFormat),
-        information_agreement: isSelectedAll,
-        gender: null
+        information_agreement: true
       }
     }));
-  }, [isSelectedAll]);
+  }, [register?.profile?.information_agreement]);
   // console.log('checkItems', checkItems);
   // console.log('register', register);
 
