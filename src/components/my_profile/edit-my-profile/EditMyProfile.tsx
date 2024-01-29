@@ -1,7 +1,7 @@
 'use client';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { LuPencil } from 'react-icons/lu';
 import { useRecoilState } from 'recoil';
@@ -24,7 +24,7 @@ function EditMyProfile() {
   // console.log(myInfo);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [2, 4, 6, 8, 10, 12, 14];
+  const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -60,6 +60,10 @@ function EditMyProfile() {
     setAvatar(avatarNumbers[randomIndex]);
     return avatarNumbers[randomIndex];
   };
+
+  useEffect(() => {
+    if (!avatar) setAvatar(0);
+  }, [avatar]);
 
   return (
     <div className="flex flex-col items-center justify-start h-full">
@@ -100,7 +104,7 @@ function EditMyProfile() {
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>이름</label>
             <input
-              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={name}
               onChange={nameHandler}
               type="text"
@@ -138,7 +142,7 @@ function EditMyProfile() {
           <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>나이</label>
             <input
-              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={age?.toString()}
               onChange={ageHandler}
               type="number"
@@ -153,7 +157,7 @@ function EditMyProfile() {
           <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>키</label>
             <input
-              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={height?.toString()}
               onChange={heightHandler}
               type="number"
