@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { postRegister } from '@/lib/api/SupabaseApi';
 import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 function AgeAndHeight() {
@@ -14,6 +16,7 @@ function AgeAndHeight() {
   const [height, setHeight] = useState<string>('');
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
+  const uid = register?.id;
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +26,21 @@ function AgeAndHeight() {
       return;
     }
 
+    // console.log('!!!!!AgeAndHeight', register);
+    postData();
+    router.push('#interest');
+  };
+
+  const postData = async () => {
+    try {
+      // console.log('5', register);
+      await postRegister(uid, register?.profile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
     // any타입
     setRegister((prevData: any) => ({
       ...prevData,
@@ -32,9 +50,7 @@ function AgeAndHeight() {
         height: Number(height)
       }
     }));
-    // console.log('!!!!!AgeAndHeight', register);
-    router.push('#interest');
-  };
+  }, [age, height]);
 
   return (
     <form
@@ -62,7 +78,7 @@ function AgeAndHeight() {
           <div>
             <p className="text-[16px] text-gray-AAA">키</p>
             <input
-              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border focus:outline-none focus:border-black focus:ring-1 focus:black"
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}

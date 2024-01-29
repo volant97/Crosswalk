@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import mbti from '../../../data/mbti_data.json';
 import { useRecoilState } from 'recoil';
 import { registerState } from '@/recoil/register';
@@ -8,9 +9,11 @@ import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { userState } from '@/recoil/user';
+import { postRegister } from '@/lib/api/SupabaseApi';
 
 function Mbti() {
   const [register, setRegister] = useRecoilState(userState);
+  const uid = register?.id;
   const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
   const { openModal, AlertModal } = useAlertModal();
@@ -20,13 +23,26 @@ function Mbti() {
     if (selectedMbti === item) setSelectedMbti('');
     else setSelectedMbti(item);
   };
-  const handleNextBtn = () => {
+
+  const postData = async () => {
+    try {
+      // console.log('5', register);
+      await postRegister(uid, register?.profile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleNextBtn = async () => {
     if (!selectedMbti) {
       openModal('MBTI를 선택해주세요!');
       return;
     }
+    postData();
+    router.push('#age');
+  };
 
-    // any타입
+  useEffect(() => {
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
@@ -34,9 +50,7 @@ function Mbti() {
         mbti: selectedMbti
       }
     }));
-    // console.log('!!!!!mbti', register);
-    router.push('#age');
-  };
+  }, [selectedMbti]);
 
   return (
     <div

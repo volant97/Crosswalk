@@ -38,7 +38,7 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
         return null;
       }
     } catch (error) {
-      console.log('error', error);
+      console.error('error', error);
       openModal('사진변경 중 오류 발생');
     }
 

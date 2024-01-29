@@ -1,7 +1,7 @@
 'use client';
 import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { LuPencil } from 'react-icons/lu';
 import { useRecoilState } from 'recoil';
@@ -24,7 +24,7 @@ function EditMyProfile() {
   // console.log(myInfo);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [2, 4, 6, 8, 10, 12, 14];
+  const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -60,6 +60,10 @@ function EditMyProfile() {
     setAvatar(avatarNumbers[randomIndex]);
     return avatarNumbers[randomIndex];
   };
+
+  useEffect(() => {
+    if (!avatar) setAvatar(0);
+  }, [avatar]);
 
   return (
     <div className="flex flex-col items-center justify-start h-full">
