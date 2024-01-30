@@ -2,14 +2,11 @@
 'use client';
 
 import useAlertModal from '@/components/common/modal/AlertModal';
-import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
+import { postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
-import { isUserState } from '@/recoil/auth';
-import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
@@ -114,6 +111,8 @@ const UploadImg = () => {
     }));
     console.log(register?.profile);
   }, [testToggle, register?.profile?.user_img]);
+
+  console.log(register?.profile);
 
   return (
     <div

@@ -6,7 +6,6 @@ type Props = {
   avatar: string;
   name: string;
   interest: string[];
-  flirtingUserUid: string;
   height: number;
   gender: string;
   mbti: string;
@@ -18,19 +17,7 @@ type Props = {
 const border =
   'border-2 border-solid border-white text-white px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
-function UserCard({
-  age,
-  avatar,
-  name,
-  interest,
-  flirtingUserUid,
-  height,
-  gender,
-  mbti,
-  isFlipped,
-  userImg,
-  setIsFlipped
-}: Props) {
+function UserCard({ age, avatar, name, interest, height, gender, mbti, isFlipped, userImg, setIsFlipped }: Props) {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
     // console.log(flirtingUserUid);
