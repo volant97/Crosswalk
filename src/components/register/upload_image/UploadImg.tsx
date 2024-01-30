@@ -44,7 +44,6 @@ const UploadImg = () => {
     try {
       // 2. 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
-        // console.log('2', register);
         await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
           cacheControl: '3600',
           upsert: false
@@ -59,55 +58,21 @@ const UploadImg = () => {
     updateGender(myInfo.gender);
   }
 
-  // 3. 수파베이스에서 저장된 링크를 가져오기 get
-  // const getImgLink = async () => {
-  //   try {
-  //     // console.log('3', register);
-  //     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-  //     // console.log('selectedImg', selectedImg);
-  //     if (userImg) {
-  //       setTestToggole(!testToggle);
-  //     }
-  //     return userImg;
-  //   } catch (error) {
-  //     console.error('getImgLink error', error);
-  //     handleError(error);
-  //   }
-  // };
-
   // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
     const imgFile = event.target.files[0];
 
     if (imgFile) {
-      // console.log('1', register);
       setFile(imgFile);
       const imgUrl = URL.createObjectURL(imgFile);
-      // console.log('imgUrl', imgUrl);
       setSelectedImg(imgUrl);
-      // console.log('selectedImg', selectedImg);
       await uploadFile(imgFile, imgUrl);
-      // const userImgPath = await getImgLink();
-      // console.log('userImgPath', userImgPath);
-      // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
-      // setRegister((prevData: any) => ({
-      //   ...prevData,
-      //   profile: {
-      //     ...prevData.profile,
-      //     user_img: userImgPath?.publicUrl,
-      //     avatar: Math.floor(Math.random() * 15),
-      //     uid: uid
-      //   }
-      // }));
-      // console.log('4-1', register);
     }
   };
 
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
   const postData = async () => {
     try {
-      // console.log('5', register);
-      // console.log('!!!!', register?.profile);
       await postRegister(uid, register?.profile);
     } catch (error) {
       handleError(error);
@@ -121,31 +86,8 @@ const UploadImg = () => {
       openModal('사진을 올려주세요!');
       return;
     }
-    // console.log('NextBtn', register);
-    // await uploadFile(file);
-    // await getImgLink();
-
-    // console.log('6', register);
     await postData();
-    // console.log('7', register);
   };
-
-  // const effectFunction = async () => {
-  //   console.log('effectFunction', registerData);
-  //   await uploadFile(file);
-  //   await getImgLink();
-  //   await postData();
-  // };
-
-  // useEffect(() => {
-  //   if (file) {
-  //     // effectFunction();
-  //     console.log('useEffect', register);
-  //   } else {
-  //     alert('file 없음');
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [file]);
 
   const updateGender = (gender: string) => {
     const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
@@ -156,7 +98,6 @@ const UploadImg = () => {
 
   useEffect(() => {
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    // console.log('selectedImg', selectedImg);
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
@@ -166,8 +107,9 @@ const UploadImg = () => {
         uid
       }
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testToggle]);
+  }, [testToggle, register?.profile?.user_img]);
+
+  console.log(register?.profile);
 
   return (
     <div
