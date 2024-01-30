@@ -31,6 +31,7 @@ const UploadImg = () => {
   const [testToggle, setTestToggole] = useState<boolean>(false);
   const myInfo: any = register?.profile;
   const [avatar, setAvatar] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
@@ -45,6 +46,7 @@ const UploadImg = () => {
       // 2. 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
         // 로딩중
+        setIsLoading(true);
         await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
           cacheControl: '3600',
           upsert: false
@@ -96,6 +98,7 @@ const UploadImg = () => {
     setAvatar(avatarNumbers[randomIndex]);
     setTestToggole(!testToggle);
     // 로딩 끝
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -147,6 +150,7 @@ const UploadImg = () => {
           file ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         onClick={handleNextBtn}
+        isLoading={isLoading}
       >
         회원 등록 완료
       </Button>
