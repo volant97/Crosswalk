@@ -137,7 +137,12 @@ const UploadImg = () => {
               </div>
             )}
 
-            <input className="hidden" type="file" onChange={previewImg} />
+            <input
+              className="hidden"
+              type="file"
+              accept="image/jpg, image/jpeg, image/png, image/heic"
+              onChange={previewImg}
+            />
           </label>
           <p className="text-center text-xs text-red-500 mb-[10px]">
             * 실제 회원의 얼굴이 나온 프로필 사진을 추가해주세요
