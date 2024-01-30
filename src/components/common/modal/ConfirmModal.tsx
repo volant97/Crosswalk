@@ -1,5 +1,5 @@
 'use client';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
 import { useRecoilState } from 'recoil';
 import { supabase } from '@/lib/supabase-config';
@@ -26,10 +26,13 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
   const myInfo = registerData?.profile;
   // const { uid } = useRecoilValue(isUserState);
   const uid = registerData?.id;
+  const [isLoading, setIsLoading] = useState<any>(false);
 
   async function uploadFile(file: any) {
     try {
       if (file) {
+        // 로딩중
+        setIsLoading(true);
         await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${selectedImg}`, file, {
           cacheControl: '3600',
           upsert: false
@@ -67,6 +70,8 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
     }
+    // 로딩끝
+    setIsLoading(false);
   }
 
   async function uploadAndNavigate(file: any) {
@@ -128,6 +133,7 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
                   }}
                   className="w-[15rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
+                  isLoading={isLoading}
                 >
                   네
                 </Button>

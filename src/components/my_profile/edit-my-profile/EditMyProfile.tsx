@@ -195,7 +195,13 @@ function EditMyProfile() {
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>사진</label>
             <label className="relative cursor-pointer" htmlFor="usersImg">
-              <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
+              <input
+                type="file"
+                accept="image/jpg, image/jpeg, image/png, image/heic"
+                id="usersImg"
+                onChange={previewImg}
+                className="hidden"
+              />
               {selectedImg === '' ? (
                 // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
                 <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
