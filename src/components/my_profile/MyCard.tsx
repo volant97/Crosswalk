@@ -1,19 +1,10 @@
 import Image from 'next/image';
 import React, { Fragment } from 'react';
-import { Button } from '@nextui-org/react';
-import { logout } from '@/auth/auth';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
-import type { IsLoginType } from '@/types/isLoginType';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import useAlertModal from '../common/modal/AlertModal';
 import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
 import { userState } from '@/recoil/user';
-
-const tags = ['음악', '여행', '맛집'];
-
-const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 type Props = {
   age: number;
@@ -24,6 +15,8 @@ type Props = {
   gender: string;
   mbti: string;
 };
+
+const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
 function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
   const router = useRouter();

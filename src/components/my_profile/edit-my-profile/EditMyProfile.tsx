@@ -12,16 +12,17 @@ import { userState } from '@/recoil/user';
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo: any = registerData?.profile;
+
   const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
   const [file, setFile] = useState<any | null>('test');
-  const { openMbtiModal, mbtiModal } = MbtiModal();
-  const { openInterestModal, interestModal } = InterestModal();
   const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
   const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
   const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
-  // console.log(myInfo);
+
+  const { openMbtiModal, mbtiModal } = MbtiModal();
+  const { openInterestModal, interestModal } = InterestModal();
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];

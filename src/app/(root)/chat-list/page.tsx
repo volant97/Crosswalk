@@ -109,7 +109,7 @@ export default function ChatListPage() {
                   onClick={() => {
                     if (!lastMsg) return;
                     if (lastMsg[idx] === null) {
-                      return openChatListModal('');
+                      return openChatListModal();
                     } else {
                       routerLink(list.id, list.flirting_list.status);
                     }
@@ -156,7 +156,7 @@ export default function ChatListPage() {
                     if (!lastMsg) return;
 
                     if (lastMsg[idx] === null) {
-                      return openChatListModal('');
+                      return openChatListModal();
                     } else {
                       routerLink(list.id, list.flirting_list.status);
                     }

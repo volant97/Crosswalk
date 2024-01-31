@@ -4,11 +4,8 @@ import React, { useEffect, useState } from 'react';
 import type { RegisterType } from '@/types/registerType';
 import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
 import MyCard from './MyCard';
-import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
-import Link from 'next/link';
 
 function FetchMyProfileCard() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
