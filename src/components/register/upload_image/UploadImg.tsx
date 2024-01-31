@@ -113,10 +113,7 @@ const UploadImg = () => {
         uid
       }
     }));
-    console.log(register?.profile);
   }, [testToggle, register?.profile?.user_img]);
-
-  console.log(register?.profile);
 
   return (
     <div
