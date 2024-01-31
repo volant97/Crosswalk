@@ -119,8 +119,8 @@ function NotiBell() {
     }
   };
 
-  console.log('filteredNotificationsSender', filteredNotificationsSender);
-  console.log('filteredNotificationsReceiver', filteredNotificationsReceiver);
+  // console.log('filteredNotificationsSender', filteredNotificationsSender);
+  // console.log('filteredNotificationsReceiver', filteredNotificationsReceiver);
   return (
     <Fragment>
       {Number(notificationData?.length) > 0 ? (
@@ -143,37 +143,6 @@ function NotiBell() {
               // 알림없음
               <p></p>
             )}
-
-            {/* {(filteredNotificationsSender.length > 0 &&
-              filteredNotificationsSender[0].sender_is_read_in_noti === false) ||
-            (filteredNotificationsReceiver.length > 0 &&
-              filteredNotificationsReceiver[0].receiver_is_read_in_noti === false) ? (
-              // 알림있음
-              <Image
-                src="/assets/figmaImg/redDot.png"
-                alt="new notification"
-                width={8}
-                height={8}
-                className="absolute top-0 right-0"
-              />
-            ) : (
-              // 알림없음
-              <p></p>
-            )} */}
-
-            {/* {filteredNotificationsSender.length > 0 || filteredNotificationsReceiver.length > 0 ? (
-              // 알림있음
-              <Image
-                src="/assets/figmaImg/redDot.png"
-                alt="new notification"
-                width={8}
-                height={8}
-                className="absolute top-0 right-0"
-              />
-            ) : (
-              // 알림없음
-              <p></p>
-            )} */}
           </Link>
         </div>
       ) : (
