@@ -12,7 +12,7 @@ export function ChatStatusColor(
   const router = useRouter();
   const routerLink = (uid: string | undefined) => {
     if (uid !== undefined) {
-      router.push(`/${uid}`);
+      router.push(`/other-person-profile/${uid}`);
     }
   };
   switch (status) {

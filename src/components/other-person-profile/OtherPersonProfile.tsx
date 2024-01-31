@@ -71,7 +71,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                   <Image
                     className="rounded-t-[24px] object-cover"
                     src={otherProfile?.user_img}
-                    alt="유저 아바타 이미지"
+                    alt="유저 이미지"
                     fill
                   />
                   <p className="absolute right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-customGreen3 text-customGreen3  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-gray-800 bg-opacity-10">

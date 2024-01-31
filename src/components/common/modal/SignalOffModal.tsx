@@ -15,12 +15,16 @@ import { HiOutlineEmojiSad } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
 import useAlertModal from './AlertModal';
 import { changeStatusToDecline } from '@/lib/api/requestApi';
+import { UserState } from '@/recoil/user';
+import { postMessage } from '@/lib/api/SupabaseApi';
 
 interface SignalOffModalProps {
   flirting_list_id?: number;
+  roomId: string;
+  getUid: UserState;
 }
 
-function SignalOffModal({ flirting_list_id }: SignalOffModalProps) {
+function SignalOffModal({ flirting_list_id, roomId, getUid }: SignalOffModalProps) {
   const { openModal } = useAlertModal();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
@@ -28,6 +32,19 @@ function SignalOffModal({ flirting_list_id }: SignalOffModalProps) {
   const exitChatRoom = async () => {
     try {
       if (flirting_list_id) {
+        const sendData = {
+          subscribe_room_id: roomId,
+          user_uid: getUid?.id,
+          message: `🚨 ${getUid?.profile?.name}님이 채팅방을 나갔습니다.`,
+          user_score: 0,
+          another_score: 0,
+          user_continual_count: 0,
+          another_continual_count: 0,
+          is_read: false,
+          favorable_rating: 0
+        };
+        await postMessage(sendData);
+
         await changeStatusToDecline(flirting_list_id);
       }
     } catch {

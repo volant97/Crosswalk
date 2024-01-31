@@ -11,6 +11,7 @@ import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
 import useCongratModal from '../common/modal/CongratModal';
+import useJsxAlertModal from '../common/modal/AlertModal copy';
 
 interface ChatProps {
   roomId: string;
@@ -27,6 +28,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
   const favorableRatingGoal = 100;
   const { openModal, AlertCongratModal } = useCongratModal();
+  const { openJsxModal, AlertJsxModal } = useJsxAlertModal();
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -80,6 +82,16 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   };
 
   const handleSendMessage = async () => {
+    if (roomInfo?.flirting_list.status === 'DECLINE') {
+      return openJsxModal(
+        <>
+          신호등이 빨간불일 때는
+          <br />
+          대화를 할 수 없어요.
+        </>
+      );
+      // return openDeclineModal('신호등이 빨간불일 때는 대화를 할 수 없어요.');
+    }
     if (roomInfo?.flirting_list.status === 'ACCEPT' || roomInfo?.flirting_list.status === 'SOULMATE') {
       if (inputValue === '') {
         return alert('메세지를 입력해주세요');
@@ -105,7 +117,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
   const routerLink = (uid: string | undefined) => {
     if (uid !== undefined) {
-      router.push(`/${uid}`);
+      router.push(`/other-person-profile/${uid}`);
     }
   };
 
@@ -249,6 +261,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
         </form>
       </div>
       {AlertCongratModal()}
+      {AlertJsxModal()}
     </div>
   );
 }

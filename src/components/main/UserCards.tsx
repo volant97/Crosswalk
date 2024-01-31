@@ -16,6 +16,7 @@ import SlideEffect from './SlideEffect';
 import SkeletonMain from './SkeletonMain';
 import { Spacer } from '@nextui-org/react';
 import type { unMatchedDataType } from '@/types/registerType';
+import { useRouter } from 'next/navigation';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -35,6 +36,8 @@ function UserCards() {
   const registerData = useRecoilValue(userState);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
+
+  const router = useRouter();
 
   const { openModal, AlertModal } = useAlertModal();
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
@@ -113,6 +116,10 @@ function UserCards() {
     }
     setIsHateEffect(false);
   }, [userCards, swiper]);
+
+  if (!myGender) {
+    router.push('/');
+  }
 
   return (
     <div className="relative w-full scale-[88%]">
