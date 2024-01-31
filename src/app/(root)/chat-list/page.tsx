@@ -3,7 +3,7 @@ import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
-import { LastMessageState } from '@/recoil/lastMessageData';
+
 import { UserState, userState } from '@/recoil/user';
 import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -13,9 +13,8 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
-import NavBar from '@/components/common/ui/NavBar';
+
 import useChatListModal from '@/components/common/modal/ChatListModal';
-import Image from 'next/image';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
@@ -97,7 +96,6 @@ export default function ChatListPage() {
 
   // console.log('lastMsg', lastMsg);
   // console.log('chatList', chatList);
-
   return (
     <Page>
       {!chatList?.length ? (
@@ -160,17 +158,10 @@ export default function ChatListPage() {
                       )}
                     </span>
                     {lastMsg && lastMsg[idx] && lastMsg[idx]?.user_uid !== getUid?.id && !lastMsg[idx]?.is_read && (
-                      <Image src="/assets/figmaImg/number.png" width={20} height={20} alt="new message" />
+                      <div className="flex justify-center items-center w-[20px] h-[20px] font-normal rounded-full bg-customGreen3 text-white text-[11px] leading-[16px]">
+                        +1
+                      </div>
                     )}
-                    {/* {lastMsg && lastMsg[idx] && !lastMsg[idx]?.is_read && (
-                      <Image
-                        src="/assets/figmaImg/number.png"
-                        width={20}
-                        height={20}
-                        alt="new message"
-                        className="border-1"
-                      />
-                    )} */}
                   </div>
                 </li>
               );
@@ -236,27 +227,6 @@ export default function ChatListPage() {
                         +1
                       </div>
                     )}
-                    {/* {lastMsg && lastMsg[idx] && !lastMsg[idx]?.is_read && (
-                      <Image
-                        src="/assets/figmaImg/number.png"
-                        width={20}
-                        height={20}
-                        alt="new message"
-                        className="border-1"
-                      />
-                    )} */}
-                    {/* {getUid?.id === list.flirting_list.receiver_uid.uid &&
-                      lastMsg &&
-                      lastMsg[idx] &&
-                      !lastMsg[idx]?.is_read && (
-                        <Image
-                          src="/assets/figmaImg/number.png"
-                          width={20}
-                          height={20}
-                          alt="new message"
-                          className="border-1"
-                        />
-                      )} */}
                   </div>
                 </li>
               );
@@ -266,7 +236,6 @@ export default function ChatListPage() {
       )}
       {AlertModal()}
       {AlertChatListModal()}
-      {/* <NavBar /> */}
     </Page>
   );
 }
