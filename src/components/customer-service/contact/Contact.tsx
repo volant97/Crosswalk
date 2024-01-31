@@ -6,16 +6,7 @@ import { useRecoilState } from 'recoil';
 import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { supabase } from '@/lib/supabase-config';
 import { useRouter } from 'next/navigation';
-
-type contactContentsType = {
-  uid: string | null | undefined;
-  name: string | null | undefined;
-  gender: 'M' | 'F' | null | undefined;
-  email: string | undefined;
-  category: string | undefined;
-  content: string | undefined;
-  emailAgree: boolean;
-};
+import { contactContentsType } from '@/types/etcType';
 
 function ContactPage() {
   const router = useRouter();

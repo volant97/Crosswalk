@@ -128,6 +128,7 @@ export async function updateIsReadInNotiSenderSide(id: number): Promise<void> {
   const { data, error } = await supabase
     .from('flirting_list')
     .update({ sender_is_read_in_noti: true })
+    // firstMessageTrigger : false
     .eq('id', id)
     .select();
 
@@ -141,6 +142,7 @@ export async function updateIsReadInNotiReceiverSide(id: number): Promise<void> 
   const { data, error } = await supabase
     .from('flirting_list')
     .update({ receiver_is_read_in_noti: true })
+    // firstMessageTrigeer : false
     .eq('id', id)
     .select();
 
