@@ -1,16 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Gender from './Gender';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { userState } from '@/recoil/user';
+import { postRegister } from '@/lib/api/SupabaseApi';
 
 function Name() {
   const [register, setRegister] = useRecoilState(userState);
+  const uid = register?.id;
   const [name, setName] = useState('');
   const [gender, setGender] = useState<string>('');
   const router = useRouter();
@@ -24,6 +27,21 @@ function Name() {
       return;
     }
 
+    postData();
+    // console.log('!!!!!name', register);
+    router.push('#mbti');
+  };
+
+  const postData = async () => {
+    try {
+      // console.log('5', register);
+      await postRegister(uid, register?.profile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
     // any타입
     setRegister((prevData: any) => ({
       ...prevData,
@@ -33,9 +51,7 @@ function Name() {
         gender
       }
     }));
-    // console.log('!!!!!name', register);
-    router.push('#mbti');
-  };
+  }, [name, gender]);
 
   return (
     <form
@@ -57,7 +73,7 @@ function Name() {
             이름
           </label>
           <input
-            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:border-customGreen3 focus:ring-1 focus:ring-customGreen3"
+            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
             id="inputName"
             type="text"
             value={name}

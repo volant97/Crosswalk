@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import useAlertModal from '@/components/common/modal/AlertModal';
@@ -29,9 +30,10 @@ const UploadImg = () => {
   const route = useRouter();
   const [testToggle, setTestToggole] = useState<boolean>(false);
   const myInfo: any = register?.profile;
+  const [avatar, setAvatar] = useState<number>(0);
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [2, 4, 6, 8, 10, 12, 14];
+  const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);
@@ -54,23 +56,24 @@ const UploadImg = () => {
       console.error('uploadFile error', error);
       handleError(error);
     }
+    updateGender(myInfo.gender);
   }
 
   // 3. 수파베이스에서 저장된 링크를 가져오기 get
-  const getImgLink = async () => {
-    try {
-      // console.log('3', register);
-      const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-      // console.log('selectedImg', selectedImg);
-      if (userImg) {
-        setTestToggole(!testToggle);
-      }
-      return userImg;
-    } catch (error) {
-      console.error('getImgLink error', error);
-      handleError(error);
-    }
-  };
+  // const getImgLink = async () => {
+  //   try {
+  //     // console.log('3', register);
+  //     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+  //     // console.log('selectedImg', selectedImg);
+  //     if (userImg) {
+  //       setTestToggole(!testToggle);
+  //     }
+  //     return userImg;
+  //   } catch (error) {
+  //     console.error('getImgLink error', error);
+  //     handleError(error);
+  //   }
+  // };
 
   // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
@@ -84,7 +87,7 @@ const UploadImg = () => {
       setSelectedImg(imgUrl);
       // console.log('selectedImg', selectedImg);
       await uploadFile(imgFile, imgUrl);
-      const userImgPath = await getImgLink();
+      // const userImgPath = await getImgLink();
       // console.log('userImgPath', userImgPath);
       // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
       // setRegister((prevData: any) => ({
@@ -104,6 +107,7 @@ const UploadImg = () => {
   const postData = async () => {
     try {
       // console.log('5', register);
+      // console.log('!!!!', register?.profile);
       await postRegister(uid, register?.profile);
     } catch (error) {
       handleError(error);
@@ -146,19 +150,20 @@ const UploadImg = () => {
   const updateGender = (gender: string) => {
     const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
     const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
-    return avatarNumbers[randomIndex];
+    setAvatar(avatarNumbers[randomIndex]);
+    setTestToggole(!testToggle);
   };
 
   useEffect(() => {
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
-    // console.log('selectedImg', selectedImg);
+    console.log('selectedImg', selectedImg);
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
         ...prevData?.profile,
         user_img: userImg?.publicUrl,
-        avatar: updateGender(myInfo?.gender),
-        uid: uid
+        avatar,
+        uid
       }
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
