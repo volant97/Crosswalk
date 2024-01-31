@@ -59,10 +59,6 @@ function FetchUserCards() {
     }
   };
 
-  const firstNextSlide = () => {
-    swiper.slideTo(1, 400, false);
-  };
-
   // 슬라이드 할 때 마다 값 가져오기
   const handleSlideChange = (swiper: any) => {
     const activeIndex = swiper.realIndex;
@@ -85,6 +81,10 @@ function FetchUserCards() {
     const targetUid = likedUserUid || flirtingUserUids[0];
     openFlirtingModal(targetUid, swiper);
     // console.log('activeUserUid', targetUid);
+  };
+
+  const firstNextSlide = () => {
+    swiper.slideTo(1, 400, false);
   };
 
   useEffect(() => {
