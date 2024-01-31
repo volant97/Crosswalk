@@ -127,7 +127,7 @@ export async function getChatList(): Promise<ChatListType[]> {
 export async function updateIsReadInNotiSenderSide(id: number): Promise<void> {
   const { data, error } = await supabase
     .from('flirting_list')
-    .update({ sender_is_read_in_noti: true })
+    .update({ sender_is_read_in_noti: true, first_message_trigger: false })
     // firstMessageTrigger : false
     .eq('id', id)
     .select();
@@ -141,7 +141,7 @@ export async function updateIsReadInNotiSenderSide(id: number): Promise<void> {
 export async function updateIsReadInNotiReceiverSide(id: number): Promise<void> {
   const { data, error } = await supabase
     .from('flirting_list')
-    .update({ receiver_is_read_in_noti: true })
+    .update({ receiver_is_read_in_noti: true, first_message_trigger: false })
     // firstMessageTrigeer : false
     .eq('id', id)
     .select();

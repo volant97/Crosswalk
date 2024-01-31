@@ -67,7 +67,12 @@ export async function untrackRequestedFlirtingList() {
 export async function handleAcceptBtn(listId: number): Promise<void> {
   const { error } = await supabase
     .from('flirting_list')
-    .update({ status: 'ACCEPT', receiver_is_read_in_noti: false, sender_is_read_in_noti: false })
+    .update({
+      status: 'ACCEPT',
+      receiver_is_read_in_noti: false,
+      sender_is_read_in_noti: false,
+      first_message_trigger: true
+    })
     .eq('id', listId)
     .eq('status', 'READ');
   if (error || null) {
