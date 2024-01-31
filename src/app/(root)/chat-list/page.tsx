@@ -91,7 +91,7 @@ export default function ChatListPage() {
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT' || status === 'SOULMATE') {
       router.push(`/chat-list/${linkId}`);
-    } else return openModal('신호 대기중입니다!');
+    } else return openChatListModal();
   };
 
   console.log('lastMsg', lastMsg);
@@ -107,7 +107,7 @@ export default function ChatListPage() {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0] px-[20px]"
+                  className="py-3 flex flex-row gap-0  max-h-[68px] min-h-[] justify-between cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD1E0] px-[20px]"
                   onClick={() => {
                     if (!lastMsg) return;
                     if (lastMsg[idx] === null) {
@@ -127,22 +127,34 @@ export default function ChatListPage() {
                   </div>
                   <div className="w-[12.5rem]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
-                    <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg && lastMsg[idx] ? (
-                        lastMsg[idx]?.message
+                    <div className="w-full text-gray-666 text-sm font-normal overflow-hidden ">
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          <div className="block w-full text-gray-666 text-sm whitespace-nowrap overflow-hidden text-ellipsis max-h-[20px]">
+                            {lastMsg[idx]?.message}
+                          </div>
+                        ) : (
+                          <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
+                            상대방의 수락을 기다리고 있어요.
+                          </div>
+                        )
                       ) : (
                         <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
-                          상대방의 수락을 기다리고 있어요.
+                          로딩중...
                         </div>
                       )}
                     </div>
                   </div>
                   <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
-                      {lastMsg && lastMsg[idx] ? (
-                        formatDate(String(lastMsg[idx]?.created_at))
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          formatDate(String(lastMsg[idx]?.created_at))
+                        ) : (
+                          <div className="w-full text-xs text-gray-AAA  text-ellipsis overflow-hidden">대기중</div>
+                        )
                       ) : (
-                        <div className="text-xs text-gray-AAA">대기중</div>
+                        <div className="w-full text-xs text-gray-AAA text-ellipsis overflow-hidden">...</div>
                       )}
                     </span>
                     <div></div>
@@ -153,7 +165,7 @@ export default function ChatListPage() {
               return (
                 <li
                   key={idx}
-                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer px-[20px] transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
+                  className="py-3 flex flex-row gap-0 justify-between cursor-pointer px-[20px]  max-h-[68px] transition duration-300 ease-in-out hover:bg-[#FFD1E0]"
                   onClick={() => {
                     if (!lastMsg) return;
 
@@ -173,23 +185,37 @@ export default function ChatListPage() {
                     )}
                   </div>
                   <div className="w-[12.5rem] ">
-                    <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
+                    <h5 className="text-black text-base font-medium ">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg && lastMsg[idx] ? (
-                        lastMsg[idx]?.message
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          <div className="block w-full text-gray-666 text-sm whitespace-nowrap overflow-hidden text-ellipsis max-h-[20px]">
+                            {lastMsg[idx]?.message}
+                          </div>
+                        ) : (
+                          <div className="w-full text-gray-666 text-sm text-ellipsis overflow-hidden">
+                            회원님의 수락을 기다리고 있어요.
+                          </div>
+                        )
                       ) : (
-                        <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
-                          회원님의 수락을 기다리고 있어요.
-                        </div>
+                        <div className="w-full text-gray-666 text-sm text-ellipsis overflow-hidden">로딩중...</div>
                       )}
                     </div>
                   </div>
                   <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
-                      {lastMsg && lastMsg[idx] ? (
-                        formatDate(String(lastMsg[idx]?.created_at))
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          formatDate(String(lastMsg[idx]?.created_at))
+                        ) : (
+                          <div className="w-full text-xs text-gray-AAA font-normal text-ellipsis overflow-hidden">
+                            대기중
+                          </div>
+                        )
                       ) : (
-                        <div className="text-xs text-gray-AAA">대기중</div>
+                        <div className="w-full text-xs text-gray-AAA font-normal text-ellipsis overflow-hidden">
+                          ...
+                        </div>
                       )}
                     </span>
                     <div></div>
