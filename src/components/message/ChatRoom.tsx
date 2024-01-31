@@ -117,6 +117,14 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   }, [messageData]);
 
   useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤을 맨 아래로 이동
+
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current?.scrollHeight;
+    }
+  }, [roomInfo?.flirting_list.sender_uid.uid]);
+
+  useEffect(() => {
     if (congratulationsMessage) {
       openModal('');
     }
