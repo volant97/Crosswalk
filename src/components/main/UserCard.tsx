@@ -102,11 +102,11 @@ function UserCard({ age, avatar, name, interest, height, gender, mbti, isFlipped
                 })}
               </div>
             </div>
-            <div className="absolute flex flex-col justify-end gap-[8px] w-full h-full my-[1.5rem] pb-[50px] left-[24px]">
-              <h1 className="text-[18px] leading-[18px] font-medium ">기본정보</h1>
+            <div className="absolute flex flex-col justify-end gap-[8px] w-full h-full my-[1.5rem] pb-[50px]">
+              <h1 className="text-[18px] leading-[18px] font-medium  ml-[24px]">기본정보</h1>
               <div className="flex flex-row gap-[0.25rem] h-[26px] w-[270px]">
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10 ml-[24px]`}
                 >
                   {height}cm
                 </div>
