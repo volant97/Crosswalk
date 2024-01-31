@@ -7,6 +7,7 @@ import NavBar from '@/components/common/ui/NavBar';
 function MainPage() {
   return (
     <Page noBack>
+      {/* TODO: 함수 이름 같음 */}
       <FetchUserCards />
     </Page>
   );

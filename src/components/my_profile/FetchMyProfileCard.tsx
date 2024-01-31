@@ -16,6 +16,7 @@ function FetchMyProfileCard() {
   const myUid = registerData?.profile?.uid;
   const userInfo = registerData?.profile;
 
+  // TODO: layout shift 발생하지 않는지?
   const getUerCards = async () => {
     try {
       const userCards = await getAllData();
@@ -47,6 +48,7 @@ function FetchMyProfileCard() {
 
   return (
     <div className="w-full px-[24px] py-[32px]">
+      {/* TODO: userCards가 없으면 -> skeleton */}
       {userCards
         ?.filter((itme: any) => itme.uid === myUid)
         ?.map((item: any, index) => {

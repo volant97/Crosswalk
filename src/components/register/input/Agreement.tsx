@@ -113,9 +113,8 @@ function Agreement() {
         </div>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-gray-F5 text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
-          checkItems.length === maxCheckItems ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
-        }`}
+        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-gray-F5 text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${checkItems.length === maxCheckItems ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
+          }`}
         onClick={handleNextBtn}
       >
         다음 단계

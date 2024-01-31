@@ -7,7 +7,7 @@ import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -36,6 +36,7 @@ function FetchUserCards() {
   // const initialSlide = Number(searchParams.get('i') || 0);
   // 리코일 상태로 전역상태 관리하여 스테이트 값으로 하나씩 증가
   const { openModal, AlertModal } = useAlertModal();
+  // TODO: 노 any
   const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const [userUids, setUserUids] = useState<any>([]);
@@ -143,7 +144,8 @@ function FetchUserCards() {
               onSlideChange={(swiper: any) => {
                 handleSlideChange(swiper);
               }}
-              onSwiper={(swiper: any) => {
+              // TODO: 노 any
+              onSwiper={(swiper: SwiperClass) => {
                 setSwiper(swiper);
               }}
               className="flex px-[1.5rem] py-[2rem] border-[5px] border-white"

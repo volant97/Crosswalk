@@ -15,6 +15,7 @@ import type { Props } from '@/types/childrenPropsType copy';
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
   const [user, setUser] = useRecoilState(userState);
+  // TODO: useSetRecoilState 써보기
 
   const pathname = usePathname();
 

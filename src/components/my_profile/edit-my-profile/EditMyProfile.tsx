@@ -1,31 +1,38 @@
 'use client';
-import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { LuPencil } from 'react-icons/lu';
 import { useRecoilState } from 'recoil';
+import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import { userState } from '@/recoil/user';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
-import { userState } from '@/recoil/user';
+
+const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
+const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14];
 
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo: any = registerData?.profile;
+  // profile이 없으면 undefined로 기본값을 설정할 것이 아니라 로그인 페이지로 리다이렉트해야할 듯? 혹은 user authenticate에서 미리 걸러질 듯?
   const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
   const [file, setFile] = useState<any | null>('test');
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
-  const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
-  const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
+  // TODO: useState 하나로 만들기
+  const [gender, setGender] = useState<string>(myInfo?.gender);
+  const [name, setName] = useState<string>(myInfo?.name || "");
   const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
   const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
   // console.log(myInfo);
 
+  // TODO: ?
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [2, 4, 6, 8, 10, 12, 14];
 
+  // TODO: change handler도 하나로 만들기
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
