@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
 import { userState } from '@/recoil/user';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
@@ -23,6 +24,7 @@ function EditMyProfile() {
 
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
+  const { openModal, AlertModal } = useAlertModal();
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
@@ -41,6 +43,10 @@ function EditMyProfile() {
 
   const previewImg = (event: any) => {
     const imgFile = event.target.files[0];
+    if (imgFile.size > 1024 * 1024 * 5) {
+      openModal('사진은 5MB 이하로 부탁드립니다.');
+      return false;
+    }
     if (imgFile) {
       setFile(imgFile);
       const imgUrl = URL.createObjectURL(imgFile);
@@ -226,6 +232,7 @@ function EditMyProfile() {
       </form>
       {mbtiModal()}
       {interestModal()}
+      {AlertModal()}
     </div>
   );
 }
