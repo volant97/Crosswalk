@@ -95,8 +95,9 @@ export default function ChatListPage() {
     } else return openChatListModal();
   };
 
-  console.log('lastMsg', lastMsg);
-  console.log('chatList', chatList);
+  // console.log('lastMsg', lastMsg);
+  // console.log('chatList', chatList);
+
   return (
     <Page>
       {!chatList?.length ? (
