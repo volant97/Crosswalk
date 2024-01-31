@@ -16,11 +16,11 @@ function EditMyProfile() {
 
   const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
   const [file, setFile] = useState<any | null>('test');
-  const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
-  const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
-  const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
-  const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
-  const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
+  const [gender, setGender] = useState<string>(myInfo?.gender);
+  const [name, setName] = useState<string>(myInfo?.name);
+  const [age, setAge] = useState<number>(myInfo?.age);
+  const [height, setHeight] = useState<number>(myInfo?.height);
+  const [avatar, setAvatar] = useState<number>(myInfo?.avatar);
 
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
@@ -43,6 +43,7 @@ function EditMyProfile() {
 
   const previewImg = (event: any) => {
     const imgFile = event.target.files[0];
+    if (!imgFile) return false;
     if (imgFile.size > 1024 * 1024 * 5) {
       openModal('사진은 5MB 이하로 부탁드립니다.');
       return false;
