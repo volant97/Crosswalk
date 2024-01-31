@@ -91,7 +91,7 @@ export default function ChatListPage() {
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT' || status === 'SOULMATE') {
       router.push(`/chat-list/${linkId}`);
-    } else return openModal('신호 대기중입니다!');
+    } else return openChatListModal('');
   };
 
   console.log('lastMsg', lastMsg);
