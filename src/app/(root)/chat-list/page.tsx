@@ -128,21 +128,43 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem]">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.receiver_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg && lastMsg[idx] ? (
+                      {/* {lastMsg && lastMsg[idx] ? (
                         lastMsg[idx]?.message
                       ) : (
                         <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
                           상대방의 수락을 기다리고 있어요.
+                        </div>
+                      )} */}
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          lastMsg[idx]?.message
+                        ) : (
+                          <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
+                            상대방의 수락을 기다리고 있어요.
+                          </div>
+                        )
+                      ) : (
+                        <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
+                          로딩중...
                         </div>
                       )}
                     </div>
                   </div>
                   <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
-                      {lastMsg && lastMsg[idx] ? (
+                      {/* {lastMsg && lastMsg[idx] ? (
                         formatDate(String(lastMsg[idx]?.created_at))
                       ) : (
                         <div className="text-xs text-gray-AAA">대기중</div>
+                      )} */}
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          formatDate(String(lastMsg[idx]?.created_at))
+                        ) : (
+                          <div className="w-full text-xs text-gray-AAA  text-ellipsis overflow-hidden">대기중</div>
+                        )
+                      ) : (
+                        <div className="w-full text-xs text-gray-AAA text-ellipsis overflow-hidden">...</div>
                       )}
                     </span>
                     <div></div>
@@ -175,21 +197,45 @@ export default function ChatListPage() {
                   <div className="w-[12.5rem] ">
                     <h5 className="text-black text-base font-medium">{list.flirting_list.sender_uid.name}</h5>
                     <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden ">
-                      {lastMsg && lastMsg[idx] ? (
+                      {/* {lastMsg && lastMsg[idx] ? (
                         lastMsg[idx]?.message
                       ) : (
                         <div className="w-full text-gray-666 text-sm font-normal text-ellipsis overflow-hidden">
                           회원님의 수락을 기다리고 있어요.
                         </div>
+                      )} */}
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          lastMsg[idx]?.message
+                        ) : (
+                          <div className="w-full text-gray-666 text-sm text-ellipsis overflow-hidden">
+                            회원님의 수락을 기다리고 있어요.
+                          </div>
+                        )
+                      ) : (
+                        <div className="w-full text-gray-666 text-sm text-ellipsis overflow-hidden">로딩중...</div>
                       )}
                     </div>
                   </div>
                   <div className="flex flex-col items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
-                      {lastMsg && lastMsg[idx] ? (
+                      {/* {lastMsg && lastMsg[idx] ? (
                         formatDate(String(lastMsg[idx]?.created_at))
                       ) : (
                         <div className="text-xs text-gray-AAA">대기중</div>
+                      )} */}
+                      {lastMsg && lastMsg[idx] !== undefined ? (
+                        lastMsg[idx] !== null ? (
+                          formatDate(String(lastMsg[idx]?.created_at))
+                        ) : (
+                          <div className="w-full text-xs text-gray-AAA font-normal text-ellipsis overflow-hidden">
+                            대기중
+                          </div>
+                        )
+                      ) : (
+                        <div className="w-full text-xs text-gray-AAA font-normal text-ellipsis overflow-hidden">
+                          ...
+                        </div>
                       )}
                     </span>
                     <div></div>
