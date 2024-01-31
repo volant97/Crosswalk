@@ -105,7 +105,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
   const routerLink = (uid: string | undefined) => {
     if (uid !== undefined) {
-      router.push(`/${uid}`);
+      router.push(`/other-person-profile/${uid}`);
     }
   };
 
