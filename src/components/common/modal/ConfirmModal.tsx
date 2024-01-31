@@ -1,5 +1,5 @@
 'use client';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
 import { useRecoilState } from 'recoil';
 import { supabase } from '@/lib/supabase-config';
@@ -11,7 +11,7 @@ import { userState } from '@/recoil/user';
 type Props = {
   name: string | undefined;
   height: number | string | undefined;
-  age: number | string | undefined;
+  age: number | undefined;
   selectedImg: string;
   file: any;
   avatar: number | undefined;
@@ -26,10 +26,13 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
   const myInfo = registerData?.profile;
   // const { uid } = useRecoilValue(isUserState);
   const uid = registerData?.id;
+  const [isLoading, setIsLoading] = useState<any>(false);
 
   async function uploadFile(file: any) {
     try {
       if (file) {
+        // 로딩중
+        setIsLoading(true);
         await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${selectedImg}`, file, {
           cacheControl: '3600',
           upsert: false
@@ -67,6 +70,8 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
     } catch (error) {
       openModal('서버와의 통신을 실패했습니다.');
     }
+    // 로딩끝
+    setIsLoading(false);
   }
 
   async function uploadAndNavigate(file: any) {
@@ -121,6 +126,12 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
                   onClick={async () => {
+                    if (!age) return;
+                    if (age <= 14) {
+                      openModal('저희 서비스는 만 14세 이상만 이용할 수 있습니다.');
+                      onClose();
+                      return false;
+                    }
                     await uploadAndNavigate(file);
                     // console.log('확인');
                     onClose();
@@ -128,6 +139,7 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
                   }}
                   className="w-[15rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-medium"
                   type="submit"
+                  isLoading={isLoading}
                 >
                   네
                 </Button>

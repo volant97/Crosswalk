@@ -30,7 +30,7 @@ function Agreement() {
       postData();
       router.push('#name');
     } else {
-      openModal('모든 체크박스를 선택해주세요.');
+      openModal('서비스를 이용하기 위해서는 모든 약관 동의가 필요합니다.');
     }
   };
 

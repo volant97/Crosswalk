@@ -13,11 +13,11 @@ export default function SkeletonMain() {
       <div className="w-full flex gap-2">
         {/* <Skeleton className="flex rounded-full w-full h-[50px]" />
         <Skeleton className="flex rounded-full w-full h-[50px" /> */}
-        <SlideButton nextCard={() => {}} color="default" size="lg">
+        <SlideButton nextCard={() => {}} color="default" size="lg" disabled={true}>
           <IoClose size={20} /> 괜찮아요
         </SlideButton>
 
-        <Button openFlirtingModal={() => {}} color="green" size="lg">
+        <Button openFlirtingModal={() => {}} color="green" size="lg" disabled={true}>
           <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
           <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
         </Button>

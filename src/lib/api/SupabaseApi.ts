@@ -191,7 +191,7 @@ export async function getUnMatchedData(myUid: string, gender: string) {
     .from('custom_users')
     .select('*')
     .not('uid', 'in', `(${myUid})`)
-    .not('information_agreement', 'is', false);
+    .not('avatar', 'eq', '0');
   // .not('gender', 'in', `(${gender})`);
   // console.log('filteredUserData', filteredUserData);
 

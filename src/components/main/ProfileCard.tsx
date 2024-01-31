@@ -1,12 +1,10 @@
 import Image from 'next/image';
 import React, { Fragment } from 'react';
-import FlirtingModal from '../common/modal/FlirtingModal';
 import Button from '../Button';
 import { IoClose } from 'react-icons/io5';
-import { GoHeartFill } from 'react-icons/go';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import SlideButon from '../SlideButton';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { currentIndexState } from '@/recoil/currentIndex';
 import useReloadCardModal from '../common/modal/ReloadCardModal';
@@ -112,6 +110,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
           }}
           color="default"
           size="md"
+          disabled={false}
         >
           <IoClose size={20} /> 괜찮아요
         </SlideButon>
@@ -121,6 +120,7 @@ function ProfileCard({ age, avatar, name, interest, height, flirtingUserId, gend
           }}
           color="green"
           size="md"
+          disabled={false}
         >
           <Image src="/assets/button/heart.png" width={20} height={20} alt="heart" />
           <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>

@@ -2,11 +2,14 @@
 'use client';
 
 import useAlertModal from '@/components/common/modal/AlertModal';
-import { postRegister } from '@/lib/api/SupabaseApi';
+import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
+import { isUserState } from '@/recoil/auth';
+import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
@@ -28,7 +31,7 @@ const UploadImg = () => {
   const [testToggle, setTestToggole] = useState<boolean>(false);
   const myInfo: any = register?.profile;
   const [avatar, setAvatar] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [userImageUrl, setUserImageUrl] = useState<string>('');
 
   const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
   const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
@@ -37,26 +40,6 @@ const UploadImg = () => {
     console.error('Server communication error', error);
     openModal('서버와의 통신을 실패했습니다.');
   };
-
-  async function uploadFile(file: any, imgUrl: string) {
-    try {
-      // 2. 선택한 사진 수파베이스 스토리지에 저장
-      if (file) {
-        // 로딩중
-        setIsLoading(true);
-        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('uploadFile error', error);
-      handleError(error);
-    }
-    updateGender(myInfo.gender);
-  }
 
   // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
@@ -70,9 +53,40 @@ const UploadImg = () => {
     }
   };
 
+  async function uploadFile(file: any, imgUrl: string) {
+    try {
+      // 2. 선택한 사진 수파베이스 스토리지에 저장
+      if (file) {
+        await supabase.storage.from('usersImg').upload(`/usersImg/${uid}/${imgUrl}`, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+        console.log('upload');
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('uploadFile error', error);
+      handleError(error);
+    }
+    const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
+    setUserImageUrl(userImg.publicUrl);
+    console.log('get');
+    updateGender(myInfo.gender);
+  }
+
+  const updateGender = (gender: string) => {
+    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
+    const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
+    setAvatar(avatarNumbers[randomIndex]);
+    console.log('아바타, 유저img set');
+    setTestToggole(!testToggle);
+  };
+
   // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
   const postData = async () => {
     try {
+      console.log('post register');
       await postRegister(uid, register?.profile);
     } catch (error) {
       handleError(error);
@@ -89,28 +103,18 @@ const UploadImg = () => {
     await postData();
   };
 
-  const updateGender = (gender: string) => {
-    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
-    const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
-    setAvatar(avatarNumbers[randomIndex]);
-    setTestToggole(!testToggle);
-    // 로딩 끝
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {
         ...prevData?.profile,
-        user_img: userImg?.publicUrl,
+        user_img: userImageUrl,
         avatar,
         uid
       }
     }));
-    console.log(register?.profile);
-  }, [testToggle, register?.profile?.user_img]);
+    console.log('여기 register', register?.profile);
+  }, [testToggle]);
 
   console.log(register?.profile);
 
@@ -137,12 +141,7 @@ const UploadImg = () => {
               </div>
             )}
 
-            <input
-              className="hidden"
-              type="file"
-              accept="image/jpg, image/jpeg, image/png, image/heic"
-              onChange={previewImg}
-            />
+            <input className="hidden" type="file" onChange={previewImg} />
           </label>
           <p className="text-center text-xs text-red-500 mb-[10px]">
             * 실제 회원의 얼굴이 나온 프로필 사진을 추가해주세요
@@ -154,7 +153,6 @@ const UploadImg = () => {
           file ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         onClick={handleNextBtn}
-        isLoading={isLoading}
       >
         회원 등록 완료
       </Button>
