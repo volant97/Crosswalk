@@ -71,7 +71,7 @@ const MbtiModal = () => {
 
                     onClose();
                   }}
-                  className="w-[18.75rem] text-[1.125rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-semibold mb-[1.1rem]"
+                  className="w-[18.75rem] text-[1.125rem] bg-customGreen3 rounded-3xl cursor-pointer font-semibold mb-[1.1rem]"
                   type="submit"
                 >
                   확인

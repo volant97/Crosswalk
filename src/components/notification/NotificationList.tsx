@@ -114,6 +114,7 @@ const NotificationList = () => {
     }
   };
   // console.log('notificcationDATAAA:', notificationData);
+
   return (
     <Fragment>
       <div className="flex-col items-center justify-center w-[100%]  min-h-[calc(100dvh-12rem)] overflow-hidden max-h-[calc(100dvh-7rem)] overflow-y-auto scrollbar-hide">
@@ -121,8 +122,8 @@ const NotificationList = () => {
           notificationData.every(
             (notification) => notification.receiver_is_read_in_noti && notification.sender_is_read_in_noti
           ) ? (
-            <div className="flex flex-col item-center justify-center max-w-96 h-18 p-2 gap-1 ">
-              <li className="flex flex-col item-center  max-w-96 h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
+            <div className="flex flex-col item-center justify-center w-full h-18 p-2 gap-1 ">
+              <li className="flex flex-col item-center w-full h-18 p-2 gap-1 text-center">알림을 모두 읽었어요</li>
             </div>
           ) : (
             notificationData?.map((notification, index) => {
@@ -148,7 +149,7 @@ const NotificationList = () => {
                         ? '/chat-list'
                         : notification.status === 'UNREAD' ||
                           (notification.status === 'READ' && currentUser?.id === userNames[index]?.sender?.uid)
-                        ? '/chat-list'
+                        ? '/request'
                         : notification.status === 'UNREAD' ||
                           (notification.status === 'READ' && currentUser?.id === userNames[index]?.receiver?.uid)
                         ? '/request'
@@ -190,8 +191,8 @@ const NotificationList = () => {
             })
           )
         ) : (
-          <div className="flex flex-col item-center justify-center max-w-96 h-18 p-2 gap-1 ">
-            <li className="flex flex-col item-center  max-w-96 h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
+          <div className="flex flex-col item-center justify-center w-full h-18 p-2 gap-1 ">
+            <li className="flex flex-col item-center  w-full h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
           </div>
         )}
       </div>

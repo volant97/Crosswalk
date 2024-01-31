@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import ChatHeader from '@/components/message/ChatHeader';
-import ChatInput from '@/components/message/ChatInput';
 import ChatRoom from '@/components/message/ChatRoom';
 import {
   changeMessageToRead,
@@ -41,7 +40,7 @@ function ChatRoomPage() {
 
   useEffect(() => {
     data();
-  }, [roomId]);
+  }, [messageData]);
 
   async function getData(subscribe_room_id: string) {
     try {
@@ -80,7 +79,7 @@ function ChatRoomPage() {
 
   return (
     <div className="h-screen">
-      <ChatHeader roomInfo={roomInfo} getUid={getUid} favorableRating={favorableRating} />
+      <ChatHeader roomId={roomId} roomInfo={roomInfo} getUid={getUid} favorableRating={favorableRating} />
       <ChatRoom roomId={roomId} roomInfo={roomInfo} getUid={getUid} messageData={messageData} />
     </div>
   );

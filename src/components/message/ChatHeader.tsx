@@ -11,20 +11,13 @@ import GoToBackBtn from '../layout/GoToBackBtn';
 import { useRouter } from 'next/navigation';
 
 interface ChatProps {
+  roomId: string;
   roomInfo?: ChatListType;
   getUid: UserState;
   favorableRating: number;
 }
 
-function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
-  const router = useRouter();
-
-  const routerLink = (uid: string | undefined) => {
-    if (uid !== undefined) {
-      router.push(`/${uid}`);
-    }
-  };
-
+function ChatHeader({ roomId, roomInfo, getUid, favorableRating }: ChatProps) {
   return (
     <>
       <header className="sticky flex font-virgil w-full h-16 bg-white top-0 items-center border-b-2 border-solid px-6 z-50">
@@ -33,7 +26,7 @@ function ChatHeader({ roomInfo, getUid, favorableRating }: ChatProps) {
         </div>
 
         <div className="ml-auto">
-          <SignalOffModal flirting_list_id={roomInfo?.flirting_list_id} />
+          <SignalOffModal flirting_list_id={roomInfo?.flirting_list_id} roomId={roomId} getUid={getUid} />
         </div>
         <div className="flex items-center gap-[0.75rem] absolute top-[10px] left-12">
           {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id

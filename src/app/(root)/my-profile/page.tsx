@@ -1,15 +1,15 @@
 import NavBar from '@/components/common/ui/NavBar';
 import Page from '@/components/layout/Page';
-import FetchMyProfileCard from '@/components/my_profile/FetchMyProfileCard';
+import MyProfile from '@/components/my_profile/MyProfile';
 import React from 'react';
 
-function MyProfile() {
+function MyProfilePage() {
   return (
     <Page noNotiBell cs>
-      <FetchMyProfileCard />
+      <MyProfile />
       {/* <NavBar /> */}
     </Page>
   );
 }
 
-export default MyProfile;
+export default MyProfilePage;

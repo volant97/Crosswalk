@@ -21,6 +21,7 @@ export type FlirtingListPayload = {
     receiver_uid: string;
     sender_uid: string;
     status: string;
+    first_message_trigger: boolean;
   };
   old: { id: number };
   schema: string;
@@ -58,6 +59,7 @@ export type ChatListType = {
     flirting_message: string;
     id: number;
     status: string;
+    first_message_trigger: boolean;
     sender_is_read_in_noti: boolean;
     receiver_is_read_in_noti: boolean;
     receiver_uid: { name: string; avatar: number; uid: string; user_img: string };

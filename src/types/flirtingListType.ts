@@ -7,6 +7,7 @@ export type FlirtingListType = {
   receiver_is_read_in_noti: boolean | null;
   receiver_uid: string | null;
   sender_uid: string | null;
+  first_message_trigger: boolean | null;
 };
 
 export type FlirtingListRequestType = {
@@ -18,6 +19,8 @@ export type FlirtingListRequestType = {
   sender_is_read_in_noti: Boolean;
   receiver_is_read_in_noti: boolean;
   status: string;
+  first_message_trigger: boolean;
+
   custom_users: {
     age: number;
     name: string;
@@ -38,4 +41,5 @@ export type FlirtingListInNotificationType = {
   receiver_is_read_in_noti: boolean;
   receiver_uid: string;
   sender_uid: string;
+  first_message_trigger: boolean;
 };
