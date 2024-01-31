@@ -74,7 +74,7 @@ const UploadImg = () => {
     }
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
+  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 /
   const postData = async () => {
     try {
       await postRegister(uid, register?.profile);
