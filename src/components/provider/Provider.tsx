@@ -10,7 +10,7 @@ type Props = {
 };
 
 function Provider({ children }: Props) {
-  // 개발자 도구 막기
+  // 개발자 도구 막기 (dev mode)
   // const handleContextMenu = (e: any) => {
   //   e.preventDefault(); // 우클릭 시 기본 동작 막기
   //   // 원하는 작업 수행
@@ -33,7 +33,7 @@ function Provider({ children }: Props) {
   // }, []);
 
   return (
-    // div 개발자모드
+    // div 개발자 도구 막기 (dev mode)
     // <div onContextMenu={handleContextMenu}>
     <RecoilRoot>
       <NextUIProvider>
