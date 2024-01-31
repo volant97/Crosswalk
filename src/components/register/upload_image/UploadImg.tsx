@@ -61,6 +61,7 @@ const UploadImg = () => {
   // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
     const imgFile = event.target.files[0];
+    if (!imgFile) return false;
     if (imgFile.size > 1024 * 1024 * 5) {
       openModal('사진은 5MB 이하로 부탁드립니다.');
     }
@@ -73,7 +74,7 @@ const UploadImg = () => {
     }
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
+  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 /
   const postData = async () => {
     try {
       await postRegister(uid, register?.profile);

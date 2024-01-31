@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import MyCard from './MyCard';
 import { userState } from '@/recoil/user';
 
-function FetchMyProfileCard() {
+function MyProfile() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myUid = registerData?.profile?.uid;
@@ -70,4 +70,4 @@ function FetchMyProfileCard() {
   );
 }
 
-export default FetchMyProfileCard;
+export default MyProfile;
