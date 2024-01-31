@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
 import { getUnMatchedData } from '@/lib/api/SupabaseApi';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Button from '../Button';
 import { userState } from '@/recoil/user';
 import { IoClose } from 'react-icons/io5';
@@ -22,7 +22,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
-function FetchUserCards() {
+function UserCards() {
   const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
   const [userUids, setUserUids] = useState<any>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
@@ -32,7 +32,7 @@ function FetchUserCards() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
-  const [registerData, setRegisterData] = useRecoilState(userState);
+  const registerData = useRecoilValue(userState);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
 
@@ -59,10 +59,6 @@ function FetchUserCards() {
     }
   };
 
-  const firstNextSlide = () => {
-    swiper.slideTo(1, 400, false);
-  };
-
   // 슬라이드 할 때 마다 값 가져오기
   const handleSlideChange = (swiper: any) => {
     const activeIndex = swiper.realIndex;
@@ -85,6 +81,10 @@ function FetchUserCards() {
     const targetUid = likedUserUid || flirtingUserUids[0];
     openFlirtingModal(targetUid, swiper);
     // console.log('activeUserUid', targetUid);
+  };
+
+  const firstNextSlide = () => {
+    swiper.slideTo(1, 400, false);
   };
 
   useEffect(() => {
@@ -200,4 +200,4 @@ function FetchUserCards() {
   );
 }
 
-export default FetchUserCards;
+export default UserCards;

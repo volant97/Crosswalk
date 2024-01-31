@@ -91,7 +91,7 @@ export default function ChatListPage() {
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT' || status === 'SOULMATE') {
       router.push(`/chat-list/${linkId}`);
-    } else return openChatListModal('');
+    } else return openChatListModal();
   };
 
   console.log('lastMsg', lastMsg);
@@ -111,7 +111,7 @@ export default function ChatListPage() {
                   onClick={() => {
                     if (!lastMsg) return;
                     if (lastMsg[idx] === null) {
-                      return openChatListModal('');
+                      return openChatListModal();
                     } else {
                       routerLink(list.id, list.flirting_list.status);
                     }
@@ -170,7 +170,7 @@ export default function ChatListPage() {
                     if (!lastMsg) return;
 
                     if (lastMsg[idx] === null) {
-                      return openChatListModal('');
+                      return openChatListModal();
                     } else {
                       routerLink(list.id, list.flirting_list.status);
                     }

@@ -4,13 +4,10 @@ import React, { useEffect, useState } from 'react';
 import type { RegisterType } from '@/types/registerType';
 import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { isUserState } from '@/recoil/auth';
 import MyCard from './MyCard';
-import { registerState } from '@/recoil/register';
 import { userState } from '@/recoil/user';
-import Link from 'next/link';
 
-function FetchMyProfileCard() {
+function MyProfile() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myUid = registerData?.profile?.uid;
@@ -73,4 +70,4 @@ function FetchMyProfileCard() {
   );
 }
 
-export default FetchMyProfileCard;
+export default MyProfile;

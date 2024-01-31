@@ -9,11 +9,9 @@ import { HiMiniBellAlert } from 'react-icons/hi2';
 
 const useChatListModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>('');
   const backdrop = 'blur';
 
-  const openModal = (title: string) => {
-    setTitle(title);
+  const openModal = () => {
     setIsOpen(true);
   };
 
@@ -43,7 +41,6 @@ const useChatListModal = () => {
                 variant="ghost"
                 onPress={() => {
                   onClose();
-                  setTitle('');
                 }}
                 className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
                 type="submit"
