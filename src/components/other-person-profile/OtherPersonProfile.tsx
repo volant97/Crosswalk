@@ -3,6 +3,7 @@
 
 import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
 import { supabase } from '@/lib/supabase-config';
+import { getSoulmateStatus } from '@/types/etcType';
 import { unNullRegisterType } from '@/types/registerType';
 import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
@@ -10,12 +11,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 
 type Props = {
   otherPersonId: string;
-};
-
-type getSoulmateStatus = {
-  sender_uid: string;
-  receiver_uid: string;
-  status: string;
 };
 
 function OtherPersonProfile({ otherPersonId }: Props) {

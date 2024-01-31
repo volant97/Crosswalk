@@ -7,6 +7,7 @@ import {
 } from '@/lib/api/SupabaseApi';
 import { LastMessageState } from '@/recoil/lastMessageData';
 import { UserState, userState } from '@/recoil/user';
+import { filteredUnreadMessage } from '@/types/etcType';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 import { ChatListType, LastMessageDataType } from '@/types/realTimeType';
 import Image from 'next/image';
@@ -15,14 +16,6 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-
-type filteredUnreadMessage = ({
-  created_at: string;
-  id: number;
-  is_read: boolean;
-  message: string;
-  user_uid: string;
-} | null)[];
 
 function NavBar() {
   const pathname = usePathname();
