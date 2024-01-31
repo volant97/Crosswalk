@@ -40,7 +40,7 @@ function ChatRoomPage() {
 
   useEffect(() => {
     data();
-  }, [roomId]);
+  }, [messageData]);
 
   async function getData(subscribe_room_id: string) {
     try {
