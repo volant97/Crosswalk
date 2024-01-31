@@ -14,10 +14,10 @@ import { postRegister } from '@/lib/api/SupabaseApi';
 function Mbti() {
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
+  const router = useRouter();
   const [selectedMbti, setSelectedMbti] = useState<string | null>('');
 
   const { openModal, AlertModal } = useAlertModal();
-  const router = useRouter();
 
   const handleMbtiClick = (item: string) => {
     if (selectedMbti === item) setSelectedMbti('');
