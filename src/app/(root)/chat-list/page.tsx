@@ -15,6 +15,7 @@ import useAlertModal from '@/components/common/modal/AlertModal';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 import NavBar from '@/components/common/ui/NavBar';
 import useChatListModal from '@/components/common/modal/ChatListModal';
+import Image from 'next/image';
 
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
@@ -145,7 +146,7 @@ export default function ChatListPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-end w-[55px]">
+                  <div className="flex flex-col  justify-between items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
                       {lastMsg && lastMsg[idx] !== undefined ? (
                         lastMsg[idx] !== null ? (
@@ -157,7 +158,18 @@ export default function ChatListPage() {
                         <div className="w-full text-xs text-gray-AAA text-ellipsis overflow-hidden">...</div>
                       )}
                     </span>
-                    <div></div>
+                    {lastMsg && lastMsg[idx] && lastMsg[idx]?.user_uid !== getUid?.id && !lastMsg[idx]?.is_read && (
+                      <Image src="/assets/figmaImg/number.png" width={20} height={20} alt="new message" />
+                    )}
+                    {/* {lastMsg && lastMsg[idx] && !lastMsg[idx]?.is_read && (
+                      <Image
+                        src="/assets/figmaImg/number.png"
+                        width={20}
+                        height={20}
+                        alt="new message"
+                        className="border-1"
+                      />
+                    )} */}
                   </div>
                 </li>
               );
@@ -202,7 +214,7 @@ export default function ChatListPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col items-end w-[55px]">
+                  <div className="flex flex-col justify-between items-end w-[55px]">
                     <span className="text-xs text-gray-AAA">
                       {lastMsg && lastMsg[idx] !== undefined ? (
                         lastMsg[idx] !== null ? (
@@ -218,7 +230,32 @@ export default function ChatListPage() {
                         </div>
                       )}
                     </span>
-                    <div></div>
+                    {lastMsg && lastMsg[idx] && lastMsg[idx]?.user_uid !== getUid?.id && !lastMsg[idx]?.is_read && (
+                      <div className="flex justify-center items-center w-[20px] h-[20px] font-normal rounded-full bg-customGreen3 text-white text-[11px] leading-[16px]">
+                        +1
+                      </div>
+                    )}
+                    {/* {lastMsg && lastMsg[idx] && !lastMsg[idx]?.is_read && (
+                      <Image
+                        src="/assets/figmaImg/number.png"
+                        width={20}
+                        height={20}
+                        alt="new message"
+                        className="border-1"
+                      />
+                    )} */}
+                    {/* {getUid?.id === list.flirting_list.receiver_uid.uid &&
+                      lastMsg &&
+                      lastMsg[idx] &&
+                      !lastMsg[idx]?.is_read && (
+                        <Image
+                          src="/assets/figmaImg/number.png"
+                          width={20}
+                          height={20}
+                          alt="new message"
+                          className="border-1"
+                        />
+                      )} */}
                   </div>
                 </li>
               );
