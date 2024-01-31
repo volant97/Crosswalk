@@ -18,7 +18,7 @@ function EditMyProfile() {
   const { openInterestModal, interestModal } = InterestModal();
   const [gender, setGender] = useState<string | undefined>(myInfo?.gender || undefined);
   const [name, setName] = useState<string | undefined>(myInfo?.name || undefined);
-  const [age, setAge] = useState<number | string | undefined>(myInfo?.age || undefined);
+  const [age, setAge] = useState<number | undefined>(myInfo?.age || undefined);
   const [height, setHeight] = useState<number | string | undefined>(myInfo?.height || undefined);
   const [avatar, setAvatar] = useState<number | undefined>(myInfo?.avatar || undefined);
   // console.log(myInfo);

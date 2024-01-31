@@ -25,6 +25,10 @@ function AgeAndHeight() {
       openModal('나이와 키를 입력해주세요!');
       return;
     }
+    if (age <= '14') {
+      openModal('만 14세 이상 이용하실 수 있습니다.');
+      return false;
+    }
 
     // console.log('!!!!!AgeAndHeight', register);
     postData();

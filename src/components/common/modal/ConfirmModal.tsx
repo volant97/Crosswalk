@@ -11,7 +11,7 @@ import { userState } from '@/recoil/user';
 type Props = {
   name: string | undefined;
   height: number | string | undefined;
-  age: number | string | undefined;
+  age: number | undefined;
   selectedImg: string;
   file: any;
   avatar: number | undefined;
@@ -126,6 +126,12 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
               <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
                 <Button
                   onClick={async () => {
+                    if (!age) return;
+                    if (age <= 14) {
+                      openModal('저희 서비스는 만 14세 이상만 이용할 수 있습니다.');
+                      onClose();
+                      return false;
+                    }
                     await uploadAndNavigate(file);
                     // console.log('확인');
                     onClose();
