@@ -110,15 +110,12 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   };
 
   useEffect(() => {
-    // 새로운 채팅이 들어올 떄 스크롤을 맨 아래로 이동
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messageData]);
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤을 맨 아래로 이동
-
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current?.scrollHeight;
     }
