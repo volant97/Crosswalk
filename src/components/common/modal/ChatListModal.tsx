@@ -21,7 +21,6 @@ const useChatListModal = () => {
     setIsOpen(false);
   };
 
-  /**호감도 100% 축하 모달 */
   const AlertChatListModal = () => (
     <Modal
       className="w-[20rem] text-yellow-400"
@@ -35,8 +34,8 @@ const useChatListModal = () => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-2">
               <HiMiniBellAlert size={50} className="fill-black mb-3" />
-              <p>알림창의 알림메시지를 클릭하여</p>
-              <p>신호등을 켜주세요!</p>
+              <p>상대방과 나의 신호등 불이</p>
+              <p>모두 켜지지 않았어요!</p>
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               <Button
