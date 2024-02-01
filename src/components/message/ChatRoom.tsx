@@ -172,7 +172,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
             <>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className="mr-auto " key={idx}>
-                <div className="flex flex-row gap-[0.38rem] mt-[1rem]">
+                <div className="flex flex-row  gap-[0.38rem] mt-[1rem]">
                   {roomInfo?.flirting_list.sender_uid.uid !== getUid?.id ? (
                     roomInfo?.flirting_list.status === 'SOULMATE' ? (
                       <Avatar
@@ -216,10 +216,10 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
                       alt="유저 아바타 이미지"
                     />
                   )}
-                  <div className="text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-48">
-                    <h1 className="font-medium break-all">{data.message}</h1>
+                  <div className=" text-[0.875rem] px-[1.25rem] py-[0.5rem] bg-gray-F6 rounded-tl-[1.8rem] rounded-tr-[1.8rem] rounded-br-[1.8rem] max-w-48">
+                    <h1 className=" font-medium break-all">{data.message}</h1>
                   </div>
-                  <h1 className="text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
+                  <h1 className="flex items-end text-[0.75rem] text-gray-999 mt-[20px] whitespace-nowrap">
                     {GetCurrentTime(String(data.created_at))}
                   </h1>
                 </div>
