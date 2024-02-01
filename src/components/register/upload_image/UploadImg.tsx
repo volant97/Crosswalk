@@ -18,6 +18,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 // 4. 가져온 사진 주소 recoil에 set / setRegisterData + avatar도 set
 // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
 
+const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
+const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];
+
 const UploadImg = () => {
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
@@ -29,9 +32,6 @@ const UploadImg = () => {
   const myInfo: any = register?.profile;
   const [avatar, setAvatar] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
 
   const handleError = (error: any) => {
     console.error('Server communication error', error);
@@ -94,7 +94,7 @@ const UploadImg = () => {
   };
 
   const updateGender = (gender: string) => {
-    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
+    const avatarNumbers = gender === 'M' ? MAN_NUMBER : WOMAN_NUMBER;
     const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
     setAvatar(avatarNumbers[randomIndex]);
     setTestToggole(!testToggle);

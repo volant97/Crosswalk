@@ -10,6 +10,9 @@ import InterestModal from '../../common/modal/InterestModal';
 import { userState } from '@/recoil/user';
 import useAlertModal from '@/components/common/modal/AlertModal';
 
+const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
+const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];
+
 function EditMyProfile() {
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo: any = registerData?.profile;
@@ -25,9 +28,6 @@ function EditMyProfile() {
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
   const { openModal, AlertModal } = useAlertModal();
-
-  const manNumber = [1, 3, 5, 7, 9, 11, 13, 15];
-  const womanNumber = [2, 4, 6, 8, 10, 12, 14, 16];
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -63,7 +63,7 @@ function EditMyProfile() {
   };
 
   const updateGender = (gender: string) => {
-    const avatarNumbers = gender === 'M' ? manNumber : womanNumber;
+    const avatarNumbers = gender === 'M' ? MAN_NUMBER : WOMAN_NUMBER;
     const randomIndex = Math.floor(Math.random() * avatarNumbers.length);
     setAvatar(avatarNumbers[randomIndex]);
     return avatarNumbers[randomIndex];
