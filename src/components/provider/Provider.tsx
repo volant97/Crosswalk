@@ -27,6 +27,10 @@ function Provider({ children }: Props) {
         e.preventDefault();
         alert('개발자 도구를 열 수 없습니다.');
       }
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 67) {
+        e.preventDefault();
+        alert('개발자 도구를 열 수 없습니다.');
+      }
     };
 
     document.addEventListener('keydown', handleKeyDown);

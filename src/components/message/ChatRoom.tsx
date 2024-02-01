@@ -11,7 +11,7 @@ import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
 import useCongratModal from '../common/modal/CongratModal';
-import useJsxAlertModal from '../common/modal/AlertModal copy';
+import useJsxAlertModal from '../common/modal/AlertJsxModal';
 
 interface ChatProps {
   roomId: string;
@@ -47,10 +47,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
     const increaseFavorableRating = (userScore: number, anotherScore: number) => {
       const totalScore = userScore + anotherScore;
       const rating = (totalScore / favorableRatingGoal) * 100;
-      if (rating >= 100) {
-        favorable_rating = 100;
-        return setCongratulationsMessage(true);
-      }
       favorable_rating = Math.floor(rating);
     };
 
@@ -124,6 +120,11 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+    let favorable_rating = prevMessage?.favorable_rating;
+    console.log('!!!favorable_rating', favorable_rating, favorable_rating >= 100 && favorable_rating < 101);
+    if (favorable_rating >= 100 && favorable_rating < 101) {
+      return setCongratulationsMessage(true);
     }
   }, [messageData]);
 
