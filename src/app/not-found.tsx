@@ -11,14 +11,13 @@ function notFound() {
           <p className="text-[32px] font-bold">oops!</p>
           <p className="text-[92px] font-bold leading-[1]">404</p>
           <p className="text-[20px] text-gray-AAA">잘못된 접근입니다.</p>
-          <Button className="absolute bottom-8 h-[50px] w-full bg-customGreen3 rounded-3xl cursor-pointer">
-            <Link
-              href={'/'}
-              className="flex justify-center items-center  text-white text-[18px] leading-[20px] font-semibold "
-            >
-              처음으로
-            </Link>
-          </Button>
+          <Link href={'/'} className="absolute bottom-8 h-[50px] w-full">
+            <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
+              <p className="flex justify-center items-center  text-white text-[18px] leading-[20px] font-semibold ">
+                처음으로
+              </p>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
