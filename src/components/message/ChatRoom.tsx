@@ -122,7 +122,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
     let favorable_rating = prevMessage?.favorable_rating;
-    console.log('!!!favorable_rating', favorable_rating, favorable_rating >= 100 && favorable_rating < 101);
     if (favorable_rating >= 100 && favorable_rating < 101) {
       return setCongratulationsMessage(true);
     }
