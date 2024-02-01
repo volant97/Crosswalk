@@ -50,14 +50,26 @@ function ChatHeader({ roomId, roomInfo, getUid, favorableRating }: ChatProps) {
               <div>{roomInfo?.flirting_list.sender_uid.name}</div>
             )}
             <div className="flex gap-[0.25rem] items-center mt-[-5px]">
-              <Image
-                src="/assets/figmaImg/Heart.png"
-                className="w-[1rem] h-[1rem]"
-                width={50}
-                height={50}
-                alt="호감도"
-              />
-              <h1 className="text-[0.875rem] text-gray-888">{favorableRating}%</h1>
+              {favorableRating >= 100 ? null : (
+                <Image
+                  src="/assets/figmaImg/Heart.png"
+                  className="w-[1rem] h-[1rem]"
+                  width={50}
+                  height={50}
+                  alt="호감도"
+                />
+              )}
+
+              {/* 여기 수정중 */}
+              <h1 className="text-[0.875rem] text-gray-888">
+                {favorableRating >= 100 ? (
+                  <p>
+                    <span className="text-customGreen3">Soulmate</span>
+                  </p>
+                ) : (
+                  <p>{favorableRating}%</p>
+                )}
+              </h1>
             </div>
           </div>
         </div>
