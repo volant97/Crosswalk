@@ -19,7 +19,7 @@ export default function HomePage() {
         <StartOrRegister />
       </div>
       {/* update ver 표시 */}
-      <p className="absolute text-gray-999 right-4 bottom-4">ver 1.6.1</p>
+      <p className="absolute text-gray-999 right-4 bottom-4">ver 1.6.2</p>
     </div>
   );
 }
