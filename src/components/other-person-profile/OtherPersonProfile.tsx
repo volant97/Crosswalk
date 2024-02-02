@@ -36,16 +36,12 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         .eq('status', 'SOULMATE')
         .returns<getSoulmateStatus[]>();
 
-      console.log('data : ', data);
+      // console.log('data : ', data);
+      // 여기부터~!
 
       if (data?.length) {
         data.forEach((item) => {
           if (!otherId) return;
-          // console.log(
-          //   '~~~',
-          //   register?.id === item.receiver_uid && item.sender_uid === otherId,
-          //   register?.id === item.sender_uid && item.receiver_uid === otherId
-          // );
           if (item.receiver_uid !== otherId && item.sender_uid !== otherId) return setCheckSoulmate(true);
           console.log('여기', item.receiver_uid === otherId || item.sender_uid === otherId);
           if (item.receiver_uid === otherId || item.sender_uid === otherId) {
