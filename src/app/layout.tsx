@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function HTMLLayout({ children }: Props) {
   return (
     <html lang="ko">
-      <link rel="manifest" href="/manifest.json" />
+      {/* <link rel="manifest" href="/manifest.json" /> */}
       <body>
         <Provider>{children}</Provider>
       </body>
