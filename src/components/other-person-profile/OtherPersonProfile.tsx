@@ -3,11 +3,13 @@
 
 import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
 import { supabase } from '@/lib/supabase-config';
+import { userState } from '@/recoil/user';
 import { getSoulmateStatus } from '@/types/etcType';
 import { unNullRegisterType } from '@/types/registerType';
 import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { Fragment, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 type Props = {
   otherPersonId: string;
@@ -19,6 +21,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
 
   const [isSoulmate, setIsSoulmate] = useState<boolean>(false);
   const [checkSoulmate, setCheckSoulmate] = useState<boolean>(false);
+  const register = useRecoilValue(userState);
 
   const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
@@ -33,9 +36,14 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         .eq('status', 'SOULMATE')
         .returns<getSoulmateStatus[]>();
 
+      // console.log('data : ', data);
+      // 여기부터~!
+
       if (data?.length) {
         data.forEach((item) => {
           if (!otherId) return;
+          if (item.receiver_uid !== otherId && item.sender_uid !== otherId) return setCheckSoulmate(true);
+          console.log('여기', item.receiver_uid === otherId || item.sender_uid === otherId);
           if (item.receiver_uid === otherId || item.sender_uid === otherId) {
             setIsSoulmate(true);
             return setCheckSoulmate(true);
@@ -57,7 +65,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
 
   useEffect(() => {
     getSenderInfo();
-  }, [otherId]);
+  }, [otherProfile?.uid]);
 
   return (
     <div className="w-full px-[24px] py-[32px]">
