@@ -12,12 +12,27 @@ type Props = {
   isFlipped: boolean;
   setIsFlipped: (isFlipped: boolean) => void;
   userImg: string;
+  isClickedIndex: number | null;
+  index: number;
 };
 
 const border =
   'border-2 border-solid border-white text-white px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
 
-function UserCard({ age, avatar, name, interest, height, gender, mbti, isFlipped, userImg, setIsFlipped }: Props) {
+function UserCard({
+  age,
+  avatar,
+  name,
+  interest,
+  height,
+  gender,
+  mbti,
+  isFlipped,
+  userImg,
+  setIsFlipped,
+  isClickedIndex,
+  index
+}: Props) {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
     // console.log(flirtingUserUid);
@@ -30,8 +45,8 @@ function UserCard({ age, avatar, name, interest, height, gender, mbti, isFlipped
 
   return (
     <>
-      <div className={`card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
-        <div className={`relative card-front ${isFlipped ? 'hidden' : ''}`}>
+      <div className={`card ${isFlipped && isClickedIndex === index ? 'flipped' : ''}`} onClick={handleClick}>
+        <div className={`relative card-front ${isFlipped && isClickedIndex === index ? 'hidden' : ''}`}>
           <div className="flex items-center">
             <div className="cursor-pointer relative w-full aspect-[2/3]">
               <Image
@@ -70,7 +85,7 @@ function UserCard({ age, avatar, name, interest, height, gender, mbti, isFlipped
             </div>
           </div>
         </div>
-        <div className={`card-back ${isFlipped ? '' : 'hidden'} `}>
+        <div className={`card-back ${isFlipped && isClickedIndex === index ? '' : 'hidden'} `}>
           <div className="cursor-pointer relative w-full aspect-[2/3] overflow-hidden rounded-[24px]">
             {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
