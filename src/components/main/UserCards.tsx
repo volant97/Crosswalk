@@ -91,6 +91,10 @@ function UserCards() {
     swiper.slideTo(1, 400, false);
   };
 
+  const handleCardClick = (index: number) => {
+    setIsClickedIndex(index);
+  };
+
   useEffect(() => {
     getUserCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,11 +126,6 @@ function UserCards() {
     router.push('/');
   }
 
-  const handleCardClick = (index: number) => {
-    console.log('이거 클릭됨', index);
-    setIsClickedIndex(index);
-  };
-
   return (
     <div className="relative w-full scale-[88%]">
       {/* 
@@ -142,7 +141,7 @@ function UserCards() {
               modules={[Navigation]}
               allowSlidePrev={false}
               spaceBetween={30}
-              slidesPerView={10}
+              slidesPerView={1}
               onSlideChange={(swiper: any) => {
                 handleSlideChange(swiper);
               }}
