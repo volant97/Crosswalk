@@ -31,6 +31,7 @@ function UserCards() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHateEffect, setIsHateEffect] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClickedIndex, setIsClickedIndex] = useState<number | null>(null);
 
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
   const registerData = useRecoilValue(userState);
@@ -121,6 +122,11 @@ function UserCards() {
     router.push('/');
   }
 
+  const handleCardClick = (index: number) => {
+    console.log('이거 클릭됨', index);
+    setIsClickedIndex(index);
+  };
+
   return (
     <div className="relative w-full scale-[88%]">
       {/* 
@@ -136,7 +142,7 @@ function UserCards() {
               modules={[Navigation]}
               allowSlidePrev={false}
               spaceBetween={30}
-              slidesPerView={1}
+              slidesPerView={10}
               onSlideChange={(swiper: any) => {
                 handleSlideChange(swiper);
               }}
@@ -150,10 +156,11 @@ function UserCards() {
               loopAdditionalSlides={1}
               allowTouchMove={false}
             >
-              {userCards?.map((item: any) => (
+              {userCards?.map((item: any, index: number) => (
                 <SwiperSlide
                   className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
                   key={item.uid}
+                  onClick={() => handleCardClick(index)}
                 >
                   <UserCard
                     age={item.age}
@@ -166,6 +173,8 @@ function UserCards() {
                     isFlipped={isFlipped}
                     setIsFlipped={setIsFlipped}
                     userImg={item.user_img}
+                    isClickedIndex={isClickedIndex}
+                    index={index}
                   />
                 </SwiperSlide>
               ))}
