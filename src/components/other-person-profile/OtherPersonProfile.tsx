@@ -36,14 +36,11 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         .eq('status', 'SOULMATE')
         .returns<getSoulmateStatus[]>();
 
-      // console.log('data : ', data);
-      // 여기부터~!
-
       if (data?.length) {
         data.forEach((item) => {
           if (!otherId) return;
           if (item.receiver_uid !== otherId && item.sender_uid !== otherId) return setCheckSoulmate(true);
-          console.log('여기', item.receiver_uid === otherId || item.sender_uid === otherId);
+          // console.log('여기', item.receiver_uid === otherId || item.sender_uid === otherId);
           if (item.receiver_uid === otherId || item.sender_uid === otherId) {
             setIsSoulmate(true);
             return setCheckSoulmate(true);
@@ -85,7 +82,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                   <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-customGreen3 ">
                     소울메이트
                   </p>
-                  <div className="absolute flex items-end w-full h-full bg-white">
+                  <div className="absolute flex items-end w-full h-full">
                     <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%]"></div>
                   </div>
                 </Fragment>
