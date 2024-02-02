@@ -82,7 +82,7 @@ export default function ChatListPage() {
     if (diff < 60 * 1) {
       return '방금 전';
     }
-    if (diff < 60 * 60 * 24 * 3) {
+    if (diff < 60 * 60 * 24 * now) {
       const distanceString = formatDistanceToNow(d, { addSuffix: true, locale: ko, includeSeconds: true });
       return distanceString.replace(/^약\s*/, ''); // "약" 부분을 정규식을 사용하여 제거
     }
