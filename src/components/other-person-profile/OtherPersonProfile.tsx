@@ -82,11 +82,11 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                     alt="유저 이미지"
                     fill
                   />
-                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-[#66c95d] text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-customGreen3 bg-opacity-50">
+                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-customGreen3 ">
                     소울메이트
                   </p>
-                  <div className="absolute flex items-end w-full h-full">
-                    <div className="w-full h-[150px] bg-gradient-to-t from-white/[60%] to-white/[0%]"></div>
+                  <div className="absolute flex items-end w-full h-full bg-white">
+                    <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%]"></div>
                   </div>
                 </Fragment>
               ) : (
@@ -103,9 +103,9 @@ function OtherPersonProfile({ otherPersonId }: Props) {
             )}
           </div>
           <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
-            <div className="flex items-end w-full gap-[4px]">
-              <h1 className="text-[24px] font-bold leading-[24px]">{otherProfile?.name}</h1>
-              <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{otherProfile?.age}</h2>
+            <div className="flex items-end w-full gap-[4px] ">
+              <h1 className="text-[24px] font-bold leading-[24px] text-white">{otherProfile?.name}</h1>
+              <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium text-white">{otherProfile?.age}</h2>
             </div>
             <div className="flex flex-warp w-full items-center gap-[4px] ">
               {otherProfile?.interest?.map((item, index) => {
