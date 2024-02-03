@@ -2,12 +2,9 @@
 
 import React, { useState } from 'react';
 import mbti from '../../../data/mbti_data.json';
-import { Modal, ModalContent, ModalFooter, Button, ModalProps, ModalBody } from '@nextui-org/react';
-import { IoCheckmark } from 'react-icons/io5';
+import { Modal, ModalContent, ModalFooter, Button, ModalBody } from '@nextui-org/react';
 import { useRecoilState } from 'recoil';
-import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
-import { RegisterType } from '@/types/registerType';
 import { userState } from '@/recoil/user';
 
 const MbtiModal = () => {
@@ -32,7 +29,13 @@ const MbtiModal = () => {
 
   const mbtiModal = () => (
     <>
-      <Modal className="w-[20rem] text-red-500" placement="bottom" isOpen={isOpen} onClose={closeMbtiModal}>
+      <Modal
+        className="w-[20rem] text-red-500"
+        placement="bottom"
+        isOpen={isOpen}
+        onClose={closeMbtiModal}
+        hideCloseButton={true}
+      >
         <ModalContent className="w-full">
           {(onClose) => (
             <div>

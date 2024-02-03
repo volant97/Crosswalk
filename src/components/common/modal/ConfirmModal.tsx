@@ -116,6 +116,8 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
         onClose={onClose}
         placement="center"
         className="w-[20rem] pt-[1.875rem] px-0 py-[1rem] pr-0 gap-[1.875rem] rounded-[1.5rem]"
+        hideCloseButton={true}
+        // hideCloseButton={true}
       >
         <ModalContent>
           {(onClose) => (
@@ -128,7 +130,14 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
                   onClick={async () => {
                     if (!age) return;
                     if (age <= 14) {
-                      openModal('저희 서비스는 만 14세 이상만 이용할 수 있습니다.');
+                      openModal(
+                        <>
+                          저희 서비스는 만 14세 이상만
+                          <br />
+                          이용하실 수 있습니다.
+                        </>
+                      );
+                      // openModal('저희 서비스는 만 14세 이상만 이용할 수 있습니다.');
                       onClose();
                       return false;
                     }

@@ -1,17 +1,7 @@
 'use client';
 import React from 'react';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  ModalProps
-} from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, ModalProps } from '@nextui-org/react';
 import Image from 'next/image';
-import { HiOutlineEmojiSad } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
 import useAlertModal from './AlertModal';
 import { changeStatusToDecline } from '@/lib/api/requestApi';
@@ -69,6 +59,7 @@ function SignalOffModal({ flirting_list_id, roomId, getUid }: SignalOffModalProp
         onClose={onClose}
         placement="center"
         className="w-[20rem] pt-[1.875rem] px-0 py-[1rem] pr-0 gap-[1.875rem] rounded-[1.5rem]"
+        hideCloseButton={true}
       >
         <ModalContent>
           {(onClose) => (
