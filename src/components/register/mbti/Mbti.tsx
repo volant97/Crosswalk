@@ -63,7 +63,7 @@ function Mbti() {
         </h1>
         <div className="flex justify-between w-full gap-[6px] flex-wrap">
           {mbti.map((item, index) => (
-            <div className="flex items-center justify-start ">
+            <div key={index} className="flex items-center justify-start ">
               <div
                 onClick={() => {
                   handleMbtiClick(item);
