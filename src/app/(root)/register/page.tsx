@@ -16,16 +16,7 @@ function RegisterPage() {
   return (
     <>
       {/* Header */}
-      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center justify-center border-b-[1px] border-[#E9EAEB] z-99 h-100% ">
-        {/* <div className="absolute left-4 border-4">
-          <Image
-            src="/assets/figmaImg/arrow.png"
-            alt="뒤로가기 화살표"
-            width={24}
-            height={24}
-            className="absolute left-0 cursor-pointer relative"
-          />
-        </div> */}
+      <div className="relative flex font-virgil h-[64px] sticky top-0 bg-white items-center justify-center border-b-[1px] border-[#E9EAEB] z-99">
         <Link href={'/'}>
           <div className="flex items-center justify-center w-full h-full pt-[5px] text-[3dvh] font-virgil font-[500]">
             Crosswalk
