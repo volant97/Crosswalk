@@ -73,7 +73,7 @@ function Name() {
             이름
           </label>
           <input
-            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:ring-1 focus:ring-black"
             id="inputName"
             type="text"
             value={name}
