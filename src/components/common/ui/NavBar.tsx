@@ -91,7 +91,7 @@ function NavBar() {
 
   return (
     <nav
-      className={`sticky bottom-0  h-[8.5dvh] bg-white shadow-navBarShadow flex flex-row justify-center items-center px-6 z-50`}
+      className={`sticky bottom-0  h-[8.8dvh] bg-white shadow-navBarShadow flex justify-center items-start pt-[1.6dvh] px-6 z-50`}
     >
       <div
         className={` flex justify-center items-center w-[25%] ${
