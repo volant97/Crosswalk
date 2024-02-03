@@ -17,7 +17,7 @@ type Props = {
 };
 
 const border =
-  'border-2 border-solid border-white text-white px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
+  'border-2 border-solid border-white text-white px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem] h-[24px] ';
 
 function UserCard({
   age,
@@ -62,7 +62,7 @@ function UserCard({
                 width={25}
                 height={25}
               />
-              <div className="absolute flex flex-col gap-[10px] bottom-4 left-[24px]">
+              <div className="absolute flex flex-col gap-[10px] bottom-[18px] left-[20px]">
                 <div className="flex items-end w-full gap-[4px]">
                   <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
                   <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
@@ -73,7 +73,7 @@ function UserCard({
                       <Fragment key={index}>
                         <div
                           key={index}
-                          className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px] bg-gray-800 bg-opacity-10"
+                          className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-gray-800 bg-opacity-10"
                         >
                           {item}
                         </div>
@@ -97,7 +97,7 @@ function UserCard({
             {/* <p className="text-customRed text-[90px] font-extrabold rotate-45 absolute top-[30%] right-[88%] ">
               ::SCERET::
             </p> */}
-            <div className="absolute flex flex-col gap-[10px] bottom-[100px] left-[24px]">
+            <div className="absolute flex flex-col gap-[10px] bottom-[100px] left-[20px]">
               <div className="flex items-end w-full gap-[4px]">
                 <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
                 <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
@@ -108,7 +108,7 @@ function UserCard({
                     <Fragment key={index}>
                       <div
                         key={index}
-                        className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px] bg-gray-800 bg-opacity-10"
+                        className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-gray-800 bg-opacity-10"
                       >
                         {item}
                       </div>
@@ -118,10 +118,10 @@ function UserCard({
               </div>
             </div>
             <div className="absolute flex flex-col justify-end gap-[8px] w-full h-full my-[1.5rem] pb-[50px]">
-              <h1 className="text-[18px] leading-[18px] font-medium  ml-[24px]">기본정보</h1>
+              <h1 className="text-[18px] leading-[18px] font-medium  ml-[20px]">기본정보</h1>
               <div className="flex flex-row gap-[0.25rem] h-[26px] w-[270px]">
                 <div
-                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10 ml-[24px]`}
+                  className={`${border} px-[12px] py-[4px] flex justify-center items-center text-[14px] font-medium leading-[14px] rounded-[20px] border-[1px]  bg-gray-800 bg-opacity-10 ml-[20px]`}
                 >
                   {height}cm
                 </div>
