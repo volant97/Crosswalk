@@ -13,7 +13,3 @@ function MainPage() {
 }
 
 export default MainPage;
-
-// className={`${
-//   pathname === `/main/${flirtingUserUid}` ? profileDetailStyle : btnStyle
-// } right-[40px] bg-customGreen`}

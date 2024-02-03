@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Provider from '@/components/provider/Provider';
 import type { Props } from '@/types/childrenPropsType copy';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'Crosswalk',
