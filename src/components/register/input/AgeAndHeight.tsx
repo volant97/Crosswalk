@@ -72,7 +72,7 @@ function AgeAndHeight() {
           <div>
             <p className="text-[16px] text-gray-AAA">나이</p>
             <input
-              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border  focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border  focus:outline-none  focus:ring-1 focus:ring-black"
               type="number"
               value={age}
               onChange={(e) => setAge(e.target.value)}
@@ -82,7 +82,7 @@ function AgeAndHeight() {
           <div>
             <p className="text-[16px] text-gray-AAA">키</p>
             <input
-              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+              className="w-[300px] h-[50px] py-[8px] px-[20px] text-center rounded-full cursor-pointer border border-gray-DDD text-black appearance-none focus-visible:border focus:outline-none  focus:ring-1 focus:ring-black"
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
