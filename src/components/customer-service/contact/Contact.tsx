@@ -7,6 +7,7 @@ import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-o
 import { supabase } from '@/lib/supabase-config';
 import { useRouter } from 'next/navigation';
 import { contactContentsType } from '@/types/etcType';
+import useAlertModal from '@/components/common/modal/AlertModal';
 
 function ContactPage() {
   const router = useRouter();
@@ -25,6 +26,8 @@ function ContactPage() {
 
   const contactCategoryArr = ['이용 문의', '서비스 제안', '버그 제보', '유저 신고', '회원 탈퇴', '기타'];
   const [validity, setValidity] = useState<boolean>(false);
+
+  const { openModal, AlertModal } = useAlertModal();
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContactContents({
@@ -55,13 +58,21 @@ function ContactPage() {
   };
 
   const handleSendBtn = async () => {
+    const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (!contactContents.email) return openModal('이메일을 작성해주세요');
+
+    if (exptext.test(contactContents.email) == false) {
+      //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+      return openModal('이메일형식이 올바르지 않습니다.');
+    }
+
     if (
       !contactContents.email ||
       !contactContents.category ||
       !contactContents.content ||
       !contactContents.emailAgree
     ) {
-      return alert('모든 내용을 작성 및 선택해주세요');
+      return openModal('모든 내용을 작성 및 선택해주세요');
     }
 
     try {
@@ -76,12 +87,12 @@ function ContactPage() {
       });
       if (error) {
         console.error(error);
-        return alert('서버와의 통신을 실패했습니다.');
+        return openModal('서버와의 통신을 실패했습니다.');
       }
-      alert('문의가 정상적으로 접수되었습니다.');
+      openModal('문의가 정상적으로 접수되었습니다.');
       router.push('/main');
     } catch (error) {
-      alert('서버와의 통신을 실패했습니다.');
+      openModal('서버와의 통신을 실패했습니다.');
     }
   };
 
@@ -107,11 +118,17 @@ function ContactPage() {
         {/* <button>자주 묻는 질문</button> // 준비중*/}
         {/* 이메일 */}
         <div className="flex flex-col w-full">
-          <Input type="email" label="이메일" variant="bordered" onChange={handleEmailInput} />
+          <Input type="email" label="이메일" variant="bordered" onChange={handleEmailInput} isRequired={true} />
         </div>
         {/* 문의 유형 */}
         <div className="flex flex-col w-full">
-          <Select label="문의 유형" className="w-full" variant="bordered" onChange={handleCategorySelect}>
+          <Select
+            label="문의 유형"
+            className="w-full"
+            variant="bordered"
+            onChange={handleCategorySelect}
+            isRequired={true}
+          >
             {contactCategoryArr.map((cate, index) => (
               <SelectItem key={index} value={cate}>
                 {cate}
@@ -128,6 +145,7 @@ function ContactPage() {
             variant="bordered"
             maxLength={300}
             onChange={handleContentTextarea}
+            isRequired={true}
           />
         </div>
         {/* 이메일 정보 제공 동의 */}
@@ -149,6 +167,7 @@ function ContactPage() {
           전송
         </Button>
       </div>
+      {AlertModal()}
     </div>
   );
 }
