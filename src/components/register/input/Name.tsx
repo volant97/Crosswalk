@@ -29,7 +29,8 @@ function Name() {
 
     postData();
     // console.log('!!!!!name', register);
-    router.push('#mbti');
+    // router.push('#mbti');
+    router.push('/register/mbti');
   };
 
   const postData = async () => {
@@ -54,14 +55,10 @@ function Name() {
   }, [name, gender]);
 
   return (
-    <form
-      className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative "
-      onSubmit={handleSubmit}
-      id="name"
-    >
-      <div className="flex flex-col w-[300px] h-[274px] gap-[20px]">
+    <form onSubmit={handleSubmit} id="name" className="w-full h-full relative">
+      <div className="flex flex-col w-full h-full gap-[20px]">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mt-[70px]">
+          <h1 className="text-[22px] font-semibold text-black ">
             이름과 성별을
             <br />
             입력해주세요.
@@ -73,7 +70,7 @@ function Name() {
             이름
           </label>
           <input
-            className="h-[50px] w-[300px] py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:ring-1 focus:ring-black"
+            className="h-[50px] w-full py-[8px] px-[20px] rounded-full cursor-pointer border border-gray-DDD focus:outline-none focus:ring-1 focus:ring-black"
             id="inputName"
             type="text"
             value={name}
@@ -82,12 +79,12 @@ function Name() {
           />
         </div>
         {/* <Gender /> */}
-        <div className="flex flex-col gap-1 justify-center">
+        <div className="flex flex-col gap-1 justify-center ">
           <span className="text-gray-AAA text-[16px]">성별</span>
           <div className="flex gap-2">
             <Button
               type="button"
-              className={`w-[146px] h-[46px] pl-[20px] pr-[20px] pt-[8px] pb-[8px] bg-white rounded-full cursor-pointer border ${
+              className={`w-full h-[46px] pl-[20px] pr-[20px] pt-[8px] pb-[8px] bg-white rounded-full cursor-pointer border ${
                 gender === 'M' ? 'font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
               }`}
               onClick={() => {
@@ -98,7 +95,7 @@ function Name() {
             </Button>
             <Button
               type="button"
-              className={`w-[146px] h-[46px] pl-[20px] pr-[20px] pt-[8px] pb-[8px] bg-white rounded-full cursor-pointer border ${
+              className={`w-full h-[46px] pl-[20px] pr-[20px] pt-[8px] pb-[8px] bg-white rounded-full cursor-pointer border ${
                 gender === 'F' ? 'font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
               }`}
               onClick={() => {
@@ -111,7 +108,7 @@ function Name() {
         </div>
       </div>
       <Button
-        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute bottom-0 w-full h-[50px] font-semibold rounded-3xl cursor-pointer text-[18px]  ${
           name && gender ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         type="submit"

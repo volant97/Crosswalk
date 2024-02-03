@@ -28,7 +28,8 @@ function Agreement() {
     // 모든 체크박스가 선택된 경우를 확인
     if (checkItems.length > 3) {
       postData();
-      router.push('#name');
+      // router.push('#name');
+      router.push('/register/name');
     } else {
       openModal('서비스를 이용하기 위해서는 모든 약관 동의가 필요합니다.');
     }
@@ -76,17 +77,17 @@ function Agreement() {
   // console.log('register', register);
 
   return (
-    <div className=" flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative">
-      <div className="flex flex-col w-[300px] h-[272px] ">
+    <div className="w-full h-full relative">
+      <div className="flex flex-col w-full h-[272px] ">
         <div className="flex flex-col">
-          <h1 className="text-[22px] font-semibold text-black mb-[50px] mt-[10px]">
+          <h1 className="text-[22px] font-semibold text-black mb-[50px] ">
             서비스 가입을 위해
             <br />
             이용약관에 동의해주세요.
           </h1>
         </div>
-        <div className="flex flex-col w-[360px] h-[160px]">
-          <div className="flex pt-[8px] pb-[8px] pl-[10px] pr-[10px] w-[300px] h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px]">
+        <div className="flex flex-col w-full h-[160px]">
+          <div className="flex pt-[8px] pb-[8px] pl-[10px] pr-[10px] w-full h-[38px] bg-customGreen2 text-[16px] font-medium rounded-[10px] ">
             <Checkbox
               radius="full"
               color="success"
@@ -128,7 +129,7 @@ function Agreement() {
         </div>
       </div>
       <Button
-        className={`absolute top-[80%] w-[300px] h-[50px] font-semibold bg-gray-F5 text-black rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute bottom-0 w-full h-[50px]  font-semibold bg-gray-F5 text-black rounded-3xl cursor-pointer  text-[18px] ${
           checkItems.length === maxCheckItems ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         onClick={handleNextBtn}

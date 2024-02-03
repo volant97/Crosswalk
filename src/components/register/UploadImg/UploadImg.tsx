@@ -116,48 +116,47 @@ const UploadImg = () => {
   }, [testToggle, register?.profile?.user_img]);
 
   return (
-    <div
-      id="imgUpload"
-      className="flex flex-col items-center min-h-[calc(100dvh-2rem)]  h-[656px] max-h-[calc(100dvh-7rem) pl-[30px] pr-[30px] pt-[20px] relative"
-    >
-      <div className="flex flex-col w-[300px] h-[432px] gap-[20px]">
-        <h1 className=" text-[22px] font-semibold text-black mt-[70px] mb-[30px]">
-          사진을
-          <br />
-          업로드해주세요.
-        </h1>
-        <div className="flex flex-col items-center gap-4">
-          <label className="cursor-pointer">
-            {selectedImg === '' ? (
-              <div className="w-60 h-[20rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[24px]">
-                <PiPlusThin size={90} className="fill-gray-E6" />
-              </div>
-            ) : (
-              <div className="">
-                <Image
-                  className="w-60 h-[20rem] rounded-[24px] object-cover"
-                  src={selectedImg}
-                  alt="업로드이미지"
-                  width={240}
-                  height={320}
-                />
-              </div>
-            )}
+    <div className="w-full h-full relative">
+      <div className="flex flex-col w-full h-full gap-[20px] justify-between">
+        <div className="flex flex-col gap-[50px] ">
+          <h1 className=" text-[22px] font-semibold text-black ">
+            사진을
+            <br />
+            업로드해주세요.
+          </h1>
+          <div className="flex flex-col items-center gap-4">
+            <label className="cursor-pointer">
+              {selectedImg === '' ? (
+                <div className="w-60 h-[44.446dvh] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[24px]">
+                  <PiPlusThin size={90} className="fill-gray-E6" />
+                </div>
+              ) : (
+                <div className="">
+                  <Image
+                    className="w-60 h-[44.446dvh] rounded-[24px] object-cover"
+                    src={selectedImg}
+                    alt="업로드이미지"
+                    width={240}
+                    height={350}
+                  />
+                </div>
+              )}
 
-            <input
-              className="hidden"
-              type="file"
-              accept="image/jpg, image/jpeg, image/png, image/heic"
-              onChange={previewImg}
-            />
-          </label>
-          <p className="text-center text-xs text-red-500 mb-[10px]">
-            * 실제 회원의 얼굴이 나온 프로필 사진을 추가해주세요
-          </p>
+              <input
+                className="hidden"
+                type="file"
+                accept="image/jpg, image/jpeg, image/png, image/heic"
+                onChange={previewImg}
+              />
+            </label>
+            <p className="text-center text-xs text-red-500 mb-[10px]">
+              * 실제 회원의 얼굴이 나온 프로필 사진을 추가해주세요
+            </p>
+          </div>
         </div>
       </div>
       <Button
-        className={`absolute top-[88%] w-[300px] h-[50px] font-semibold rounded-3xl cursor-pointer  text-[18px]  pl-[20px] pr-[20px] mb-10 ${
+        className={`absolute bottom-0 w-full h-[50px]  font-semibold rounded-3xl cursor-pointer text-[18px] ${
           file ? 'bg-customGreen3 text-white' : 'bg-gray-F5 text-gray-AAA'
         }`}
         onClick={handleNextBtn}
