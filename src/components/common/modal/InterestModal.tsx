@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import interestData from '../../../data/interestData.json';
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps, ModalBody } from '@nextui-org/react';
+import { Modal, ModalContent, ModalFooter, Button, ModalBody } from '@nextui-org/react';
 import { useRecoilState } from 'recoil';
-import { registerState } from '@/recoil/register';
 import useAlertModal from './AlertModal';
-import { RegisterType } from '@/types/registerType';
 import { userState } from '@/recoil/user';
 
 const InterestModal = () => {
@@ -39,7 +37,13 @@ const InterestModal = () => {
 
   const interestModal = () => (
     <>
-      <Modal className="w-[20rem] text-red-500" placement="bottom" isOpen={isOpen} onClose={closeInterestModal}>
+      <Modal
+        className="w-[20rem] text-red-500"
+        placement="bottom"
+        isOpen={isOpen}
+        onClose={closeInterestModal}
+        hideCloseButton={true}
+      >
         <ModalContent className="w-full">
           {(onClose) => (
             <div>

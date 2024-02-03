@@ -15,20 +15,13 @@ import {
 import useAlertModal from './AlertModal';
 import { sendFlirting } from '@/lib/api/SupabaseApi';
 import { useRecoilState } from 'recoil';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { registerState } from '@/recoil/register';
 import { nextSlideState } from '@/recoil/currentIndex';
 import { userState } from '@/recoil/user';
-import useReloadCardModal from './ReloadCardModal';
 
 const useFlirtingModal = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const index = Number(searchParams.get('index') || 0);
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
-  const { openReloadCardModal, reloadCardModal } = useReloadCardModal();
   const { openModal, AlertModal } = useAlertModal();
   const [getUid, setGetUid] = useRecoilState(userState);
   const myUid = getUid?.id;
@@ -68,6 +61,7 @@ const useFlirtingModal = () => {
         backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={closeFlirtingModal}
+        hideCloseButton={true}
       >
         <ModalContent>
           {(onClose) => (
@@ -105,9 +99,8 @@ const useFlirtingModal = () => {
 
                       // console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                       setIsSwitchNextSlide(true);
-                      // console.log('확인');
                     }}
-                    className="w-full bg-customGreen3 rounded-3xl cursor-pointer mb-10 mt-[30px] font-semibold text-center"
+                    className="w-full bg-customGreen3 rounded-3xl cursor-pointer mb-10 mt-[30px] font-semibold text-center text-white"
                   >
                     <Image
                       className="w-[1rem] h-[1rem]"
@@ -124,7 +117,6 @@ const useFlirtingModal = () => {
           )}
         </ModalContent>
       </Modal>
-      {reloadCardModal()}
       {AlertModal()}
     </>
   );
