@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
-import { IoCheckmark } from 'react-icons/io5';
 import { RiLightbulbFlashFill } from 'react-icons/ri';
 import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
 
@@ -28,6 +27,7 @@ const useRequestModal = (listId: number) => {
       backdrop={backdrop as ModalProps['backdrop']}
       isOpen={isOpen}
       onClose={closeModal}
+      hideCloseButton={true}
     >
       <ModalContent>
         {(onClose) => (
@@ -51,10 +51,10 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
                 type="submit"
               >
-                <IoCheckmark size={50} />
+                확인
               </Button>
             </ModalFooter>
           </div>
@@ -94,10 +94,10 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
                 type="submit"
               >
-                <IoCheckmark size={50} />
+                확인
               </Button>
             </ModalFooter>
           </div>

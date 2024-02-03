@@ -11,7 +11,7 @@ import { StatusMessage } from './ChatStatusColor';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
 import useCongratModal from '../common/modal/CongratModal';
-import useJsxAlertModal from '../common/modal/AlertJsxModal';
+import useAlertModal from '../common/modal/AlertModal';
 
 interface ChatProps {
   roomId: string;
@@ -28,7 +28,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
   const favorableRatingGoal = 100;
   const { openModal, AlertCongratModal } = useCongratModal();
-  const { openJsxModal, AlertJsxModal } = useJsxAlertModal();
+  const { openModal: openAlertModal, AlertModal } = useAlertModal();
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -79,7 +79,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
 
   const handleSendMessage = async () => {
     if (roomInfo?.flirting_list.status === 'DECLINE') {
-      return openJsxModal(
+      return openAlertModal(
         <>
           신호등이 빨간불일 때는
           <br />
@@ -261,7 +261,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
         </form>
       </div>
       {AlertCongratModal()}
-      {AlertJsxModal()}
+      {AlertModal()}
     </div>
   );
 }

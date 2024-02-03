@@ -24,7 +24,14 @@ function Interest() {
       const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
     } else if (activeStates.length >= maxSelectedInterests) {
-      openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
+      // openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
+      openModal(
+        <>
+          관심사는 최대 {maxSelectedInterests}개까지
+          <br />
+          선택 가능합니다.
+        </>
+      );
     } else {
       setActiveStates([...activeStates, interest]);
     }
