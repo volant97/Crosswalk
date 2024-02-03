@@ -23,7 +23,8 @@ function OtherPersonProfile({ otherPersonId }: Props) {
   const [checkSoulmate, setCheckSoulmate] = useState<boolean>(false);
   const register = useRecoilValue(userState);
 
-  const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem]';
+  const border =
+    'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem] h-[26px]';
 
   const getSenderInfo = async () => {
     try {
@@ -79,7 +80,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                     alt="유저 이미지"
                     fill
                   />
-                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-customGreen3 ">
+                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px]  bg-customGreen3 ">
                     소울메이트
                   </p>
                   <div className="absolute flex items-end w-full h-full">
@@ -110,7 +111,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                   <Fragment key={index}>
                     <div
                       key={index}
-                      className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[20px] leading-[13px]  bg-black bg-opacity-10"
+                      className="flex items-center justify-center py-[4px] px-[10px] text-center border-[1px] border-solid border-white text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px]  bg-black bg-opacity-10"
                     >
                       {item}
                     </div>

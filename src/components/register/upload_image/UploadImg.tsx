@@ -126,7 +126,7 @@ const UploadImg = () => {
           <br />
           업로드해주세요.
         </h1>
-        <div className="flex flex-col  items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <label className="cursor-pointer">
             {selectedImg === '' ? (
               <div className="w-60 h-[20rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[50px]">
