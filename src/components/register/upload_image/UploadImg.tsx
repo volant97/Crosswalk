@@ -129,12 +129,18 @@ const UploadImg = () => {
         <div className="flex flex-col items-center gap-4">
           <label className="cursor-pointer">
             {selectedImg === '' ? (
-              <div className="w-60 h-[20rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[50px]">
+              <div className="w-60 h-[20rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[24px]">
                 <PiPlusThin size={90} className="fill-gray-E6" />
               </div>
             ) : (
               <div className="">
-                <Image className="rounded-[50px]" src={selectedImg} alt="업로드이미지" width={300} height={350} />
+                <Image
+                  className="w-60 h-[20rem] rounded-[24px] object-cover"
+                  src={selectedImg}
+                  alt="업로드이미지"
+                  width={240}
+                  height={320}
+                />
               </div>
             )}
 
