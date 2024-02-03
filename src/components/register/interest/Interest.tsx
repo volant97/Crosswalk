@@ -71,30 +71,32 @@ function Interest() {
   return (
     <div className="w-full h-full relative">
       <div className="flex justify-center w-full">
-        <div className="flex flex-col w-[300px] h-[296px] gap-[20px]">
+        <div className="flex flex-col w-full h-[296px] gap-[20px]">
           <h1 className="text-[22px] font-semibold text-black  mb-[50px]">
             관심사를
             <br />
             선택해주세요.
           </h1>
-          <ul className="flex flex-wrap gap-[8px] justify-center w-full">
-            {interests.map((interest) => {
-              const isSelected = activeStates.includes(interest.name);
-              return (
-                <li
-                  key={interest.id}
-                  className={`justify-center items-center text-center max-w-[104px] min-w-[76px] h-[40px] text-[16px] py-[8px] px-[20px] rounded-full cursor-pointer border ${
-                    isSelected ? 'border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                  }`}
-                  onClick={() => {
-                    handleInterestClick(interest.name);
-                  }}
-                >
-                  {interest.name}
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex justify-center w-full ">
+            <ul className="flex flex-wrap gap-[8px] justify-center w-[300px]">
+              {interests.map((interest) => {
+                const isSelected = activeStates.includes(interest.name);
+                return (
+                  <li
+                    key={interest.id}
+                    className={`justify-center items-center text-center max-w-[104px] min-w-[76px] h-[40px] text-[16px] py-[8px] px-[20px] rounded-full cursor-pointer border ${
+                      isSelected ? 'border-black text-black' : 'border-gray-DDD text-gray-AAA'
+                    }`}
+                    onClick={() => {
+                      handleInterestClick(interest.name);
+                    }}
+                  >
+                    {interest.name}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
       <Button
