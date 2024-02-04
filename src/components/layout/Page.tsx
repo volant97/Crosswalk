@@ -43,7 +43,7 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {/* 페이지 본문 */}
       <div
         className={`${
-          noNavBar ? 'h-[calc(100dvh-9dvh)]' : 'h-[calc(100dvh-9dvh-8.5dvh)]'
+          noNavBar ? 'h-[calc(100dvh-9dvh)]' : 'h-[calc(100dvh-9dvh-8.8dvh)]'
         } overflow-y-scroll scrollbar-hide`}
       >
         {children}

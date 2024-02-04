@@ -2,9 +2,6 @@
 
 import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
-import { IoCheckmark } from 'react-icons/io5';
-import { RiLightbulbFlashFill } from 'react-icons/ri';
-import { handleAcceptBtn } from '@/lib/api/requestApi';
 import { BsArrowThroughHeartFill } from 'react-icons/bs';
 
 const useCongratModal = () => {
@@ -29,6 +26,7 @@ const useCongratModal = () => {
       backdrop={backdrop as ModalProps['backdrop']}
       isOpen={isOpen}
       onClose={closeModal}
+      hideCloseButton={true}
     >
       <ModalContent>
         {(onClose) => (
@@ -47,16 +45,14 @@ const useCongratModal = () => {
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               <Button
-                color="success"
-                variant="ghost"
                 onPress={() => {
                   onClose();
                   setTitle('');
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
                 type="submit"
               >
-                <IoCheckmark size={50} />
+                확인
               </Button>
             </ModalFooter>
           </div>
