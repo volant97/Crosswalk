@@ -63,10 +63,10 @@ const useFlirtingModal = () => {
         onClose={closeFlirtingModal}
         hideCloseButton={false}
       >
-        <ModalContent>
+        <ModalContent className="">
           {(onClose) => (
             <div>
-              <ModalHeader className="flex flex-col text-center gap-1 ">
+              <ModalHeader className="flex flex-col text-center gap-1">
                 상대방에게 어필할 나만의
                 <br /> <span className="text-lightRed">&quot;한마디&quot;</span>
               </ModalHeader>
@@ -77,7 +77,7 @@ const useFlirtingModal = () => {
                   }}
                 >
                   <Input
-                    className="text-center"
+                    className="text-center "
                     value={flirtingMessage}
                     onChange={MessageHandler}
                     maxLength={15}
@@ -100,7 +100,7 @@ const useFlirtingModal = () => {
                       // console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                       setIsSwitchNextSlide(true);
                     }}
-                    className="w-full bg-customGreen3 rounded-3xl cursor-pointer mb-10 mt-[30px] font-semibold text-center text-white"
+                    className="w-full bg-customGreen3 rounded-3xl cursor-pointer mb-4 mt-[30px] font-semibold text-center text-white"
                   >
                     <Image
                       className="w-[1rem] h-[1rem]"
