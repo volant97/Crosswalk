@@ -192,7 +192,8 @@ function UserCards() {
               size="lg"
               disabled={false}
             >
-              <IoClose size={20} /> 괜찮아요
+              <Image src="/assets/figmaImg/nothanks.png" width={16} height={16} alt="no thanks" />{' '}
+              <p className="text-gray-666">괜찮아요</p>
             </SlideButton>
 
             <Button
