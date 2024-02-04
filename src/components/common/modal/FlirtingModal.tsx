@@ -61,7 +61,7 @@ const useFlirtingModal = () => {
         backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={closeFlirtingModal}
-        hideCloseButton={true}
+        hideCloseButton={false}
       >
         <ModalContent>
           {(onClose) => (
