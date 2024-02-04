@@ -122,7 +122,7 @@ const NotificationList = () => {
           notificationData.every(
             (notification) => notification.receiver_is_read_in_noti && notification.sender_is_read_in_noti
           ) ? (
-            <div className="flex flex-col item-center justify-center w-full h-18 p-2 gap-1 ">
+            <div className="flex flex-col item-center justify-center w-full h-18 p-[20px] gap-1 ">
               <li className="flex flex-col item-center w-full h-18 p-2 gap-1 text-center">알림을 모두 읽었어요</li>
             </div>
           ) : (
@@ -191,7 +191,7 @@ const NotificationList = () => {
             })
           )
         ) : (
-          <div className="flex flex-col item-center justify-center w-full h-18 p-2 gap-1 ">
+          <div className="flex flex-col item-center justify-center w-full h-18 p-[20px] gap-1 ">
             <li className="flex flex-col item-center  w-full h-18 p-2 gap-1 text-center">받은 알림이 없습니다.</li>
           </div>
         )}
