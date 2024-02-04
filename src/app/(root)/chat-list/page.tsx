@@ -100,7 +100,7 @@ export default function ChatListPage() {
   return (
     <Page>
       {!chatList?.length ? (
-        <div className="h-screen flex items-start justify-center py-5">대화할 수 있는 방이 없어요</div>
+        <div className="h-screen flex items-start justify-center py-7">대화할 수 있는 방이 없어요</div>
       ) : (
         <ul className=" ">
           {chatList?.map((list, idx) => {
