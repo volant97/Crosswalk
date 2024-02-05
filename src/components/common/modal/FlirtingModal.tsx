@@ -1,33 +1,24 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Button,
-  useDisclosure,
-  ModalProps,
-  Input
-} from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalProps, Input } from '@nextui-org/react';
 
 import useAlertModal from './AlertModal';
 import { sendFlirting } from '@/lib/api/SupabaseApi';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
-import { nextSlideState } from '@/recoil/currentIndex';
 import { userState } from '@/recoil/user';
+import { nextSlideState } from '@/recoil/nextSlide';
 
 const useFlirtingModal = () => {
   const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
-  const [getUid, setGetUid] = useRecoilState(userState);
+  const getUid = useRecoilValue(userState);
   const myUid = getUid?.id;
   const [isOpen, setIsOpen] = useState(false);
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
-  const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
+  const setIsSwitchNextSlide = useSetRecoilState(nextSlideState);
   const [swiper, setSwiper] = useState<any>(null);
 
   const openFlirtingModal = (userId: string, swiper: any) => {

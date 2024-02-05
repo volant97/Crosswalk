@@ -1,17 +1,17 @@
 import Image from 'next/image';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 type Props = {
-  age: number;
-  avatar: string;
-  name: string;
-  interest: string[];
-  height: number;
-  gender: string;
-  mbti: string;
+  age: number | null;
+  avatar: number | null;
+  name: string | null;
+  interest: string[] | null;
+  height: number | null;
+  gender: string | null;
+  mbti: string | null;
   isFlipped: boolean;
   setIsFlipped: (isFlipped: boolean) => void;
-  userImg: string;
+  userImg: string | null;
   isClickedIndex: number | null;
   index: number;
 };
@@ -42,6 +42,8 @@ function UserCard({
     setIsFlipped(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!userImg) return;
 
   return (
     <>

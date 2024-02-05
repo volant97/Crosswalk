@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from 'react';
 import mbti from '../../../data/mbti_data.json';
 import { useRecoilState } from 'recoil';
-import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
