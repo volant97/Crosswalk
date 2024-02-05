@@ -5,11 +5,10 @@ import { useRecoilState } from 'recoil';
 import useChatListModal from '@/components/common/modal/ChatListModal';
 import { UserState, userState } from '@/recoil/user';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { formatDate } from './useFormatDate';
-import { fetchLastMessages, getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import { formatDate } from '../../hooks/useFormatDate';
 
 export const RenderListItem = ({
   list,
@@ -22,8 +21,6 @@ export const RenderListItem = ({
 }) => {
   const { openModal: openChatListModal, AlertChatListModal } = useChatListModal();
   const [getUid, setGetUid] = useRecoilState<UserState>(userState);
-  const [chatList, setChatList] = useState<ChatListType[]>();
-  // const [lastMsg, setLastMsg] = useState<LastMessageArrayType>();
   const isSender = getUid?.id === list.flirting_list.sender_uid.uid;
   const otherUser = isSender ? list.flirting_list.receiver_uid : list.flirting_list.sender_uid;
   const statusMessage = isSender ? '상대방의 수락을 기다리고 있어요.' : '회원님의 수락을 기다리고 있어요.';
