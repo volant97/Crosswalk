@@ -58,7 +58,7 @@ export default function ChatListPage() {
       ) : (
         <ul>
           {chatList?.map((list, idx) => (
-            <RenderListItem list={list} idx={idx} lastMsg={lastMsg} />
+            <RenderListItem list={list} idx={idx} lastMsg={lastMsg} key={idx} />
           ))}
         </ul>
       )}
