@@ -1,5 +1,5 @@
 import Page from '@/components/layout/Page';
-import EditMyProfile from '@/components/my_profile/edit-my-profile/EditMyProfile';
+import EditMyProfile from '@/components/my-profile/edit-my-profile/EditMyProfile';
 import React from 'react';
 
 function MyProfileEdit() {
