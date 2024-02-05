@@ -47,10 +47,6 @@ export default function ChatListPage() {
     };
   }, []);
 
-  // if (!lastMsg) {
-  //   return null;
-  // }
-
   return (
     <Page>
       {!chatList?.length ? (
