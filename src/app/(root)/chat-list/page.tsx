@@ -2,11 +2,10 @@
 'use client';
 import Page from '@/components/layout/Page';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
-import { getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import { fetchLastMessages, getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
 import { UserState, userState } from '@/recoil/user';
 import { ChatListType, LastMessageDataType, MessageType } from '@/types/realTimeType';
-
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -28,9 +27,7 @@ export default function ChatListPage() {
       const chatListData = await getChatList();
       setChatList(chatListData);
       const roomIds = chatListData.map((item) => item.id);
-
       const lastMessageArray = await fetchLastMessages(roomIds);
-
       setLastMsg(lastMessageArray);
       // console.log('lastMsg in fetchChatListData', lastMsg);
     } catch (error) {
@@ -38,22 +35,6 @@ export default function ChatListPage() {
       alert('서버와의 통신을 실패했습니다.2');
     }
   };
-
-  async function fetchLastMessages(roomIds: string[]): Promise<LastMessageArrayType> {
-    let lastMessageArray = [];
-
-    for (let i = 0; i < roomIds.length; i++) {
-      const { data: getLastMessage } = await supabase
-        .from('message')
-        .select('*')
-        .eq('subscribe_room_id', roomIds[i])
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      lastMessageArray.push(getLastMessage);
-    }
-    return lastMessageArray;
-  }
 
   useEffect(() => {
     subscribeChatList((payload: any) => {
@@ -65,9 +46,6 @@ export default function ChatListPage() {
       untrackChatList();
     };
   }, []);
-
-  // console.log('chatList:', chatList);
-  // console.log('lastMessage:', lastMessageData);
 
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT' || status === 'SOULMATE') {
