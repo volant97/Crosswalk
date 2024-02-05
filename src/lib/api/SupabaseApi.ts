@@ -172,19 +172,14 @@ export async function getUnMatchedData(myUid: string, gender: string) {
     return item.sender_uid;
   });
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender일 때)
   const { data: MatchedUser1 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_sender_uid_fkey(*)');
-  // .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 receiver일 때)
   const { data: MatchedUser2 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)');
-  // .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender) + (현재 유저가 receiver)
   const MatchedUser = [...(MatchedUser1 || []), ...(MatchedUser2 || [])];
 
   // 전체회원정보 -내정보 -같은성별회원정보
