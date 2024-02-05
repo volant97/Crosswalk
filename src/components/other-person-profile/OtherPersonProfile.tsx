@@ -80,7 +80,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                     alt="유저 이미지"
                     fill
                   />
-                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px]  bg-customGreen3 ">
+                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-customGreen3 ">
                     소울메이트
                   </p>
                   <div className="absolute flex items-end w-full h-full">
@@ -89,12 +89,17 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                 </Fragment>
               ) : (
                 // 최종매칭 X
-                <Image
-                  className="rounded-t-[24px]"
-                  src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
-                  alt="유저 아바타 이미지"
-                  fill
-                />
+                <Fragment>
+                  <Image
+                    className="rounded-t-[24px]"
+                    src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
+                    alt="유저 아바타 이미지"
+                    fill
+                  />
+                  <div className="absolute flex items-end w-full h-full">
+                    <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%]"></div>
+                  </div>
+                </Fragment>
               )
             ) : (
               <Skeleton className="w-full h-full rounded-t-[24px]" />
