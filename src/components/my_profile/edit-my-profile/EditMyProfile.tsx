@@ -4,45 +4,38 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
 import { LuPencil } from 'react-icons/lu';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
 import { userState } from '@/recoil/user';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import useForm from '@/hooks/useForm';
 
 const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
 const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];
 
 function EditMyProfile() {
-  const [registerData, setRegisterData] = useRecoilState(userState);
+  const registerData = useRecoilValue(userState);
   const myInfo: any = registerData?.profile;
 
-  const [selectedImg, setSelectedImg] = useState<any | null>(myInfo?.user_img);
-  const [file, setFile] = useState<any | null>('test');
-  const [gender, setGender] = useState<string>(myInfo?.gender);
-  const [name, setName] = useState<string>(myInfo?.name);
-  const [age, setAge] = useState<number>(myInfo?.age);
-  const [height, setHeight] = useState<number>(myInfo?.height);
+  const [selectedImg, setSelectedImg] = useState<string>(myInfo?.user_img);
+  const [file, setFile] = useState<any>('test');
   const [avatar, setAvatar] = useState<number>(myInfo?.avatar);
+
+  const { formState, onChangeHandler } = useForm({
+    gender: myInfo?.gender,
+    name: myInfo?.name,
+    age: myInfo?.age,
+    height: myInfo?.height
+  });
+  const { gender, name, age, height } = formState;
 
   const { openMbtiModal, mbtiModal } = MbtiModal();
   const { openInterestModal, interestModal } = InterestModal();
   const { openModal, AlertModal } = useAlertModal();
 
-  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const heightHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHeight(Number(e.target.value));
-  };
-
-  const ageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAge(Number(e.target.value));
-  };
-
   const previewImg = (event: any) => {
-    const imgFile = event.target.files[0];
+    const imgFile = event.target?.files[0];
     if (!imgFile) return false;
     if (imgFile.size > 1024 * 1024 * 5) {
       openModal('사진은 5MB 이하로 부탁드립니다.');
@@ -114,7 +107,7 @@ function EditMyProfile() {
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={name}
-              onChange={nameHandler}
+              onChange={onChangeHandler}
               type="text"
               name="name"
               id="id"
@@ -152,7 +145,7 @@ function EditMyProfile() {
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={age?.toString()}
-              onChange={ageHandler}
+              onChange={onChangeHandler}
               type="number"
               name="age"
               id="age"
@@ -167,7 +160,7 @@ function EditMyProfile() {
             <input
               className="w-full h-[40px] px-[20px] py-[8px] border-1 rounded-[50px] border-black bg-white text-[16px] font-[400] leading-[20px] capitalize appearance-none placeholder:text-[#888] focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
               value={height?.toString()}
-              onChange={heightHandler}
+              onChange={onChangeHandler}
               type="number"
               name="height"
               id="height"

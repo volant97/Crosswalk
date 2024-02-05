@@ -5,28 +5,25 @@ import {
   subscribeMessageForNotification,
   untrackMessageForNotification
 } from '@/lib/api/SupabaseApi';
-import { LastMessageState } from '@/recoil/lastMessageData';
 import { UserState, userState } from '@/recoil/user';
 import { filteredUnreadMessage } from '@/types/etcType';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
-import { ChatListType, LastMessageDataType } from '@/types/realTimeType';
+import { ChatListType } from '@/types/realTimeType';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 function NavBar() {
   const pathname = usePathname();
   const [chatList, setChatList] = useState<ChatListType[]>();
-  const [getUid, setGetUid] = useRecoilState<UserState>(userState);
+  const getUid = useRecoilValue<UserState>(userState);
   const [lastMsg, setLastMsg] = useState<LastMessageArrayType>();
   const [filteredUnreadMessage, setFilteredUnreadMessage] =
     useState<React.SetStateAction<filteredUnreadMessage[] | undefined>>();
   const [countUnreadMessage, setCountUnreadMessage] = useState<number>();
   const [filteredData, setFilteredData] = useState<LastMessageArrayType>();
-  const [isGreen, setIsGreen] = useState(false);
 
   // const router = useRouter();
 
@@ -76,14 +73,6 @@ function NavBar() {
   useEffect(() => {
     // console.log('filteredData가 업데이트되었습니다');
   }, [filteredData]);
-
-  const handleClick = () => {
-    setIsGreen(true);
-  };
-
-  // useEffect(() => {
-  //   setIsGreen(true);
-  // }, []);
 
   const active = `font-bold 
      bg-customGreen2 

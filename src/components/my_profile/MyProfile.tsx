@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import type { RegisterType } from '@/types/registerType';
 import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import MyCard from './MyCard';
 import { userState } from '@/recoil/user';
 
 function MyProfile() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
-  const [registerData, setRegisterData] = useRecoilState(userState);
+  const registerData = useRecoilValue(userState);
   const myUid = registerData?.profile?.uid;
   const userInfo = registerData?.profile;
 
@@ -45,8 +45,8 @@ function MyProfile() {
   return (
     <div className="w-full px-[24px] py-[32px]">
       {userCards
-        ?.filter((itme: any) => itme.uid === myUid)
-        ?.map((item: any, index) => {
+        ?.filter((itme: RegisterType) => itme.uid === myUid)
+        ?.map((item: RegisterType, index: number) => {
           return (
             <div key={index}>
               <MyCard

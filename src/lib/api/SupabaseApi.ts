@@ -192,6 +192,7 @@ export async function getUnMatchedData(myUid: string, gender: string) {
     .select('*')
     .not('uid', 'in', `(${myUid})`)
     .not('avatar', 'eq', '0');
+
   // .not('gender', 'in', `(${gender})`);
   // console.log('filteredUserData', filteredUserData);
 
