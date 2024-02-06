@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/auth/auth';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 import logoutImg from '@assets/figmaImg/logOut.png';
 import Image from 'next/image';
@@ -14,7 +14,7 @@ const useLogoutAlertModal = () => {
   const [title, setTitle] = useState('');
   const backdrop = 'blur';
   const route = useRouter();
-  const [user, setUser] = useRecoilState(userState);
+  const setUser = useSetRecoilState(userState);
   const openLogoutModal = (newTitle: string) => {
     setTitle(newTitle);
     setIsOpen(true);

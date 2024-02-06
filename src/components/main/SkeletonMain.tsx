@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Skeleton } from '@nextui-org/react';
+import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import SlideButton from '../SlideButton';

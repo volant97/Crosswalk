@@ -85,7 +85,7 @@ const InterestModal = () => {
 
                     onClose();
                   }}
-                  className="w-[18.75rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-semibold text-[1.125rem] mb-[1.1rem]"
+                  className="w-[18.75rem] bg-customGreen3 rounded-3xl cursor-pointer font-semibold text-[1.125rem] mb-[1.1rem]"
                   type="submit"
                 >
                   확인
