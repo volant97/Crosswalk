@@ -1,19 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import useAlertModal from './AlertModal';
 import interestData from '../../../data/interestData.json';
 import { Modal, ModalContent, ModalFooter, Button, ModalBody } from '@nextui-org/react';
-import { useRecoilState } from 'recoil';
-import useAlertModal from './AlertModal';
-import { userState } from '@/recoil/user';
 
 const InterestModal = () => {
+  const { openModal, AlertModal } = useAlertModal();
+  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
+
   const { interests } = interestData;
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo = registerData?.profile;
   const [activeStates, setActiveStates] = useState<any>(myInfo?.interest);
-  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
-  const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const openInterestModal = () => {

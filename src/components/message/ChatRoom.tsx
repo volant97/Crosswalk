@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { postMessage } from '@/lib/api/SupabaseApi';
-import { UserState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
-import { Avatar } from '@nextui-org/react';
-import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import { StatusMessage } from './ChatStatusColor';
-import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { UserState } from '@/recoil/user';
+import { postMessage } from '@/lib/api/SupabaseApi';
+import { StatusMessage } from './ChatStatusColor';
 import useCongratModal from '../common/modal/CongratModal';
 import useAlertModal from '../common/modal/AlertModal';
+import { Avatar } from '@nextui-org/react';
+import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
+import type { ChatListType, MessageType } from '@/types/realTimeType';
 
 interface ChatProps {
   roomId: string;
@@ -22,13 +22,13 @@ interface ChatProps {
 
 function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   const router = useRouter();
-
-  const [inputValue, setInputValue] = useState('');
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
-  const favorableRatingGoal = 100;
   const { openModal, AlertCongratModal } = useCongratModal();
   const { openModal: openAlertModal, AlertModal } = useAlertModal();
+
+  const [inputValue, setInputValue] = useState('');
+  const [congratulationsMessage, setCongratulationsMessage] = useState<boolean>(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const favorableRatingGoal = 100;
 
   const inputValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -54,7 +54,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
       anotherContinualCount = 0;
       if (userContinualCount < 3) {
         userScore += 1;
-        // favorable_rating = userScore + anotherScore;
         increaseFavorableRating(userScore, anotherScore);
       }
       userContinualCount += 1;
@@ -62,7 +61,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
       userContinualCount = 0;
       if (anotherContinualCount < 3) {
         anotherScore += 1;
-        // favorable_rating = userScore + anotherScore;
         increaseFavorableRating(userScore, anotherScore);
       }
       anotherContinualCount += 1;
@@ -86,7 +84,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
           대화를 할 수 없어요.
         </>
       );
-      // return openDeclineModal('신호등이 빨간불일 때는 대화를 할 수 없어요.');
     }
     if (roomInfo?.flirting_list.status === 'ACCEPT' || roomInfo?.flirting_list.status === 'SOULMATE') {
       if (inputValue === '') {
@@ -105,7 +102,6 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
         is_read: false,
         favorable_rating: favorable_rating
       };
-      // console.log('sendData: ', sendData);
       await postMessage(sendData);
       setInputValue('');
     }

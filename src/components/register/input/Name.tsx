@@ -74,7 +74,6 @@ function Name() {
             placeholder="홍길동"
           />
         </div>
-        {/* <Gender /> */}
         <div className="flex flex-col gap-1 justify-center ">
           <span className="text-gray-AAA text-[16px]">성별</span>
           <div className="flex gap-2">

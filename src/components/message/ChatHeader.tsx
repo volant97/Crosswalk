@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// 'use client';
 
-import { UserState } from '@/recoil/user';
-import { ChatListType } from '@/types/realTimeType';
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
+import { UserState } from '@/recoil/user';
 import { ChatStatusColor } from './ChatStatusColor';
 import SignalOffModal from '../common/modal/SignalOffModal';
 import GoToBackBtn from '../layout/GoToBackBtn';
-import { useRouter } from 'next/navigation';
+import type { ChatListType } from '@/types/realTimeType';
 
 interface ChatProps {
   roomId: string;
@@ -60,7 +58,6 @@ function ChatHeader({ roomId, roomInfo, getUid, favorableRating }: ChatProps) {
                 />
               )}
 
-              {/* 여기 수정중 */}
               <h1 className="text-[0.875rem] text-gray-888">
                 {favorableRating >= 100 ? (
                   <p>

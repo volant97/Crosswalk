@@ -1,22 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getUnMatchedData } from '@/lib/api/SupabaseApi';
+import { useRouter } from 'next/navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
+import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import useAlertModal from '../common/modal/AlertModal';
-
-import SkeletonMain from './SkeletonMain';
 import Buttons from './Buttons';
 import SwiperCards from './SwiperCards';
 import { Spacer } from '@nextui-org/react';
 import { nextSlideState } from '@/recoil/nextSlide';
-import { useRouter } from 'next/navigation';
-import type { unMatchedDataType } from '@/types/registerType';
-
-// Import Swiper React components
+import SkeletonMain from './SkeletonMain';
 import { SwiperClass } from 'swiper/react';
+import type { unMatchedDataType } from '@/types/registerType';
 
 function UserCards() {
   const [userCards, setUserCards] = useState<any[]>([]);
@@ -38,12 +36,10 @@ function UserCards() {
   const { openModal, AlertModal } = useAlertModal();
   const { openFlirtingModal, flirtingModal } = useFlirtingModal();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserCards = async () => {
     try {
       if (!myUid) return;
       if (!myGender) return;
-      // setIsLoading(true);
       const fetchedUserCards = await getUnMatchedData(myUid, myGender);
       if (!fetchedUserCards) return;
 
@@ -89,7 +85,6 @@ function UserCards() {
 
   useEffect(() => {
     getUserCards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   useEffect(() => {
@@ -119,10 +114,8 @@ function UserCards() {
   }
 
   return (
+    // Todo : PWA scale-[100%]
     <div className="relative w-full h-full scale-[88%]">
-      {/* 
-    PWA용
-    <div className="relative w-full"> */}
       {isLoading ? (
         <SkeletonMain />
       ) : (

@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
-import alertImg from '@assets/figmaImg/brakeHeart.png';
 import Image from 'next/image';
+import alertImg from '@assets/figmaImg/brakeHeart.png';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
 
 const useChatListModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

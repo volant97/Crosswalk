@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import CardFornt from './CardFornt';
 import CardBack from './CardBack';
@@ -37,7 +38,6 @@ function UserCard({
 
   useEffect(() => {
     setIsFlipped(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!userImg) return;

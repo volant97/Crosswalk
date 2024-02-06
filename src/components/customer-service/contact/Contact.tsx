@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { userState } from '@/recoil/user';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
-import { supabase } from '@/lib/supabase-config';
 import { useRouter } from 'next/navigation';
-import { contactContentsType } from '@/types/etcType';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
+import { supabase } from '@/lib/supabase-config';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import type { contactContentsType } from '@/types/etcType';
 
 function ContactPage() {
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
 
-  const [registerData, setRegisterData] = useRecoilState(userState);
+  const registerData = useRecoilValue(userState);
   const userInfo = registerData?.profile;
   const [contactContents, setContactContents] = useState<contactContentsType>({
     uid: userInfo?.uid,

@@ -1,5 +1,3 @@
-// useToggleIsReadInNoticeBoard.js
-
 import { useCallback } from 'react';
 import { updateIsReadInNotiSenderSide, updateIsReadInNotiReceiverSide } from '@/lib/api/SupabaseApi';
 

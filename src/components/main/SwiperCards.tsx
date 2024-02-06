@@ -2,10 +2,10 @@ import React from 'react';
 import UserCard from './UserCard';
 
 import SlideEffect from './SlideEffect';
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import 'swiper/css';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import type { unMatchedDataType } from '@/types/registerType';
+import 'swiper/css';
 
 type Props = {
   isFlipped: boolean;

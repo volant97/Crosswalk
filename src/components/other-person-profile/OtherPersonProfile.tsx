@@ -5,9 +5,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase-config';
 import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
-import { getSoulmateStatus } from '@/types/etcType';
-import { unNullRegisterType } from '@/types/registerType';
 import { Skeleton } from '@nextui-org/react';
+import type { getSoulmateStatus } from '@/types/etcType';
+import type { unNullRegisterType } from '@/types/registerType';
 
 type Props = {
   otherPersonId: string;

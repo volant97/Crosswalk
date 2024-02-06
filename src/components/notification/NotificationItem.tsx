@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { formatDate } from '@/hooks/useFormatDate';
-import { FlirtingListInNotificationType } from '@/types/flirtingListType';
 import { UserState } from '@/recoil/user';
+import { formatDate } from '@/hooks/useFormatDate';
+import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 const NotificationItem = ({
   notification,
@@ -31,7 +31,7 @@ const NotificationItem = ({
   const isReceiver = notification.receiver_uid === currentUser?.id;
 
   if ((isSender && senderIsRead) || (isReceiver && receiverIsRead)) {
-    return null; // 숨김
+    return null;
   }
 
   if (userNames?.sender === undefined && userNames?.receiver === undefined) {

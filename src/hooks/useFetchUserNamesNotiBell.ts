@@ -1,5 +1,3 @@
-// useFetchUserNames.js
-
 import { UserState } from '@/recoil/user';
 import { FlirtingListInNotificationType } from '@/types/flirtingListType';
 import { useEffect } from 'react';
@@ -45,7 +43,7 @@ export const useFetchUserNamesInNotiBell = (
 
         setUserNames(names);
       } catch (error) {
-        // openModal('서버와의 통신 중 에러가 발생했습니다.');
+        console.error('서버와의 통신 중 에러가 발생했습니다.');
       }
     };
 

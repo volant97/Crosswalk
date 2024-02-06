@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import useAlertModal from './AlertModal';
 import mbti from '../../../data/mbti_data.json';
 import { Modal, ModalContent, ModalFooter, Button, ModalBody } from '@nextui-org/react';
-import { useRecoilState } from 'recoil';
-import useAlertModal from './AlertModal';
-import { userState } from '@/recoil/user';
 
 const MbtiModal = () => {
+  const { openModal, AlertModal } = useAlertModal();
+
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo = registerData?.profile;
   const [selectedMbti, setSelectedMbti] = useState<string | undefined | null>(myInfo?.mbti);
-  const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const openMbtiModal = () => {

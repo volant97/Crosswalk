@@ -1,12 +1,12 @@
 'use client';
-import { ChatListType } from '@/types/realTimeType';
-import { useRecoilState } from 'recoil';
-import useChatListModal from '@/components/common/modal/ChatListModal';
+import { useRecoilValue } from 'recoil';
 import { UserState, userState } from '@/recoil/user';
 import { useRouter } from 'next/navigation';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import useChatListModal from '@/components/common/modal/ChatListModal';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { formatDate } from '../../hooks/useFormatDate';
+import type { ChatListType } from '@/types/realTimeType';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
 
 export const RenderListItem = ({
   list,
@@ -17,12 +17,13 @@ export const RenderListItem = ({
   idx: number;
   lastMsg: LastMessageArrayType;
 }) => {
+  const router = useRouter();
   const { openModal: openChatListModal, AlertChatListModal } = useChatListModal();
-  const [getUid, setGetUid] = useRecoilState<UserState>(userState);
+
+  const getUid = useRecoilValue<UserState>(userState);
   const isSender = getUid?.id === list.flirting_list.sender_uid.uid;
   const otherUser = isSender ? list.flirting_list.receiver_uid : list.flirting_list.sender_uid;
   const statusMessage = isSender ? '상대방의 수락을 기다리고 있어요.' : '회원님의 수락을 기다리고 있어요.';
-  const router = useRouter();
 
   const routerLink = (linkId: string, status: string) => {
     if (status === 'ACCEPT' || status === 'SOULMATE') {

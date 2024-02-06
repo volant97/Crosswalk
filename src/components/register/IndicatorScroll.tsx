@@ -1,26 +1,17 @@
 'use client';
-import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { Progress } from '@nextui-org/react';
 
-interface Window {
-  prevHash?: string;
-}
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Progress } from '@nextui-org/react';
 
 const PAGECOUNT = 6;
 const PERCENT_MAGIC_NUMBER = 100 / PAGECOUNT;
 
 const Indicator = () => {
   const [scrollPercent, setScrollPercent] = useState<number>(PERCENT_MAGIC_NUMBER);
-  const [currentPathname, setCurrentPathname] = useState<string>('');
-  // const [hashCount, setHashCount] = useState(1);
-  // const prevHashRef = useRef(window.location.hash);
 
   const pathname = usePathname();
   const croppedPathname = pathname.replace('/register', '');
-  // setCurrentPathname(croppedPathname);
-  console.log('croppedPathname:', croppedPathname);
-  console.log('pathname', pathname);
 
   useEffect(() => {
     if (croppedPathname === '') {

@@ -11,8 +11,8 @@ import HomeIcon from './HomeIcon';
 import RequestIcon from './RequestIcon';
 import ChatListIcon from './ChatListIcon';
 import MyProfileIcon from './MyProfileIcon';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
-import { ChatListType } from '@/types/realTimeType';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import type { ChatListType } from '@/types/realTimeType';
 
 function NavBar() {
   const pathname = usePathname();

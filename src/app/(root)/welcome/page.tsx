@@ -1,12 +1,13 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@nextui-org/react';
 
 function Welcome() {
   const router = useRouter();
+
   return (
     <div className="w-full h-full relative">
       <div className="absolute top-[27.7778dvh] flex flex-col items-center justify-center  gap-[32px] w-full h-[170px]">
