@@ -119,7 +119,7 @@ function UserCards() {
   }
 
   return (
-    <div className="relative w-full scale-[88%]">
+    <div className="relative w-full h-full scale-[88%]">
       {/* 
     PWA용
     <div className="relative w-full"> */}

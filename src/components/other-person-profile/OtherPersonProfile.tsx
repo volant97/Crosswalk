@@ -1,15 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
+import React, { Fragment, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase-config';
-import { userState } from '@/recoil/user';
+import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
 import { getSoulmateStatus } from '@/types/etcType';
 import { unNullRegisterType } from '@/types/registerType';
 import { Skeleton } from '@nextui-org/react';
-import Image from 'next/image';
-import React, { Fragment, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 type Props = {
   otherPersonId: string;
@@ -21,7 +19,6 @@ function OtherPersonProfile({ otherPersonId }: Props) {
 
   const [isSoulmate, setIsSoulmate] = useState<boolean>(false);
   const [checkSoulmate, setCheckSoulmate] = useState<boolean>(false);
-  const register = useRecoilValue(userState);
 
   const border =
     'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem] h-[26px]';
@@ -41,7 +38,6 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         data.forEach((item) => {
           if (!otherId) return;
           if (item.receiver_uid !== otherId && item.sender_uid !== otherId) return setCheckSoulmate(true);
-          // console.log('여기', item.receiver_uid === otherId || item.sender_uid === otherId);
           if (item.receiver_uid === otherId || item.sender_uid === otherId) {
             setIsSoulmate(true);
             return setCheckSoulmate(true);
@@ -80,7 +76,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                     alt="유저 이미지"
                     fill
                   />
-                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px]  bg-customGreen3 ">
+                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-customGreen3 ">
                     소울메이트
                   </p>
                   <div className="absolute flex items-end w-full h-full">
@@ -89,12 +85,17 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                 </Fragment>
               ) : (
                 // 최종매칭 X
-                <Image
-                  className="rounded-t-[24px]"
-                  src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
-                  alt="유저 아바타 이미지"
-                  fill
-                />
+                <Fragment>
+                  <Image
+                    className="rounded-t-[24px]"
+                    src={`/assets/avatar/avatar${otherProfile?.avatar}.png`}
+                    alt="유저 아바타 이미지"
+                    fill
+                  />
+                  <div className="absolute flex items-end w-full h-full">
+                    <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%]"></div>
+                  </div>
+                </Fragment>
               )
             ) : (
               <Skeleton className="w-full h-full rounded-t-[24px]" />

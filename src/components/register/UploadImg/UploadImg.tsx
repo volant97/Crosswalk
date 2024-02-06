@@ -40,7 +40,7 @@ const UploadImg = () => {
 
   async function uploadFile(file: any, imgUrl: string) {
     try {
-      // 2. 선택한 사진 수파베이스 스토리지에 저장
+      // 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
         // 로딩중
         setIsLoading(true);
@@ -58,7 +58,7 @@ const UploadImg = () => {
     updateGender(myInfo.gender);
   }
 
-  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
+  // 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
     const imgFile = event.target.files[0];
     if (!imgFile) return false;
@@ -74,7 +74,7 @@ const UploadImg = () => {
     }
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 /
+  // Next 버튼 / 수파베이스 DB에 회원정보등록 / postRegister
   const postData = async () => {
     try {
       await postRegister(uid, register?.profile);
@@ -84,7 +84,7 @@ const UploadImg = () => {
     route.push('/welcome');
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
+  // Next 버튼
   const handleNextBtn = async () => {
     if (!file) {
       openModal('사진을 올려주세요!');

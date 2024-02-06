@@ -1,11 +1,11 @@
 'use client';
-import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
+import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import useAlertModal from '@/components/common/modal/AlertModal';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
-import { userState } from '@/recoil/user';
-import useAlertModal from '@/components/common/modal/AlertModal';
 import useForm from '@/hooks/useForm';
 import { RegisterType } from '@/types/registerType';
 import InputAvatar from './InputAvatar';

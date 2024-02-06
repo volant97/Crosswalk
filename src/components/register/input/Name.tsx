@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { registerState } from '@/recoil/register';
-import { Button } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
-import Gender from './Gender';
-import useAlertModal from '@/components/common/modal/AlertModal';
 import { userState } from '@/recoil/user';
 import { postRegister } from '@/lib/api/SupabaseApi';
+import useAlertModal from '@/components/common/modal/AlertModal';
+import { Button } from '@nextui-org/react';
 
 function Name() {
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
   const [name, setName] = useState('');
   const [gender, setGender] = useState<string>('');
-  const router = useRouter();
-  const { openModal, AlertModal } = useAlertModal();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,14 +27,11 @@ function Name() {
     }
 
     postData();
-    // console.log('!!!!!name', register);
-    // router.push('#mbti');
     router.push('/register/mbti');
   };
 
   const postData = async () => {
     try {
-      // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
       console.error(error);
@@ -43,7 +39,7 @@ function Name() {
   };
 
   useEffect(() => {
-    // any타입
+    // Todo : any타입
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {

@@ -1,18 +1,18 @@
 'use client';
+import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import {
   getChatListForMessageNotification,
   getLastMessageForMessageNotification,
   subscribeMessageForNotification,
   untrackMessageForNotification
 } from '@/lib/api/SupabaseApi';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
-import { ChatListType } from '@/types/realTimeType';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 import HomeIcon from './HomeIcon';
 import RequestIcon from './RequestIcon';
 import ChatListIcon from './ChatListIcon';
 import MyProfileIcon from './MyProfileIcon';
+import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import { ChatListType } from '@/types/realTimeType';
 
 function NavBar() {
   const pathname = usePathname();
@@ -26,7 +26,6 @@ function NavBar() {
       const roomIds = chatListDataMessageNotification.map((item: any) => item.id);
       const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
       setLastMsg(lastMessageArray);
-      // console.log('lastMessageArray', lastMessageArray);
     } catch (error) {
       console.error('fetchChatList에서 에러 발생', error);
       alert('서버와의 통신을 실패했습니다.');
@@ -35,7 +34,6 @@ function NavBar() {
 
   useEffect(() => {
     subscribeMessageForNotification((payload: any) => {
-      // console.log('payload:', payload);
       fetchChatListDataForMessageNotification();
     });
     fetchChatListDataForMessageNotification();

@@ -5,6 +5,5 @@ export async function kakaoLogin() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao'
   });
-  // console.log(data);
   if (error) console.error('login error : ', error);
 }

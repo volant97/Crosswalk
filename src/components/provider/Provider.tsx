@@ -1,8 +1,8 @@
 'use client';
 
-import { NextUIProvider } from '@nextui-org/react';
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
+import { NextUIProvider } from '@nextui-org/react';
 import AuthenticationLayer from '../common/AuthenticationLayer';
 
 type Props = {
