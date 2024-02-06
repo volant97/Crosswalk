@@ -1,11 +1,9 @@
 'use client';
-
 import { ChatListType } from '@/types/realTimeType';
 import { useRecoilState } from 'recoil';
 import useChatListModal from '@/components/common/modal/ChatListModal';
 import { UserState, userState } from '@/recoil/user';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { LastMessageArrayType } from '@/types/lastMessageArrayType';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { formatDate } from '../../hooks/useFormatDate';

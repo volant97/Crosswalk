@@ -1,11 +1,5 @@
 'use client';
-import {
-  getNotificationDetail,
-  getUser1NameNotification,
-  getUser2NameNotification,
-  subscribeFlirtingList
-} from '@/lib/api/SupabaseApi';
-import { isUserState } from '@/recoil/auth';
+import { getUser1NameNotification, getUser2NameNotification, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import { FlirtingListInNotificationType } from '@/types/flirtingListType';
 import Link from 'next/link';
 import React, { Fragment, useEffect, useState } from 'react';
