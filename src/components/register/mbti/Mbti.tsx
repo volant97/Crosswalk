@@ -25,7 +25,6 @@ function Mbti() {
 
   const postData = async () => {
     try {
-      // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
       console.error(error);
@@ -38,7 +37,6 @@ function Mbti() {
       return;
     }
     postData();
-    // router.push('#age');
     router.push('/register/age-and-height');
   };
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = (initialState: { gender: string; name: string; age: number; height: string }) => {
+const useForm = (initialState: { gender: string; name: string; age: number; height: number }) => {
   const [formState, setFormState] = useState(initialState);
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
