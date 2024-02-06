@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import interestData from '../../../data/interestData.json';
 import { useRecoilState } from 'recoil';
-import { registerState } from '@/recoil/register';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import useAlertModal from '@/components/common/modal/AlertModal';
@@ -24,7 +23,6 @@ function Interest() {
       const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
     } else if (activeStates.length >= maxSelectedInterests) {
-      // openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
       openModal(
         <>
           관심사는 최대 {maxSelectedInterests}개까지
@@ -39,7 +37,6 @@ function Interest() {
 
   const postData = async () => {
     try {
-      // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
       console.error(error);
@@ -52,9 +49,7 @@ function Interest() {
       return;
     }
 
-    // console.log('!!!!!Interest', register);
     postData();
-    // router.push('#imgUpload');
     router.push('/register/upload-img');
   };
 

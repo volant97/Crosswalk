@@ -1,8 +1,5 @@
-import { IsLoginType } from '@/types/isLoginType';
-import { RegisterType } from '@/types/registerType';
-import { avatar } from '@nextui-org/react';
-import { User } from '@supabase/supabase-js';
 import { atom } from 'recoil';
+import { RegisterType } from '@/types/registerType';
 
 export type UserState = { id: string; profile: RegisterType | null } | null;
 
