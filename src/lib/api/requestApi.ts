@@ -1,7 +1,6 @@
-import { FlirtingListRequestType } from '@/types/flirtingListType';
 import { supabase } from '../supabase-config';
-import { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
-import { unNullRegisterType } from '@/types/registerType';
+import type { FlirtingListRequestType } from '@/types/flirtingListType';
+import type { SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 
 /**커스텀 데이터 */
 export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequestType[]> {
@@ -11,8 +10,8 @@ export async function getCustomFlirtingListAtRequest(): Promise<FlirtingListRequ
     .order('created_at', { ascending: false })
     .returns<FlirtingListRequestType[]>();
   if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -25,8 +24,8 @@ export async function changeStatusToRead(receiverUid: string): Promise<void> {
     .eq('status', 'UNREAD')
     .eq('receiver_uid', receiverUid);
   if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -34,7 +33,7 @@ export async function changeStatusToDecline(flirting_list_id: number): Promise<v
   const { error } = await supabase.from('flirting_list').update({ status: 'DECLINE' }).eq('id', flirting_list_id);
   if (error || null) {
     console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -52,7 +51,6 @@ export async function subscribeRequestedFlirtingList(callback: SpecificSubscribe
       callback
     )
     .subscribe();
-  // console.log('Request 채널 구독 시작');
 }
 
 /**Request 채널 구독해제 */
@@ -60,7 +58,6 @@ export async function untrackRequestedFlirtingList() {
   const requestRoom = supabase.channel('request');
   await requestRoom.subscribe();
   await requestRoom.untrack();
-  // console.log('Request 채널 구독 해제');
 }
 
 /**수락 버튼 클릭 */
@@ -76,8 +73,8 @@ export async function handleAcceptBtn(listId: number): Promise<void> {
     .eq('id', listId)
     .eq('status', 'READ');
   if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -89,7 +86,7 @@ export async function handleDeclinetBtn(listId: number): Promise<void> {
     .eq('id', listId)
     .eq('status', 'READ');
   if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }

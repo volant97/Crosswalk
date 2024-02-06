@@ -1,34 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Button,
-  useDisclosure,
-  ModalProps,
-  Input
-} from '@nextui-org/react';
-
-import useAlertModal from './AlertModal';
-import { sendFlirting } from '@/lib/api/SupabaseApi';
-import { useRecoilState } from 'recoil';
 import Image from 'next/image';
-import { nextSlideState } from '@/recoil/currentIndex';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
+import { nextSlideState } from '@/recoil/nextSlide';
+import { sendFlirting } from '@/lib/api/SupabaseApi';
+import useAlertModal from './AlertModal';
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalProps, Input } from '@nextui-org/react';
 
 const useFlirtingModal = () => {
-  const [flirtingMessage, setFlirtingMessage] = useState('');
   const backdrop = 'opaque';
   const { openModal, AlertModal } = useAlertModal();
-  const [getUid, setGetUid] = useRecoilState(userState);
+
+  const getUid = useRecoilValue(userState);
   const myUid = getUid?.id;
-  const [isOpen, setIsOpen] = useState(false);
+  const [flirtingMessage, setFlirtingMessage] = useState('');
   const [flirtingUserUid, setFlirtingUserUid] = useState('');
-  const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
+  const [isOpen, setIsOpen] = useState(false);
   const [swiper, setSwiper] = useState<any>(null);
+  const setIsSwitchNextSlide = useSetRecoilState(nextSlideState);
 
   const openFlirtingModal = (userId: string, swiper: any) => {
     setFlirtingUserUid(userId);
@@ -97,7 +88,6 @@ const useFlirtingModal = () => {
                       setFlirtingMessage('');
                       onClose();
 
-                      // console.log('플러팅 모달에서의 Uid', flirtingUserUid);
                       setIsSwitchNextSlide(true);
                     }}
                     className="w-full bg-customGreen3 rounded-3xl cursor-pointer mb-4 mt-[30px] font-semibold text-center text-white"

@@ -1,70 +1,57 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import UserCard from './UserCard';
-import { getUnMatchedData } from '@/lib/api/SupabaseApi';
+import { useRouter } from 'next/navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import Button from '../Button';
 import { userState } from '@/recoil/user';
-import { IoClose } from 'react-icons/io5';
+import { nextSlideState } from '@/recoil/nextSlide';
+import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import useFlirtingModal from '../common/modal/FlirtingModal';
-import SlideButton from '../SlideButton';
-import { nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
-import Image from 'next/image';
-import SlideEffect from './SlideEffect';
+import Buttons from './Buttons';
+import { SwiperClass } from 'swiper/react';
+import SwiperCards from './SwiperCards';
 import SkeletonMain from './SkeletonMain';
 import { Spacer } from '@nextui-org/react';
 import type { unMatchedDataType } from '@/types/registerType';
-import { useRouter } from 'next/navigation';
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
 
 function UserCards() {
-  const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
-  const [userUids, setUserUids] = useState<any>([]);
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
+
+  const [userCards, setUserCards] = useState<any[]>([]);
+  const [userUids, setUserUids] = useState<string[]>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
   const [swiper, setSwiper] = useState<any>(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isHateEffect, setIsHateEffect] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isClickedIndex, setIsClickedIndex] = useState<number | null>(null);
-
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
   const registerData = useRecoilValue(userState);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
 
-  const router = useRouter();
-
-  const { openModal, AlertModal } = useAlertModal();
-  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserCards = async () => {
     try {
       if (!myUid) return;
       if (!myGender) return;
-      // setIsLoading(true);
-      const userCards = await getUnMatchedData(myUid, myGender);
-      if (!userCards) return;
+      const fetchedUserCards = await getUnMatchedData(myUid, myGender);
+      if (!fetchedUserCards) return;
 
-      setUserCards(userCards);
-      const uids = userCards?.map((item: any) => item.uid);
+      setUserCards(fetchedUserCards);
+      const uids = fetchedUserCards?.map((item) => item.uid);
       setUserUids(uids);
-      // console.log('userCards', userCards);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching my posts:', error);
+      console.error('유저카드를 불러오는 도중 문제가 발생하였습니다.', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
     }
   };
 
-  // 슬라이드 할 때 마다 값 가져오기
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: SwiperClass) => {
     const activeIndex = swiper.realIndex;
 
     const activeUserUid = userUids[activeIndex];
@@ -78,13 +65,12 @@ function UserCards() {
     }
   };
 
-  const flirtingUserUids = userCards?.map((item: any) => item.uid) || [];
+  const flirtingUserUids = userCards?.map((item: unMatchedDataType) => item.uid) || [];
 
   const handleLike = () => {
     const likedUserUid = activeUserUids;
     const targetUid = likedUserUid || flirtingUserUids[0];
     openFlirtingModal(targetUid, swiper);
-    // console.log('activeUserUid', targetUid);
   };
 
   const firstNextSlide = () => {
@@ -97,7 +83,6 @@ function UserCards() {
 
   useEffect(() => {
     getUserCards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   useEffect(() => {
@@ -127,87 +112,24 @@ function UserCards() {
   }
 
   return (
-    <div className="relative w-full scale-[88%]">
-      {/* 
-    PWA용
-    <div className="relative w-full"> */}
+    // Todo : PWA scale-[100%]
+    <div className="relative w-full h-full scale-[88%]">
       {isLoading ? (
         <SkeletonMain />
       ) : (
         <div className="py-[30px] px-[24px] flex flex-col justify-center h-[calc(100dvh-9dvh-8.5dvh)]">
-          <div>
-            <SlideEffect isHateEffect={isHateEffect} />
-            <Swiper
-              modules={[Navigation]}
-              allowSlidePrev={false}
-              spaceBetween={30}
-              slidesPerView={1}
-              onSlideChange={(swiper: any) => {
-                handleSlideChange(swiper);
-              }}
-              onSwiper={(swiper: any) => {
-                setSwiper(swiper);
-              }}
-              className="flex px-[1.5rem] py-[2rem] border-[5px] border-white"
-              navigation={true}
-              touchRatio={1}
-              loop={true}
-              loopAdditionalSlides={1}
-              allowTouchMove={false}
-            >
-              {userCards?.map((item: any, index: number) => (
-                <SwiperSlide
-                  className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
-                  key={item.uid}
-                  onClick={() => handleCardClick(index)}
-                >
-                  <UserCard
-                    age={item.age}
-                    name={item.name}
-                    interest={item.interest}
-                    avatar={item.avatar}
-                    height={item.height}
-                    gender={item.gender}
-                    mbti={item.mbti}
-                    isFlipped={isFlipped}
-                    setIsFlipped={setIsFlipped}
-                    userImg={item.user_img}
-                    isClickedIndex={isClickedIndex}
-                    index={index}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <SwiperCards
+            isFlipped={isFlipped}
+            isClickedIndex={isClickedIndex}
+            setIsFlipped={setIsFlipped}
+            isHateEffect={isHateEffect}
+            handleCardClick={handleCardClick}
+            handleSlideChange={handleSlideChange}
+            setSwiper={setSwiper}
+            userCards={userCards}
+          />
           <Spacer y={1} />
-          <div className="flex gap-3 justify-between gap-x-2 px-[5px]">
-            <SlideButton
-              nextCard={() => {
-                firstNextSlide();
-                if (swiper) {
-                  swiper.slideNext();
-                }
-              }}
-              color="default"
-              size="lg"
-              disabled={false}
-            >
-              <Image src="/assets/figmaImg/nothanks.png" width={16} height={16} alt="no thanks" />{' '}
-              <p className="text-gray-666">괜찮아요</p>
-            </SlideButton>
-
-            <Button
-              openFlirtingModal={() => {
-                handleLike();
-              }}
-              color="green"
-              size="lg"
-              disabled={false}
-            >
-              <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}
-              <span className="text-white text-[18px] leading-[20px] font-semibold">어필하기</span>
-            </Button>
-          </div>
+          <Buttons firstNextSlide={firstNextSlide} swiper={swiper} handleLike={handleLike} />
         </div>
       )}
       {flirtingModal()}

@@ -19,7 +19,6 @@ module.exports = withPlugins(
         }
       }
     ]
-    // 추가 플러그인 작성
   ],
   nextConfig
 );

@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
-import { RiLightbulbFlashFill } from 'react-icons/ri';
 import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
+import { RiLightbulbFlashFill } from 'react-icons/ri';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
 
 const useRequestModal = (listId: number) => {
+  const backdrop = 'blur';
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
-  const backdrop = 'blur';
 
   const openModal = (title: string) => {
     setTitle(title);
@@ -51,7 +52,7 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px] border-none"
                 type="submit"
               >
                 확인
@@ -94,7 +95,7 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px] border-none"
                 type="submit"
               >
                 확인

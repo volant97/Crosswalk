@@ -1,6 +1,5 @@
-import useRequestModal from '@/components/common/modal/RequestModal';
-import { supabase } from '@/lib/supabase-config';
 import React from 'react';
+import useRequestModal from '@/components/common/modal/RequestModal';
 
 type Props = {
   listId: number;

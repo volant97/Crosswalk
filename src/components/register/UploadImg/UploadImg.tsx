@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import { postRegister } from '@/lib/api/SupabaseApi';
 import { supabase } from '@/lib/supabase-config';
-import { userState } from '@/recoil/user';
-import { Button } from '@nextui-org/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 import { PiPlusThin } from 'react-icons/pi';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Button } from '@nextui-org/react';
 
 // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
 // 2. 선택한 사진 수파베이스 스토리지에 저장
@@ -22,25 +22,26 @@ const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
 const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];
 
 const UploadImg = () => {
+  const route = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
+  const myInfo: any = register?.profile;
   const [selectedImg, setSelectedImg] = useState('');
   const [file, setFile] = useState<any>();
-  const { openModal, AlertModal } = useAlertModal();
-  const route = useRouter();
   const [testToggle, setTestToggole] = useState<boolean>(false);
-  const myInfo: any = register?.profile;
   const [avatar, setAvatar] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleError = (error: any) => {
-    console.error('Server communication error', error);
+    console.error('서버와의 통신을 실패했습니다.', error);
     openModal('서버와의 통신을 실패했습니다.');
   };
 
   async function uploadFile(file: any, imgUrl: string) {
     try {
-      // 2. 선택한 사진 수파베이스 스토리지에 저장
+      // 선택한 사진 수파베이스 스토리지에 저장
       if (file) {
         // 로딩중
         setIsLoading(true);
@@ -52,13 +53,13 @@ const UploadImg = () => {
         return null;
       }
     } catch (error) {
-      console.error('uploadFile error', error);
+      console.error('파일을 업로드 하는 도중 에러가 발생하였습니다.', error);
       handleError(error);
     }
     updateGender(myInfo.gender);
   }
 
-  // 1. 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
+  // 사진 선택창 클릭 -> 사진 열기 누르면, 사진파일의 유무 파악 -> 사진파일있으면
   const previewImg = async (event: any) => {
     const imgFile = event.target.files[0];
     if (!imgFile) return false;
@@ -74,7 +75,7 @@ const UploadImg = () => {
     }
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 /
+  // Next 버튼 / 수파베이스 DB에 회원정보등록 / postRegister
   const postData = async () => {
     try {
       await postRegister(uid, register?.profile);
@@ -84,7 +85,7 @@ const UploadImg = () => {
     route.push('/welcome');
   };
 
-  // 5. Next 버튼 누를 때 수파베이스 DB에 회원정보등록 / postRegister
+  // Next 버튼
   const handleNextBtn = async () => {
     if (!file) {
       openModal('사진을 올려주세요!');

@@ -1,30 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
-import interestData from '../../../data/interestData.json';
-import { useRecoilState } from 'recoil';
-import { registerState } from '@/recoil/register';
-import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import useAlertModal from '@/components/common/modal/AlertModal';
+import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
+import useAlertModal from '@/components/common/modal/AlertModal';
 import { postRegister } from '@/lib/api/SupabaseApi';
+import interestData from '../../../data/interestData.json';
+import { Button } from '@nextui-org/react';
 
 function Interest() {
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
+
   const { interests } = interestData;
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
   const [activeStates, setActiveStates] = useState<string[]>([]);
-  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
-  const router = useRouter();
-  const { openModal, AlertModal } = useAlertModal();
 
   const handleInterestClick = (interest: string) => {
     if (activeStates.includes(interest)) {
       const updatedActiveStates = activeStates.filter((selectedInterest) => selectedInterest !== interest);
       setActiveStates(updatedActiveStates);
     } else if (activeStates.length >= maxSelectedInterests) {
-      // openModal(`관심사는 최대 ${maxSelectedInterests}개까지 선택 가능합니다.`);
       openModal(
         <>
           관심사는 최대 {maxSelectedInterests}개까지
@@ -39,7 +38,6 @@ function Interest() {
 
   const postData = async () => {
     try {
-      // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
       console.error(error);
@@ -52,9 +50,7 @@ function Interest() {
       return;
     }
 
-    // console.log('!!!!!Interest', register);
     postData();
-    // router.push('#imgUpload');
     router.push('/register/upload-img');
   };
 

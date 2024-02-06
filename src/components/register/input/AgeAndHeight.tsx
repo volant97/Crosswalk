@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import useAlertModal from '@/components/common/modal/AlertModal';
-import { postRegister } from '@/lib/api/SupabaseApi';
-import { registerState } from '@/recoil/register';
-import { userState } from '@/recoil/user';
-import { Button } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import { useRouter } from 'next/navigation';
+import { postRegister } from '@/lib/api/SupabaseApi';
+import useAlertModal from '@/components/common/modal/AlertModal';
+import { Button } from '@nextui-org/react';
 
 function AgeAndHeight() {
-  const [register, setRegister] = useRecoilState(userState);
-  const [age, setAge] = useState<string>('');
-  const [height, setHeight] = useState<string>('');
   const router = useRouter();
   const { openModal, AlertModal } = useAlertModal();
+
+  const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
+  const [age, setAge] = useState<string>('');
+  const [height, setHeight] = useState<string>('');
 
   const handleNameForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,15 +35,12 @@ function AgeAndHeight() {
       return false;
     }
 
-    // console.log('!!!!!AgeAndHeight', register);
     postData();
-    // router.push('#interest');
     router.push('/register/interest');
   };
 
   const postData = async () => {
     try {
-      // console.log('5', register);
       await postRegister(uid, register?.profile);
     } catch (error) {
       console.error(error);
@@ -51,7 +48,7 @@ function AgeAndHeight() {
   };
 
   useEffect(() => {
-    // any타입
+    // Todo : any타입
     setRegister((prevData: any) => ({
       ...prevData,
       profile: {

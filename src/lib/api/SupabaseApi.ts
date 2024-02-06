@@ -1,19 +1,16 @@
 import { supabase } from '../supabase-config';
-import { createClient } from '@supabase/supabase-js';
-import type { RegisterType, unMatchedDataType, unNullRegisterType } from '@/types/registerType';
+import type { RegisterType } from '@/types/registerType';
 import type { FlirtingListInNotificationType, FlirtingListType } from '@/types/flirtingListType';
 import type { MessageType, SendMessageType, SpecificSubscribeFlirtingListCallbackType } from '@/types/realTimeType';
 import type { ChatListType } from '@/types/realTimeType';
-import { format } from 'date-fns';
-
-// const client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SERVICE_KEY || '');
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
 
 export async function getAllData(): Promise<RegisterType[]> {
   const { data, error } = await supabase.from('custom_users').select().returns<RegisterType[]>();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -22,8 +19,8 @@ export async function postRegister(uid: any, registerData: any) {
   const { data, error } = await supabase.from('custom_users').update(registerData).eq('uid', uid).select();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -32,8 +29,8 @@ export async function getFlirtingRequestData() {
   const { data, error } = await supabase.from('flirting_list').select('*').returns<FlirtingListType[]>();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 
   return data;
@@ -46,8 +43,8 @@ export async function getNotificationDetail(): Promise<FlirtingListInNotificatio
     .order('created_at', { ascending: false })
     .returns<FlirtingListInNotificationType[]>();
   if (error) {
-    console.error('에러 발생:', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return notificationData;
 }
@@ -59,8 +56,8 @@ export async function getUser1NameNotification(notificationData: FlirtingListInN
     .eq('uid', notificationData.sender_uid)
     .returns();
   if (error) {
-    console.error('에러 발생:', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return user1Data;
 }
@@ -72,8 +69,8 @@ export async function getUser2NameNotification(notificationData: FlirtingListInN
     .eq('uid', notificationData.receiver_uid)
     .returns();
   if (error) {
-    console.error('에러 발생:', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return user2Data;
 }
@@ -105,8 +102,8 @@ export async function sendFlirting(senderUid: string, message: string, recevierU
   });
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -118,8 +115,8 @@ export async function getChatList(): Promise<ChatListType[]> {
     .returns<ChatListType[]>();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -128,13 +125,12 @@ export async function updateIsReadInNotiSenderSide(id: number): Promise<void> {
   const { data, error } = await supabase
     .from('flirting_list')
     .update({ sender_is_read_in_noti: true, first_message_trigger: false })
-    // firstMessageTrigger : false
     .eq('id', id)
     .select();
 
   if (error) {
-    console.error('Error updating is_read_in_noti', error);
-    throw new Error('Error updating is_read_in_noti');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -142,13 +138,12 @@ export async function updateIsReadInNotiReceiverSide(id: number): Promise<void> 
   const { data, error } = await supabase
     .from('flirting_list')
     .update({ receiver_is_read_in_noti: true, first_message_trigger: false })
-    // firstMessageTrigeer : false
     .eq('id', id)
     .select();
 
   if (error) {
-    console.error('Error updating is_read_in_noti', error);
-    throw new Error('Error updating is_read_in_noti');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
@@ -158,32 +153,21 @@ export async function getUnMatchedData(myUid: string, gender: string) {
 
   // 내가 보냈던 사람의 Uid
   const { data, error } = await supabase.from('flirting_list').select('receiver_uid').eq('sender_uid', myUid);
-  const uidsIFlirted = data?.map((item) => {
-    return item.receiver_uid;
-  });
 
   // 내가 보냈던 사람의 Uid를 뺀 나머지 데이터
   const { data: receivedUserData } = await supabase
     .from('flirting_list')
     .select('sender_uid')
     .eq('receiver_uid', myUid);
-  const uidsReceivedFlirted = receivedUserData?.map((item) => {
-    return item.sender_uid;
-  });
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender일 때)
   const { data: MatchedUser1 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_sender_uid_fkey(*)');
-  // .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 receiver일 때)
   const { data: MatchedUser2 } = await supabase
     .from('custom_users')
     .select('*, flirting_list!inner!flirting_list_receiver_uid_fkey(*)');
-  // .in('flirting_list.status', ['ACCEPT', 'SOULMATE']);
 
-  // 상태가 ACCEPT 인 것만 보여주는 데이터 (현재 유저가 sender) + (현재 유저가 receiver)
   const MatchedUser = [...(MatchedUser1 || []), ...(MatchedUser2 || [])];
 
   // 전체회원정보 -내정보 -같은성별회원정보
@@ -192,8 +176,6 @@ export async function getUnMatchedData(myUid: string, gender: string) {
     .select('*')
     .not('uid', 'in', `(${myUid})`)
     .not('avatar', 'eq', '0');
-  // .not('gender', 'in', `(${gender})`);
-  // console.log('filteredUserData', filteredUserData);
 
   const matchedUserUids = MatchedUser?.map((item: any) => item.uid) || [];
 
@@ -203,8 +185,8 @@ export async function getUnMatchedData(myUid: string, gender: string) {
   const users = filteredUserDataWithoutMatchedUser;
 
   if (error) {
-    console.error('Error getUnMatchedData', error);
-    throw new Error('Error getUnMatchedData');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return users;
 }
@@ -218,8 +200,8 @@ export async function getMessage(subscribe_room_id: string): Promise<MessageType
     .returns<MessageType[]>();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -230,7 +212,6 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
 
   let lastMessageArray = [];
   for (let i = 0; i < roomIds.length; i++) {
-    // console.log('!!!!', i);
     let { data, error } = await supabase
       .from('message')
       .select('*')
@@ -239,11 +220,10 @@ export async function getMessageChatList(subscribe_room_id: string[]): Promise<a
       .limit(1)
       .returns<MessageType[]>()
       .maybeSingle();
-    // console.log('data api', data);
-    // if (error || null) {
-    //   console.error('Error creating a posts data', error);
-    //   throw new Error('error while fetching posts data');
-    // }
+    if (error || null) {
+      console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+      throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
+    }
 
     lastMessageArray.push(data);
   }
@@ -258,17 +238,16 @@ export async function changeMessageToRead(uid: string, roomId: string): Promise<
     .eq('subscribe_room_id', roomId)
     .neq('user_uid', uid);
   if (error || null) {
-    console.error('에러 발생', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 
 export async function postMessage(message_data: SendMessageType) {
   const { data, error } = await supabase.from('message').insert(message_data);
-  // console.log(message_data);
   if (error) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
 }
 export async function subscribeChatList(callback: SpecificSubscribeFlirtingListCallbackType) {
@@ -284,6 +263,27 @@ export async function subscribeChatList(callback: SpecificSubscribeFlirtingListC
       callback
     )
     .subscribe();
+}
+
+export async function fetchLastMessages(roomIds: string[]): Promise<LastMessageArrayType> {
+  let lastMessageArray = [];
+
+  for (let i = 0; i < roomIds.length; i++) {
+    const { data: getLastMessage, error } = await supabase
+      .from('message')
+      .select('*')
+      .eq('subscribe_room_id', roomIds[i])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+      throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
+    }
+    lastMessageArray.push(getLastMessage);
+  }
+  return lastMessageArray;
 }
 
 export async function untrackChatList() {
@@ -312,9 +312,8 @@ export async function untrackChatRoom(roomId: string) {
   await chatRoom.untrack();
 }
 
-// navbar 메세지 알림관련 api 통신로직
+/** navbar 메세지 알림관련 api 통신로직 */
 export async function subscribeMessageForNotification(callback: SpecificSubscribeFlirtingListCallbackType) {
-  // console.log('야!!');
   supabase
     .channel('message_notification')
     .on(
@@ -343,8 +342,8 @@ export async function getChatListForMessageNotification(): Promise<ChatListType[
     .returns<ChatListType[]>();
 
   if (error || null) {
-    console.error('Error creating a posts data', error);
-    throw new Error('error while fetching posts data');
+    console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+    throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
   }
   return data;
 }
@@ -354,7 +353,6 @@ export async function getLastMessageForMessageNotification(subscribe_room_id: st
 
   let lastMessageArray = [];
   for (let i = 0; i < roomIds.length; i++) {
-    // console.log('!!!!', i);
     let { data, error } = await supabase
       .from('message')
       .select('*')
@@ -363,11 +361,10 @@ export async function getLastMessageForMessageNotification(subscribe_room_id: st
       .limit(1)
       .returns<MessageType[]>()
       .maybeSingle();
-    // console.log('data556', data);
-    // if (error || null) {
-    //   console.error('Error creating a posts data', error);
-    //   throw new Error('error while fetching posts data');
-    // }
+    if (error || null) {
+      console.error('데이터를 가져오는 도중 에러가 발생하였습니다.', error);
+      throw new Error('데이터를 가져오는 도중 에러가 발생하였습니다.');
+    }
 
     lastMessageArray.push(data);
   }

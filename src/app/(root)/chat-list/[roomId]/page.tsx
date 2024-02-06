@@ -1,5 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
+import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
 import ChatHeader from '@/components/message/ChatHeader';
 import ChatRoom from '@/components/message/ChatRoom';
 import {
@@ -9,16 +13,12 @@ import {
   subscribeChatRoom,
   untrackChatRoom
 } from '@/lib/api/SupabaseApi';
-import { userState } from '@/recoil/user';
-import { ChatListType, MessageType } from '@/types/realTimeType';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import type { ChatListType, MessageType } from '@/types/realTimeType';
 
 function ChatRoomPage() {
   const pathname = usePathname();
   const roomId = pathname.split('/')[2];
-  const [getUid, setGetUid] = useRecoilState(userState);
+  const getUid = useRecoilValue(userState);
   const [roomInfo, setRoomInfo] = useState<ChatListType>();
 
   const [messageData, setMessageData] = useState<MessageType[]>([]);

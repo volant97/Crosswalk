@@ -1,19 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/recoil/user';
+import useAlertModal from './AlertModal';
 import interestData from '../../../data/interestData.json';
 import { Modal, ModalContent, ModalFooter, Button, ModalBody } from '@nextui-org/react';
-import { useRecoilState } from 'recoil';
-import useAlertModal from './AlertModal';
-import { userState } from '@/recoil/user';
 
 const InterestModal = () => {
+  const { openModal, AlertModal } = useAlertModal();
+  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
+
   const { interests } = interestData;
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo = registerData?.profile;
   const [activeStates, setActiveStates] = useState<any>(myInfo?.interest);
-  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
-  const { openModal, AlertModal } = useAlertModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const openInterestModal = () => {
@@ -85,7 +86,7 @@ const InterestModal = () => {
 
                     onClose();
                   }}
-                  className="w-[18.75rem] bg-customGreen3 rounded-3xl cursor-pointer mb-0 font-semibold text-[1.125rem] mb-[1.1rem]"
+                  className="w-[18.75rem] bg-customGreen3 rounded-3xl cursor-pointer font-semibold text-[1.125rem] mb-[1.1rem]"
                   type="submit"
                 >
                   확인

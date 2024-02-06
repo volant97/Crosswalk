@@ -1,22 +1,18 @@
-import React, { PropsWithChildren } from 'react';
-import NotiBell from '../common/ui/NotiBell';
-import NavBar from '../common/ui/NavBar';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import GoToBackBtn from './GoToBackBtn';
-import { IoMdSettings } from 'react-icons/io';
-import { MdSupportAgent } from 'react-icons/md';
-import serviceImg from '@assets/figmaImg/customerService.png';
+import NotiBell from '../common/ui/NotiBell';
+import serviceImg from '@assets/figmaImg/contact.png';
 
 interface PageProps {
   noBack?: boolean;
-  noNavBar?: boolean;
   noNotiBell?: boolean;
   noBackMain?: boolean;
   cs?: boolean;
 }
 
-function Header({ noBack, noNavBar, noNotiBell, noBackMain, cs }: PageProps) {
+function Header({ noBack, noNotiBell, noBackMain, cs }: PageProps) {
   return (
     <div className="sticky top-0 bg-white z-50 ">
       <div className="relative flex font-virgil h-[9dvh] items-center justify-center border-b-[1px] border-[#E9EAEB] ">
@@ -43,9 +39,11 @@ function Header({ noBack, noNavBar, noNotiBell, noBackMain, cs }: PageProps) {
           </div>
         )}
         {cs && (
-          <Link href={'/customer-service/contact'} className="absolute right-[25px]">
-            <Image className="w-6 h-6" src={serviceImg} width={100} height={1000} alt="문의 이미지" />
-            {/* <IoMdSettings size={24} /> //추후에 설정페이지 만들면 적용 = 설정아이콘 */}
+          <Link
+            href={'/customer-service/contact'}
+            className="absolute flex items-center justify-end right-[25px] w-7 h-7 pr-1"
+          >
+            <Image className="w-5 h-5" src={serviceImg} width={20} height={20} alt="문의 이미지" />
           </Link>
         )}
       </div>

@@ -1,6 +1,6 @@
-import Page from '@/components/layout/Page';
-import EditMyProfile from '@/components/my_profile/edit-my-profile/EditMyProfile';
 import React from 'react';
+import Page from '@/components/layout/Page';
+import EditMyProfile from '@/components/my-profile/edit-my-profile/EditMyProfile';
 
 function MyProfileEdit() {
   return (

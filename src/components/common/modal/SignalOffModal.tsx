@@ -1,12 +1,13 @@
 'use client';
+
 import React from 'react';
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, ModalProps } from '@nextui-org/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import useAlertModal from './AlertModal';
-import { changeStatusToDecline } from '@/lib/api/requestApi';
 import { UserState } from '@/recoil/user';
 import { postMessage } from '@/lib/api/SupabaseApi';
+import { changeStatusToDecline } from '@/lib/api/requestApi';
+import useAlertModal from './AlertModal';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure, ModalProps } from '@nextui-org/react';
 
 interface SignalOffModalProps {
   flirting_list_id?: number;
@@ -15,10 +16,12 @@ interface SignalOffModalProps {
 }
 
 function SignalOffModal({ flirting_list_id, roomId, getUid }: SignalOffModalProps) {
+  const router = useRouter();
   const { openModal } = useAlertModal();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [backdrop, setBackdrop] = React.useState('blur'); // 기본값을 'blur'로 설정
-  const router = useRouter();
+
   const exitChatRoom = async () => {
     try {
       if (flirting_list_id) {
@@ -52,8 +55,6 @@ function SignalOffModal({ flirting_list_id, roomId, getUid }: SignalOffModalProp
         <Image src="/assets/figmaImg/sadCircle.png" className="w-[1rem] h-[1rem]" width={100} height={100} alt="거절" />
       </button>
       <Modal
-        // backdrop={backdrop}
-        // backdrop="blur"
         backdrop={backdrop as ModalProps['backdrop']}
         isOpen={isOpen}
         onClose={onClose}

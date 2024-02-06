@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { userState } from '@/recoil/user';
+
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
-import { supabase } from '@/lib/supabase-config';
 import { useRouter } from 'next/navigation';
-import { contactContentsType } from '@/types/etcType';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
+import { supabase } from '@/lib/supabase-config';
 import useAlertModal from '@/components/common/modal/AlertModal';
+import { Button, Checkbox, Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import type { contactContentsType } from '@/types/etcType';
 
 function ContactPage() {
   const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
 
-  const [registerData, setRegisterData] = useRecoilState(userState);
+  const registerData = useRecoilValue(userState);
   const userInfo = registerData?.profile;
   const [contactContents, setContactContents] = useState<contactContentsType>({
     uid: userInfo?.uid,
@@ -26,8 +28,6 @@ function ContactPage() {
 
   const contactCategoryArr = ['이용 문의', '서비스 제안', '버그 제보', '유저 신고', '회원 탈퇴', '기타'];
   const [validity, setValidity] = useState<boolean>(false);
-
-  const { openModal, AlertModal } = useAlertModal();
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContactContents({
@@ -115,7 +115,7 @@ function ContactPage() {
           <br />
           1:1 문의를 통해서 빠르고 정확한 답변을 드리겠습니다.
         </p>
-        {/* <button>자주 묻는 질문</button> // 준비중*/}
+        {/* <button>자주 묻는 질문</button> // 제작중*/}
         {/* 이메일 */}
         <div className="flex flex-col w-full">
           <Input type="email" label="이메일" variant="bordered" onChange={handleEmailInput} isRequired={true} />

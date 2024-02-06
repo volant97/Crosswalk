@@ -1,6 +1,6 @@
+import React from 'react';
 import Page from '@/components/layout/Page';
 import OtherPersonProfile from '@/components/other-person-profile/OtherPersonProfile';
-import React from 'react';
 
 type Props = {
   params: {
