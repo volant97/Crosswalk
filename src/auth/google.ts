@@ -11,6 +11,5 @@ export const googleLogin = async () => {
       }
     }
   });
-  // console.log(data);
   if (error) console.error('login error : ', error);
 };
