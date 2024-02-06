@@ -15,6 +15,7 @@ import useAlertModal from '../modal/AlertModal';
 import Image from 'next/image';
 import { userState } from '@/recoil/user';
 import useNotificationActions from '@/hooks/useNotificationActions';
+import useFetchNotificationData from '@/hooks/useFetchNotificationData';
 
 function NotiBell() {
   const { openModal } = useAlertModal();
@@ -34,15 +35,17 @@ function NotiBell() {
     setFilteredNotificationsReceiver
   );
 
-  const fetchNotificationData = async () => {
-    try {
-      const data = await getNotificationDetail();
-      // console.log('fetchNotificationData', data);
-      setNotificationData(data);
-    } catch (error) {
-      openModal('서버와의 통신 중 에러가 발생했습니다.');
-    }
-  };
+  // const fetchNotificationData = async () => {
+  //   try {
+  //     const data = await getNotificationDetail();
+  //     // console.log('fetchNotificationData', data);
+  //     setNotificationData(data);
+  //   } catch (error) {
+  //     openModal('서버와의 통신 중 에러가 발생했습니다.');
+  //   }
+  // };
+
+  const fetchNotificationData = useFetchNotificationData(setNotificationData, openModal);
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
@@ -100,33 +103,6 @@ function NotiBell() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData]);
-
-  // const popSenderData = () => {
-  //   if (filteredNotificationsSender.length > 0 && filteredNotificationsSender[0].sender_is_read_in_noti === true) {
-  //     setFilteredNotificationsSender((prev) => prev.slice(1));
-  //   }
-  // };
-
-  // const popReceiverData = () => {
-  //   if (
-  //     filteredNotificationsReceiver.length > 0 &&
-  //     filteredNotificationsReceiver[0].receiver_is_read_in_noti === true
-  //   ) {
-  //     setFilteredNotificationsReceiver((prev) => prev.slice(1));
-  //   }
-  // };
-
-  // const addReceiverData = () => {
-  //   if (notificationData.length > 0 && !notificationData[0].receiver_is_read_in_noti) {
-  //     setFilteredNotificationsReceiver((prev) => [...prev, notificationData[0]]);
-  //   }
-  // };
-
-  // const addSenderData = () => {
-  //   if (notificationData.length > 0 && !notificationData[0].sender_is_read_in_noti) {
-  //     setFilteredNotificationsSender((prev) => [...prev, notificationData[0]]);
-  //   }
-  // };
 
   // console.log('filteredNotificationsSender', filteredNotificationsSender);
   // console.log('filteredNotificationsReceiver', filteredNotificationsReceiver);

@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 import { formatDate } from '@/hooks/useFormatDate';
+import useFetchNotificationData from '@/hooks/useFetchNotificationData';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
@@ -27,15 +28,7 @@ const NotificationList = () => {
     { sender: { name: string; uid: string } | null; receiver: { name: string; uid: string } | null }[]
   >([]);
 
-  const fetchNotificationData = async () => {
-    try {
-      const data = await getNotificationDetail();
-      // console.log('fetchNotificationData', data);
-      setNotificationData(data);
-    } catch (error) {
-      openModal('서버와의 통신 중 에러가 발생했습니다.');
-    }
-  };
+  const fetchNotificationData = useFetchNotificationData(setNotificationData, openModal);
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
