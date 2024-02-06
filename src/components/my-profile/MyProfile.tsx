@@ -19,7 +19,7 @@ function MyProfile() {
       const userCards = await getAllData();
       setUserCards(userCards);
     } catch (error) {
-      console.error('Error fetching my posts:', error);
+      console.error('유저카드를 불러오는 도중 문제가 발생하였습니다.', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
     }
   };

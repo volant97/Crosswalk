@@ -9,8 +9,8 @@ import { postMessage } from '@/lib/api/SupabaseApi';
 import { StatusMessage } from './ChatStatusColor';
 import useCongratModal from '../common/modal/CongratModal';
 import useAlertModal from '../common/modal/AlertModal';
-import { Avatar } from '@nextui-org/react';
 import { ConvertedDate, DisplayDateTime, GetCurrentTime } from './ChatDate';
+import { Avatar } from '@nextui-org/react';
 import type { ChatListType, MessageType } from '@/types/realTimeType';
 
 interface ChatProps {
@@ -78,16 +78,16 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
   const handleSendMessage = async () => {
     if (roomInfo?.flirting_list.status === 'DECLINE') {
       return openAlertModal(
-        <>
+        <p>
           신호등이 빨간불일 때는
           <br />
           대화를 할 수 없어요.
-        </>
+        </p>
       );
     }
     if (roomInfo?.flirting_list.status === 'ACCEPT' || roomInfo?.flirting_list.status === 'SOULMATE') {
       if (inputValue === '') {
-        return alert('메세지를 입력해주세요');
+        return openAlertModal('메세지를 입력해주세요');
       }
 
       const { anotherContinualCount, anotherScore, favorable_rating, userContinualCount, userScore } = getScores();

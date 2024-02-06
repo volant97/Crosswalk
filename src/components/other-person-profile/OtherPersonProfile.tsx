@@ -51,7 +51,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         return setCheckSoulmate(true);
       }
 
-      if (error) return console.error('status 가져오기 에러 : ', error);
+      if (error) return console.error('status를 가져오는 중 에러가 발생하였습니다.', error);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
     }

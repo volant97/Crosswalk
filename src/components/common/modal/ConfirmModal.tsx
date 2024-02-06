@@ -42,8 +42,8 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
         return null;
       }
     } catch (error) {
-      console.error('error', error);
-      openModal('사진변경 중 오류 발생');
+      console.error('사진변경 중 오류가 발생하였습니다.', error);
+      openModal('사진변경 중 오류가 발생하였습니다.');
     }
 
     const { data: userImg } = supabase.storage.from('usersImg').getPublicUrl(`usersImg/${uid}/${selectedImg}`);

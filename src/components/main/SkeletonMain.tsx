@@ -1,9 +1,9 @@
 import React from 'react';
-import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
-import { IoClose } from 'react-icons/io5';
 import Button from './Button';
 import SlideButon from './SlideButton';
+import { Skeleton } from '@nextui-org/react';
+import { IoClose } from 'react-icons/io5';
 
 export default function SkeletonMain() {
   return (

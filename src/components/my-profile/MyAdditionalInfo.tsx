@@ -9,6 +9,7 @@ type Props = {
 function MyAdditionalInfo({ height, gender, mbti }: Props) {
   const border =
     'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem] h-[26px]';
+
   return (
     <div className="flex flex-col gap-[24px] w-full bg-customGreen2  px-[20px] py-[24px]">
       <div className="flex flex-col gap-[8px]  h-[52px]">

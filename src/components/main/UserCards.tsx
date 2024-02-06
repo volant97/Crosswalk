@@ -5,18 +5,22 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
+import { nextSlideState } from '@/recoil/nextSlide';
 import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import useAlertModal from '../common/modal/AlertModal';
 import Buttons from './Buttons';
-import SwiperCards from './SwiperCards';
-import { Spacer } from '@nextui-org/react';
-import { nextSlideState } from '@/recoil/nextSlide';
-import SkeletonMain from './SkeletonMain';
 import { SwiperClass } from 'swiper/react';
+import SwiperCards from './SwiperCards';
+import SkeletonMain from './SkeletonMain';
+import { Spacer } from '@nextui-org/react';
 import type { unMatchedDataType } from '@/types/registerType';
 
 function UserCards() {
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
+
   const [userCards, setUserCards] = useState<any[]>([]);
   const [userUids, setUserUids] = useState<string[]>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
@@ -25,16 +29,10 @@ function UserCards() {
   const [isHateEffect, setIsHateEffect] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isClickedIndex, setIsClickedIndex] = useState<number | null>(null);
-
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
   const registerData = useRecoilValue(userState);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
-
-  const router = useRouter();
-
-  const { openModal, AlertModal } = useAlertModal();
-  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
 
   const getUserCards = async () => {
     try {
@@ -48,7 +46,7 @@ function UserCards() {
       setUserUids(uids);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching my posts:', error);
+      console.error('유저카드를 불러오는 도중 문제가 발생하였습니다.', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
     }
   };

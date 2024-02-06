@@ -8,7 +8,7 @@ interface ButtonProps {
   disabled: boolean;
 }
 
-function SlideButon({ color, children, size, nextCard, disabled }: PropsWithChildren<ButtonProps>) {
+function SlideButton({ color, children, size, nextCard, disabled }: PropsWithChildren<ButtonProps>) {
   return (
     <NextButton
       disabled={disabled}
@@ -22,4 +22,4 @@ function SlideButon({ color, children, size, nextCard, disabled }: PropsWithChil
   );
 }
 
-export default SlideButon;
+export default SlideButton;

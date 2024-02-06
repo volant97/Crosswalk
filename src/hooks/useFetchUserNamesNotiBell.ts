@@ -1,6 +1,7 @@
-import { UserState } from '@/recoil/user';
-import { FlirtingListInNotificationType } from '@/types/flirtingListType';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import { UserState } from '@/recoil/user';
+import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 export const useFetchUserNamesInNotiBell = (
   notificationData: FlirtingListInNotificationType[],
@@ -9,8 +10,7 @@ export const useFetchUserNamesInNotiBell = (
   getUser2NameNotification: (notification: FlirtingListInNotificationType) => Promise<any>,
   setFilteredNotificationsSender: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>,
   setFilteredNotificationsReceiver: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>,
-  setUserNames: React.Dispatch<React.SetStateAction<{ sender: string | null; receiver: string | null }[]>>,
-  openModal: (newTitle: React.ReactNode) => void
+  setUserNames: React.Dispatch<React.SetStateAction<{ sender: string | null; receiver: string | null }[]>>
 ) => {
   useEffect(() => {
     const fetchUserNames = async () => {
@@ -50,7 +50,6 @@ export const useFetchUserNamesInNotiBell = (
     if (notificationData.length > 0) {
       fetchUserNames();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData, currentUser, getUser1NameNotification, getUser2NameNotification]);
 };
 

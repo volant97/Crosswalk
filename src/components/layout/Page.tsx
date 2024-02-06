@@ -14,7 +14,7 @@ interface PageProps {
 /**모든 페이지를 wrapping 하는 컴포넌트 */
 function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children }: PropsWithChildren<PageProps>) {
   return (
-    <main id="page" className="relative">
+    <div id="page" className="relative">
       {/* Header */}
       {/* 받은요청함 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && !noBackMain && !cs && <Header />}
@@ -38,17 +38,17 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {!noHeader && !noBack && noNotiBell && noNavBar && noBackMain && !cs && <Header noBackMain noNotiBell />}
 
       {/* Main */}
-      <div
+      <main
         className={`${
           noNavBar ? 'h-[calc(100dvh-9dvh)]' : 'h-[calc(100dvh-9dvh-8.8dvh)]'
         } overflow-y-scroll scrollbar-hide`}
       >
         {children}
-      </div>
+      </main>
 
       {/* NabBar */}
       {noNavBar ? null : <NavBar />}
-    </main>
+    </div>
   );
 }
 

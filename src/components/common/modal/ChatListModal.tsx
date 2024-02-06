@@ -31,8 +31,10 @@ const useChatListModal = () => {
           <div>
             <ModalHeader className="flex items-center flex-col text-center gap-2 text-[20px]">
               <Image className="w-[52px] h-[52px]" src={alertImg} width={100} height={100} alt="깨진 하트 이미지" />
-              <p>요청받은 사람이 확인중이에요.</p>
-              <p>신호등이 켜지길 기다려주세요.</p>
+              <>
+                <p>신호등이 빨간불일 때는</p>
+                <p>대화를 할 수 없어요.</p>
+              </>
             </ModalHeader>
             <ModalFooter className="flex flex-col items-center justify-center h-2.625  px-1.25 gap-0.625 w-15 gap-2">
               <Button

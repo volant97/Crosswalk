@@ -3,7 +3,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
 import { getUser1NameNotification, getUser2NameNotification, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useNotificationActions from '@/hooks/useNotificationActions';
@@ -53,8 +53,7 @@ function NotiBell() {
     getUser2NameNotification,
     setFilteredNotificationsSender,
     setFilteredNotificationsReceiver,
-    setUserNames,
-    openModal
+    setUserNames
   );
 
   return (
@@ -75,10 +74,8 @@ function NotiBell() {
                 height={8}
                 className="absolute top-0 right-0"
               />
-            ) : (
-              // 알림없음
-              <p></p>
-            )}
+            ) : // 알림없음
+            null}
           </Link>
         </div>
       ) : (

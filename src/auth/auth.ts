@@ -11,5 +11,5 @@ export const getUser = async () => {
 /**로그아웃 */
 export async function logout() {
   const { error } = await supabase.auth.signOut();
-  if (error) console.error('logout error : ', error);
+  if (error) console.error('로그아웃 중 에러가 발생하였습니다.', error);
 }

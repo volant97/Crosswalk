@@ -27,7 +27,7 @@ function NavBar() {
       const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
       setLastMsg(lastMessageArray);
     } catch (error) {
-      console.error('fetchChatList에서 에러 발생', error);
+      console.error('fetchChatList에서 에러가 발생하였습니다.', error);
       alert('서버와의 통신을 실패했습니다.');
     }
   };
