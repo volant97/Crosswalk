@@ -7,7 +7,8 @@ function MainPage() {
   return (
     <Page noBack>
       <UserCards />
-      <DataDeletionNotice />
+      {/* DB 리셋 안내 제작중 */}
+      {/* <DataDeletionNotice /> */}
     </Page>
   );
 }
