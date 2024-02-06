@@ -51,7 +51,7 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px] border-none"
                 type="submit"
               >
                 확인
@@ -94,7 +94,7 @@ const useRequestModal = (listId: number) => {
                     openModal('서버와의 통신 중 에러가 발생했습니다.');
                   }
                 }}
-                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px]"
+                className="w-[15rem] rounded-3xl cursor-pointer mb-0 font-medium bg-customGreen3 text-white text-[16px] border-none"
                 type="submit"
               >
                 확인

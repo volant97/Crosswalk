@@ -1,7 +1,13 @@
-import React from 'react';
+'use client';
+import { useRouter } from 'next/navigation';
 
 function CustomerService() {
-  return <div>고객센터 제작중</div>;
+  // 고객센터 제작중
+  const router = useRouter();
+
+  router.push('/customer-service/contact');
+
+  return null;
 }
 
 export default CustomerService;

@@ -1,18 +1,16 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RequestCard from './RequestCard';
 import { FlirtingListRequestType } from '@/types/flirtingListType';
 import useAlertModal from '../common/modal/AlertModal';
-import { supabase } from '@/lib/supabase-config';
 import {
   changeStatusToRead,
   getCustomFlirtingListAtRequest,
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
 } from '@/lib/api/requestApi';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { registerState } from '@/recoil/register';
+import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 
 const ReceivedRequest = () => {
@@ -59,7 +57,6 @@ const ReceivedRequest = () => {
     // 실시간 realtime
     // callback
     subscribeRequestedFlirtingList((payload: any) => {
-      // console.log('요청함 payload : ', payload);
       landingRequest();
     });
 

@@ -25,9 +25,6 @@ function StartOrRegister() {
     !!user?.profile?.uid &&
     !!user?.profile?.user_img;
 
-  // if (!user?.profile?.interest && !user?.id) return;
-  // const isProfileFilled = user?.profile?.interest?.length !== 0;
-
   return user ? (
     isProfileFilled ? (
       <Button className="w-full h-full bg-customGreen3 rounded-3xl cursor-pointer">
