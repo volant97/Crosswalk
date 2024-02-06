@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
 import Provider from '@/components/provider/Provider';
+import type { Metadata } from 'next';
 import type { Props } from '@/types/childrenPropsType copy';
 import './globals.css';
 

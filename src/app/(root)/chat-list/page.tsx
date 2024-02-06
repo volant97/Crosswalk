@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import Page from '@/components/layout/Page';
-import { fetchLastMessages, getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
-import { UserState, userState } from '@/recoil/user';
-import { ChatListType } from '@/types/realTimeType';
-import useAlertModal from '@/components/common/modal/AlertModal';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import { fetchLastMessages, getChatList, subscribeChatList, untrackChatList } from '@/lib/api/SupabaseApi';
+import Page from '@/components/layout/Page';
+import useAlertModal from '@/components/common/modal/AlertModal';
 import useChatListModal from '@/components/common/modal/ChatListModal';
 import { RenderListItem } from '@/components/message/RenderListItem';
+import type { ChatListType } from '@/types/realTimeType';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
 
 // 캐싱처리
 let cachedData = [] as LastMessageArrayType;
@@ -18,8 +15,8 @@ let cachedData = [] as LastMessageArrayType;
 export default function ChatListPage() {
   const [chatList, setChatList] = useState<ChatListType[]>();
   const [lastMsg, setLastMsg] = useState<LastMessageArrayType>(cachedData);
-  const { openModal, AlertModal } = useAlertModal();
-  const { openModal: openChatListModal, AlertChatListModal } = useChatListModal();
+  const { AlertModal } = useAlertModal();
+  const { AlertChatListModal } = useChatListModal();
 
   const fetchChatListData = async () => {
     try {
@@ -29,7 +26,6 @@ export default function ChatListPage() {
       const lastMessageArray = await fetchLastMessages(roomIds);
       cachedData = lastMessageArray;
       setLastMsg(lastMessageArray);
-      // console.log('lastMsg in fetchChatListData', lastMsg);
     } catch (error) {
       console.error('error in fetchChatList', error);
       alert('서버와의 통신을 실패했습니다.');
@@ -38,7 +34,6 @@ export default function ChatListPage() {
 
   useEffect(() => {
     subscribeChatList((payload: any) => {
-      // console.log('payload:', payload);
       fetchChatListData();
     });
     fetchChatListData();

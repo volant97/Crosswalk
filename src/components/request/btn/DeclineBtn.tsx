@@ -1,5 +1,5 @@
-import useRequestModal from '@/components/common/modal/RequestModal';
 import React from 'react';
+import useRequestModal from '@/components/common/modal/RequestModal';
 
 type Props = {
   listId: number;

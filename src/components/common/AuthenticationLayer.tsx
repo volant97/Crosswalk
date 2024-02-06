@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 import { supabase } from '@/lib/supabase-config';
 import Loading from './Loading';
-import { RegisterType } from '@/types/registerType';
+import type { RegisterType } from '@/types/registerType';
 import type { Props } from '@/types/childrenPropsType copy';
 
 function AuthenticationLayer({ children }: Props) {
   const [isAuthInitialized, setIsAuthInitialized] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
+  const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
     const { data: authlistener } = supabase.auth.onAuthStateChange((event, session) => {

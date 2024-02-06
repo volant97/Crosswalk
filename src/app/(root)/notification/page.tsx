@@ -1,6 +1,6 @@
+import React from 'react';
 import Page from '@/components/layout/Page';
 import NotificationList from '@/components/notification/NotificationList';
-import React from 'react';
 
 function Notification() {
   return (

@@ -6,8 +6,6 @@ import ConfirmModal from '@/components/common/modal/ConfirmModal';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
-import useForm from '@/hooks/useForm';
-import { RegisterType } from '@/types/registerType';
 import InputAvatar from './InputAvatar';
 import InputName from './InputName';
 import InputGender from './InputGender';
@@ -16,6 +14,8 @@ import InputAge from './InputAge';
 import InputHeight from './InputHeight';
 import InputInterest from './InputInterest';
 import InputImage from './InputImage';
+import useForm from '@/hooks/useForm';
+import type { RegisterType } from '@/types/registerType';
 
 const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
 const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];

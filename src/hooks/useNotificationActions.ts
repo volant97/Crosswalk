@@ -1,5 +1,4 @@
 import { FlirtingListInNotificationType } from '@/types/flirtingListType';
-import { useState } from 'react';
 
 export const useNotificationActions = (
   notificationData: FlirtingListInNotificationType[],

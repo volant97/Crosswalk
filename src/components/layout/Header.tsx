@@ -1,8 +1,8 @@
 import React from 'react';
-import NotiBell from '../common/ui/NotiBell';
 import Link from 'next/link';
 import Image from 'next/image';
 import GoToBackBtn from './GoToBackBtn';
+import NotiBell from '../common/ui/NotiBell';
 import serviceImg from '@assets/figmaImg/contact.png';
 
 interface PageProps {

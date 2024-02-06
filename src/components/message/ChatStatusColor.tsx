@@ -1,7 +1,7 @@
-import { Avatar } from '@nextui-org/react';
+import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import { Avatar } from '@nextui-org/react';
 
 export function ChatStatusColor(
   status: string | undefined,

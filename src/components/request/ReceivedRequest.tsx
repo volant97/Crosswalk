@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
 import RequestCard from './RequestCard';
-import { FlirtingListRequestType } from '@/types/flirtingListType';
 import useAlertModal from '../common/modal/AlertModal';
 import {
   changeStatusToRead,
@@ -10,13 +12,13 @@ import {
   subscribeRequestedFlirtingList,
   untrackRequestedFlirtingList
 } from '@/lib/api/requestApi';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/recoil/user';
+import type { FlirtingListRequestType } from '@/types/flirtingListType';
 
 const ReceivedRequest = () => {
   const { openModal } = useAlertModal();
+
   const [flirtingList, setFlirtingList] = useState<FlirtingListRequestType[] | null>(null);
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const uid = user?.id;
 
   /**플러팅리스트 데이터와 커스텀유저의 데이터를 커스텀하여 가져옴 */
@@ -42,7 +44,7 @@ const ReceivedRequest = () => {
     }
   };
 
-  /**!! 랜딩 : 동작하는 함수 묶어서 비동기 처리 */
+  /**랜딩 : 동작하는 함수 묶어서 비동기 처리 */
   const landingRequest = async () => {
     await ChangeIsReadInNoti();
     await getRequestedFlirtingData();
@@ -67,8 +69,6 @@ const ReceivedRequest = () => {
     return () => {
       untrackRequestedFlirtingList();
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   return (

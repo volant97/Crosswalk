@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
+
 import { Fragment, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
 import { getUser1NameNotification, getUser2NameNotification, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useAlertModal from '@/components/common/modal/AlertModal';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/recoil/user';
 import useFetchNotificationData from '@/hooks/useFetchNotificationData';
 import useToggleIsReadInNoticeBoard from '@/hooks/useToggleIsReadInNotiList';
 import NotificationItem from './NotificationItem';
@@ -11,23 +13,23 @@ import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
-  const [currentUser, setCurrentUser] = useRecoilState(userState);
+
+  const currentUser = useRecoilValue(userState);
   const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
   const [userNames, setUserNames] = useState<
     { sender: { name: string; uid: string } | null; receiver: { name: string; uid: string } | null }[]
   >([]);
+
   const fetchNotificationData = useFetchNotificationData(setNotificationData, openModal);
   const { toggleIsReadInNoticeBoardSenderSide, toggleIsReadInNoticeBoardReceiverSide } =
     useToggleIsReadInNoticeBoard(openModal);
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
-      // console.log('payload입니다:', payload);
       fetchNotificationData();
     });
 
     fetchNotificationData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -35,10 +37,9 @@ const NotificationList = () => {
       try {
         const names = await Promise.all(
           notificationData.map(async (notification) => {
+            // Todo : any타입
             const senderData: any = await getUser1NameNotification(notification);
             const receiverData: any = await getUser2NameNotification(notification);
-            // console.log('senderData', senderData);
-            // console.log('receiverData', receiverData);
             return {
               sender: {
                 name: senderData[0]?.name || 'unknown',
@@ -52,9 +53,7 @@ const NotificationList = () => {
           })
         );
         setUserNames(names);
-      } catch (error) {
-        // openModal('서버와의 통신 중 에러가 발생했습니다.');
-      }
+      } catch (error) {}
     };
 
     if (notificationData.length > 0) {

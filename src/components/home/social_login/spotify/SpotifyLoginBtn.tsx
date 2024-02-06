@@ -1,7 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import { spotifyLogin } from '@/auth/spotify';
 import spotify from '@assets/login/spotify.png';
-import Image from 'next/image';
 
 function SpotifyLoginBtn() {
   return (

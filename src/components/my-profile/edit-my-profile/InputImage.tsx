@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 import { LuPencil } from 'react-icons/lu';
 import { PiPlusThin } from 'react-icons/pi';
 

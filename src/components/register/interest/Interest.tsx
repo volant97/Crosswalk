@@ -1,22 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
-import interestData from '../../../data/interestData.json';
-import { useRecoilState } from 'recoil';
-import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import useAlertModal from '@/components/common/modal/AlertModal';
+import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
+import useAlertModal from '@/components/common/modal/AlertModal';
 import { postRegister } from '@/lib/api/SupabaseApi';
+import interestData from '../../../data/interestData.json';
+import { Button } from '@nextui-org/react';
 
 function Interest() {
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
+
   const { interests } = interestData;
   const [register, setRegister] = useRecoilState(userState);
   const uid = register?.id;
   const [activeStates, setActiveStates] = useState<string[]>([]);
-  const maxSelectedInterests = 3; // 최대 선택 가능한 관심사 개수
-  const router = useRouter();
-  const { openModal, AlertModal } = useAlertModal();
 
   const handleInterestClick = (interest: string) => {
     if (activeStates.includes(interest)) {

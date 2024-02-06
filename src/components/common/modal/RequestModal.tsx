@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
-import { RiLightbulbFlashFill } from 'react-icons/ri';
 import { handleAcceptBtn, handleDeclinetBtn } from '@/lib/api/requestApi';
+import { RiLightbulbFlashFill } from 'react-icons/ri';
+import { Modal, ModalContent, ModalHeader, ModalFooter, Button, ModalProps } from '@nextui-org/react';
 
 const useRequestModal = (listId: number) => {
+  const backdrop = 'blur';
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
-  const backdrop = 'blur';
 
   const openModal = (title: string) => {
     setTitle(title);

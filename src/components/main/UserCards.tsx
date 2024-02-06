@@ -1,24 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getUnMatchedData } from '@/lib/api/SupabaseApi';
+import { useRouter } from 'next/navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
+import { nextSlideState } from '@/recoil/nextSlide';
+import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import useAlertModal from '../common/modal/AlertModal';
-
-import SkeletonMain from './SkeletonMain';
 import Buttons from './Buttons';
+import { SwiperClass } from 'swiper/react';
 import SwiperCards from './SwiperCards';
+import SkeletonMain from './SkeletonMain';
 import { Spacer } from '@nextui-org/react';
-import { nextSlideState } from '@/recoil/nextSlide';
-import { useRouter } from 'next/navigation';
 import type { unMatchedDataType } from '@/types/registerType';
 
-// Import Swiper React components
-import { SwiperClass } from 'swiper/react';
-
 function UserCards() {
+  const router = useRouter();
+  const { openModal, AlertModal } = useAlertModal();
+  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
+
   const [userCards, setUserCards] = useState<any[]>([]);
   const [userUids, setUserUids] = useState<string[]>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
@@ -27,23 +29,15 @@ function UserCards() {
   const [isHateEffect, setIsHateEffect] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isClickedIndex, setIsClickedIndex] = useState<number | null>(null);
-
   const [isSwitchNextSlide, setIsSwitchNextSlide] = useRecoilState(nextSlideState);
   const registerData = useRecoilValue(userState);
   const myGender = registerData?.profile?.gender;
   const myUid = registerData?.profile?.uid;
 
-  const router = useRouter();
-
-  const { openModal, AlertModal } = useAlertModal();
-  const { openFlirtingModal, flirtingModal } = useFlirtingModal();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserCards = async () => {
     try {
       if (!myUid) return;
       if (!myGender) return;
-      // setIsLoading(true);
       const fetchedUserCards = await getUnMatchedData(myUid, myGender);
       if (!fetchedUserCards) return;
 
@@ -52,7 +46,7 @@ function UserCards() {
       setUserUids(uids);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching my posts:', error);
+      console.error('유저카드를 불러오는 도중 문제가 발생하였습니다.', error);
       openModal('불러오는 도중 문제가 발생하였습니다.');
     }
   };
@@ -89,7 +83,6 @@ function UserCards() {
 
   useEffect(() => {
     getUserCards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   useEffect(() => {
@@ -119,10 +112,8 @@ function UserCards() {
   }
 
   return (
+    // Todo : PWA scale-[100%]
     <div className="relative w-full h-full scale-[88%]">
-      {/* 
-    PWA용
-    <div className="relative w-full"> */}
       {isLoading ? (
         <SkeletonMain />
       ) : (

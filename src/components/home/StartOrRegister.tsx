@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import SocialLogin from './social_login/SocialLogin';
-import { useRecoilState } from 'recoil';
-import { Button } from '@nextui-org/react';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
+import SocialLogin from './social_login/SocialLogin';
+import { Button } from '@nextui-org/react';
 import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
 
 function StartOrRegister() {
-  const [user, setUser] = useRecoilState(userState);
   const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
+  const user = useRecoilValue(userState);
 
   const isProfileFilled =
     !!user?.profile?.age &&

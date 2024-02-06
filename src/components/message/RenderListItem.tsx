@@ -1,12 +1,13 @@
 'use client';
-import { ChatListType } from '@/types/realTimeType';
-import { useRecoilState } from 'recoil';
-import useChatListModal from '@/components/common/modal/ChatListModal';
+import { useRecoilValue } from 'recoil';
 import { UserState, userState } from '@/recoil/user';
 import { useRouter } from 'next/navigation';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import useChatListModal from '@/components/common/modal/ChatListModal';
 import { ChatStatusColor } from '@/components/message/ChatStatusColor';
 import { formatDate } from '../../hooks/useFormatDate';
+import type { ChatListType } from '@/types/realTimeType';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import useAlertModal from '../common/modal/AlertModal';
 
 export const RenderListItem = ({
   list,
@@ -17,17 +18,22 @@ export const RenderListItem = ({
   idx: number;
   lastMsg: LastMessageArrayType;
 }) => {
+  const router = useRouter();
   const { openModal: openChatListModal, AlertChatListModal } = useChatListModal();
-  const [getUid, setGetUid] = useRecoilState<UserState>(userState);
+  const { openModal: openAlertModal, AlertModal } = useAlertModal();
+
+  const getUid = useRecoilValue<UserState>(userState);
   const isSender = getUid?.id === list.flirting_list.sender_uid.uid;
   const otherUser = isSender ? list.flirting_list.receiver_uid : list.flirting_list.sender_uid;
   const statusMessage = isSender ? '상대방의 수락을 기다리고 있어요.' : '회원님의 수락을 기다리고 있어요.';
-  const router = useRouter();
 
   const routerLink = (linkId: string, status: string) => {
+    console.log('status', status);
     if (status === 'ACCEPT' || status === 'SOULMATE') {
       router.push(`/chat-list/${linkId}`);
-    } else return openChatListModal();
+    } else if (status === 'DECLINE') {
+      return openChatListModal();
+    }
   };
 
   return (
@@ -39,7 +45,12 @@ export const RenderListItem = ({
       onClick={() => {
         if (!lastMsg) return;
         if (lastMsg[idx] === null) {
-          return openChatListModal();
+          return openAlertModal(
+            <>
+              <p>요청받은 사람이 확인중이에요.</p>
+              <p>신호등이 켜지길 기다려주세요.</p>
+            </>
+          );
         } else {
           routerLink(list.id, list.flirting_list.status);
         }
@@ -88,6 +99,7 @@ export const RenderListItem = ({
         )}
       </div>
       {AlertChatListModal()}
+      {AlertModal()}
     </li>
   );
 };

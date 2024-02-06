@@ -5,9 +5,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase-config';
 import { getOtherPersonCustomUsers } from '@/lib/api/otherPersonProfile';
-import { getSoulmateStatus } from '@/types/etcType';
-import { unNullRegisterType } from '@/types/registerType';
 import { Skeleton } from '@nextui-org/react';
+import type { getSoulmateStatus } from '@/types/etcType';
+import type { unNullRegisterType } from '@/types/registerType';
 
 type Props = {
   otherPersonId: string;
@@ -51,7 +51,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
         return setCheckSoulmate(true);
       }
 
-      if (error) return console.error('status 가져오기 에러 : ', error);
+      if (error) return console.error('status를 가져오는 중 에러가 발생하였습니다.', error);
     } catch (error) {
       alert('서버와의 통신을 실패했습니다.');
     }

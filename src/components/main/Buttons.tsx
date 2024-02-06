@@ -1,7 +1,7 @@
 import React from 'react';
-import SlideButon from '../SlideButton';
-import Button from '../Button';
 import Image from 'next/image';
+import SlideButton from './SlideButton';
+import Button from './Button';
 
 type Props = {
   firstNextSlide: () => void;
@@ -12,7 +12,7 @@ type Props = {
 function Buttons({ firstNextSlide, swiper, handleLike }: Props) {
   return (
     <div className="flex gap-3 justify-between gap-x-2 px-[5px]">
-      <SlideButon
+      <SlideButton
         nextCard={() => {
           firstNextSlide();
           if (swiper) {
@@ -25,7 +25,7 @@ function Buttons({ firstNextSlide, swiper, handleLike }: Props) {
       >
         <Image src="/assets/figmaImg/nothanks.png" width={16} height={16} alt="no thanks" />{' '}
         <p className="text-gray-666">괜찮아요</p>
-      </SlideButon>
+      </SlideButton>
 
       <Button
         openFlirtingModal={() => {

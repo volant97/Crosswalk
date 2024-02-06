@@ -11,13 +11,13 @@ type Props = {
 
 function Provider({ children }: Props) {
   // 개발자 도구 막기 (dev mode)
-  const handleContextMenu = (e: any) => {
+  const handleContextMenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault(); // 우클릭 시 기본 동작 막기
     // 원하는 작업 수행
   };
 
   useEffect(() => {
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       // F12 키의 keyCode는 123입니다.
       if (e.keyCode === 123) {
         e.preventDefault();

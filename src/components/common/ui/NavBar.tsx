@@ -11,8 +11,8 @@ import HomeIcon from './HomeIcon';
 import RequestIcon from './RequestIcon';
 import ChatListIcon from './ChatListIcon';
 import MyProfileIcon from './MyProfileIcon';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
-import { ChatListType } from '@/types/realTimeType';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import type { ChatListType } from '@/types/realTimeType';
 
 function NavBar() {
   const pathname = usePathname();
@@ -27,7 +27,7 @@ function NavBar() {
       const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
       setLastMsg(lastMessageArray);
     } catch (error) {
-      console.error('fetchChatList에서 에러 발생', error);
+      console.error('fetchChatList에서 에러가 발생하였습니다.', error);
       alert('서버와의 통신을 실패했습니다.');
     }
   };

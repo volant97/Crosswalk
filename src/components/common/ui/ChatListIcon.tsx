@@ -1,9 +1,9 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { UserState, userState } from '@/recoil/user';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LastMessageArrayType } from '@/types/lastMessageArrayType';
+import { useRecoilValue } from 'recoil';
+import { UserState, userState } from '@/recoil/user';
+import type { LastMessageArrayType } from '@/types/lastMessageArrayType';
 
 function ChatListIcon({
   pathname,

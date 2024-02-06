@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import type { RegisterType } from '@/types/registerType';
-import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
 import { useRecoilValue } from 'recoil';
-import MyCard from './MyCard';
 import { userState } from '@/recoil/user';
+import { getAllData, postRegister } from '@/lib/api/SupabaseApi';
+import MyCard from './MyCard';
+import type { RegisterType } from '@/types/registerType';
 
 function MyProfile() {
   const [userCards, setUserCards] = useState<RegisterType[]>([]);
@@ -18,7 +19,7 @@ function MyProfile() {
       const userCards = await getAllData();
       setUserCards(userCards);
     } catch (error) {
-      console.error('Error fetching my posts:', error);
+      console.error('유저카드를 불러오는 도중 문제가 발생하였습니다.', error);
       alert('불러오는 도중 문제가 발생하였습니다.');
     }
   };
@@ -39,7 +40,6 @@ function MyProfile() {
 
   useEffect(() => {
     updateProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerData]);
 
   return (

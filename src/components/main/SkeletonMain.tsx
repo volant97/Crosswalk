@@ -1,9 +1,9 @@
 import React from 'react';
-import { Skeleton } from '@nextui-org/react';
 import Image from 'next/image';
+import Button from './Button';
+import SlideButon from './SlideButton';
+import { Skeleton } from '@nextui-org/react';
 import { IoClose } from 'react-icons/io5';
-import SlideButton from '../SlideButton';
-import Button from '../Button';
 
 export default function SkeletonMain() {
   return (
@@ -11,11 +11,9 @@ export default function SkeletonMain() {
       <Skeleton className="rounded-[24px] w-full min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] px-[4px]"></Skeleton>
 
       <div className="w-full flex gap-2">
-        {/* <Skeleton className="flex rounded-full w-full h-[50px]" />
-        <Skeleton className="flex rounded-full w-full h-[50px" /> */}
-        <SlideButton nextCard={() => {}} color="default" size="lg" disabled={true}>
+        <SlideButon nextCard={() => {}} color="default" size="lg" disabled={true}>
           <IoClose size={20} /> 괜찮아요
-        </SlideButton>
+        </SlideButon>
 
         <Button openFlirtingModal={() => {}} color="green" size="lg" disabled={true}>
           <Image src="/assets/button/heart-white.png" width={20} height={20} alt="heart" />{' '}

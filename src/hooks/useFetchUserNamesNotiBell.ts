@@ -1,8 +1,7 @@
-// useFetchUserNames.js
-
-import { UserState } from '@/recoil/user';
-import { FlirtingListInNotificationType } from '@/types/flirtingListType';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import { UserState } from '@/recoil/user';
+import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 export const useFetchUserNamesInNotiBell = (
   notificationData: FlirtingListInNotificationType[],
@@ -11,8 +10,7 @@ export const useFetchUserNamesInNotiBell = (
   getUser2NameNotification: (notification: FlirtingListInNotificationType) => Promise<any>,
   setFilteredNotificationsSender: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>,
   setFilteredNotificationsReceiver: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>,
-  setUserNames: React.Dispatch<React.SetStateAction<{ sender: string | null; receiver: string | null }[]>>,
-  openModal: (newTitle: React.ReactNode) => void
+  setUserNames: React.Dispatch<React.SetStateAction<{ sender: string | null; receiver: string | null }[]>>
 ) => {
   useEffect(() => {
     const fetchUserNames = async () => {
@@ -45,14 +43,13 @@ export const useFetchUserNamesInNotiBell = (
 
         setUserNames(names);
       } catch (error) {
-        // openModal('서버와의 통신 중 에러가 발생했습니다.');
+        console.error('서버와의 통신 중 에러가 발생했습니다.');
       }
     };
 
     if (notificationData.length > 0) {
       fetchUserNames();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData, currentUser, getUser1NameNotification, getUser2NameNotification]);
 };
 

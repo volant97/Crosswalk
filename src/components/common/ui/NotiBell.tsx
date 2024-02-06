@@ -1,20 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { getUser1NameNotification, getUser2NameNotification, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
-import { FlirtingListInNotificationType } from '@/types/flirtingListType';
-import Link from 'next/link';
 import React, { Fragment, useEffect, useState } from 'react';
-import { HiOutlineBell } from 'react-icons/hi2';
-import { useRecoilState } from 'recoil';
-import useAlertModal from '../modal/AlertModal';
+import Link from 'next/link';
 import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/user';
+import { getUser1NameNotification, getUser2NameNotification, subscribeFlirtingList } from '@/lib/api/SupabaseApi';
 import useNotificationActions from '@/hooks/useNotificationActions';
 import useFetchNotificationData from '@/hooks/useFetchNotificationData';
 import useFetchUserNamesInNotiBell from '@/hooks/useFetchUserNamesNotiBell';
+import useAlertModal from '../modal/AlertModal';
+import { HiOutlineBell } from 'react-icons/hi2';
+import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 function NotiBell() {
   const { openModal } = useAlertModal();
-  const [currentUser, setCurrentUser] = useRecoilState(userState);
+
+  const currentUser = useRecoilValue(userState);
   const [notificationData, setNotificationData] = useState<FlirtingListInNotificationType[]>([]);
   const [userNames, setUserNames] = useState<{ sender: string | null; receiver: string | null }[]>([]);
 
@@ -34,7 +36,6 @@ function NotiBell() {
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
-      // console.log('payload입니다:', payload);
       fetchNotificationData();
       popSenderData();
       popReceiverData();
@@ -43,7 +44,6 @@ function NotiBell() {
     });
 
     fetchNotificationData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useFetchUserNamesInNotiBell(
@@ -53,12 +53,9 @@ function NotiBell() {
     getUser2NameNotification,
     setFilteredNotificationsSender,
     setFilteredNotificationsReceiver,
-    setUserNames,
-    openModal
+    setUserNames
   );
 
-  // console.log('filteredNotificationsSender', filteredNotificationsSender);
-  // console.log('filteredNotificationsReceiver', filteredNotificationsReceiver);
   return (
     <Fragment>
       {Number(notificationData?.length) > 0 ? (
@@ -77,10 +74,8 @@ function NotiBell() {
                 height={8}
                 className="absolute top-0 right-0"
               />
-            ) : (
-              // 알림없음
-              <p></p>
-            )}
+            ) : // 알림없음
+            null}
           </Link>
         </div>
       ) : (

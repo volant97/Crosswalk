@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import React from 'react';
-import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
+import Image from 'next/image';
 import MyCardAvatar from './MyCardAvatar';
 import MyInfo from './MyInfo';
 import MyAdditionalInfo from './MyAdditionalInfo';
+import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
 
 type Props = {
   age: number | null;
@@ -17,6 +17,7 @@ type Props = {
 
 function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
   const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
+
   return (
     <div className="relative">
       <div className="relative">

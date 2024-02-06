@@ -2,7 +2,7 @@ import { getNotificationDetail } from '@/lib/api/SupabaseApi';
 import { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 export const useFetchNotificationData = (
-  setNotificationData: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>, // 쉼표 추가
+  setNotificationData: React.Dispatch<React.SetStateAction<FlirtingListInNotificationType[]>>,
   openModal: (newTitle: React.ReactNode) => void
 ) => {
   const fetchNotificationData = async () => {
