@@ -61,11 +61,6 @@ function MyProfile() {
             </div>
           );
         })}
-      {/* <Link href={'/customer-service/contact'}>
-        <div className="flex justify-end mt-[10px] pr-[10px] cursor-pointer">
-          <p className="text-gray-888">고객센터</p>
-        </div>
-      </Link> */}
     </div>
   );
 }
