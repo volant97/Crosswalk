@@ -1,14 +1,14 @@
 'use client';
-import ConfirmModal from '@/components/common/modal/ConfirmModal';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/user';
 import { PiPlusThin } from 'react-icons/pi';
 import { LuPencil } from 'react-icons/lu';
-import { useRecoilValue } from 'recoil';
+import ConfirmModal from '@/components/common/modal/ConfirmModal';
+import useAlertModal from '@/components/common/modal/AlertModal';
 import MbtiModal from '../../common/modal/MbtiModal';
 import InterestModal from '../../common/modal/InterestModal';
-import { userState } from '@/recoil/user';
-import useAlertModal from '@/components/common/modal/AlertModal';
 import useForm from '@/hooks/useForm';
 
 const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
@@ -204,7 +204,7 @@ function EditMyProfile() {
                 className="hidden"
               />
               {selectedImg === '' ? (
-                // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
+                // Todo : 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
                 <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
                   <PiPlusThin size={50} className="fill-gray-E6" />
                 </div>
@@ -232,167 +232,3 @@ function EditMyProfile() {
 }
 
 export default EditMyProfile;
-
-{
-  /* <div className=" mt-[-30px] h-[30rem] overflow-y-auto scrollbar-hide rounded-[1.5rem]">
-        <div className=" flex flex-col h-[54.8rem]  rounded-[1.5rem]  px-[1.25rem] bg-customGreen2">
-          <form onSubmit={onSubmitHandelr}> */
-}
-{
-  /* <div className="flex flex-col mt-[2.75rem] mb-[1.5rem] ">
-              <label className="text-[1.125rem] mb-[0.5rem] font-semibold">이름</label>
-              <input
-                value={name}
-                onChange={nameHandler}
-                type="text"
-                name="name"
-                id="id"
-                className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
-                autoComplete="off"
-              />
-            </div> */
-}
-{
-  /* <div className="mb-[1.5rem]">
-              <p className="text-[1.125rem] mb-[0.5rem] font-semibold">성별</p>
-              <Button
-                value={gender}
-                type="button"
-                className={`w-[45%] mr-[0.5rem] py-2 px-6 bg-white rounded-full cursor-pointer border ${
-                  gender === 'M' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                }`}
-                onClick={() => {
-                  setGender('M');
-                }}
-              >
-                남자
-              </Button>
-              <Button
-                value={gender}
-                type="button"
-                className={`w-[45%] py-2 px-6 bg-white rounded-full cursor-pointer border ${
-                  gender === 'F' ? 'border-2 font-semibold border-black text-black' : 'border-gray-DDD text-gray-AAA'
-                }`}
-                onClick={() => {
-                  setGender('F');
-                }}
-              >
-                여자
-              </Button>
-            </div> */
-}
-{
-  /* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
-              <p className="font-semibold mb-[0.5rem]">MBTI</p>
-              <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full">
-                {myInfo?.mbti}
-              </div>
-              <div
-                onClick={() => {
-                  openMbtiModal();
-                }}
-                className="absolute left-[55px] top-[40px] flex items-center justify-center capitalize w-[30px] h-[30px] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
-              >
-                <LuPencil size={13} />
-              </div>
-            </div> */
-}
-{
-  /* <div className="flex flex-col  mb-[1.5rem] ">
-              <label className="text-[1.125rem] mb-[0.5rem] font-semibold">나이</label>
-              <input
-                value={String(age)}
-                onChange={ageHandler}
-                type="text"
-                name="age"
-                id="age"
-                className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
-                autoComplete="off"
-              />
-            </div> */
-}
-{
-  /* <div className="flex flex-col  mb-[1.5rem] ">
-              <label className="text-[1.125rem] mb-[0.5rem] font-semibold">키</label>
-              <input
-                value={String(height)}
-                onChange={heightHandler}
-                type="text"
-                name="height"
-                id="height"
-                className="border-1 px-[1.25rem] py-[0.5rem] rounded-[3.13rem] border-gray-DDD"
-                autoComplete="off"
-              />
-            </div> */
-}
-{
-  /* <div className="relative flex flex-col flex-wrap mb-[1.5rem]">
-              <p className="font-semibold mb-[0.5rem]">관심사</p>
-              <div className="flex flex-row gap-[0.38rem]">
-                <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] rounded-full text-xs font-semibold">
-                  {myInfo?.interest?.[0]}
-                </div>
-                <div className="flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] text-xs rounded-full font-semibold">
-                  {myInfo?.interest?.[1]}
-                </div>
-                <div className=" flex justify-center items-center border-2 border-solid border-black w-[4.375rem] h-[2.5rem] text-xs rounded-full font-semibold">
-                  {myInfo?.interest?.[2]}
-                </div>
-                <div
-                  onClick={() => {
-                    openInterestModal();
-                  }}
-                  className="absolute right-[40px] top-[40px] flex items-center justify-center capitalize w-[1.875rem] h-[1.875rem] bg-lightGreen rounded-full cursor-pointer hover:scale-110"
-                >
-                  <LuPencil size={13} />
-                </div>
-              </div>
-            </div> */
-}
-{
-  /* <div className="relative flex flex-col mb-[1.5rem]">
-              <p className="font-semibold mb-[0.5rem]">사진</p>
-
-              {selectedImg === '' ? (
-                <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
-                  <PiPlusThin size={50} className="fill-gray-E6" />
-                </div>
-              ) : (
-                <div className="">
-                  <Image
-                    className="w-[7.5rem] h-[10.25rem] rounded-[1rem] object-cover"
-                    src={selectedImg}
-                    alt="업로드이미지"
-                    width={300}
-                    height={300}
-                  />
-                </div>
-              )}
-              <label htmlFor="usersImg">
-                <input type="file" accept="image/*" id="usersImg" onChange={previewImg} className="hidden" />
-                <div className="absolute left-[105px] bottom-[-10px] flex items-center justify-center capitalize w-[1.875rem] h-[1.875rem] bg-lightGreen rounded-full cursor-pointer hover:scale-110">
-                  <LuPencil size={13} />
-                </div>
-              </label>
-            </div>
-            <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
-          </form>
-        </div>
-      </div>
-      {mbtiModal()}
-      {interestModal()}
-    </div>
-  );
-            </div> */
-}
-
-{
-  /* <ConfirmModal name={name} age={age} height={height} gender={gender} file={file} selectedImg={selectedImg} />
-          </form> */
-}
-{
-  /* </div> */
-}
-{
-  /* </div> */
-}
