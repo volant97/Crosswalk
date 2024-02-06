@@ -1,4 +1,3 @@
-import Page from '@/components/layout/Page';
 import React from 'react';
 import StartOrRegister from '@/components/home/StartOrRegister';
 import Image from 'next/image';
