@@ -1,7 +1,6 @@
-import Page from '@/components/layout/Page';
-import { Button } from '@nextui-org/react';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+import { Button } from '@nextui-org/react';
 
 function notFound() {
   return (

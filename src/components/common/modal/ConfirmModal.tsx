@@ -24,7 +24,6 @@ function ConfirmModal({ name, height, age, selectedImg, file, avatar }: Props) {
   const { openModal, AlertModal } = useAlertModal();
   const [registerData, setRegisterData] = useRecoilState(userState);
   const myInfo = registerData?.profile;
-  // const { uid } = useRecoilValue(isUserState);
   const uid = registerData?.id;
   const [isLoading, setIsLoading] = useState<any>(false);
 
