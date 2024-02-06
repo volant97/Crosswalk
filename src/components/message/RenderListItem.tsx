@@ -89,6 +89,7 @@ export const RenderListItem = ({
           </div>
         )}
       </div>
+      {AlertChatListModal()}
     </li>
   );
 };

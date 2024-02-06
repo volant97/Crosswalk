@@ -19,6 +19,9 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
 import { formatDate } from '@/hooks/useFormatDate';
 import useFetchNotificationData from '@/hooks/useFetchNotificationData';
+import useFetchUserNamesInNotiBell from '@/hooks/useFetchUserNamesNotiBell';
+import useToggleIsReadInNoticeBoard from '@/hooks/useToggleIsReadInNotiList';
+// import useFetchUserNamesNotiList from '@/hooks/useFetchUserNamesInNotiList';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
@@ -29,6 +32,8 @@ const NotificationList = () => {
   >([]);
 
   const fetchNotificationData = useFetchNotificationData(setNotificationData, openModal);
+  const { toggleIsReadInNoticeBoardSenderSide, toggleIsReadInNoticeBoardReceiverSide } =
+    useToggleIsReadInNoticeBoard(openModal);
 
   useEffect(() => {
     subscribeFlirtingList((payload) => {
@@ -39,6 +44,14 @@ const NotificationList = () => {
     fetchNotificationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useFetchUserNamesNotiList(
+  //   notificationData,
+  //   setUserNames,
+  //   getUser1NameNotification,
+  //   getUser2NameNotification,
+  //   openModal
+  // );
 
   useEffect(() => {
     const fetchUserNames = async () => {
@@ -72,25 +85,25 @@ const NotificationList = () => {
     }
   }, [notificationData]);
 
-  const toggleIsReadInNoticeBoardSenderSide = async (id: number | null) => {
-    try {
-      if (id !== null) {
-        await updateIsReadInNotiSenderSide(id);
-      }
-    } catch (error) {
-      openModal('알림을 읽는 중에 오류가 발생했습니다.');
-    }
-  };
+  // const toggleIsReadInNoticeBoardSenderSide = async (id: number | null) => {
+  //   try {
+  //     if (id !== null) {
+  //       await updateIsReadInNotiSenderSide(id);
+  //     }
+  //   } catch (error) {
+  //     openModal('알림을 읽는 중에 오류가 발생했습니다.');
+  //   }
+  // };
 
-  const toggleIsReadInNoticeBoardReceiverSide = async (id: number | null) => {
-    try {
-      if (id !== null) {
-        await updateIsReadInNotiReceiverSide(id);
-      }
-    } catch (error) {
-      openModal('알림을 읽는 중에 오류가 발생했습니다.');
-    }
-  };
+  // const toggleIsReadInNoticeBoardReceiverSide = async (id: number | null) => {
+  //   try {
+  //     if (id !== null) {
+  //       await updateIsReadInNotiReceiverSide(id);
+  //     }
+  //   } catch (error) {
+  //     openModal('알림을 읽는 중에 오류가 발생했습니다.');
+  //   }
+  // };
   // console.log('notificcationDATAAA:', notificationData);
 
   return (
