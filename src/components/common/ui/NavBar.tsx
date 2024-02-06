@@ -14,6 +14,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import HomeIcon from './HomeIcon';
+import RequestIcon from './RequestIcon';
+import ChatListIcon from './ChatListIcon';
+import MyProfileIcon from './MyProfileIcon';
 
 function NavBar() {
   const pathname = usePathname();
@@ -25,27 +29,11 @@ function NavBar() {
   const [countUnreadMessage, setCountUnreadMessage] = useState<number>();
   const [filteredData, setFilteredData] = useState<LastMessageArrayType>();
 
-  // const router = useRouter();
-
-  // const filtering = async () => {
-  //   if (lastMsg === undefined) {
-  //     return;
-  //   } else {
-  //     const filteredData = lastMsg?.filter((item: any) => {
-  //       return item?.user_uid !== getUid?.id && item?.is_read === false;
-  //     });
-  //     console.log('이하민바보', lastMsg);
-  //   }
-  // };
-
   const fetchChatListDataForMessageNotification = async () => {
     try {
       const chatListDataMessageNotification = await getChatListForMessageNotification();
       setChatList(chatListDataMessageNotification);
-
       const roomIds = chatListDataMessageNotification.map((item: any) => item.id);
-      // console.log('roomIds', roomIds);
-
       const lastMessageArray = await getLastMessageForMessageNotification(roomIds);
       setLastMsg(lastMessageArray);
       // console.log('lastMessageArray', lastMessageArray);
@@ -66,23 +54,20 @@ function NavBar() {
     };
   }, []);
 
-  useEffect(() => {
-    // console.log('lastMsg가 업데이트되었습니다');
-  }, [lastMsg]);
-
-  useEffect(() => {
-    // console.log('filteredData가 업데이트되었습니다');
-  }, [filteredData]);
-
   const active = `font-bold 
      bg-customGreen2 
     rounded-[0.375rem]`;
+
+  // if (!lastMsg) {
+  //   return null;
+  // }
 
   return (
     <nav
       className={`sticky bottom-0  h-[8.8dvh] bg-white shadow-navBarShadow flex justify-center items-start pt-[1.6dvh] px-6 z-50`}
     >
-      <div
+      <HomeIcon pathname={pathname} active={active} />
+      {/* <div
         className={` flex justify-center items-center w-[25%] ${
           pathname.startsWith('/main') ? `${active}` : 'text-slate-300'
         }`}
@@ -111,8 +96,9 @@ function NavBar() {
             </div>
           )}
         </Link>
-      </div>
-      <div
+      </div> */}
+      <RequestIcon pathname={pathname} active={active} />
+      {/* <div
         className={` flex justify-center items-center w-[25%]  ${
           pathname.startsWith('/request') ? `${active}` : 'text-slate-300'
         }`}
@@ -144,9 +130,9 @@ function NavBar() {
             </div>
           )}
         </Link>
-      </div>
-
-      <div
+      </div> */}
+      <ChatListIcon pathname={pathname} active={active} lastMsg={lastMsg} />
+      {/* <div
         className={` flex justify-center  items-center w-[25%]  ${
           pathname.startsWith('/chat-list') ? `${active}` : 'text-slate-300'
         }`}
@@ -193,9 +179,9 @@ function NavBar() {
             </div>
           )}
         </Link>
-      </div>
-
-      <div
+      </div> */}
+      <MyProfileIcon pathname={pathname} active={active} />
+      {/* <div
         className={` flex justify-center  items-center w-[25%]  ${
           pathname.startsWith('/my-profile') ? `${active}` : 'text-slate-300'
         }`}
@@ -227,10 +213,8 @@ function NavBar() {
             </div>
           )}
         </Link>
-      </div>
+      </div> */}
     </nav>
-
-    // <nav className="ml-[-33px]  flex gap-[30px] items-center border-t-1 border-solid boredr-black h-[2.2rem] w-[24rem]  px-[5px] shadow-md mb-[1.8rem] ">
   );
 }
 
