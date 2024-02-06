@@ -4,17 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import GoToBackBtn from './GoToBackBtn';
 import serviceImg from '@assets/figmaImg/contact.png';
-import { IoMdSettings } from 'react-icons/io';
 
 interface PageProps {
   noBack?: boolean;
-  noNavBar?: boolean;
   noNotiBell?: boolean;
   noBackMain?: boolean;
   cs?: boolean;
 }
 
-function Header({ noBack, noNavBar, noNotiBell, noBackMain, cs }: PageProps) {
+function Header({ noBack, noNotiBell, noBackMain, cs }: PageProps) {
   return (
     <div className="sticky top-0 bg-white z-50 ">
       <div className="relative flex font-virgil h-[9dvh] items-center justify-center border-b-[1px] border-[#E9EAEB] ">

@@ -23,10 +23,10 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {!noHeader && noBack && !noNotiBell && !noNavBar && !noBackMain && !cs && <Header noBack />}
 
       {/* 알림창 */}
-      {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && !cs && <Header noNavBar />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && !noBackMain && !cs && <Header />}
 
       {/* 상대 상세페이지 */}
-      {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && !cs && <Header noNavBar noBackMain />}
+      {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && !cs && <Header noBackMain />}
 
       {/* 마이프로필 */}
       {!noHeader && !noBack && noNotiBell && !noNavBar && !noBackMain && cs && <Header noNotiBell cs />}
@@ -35,7 +35,7 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {!noHeader && !noBack && noNotiBell && !noNavBar && noBackMain && cs && <Header noBackMain noNotiBell cs />}
 
       {/* 고객센터 */}
-      {!noHeader && !noBack && noNotiBell && noNavBar && noBackMain && !cs && <Header noNavBar noBackMain noNotiBell />}
+      {!noHeader && !noBack && noNotiBell && noNavBar && noBackMain && !cs && <Header noBackMain noNotiBell />}
 
       {/* Main */}
       <div
