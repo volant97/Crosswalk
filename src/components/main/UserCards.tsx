@@ -23,7 +23,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 function UserCards() {
-  const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
+  const [userCards, setUserCards] = useState<any[]>([]);
   const [userUids, setUserUids] = useState<string[]>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
   const [swiper, setSwiper] = useState<any>(null);
@@ -52,7 +52,7 @@ function UserCards() {
       if (!fetchedUserCards) return;
 
       setUserCards(fetchedUserCards);
-      const uids = fetchedUserCards?.map((item: any) => item.uid);
+      const uids = fetchedUserCards?.map((item) => item.uid);
       setUserUids(uids);
       setIsLoading(false);
     } catch (error) {
@@ -61,7 +61,6 @@ function UserCards() {
     }
   };
 
-  // 슬라이드 할 때 마다 값 가져오기
   const handleSlideChange = (swiper: SwiperClass) => {
     const activeIndex = swiper.realIndex;
 

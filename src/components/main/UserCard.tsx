@@ -35,7 +35,6 @@ function UserCard({
 }: Props) {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
-    // console.log(flirtingUserUid);
   };
 
   useEffect(() => {
@@ -70,7 +69,7 @@ function UserCard({
                   <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
                 </div>
                 <div className="flex flex-warp w-full items-center gap-[4px] ">
-                  {interest?.map((item, index) => {
+                  {interest?.map((item: string, index: number) => {
                     return (
                       <Fragment key={index}>
                         <div
@@ -89,23 +88,19 @@ function UserCard({
         </div>
         <div className={`card-back ${isFlipped && isClickedIndex === index ? '' : 'hidden'} `}>
           <div className="cursor-pointer relative w-full aspect-[2/3] overflow-hidden rounded-[24px]">
-            {/* Image 아바타 mt-[15px ]추가함 */}
             <Image
               className="rounded-[1.5rem] blur-[12px] opacity-60 mt-[15px] object-cover card-back-img "
               src={userImg}
               alt="유저 이미지"
               fill
             />
-            {/* <p className="text-customRed text-[90px] font-extrabold rotate-45 absolute top-[30%] right-[88%] ">
-              ::SCERET::
-            </p> */}
             <div className="absolute flex flex-col gap-[10px] bottom-[100px] left-[20px]">
               <div className="flex items-end w-full gap-[4px]">
                 <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
                 <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
               </div>
               <div className="flex flex-warp w-full items-center gap-[4px] ">
-                {interest?.map((item, index) => {
+                {interest?.map((item: string, index: number) => {
                   return (
                     <Fragment key={index}>
                       <div

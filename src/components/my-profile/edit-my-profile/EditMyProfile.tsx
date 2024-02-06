@@ -10,23 +10,24 @@ import InterestModal from '../../common/modal/InterestModal';
 import { userState } from '@/recoil/user';
 import useAlertModal from '@/components/common/modal/AlertModal';
 import useForm from '@/hooks/useForm';
+import { RegisterType } from '@/types/registerType';
 
 const MAN_NUMBER = [1, 3, 5, 7, 9, 11, 13, 15];
 const WOMAN_NUMBER = [2, 4, 6, 8, 10, 12, 14, 16];
 
 function EditMyProfile() {
   const registerData = useRecoilValue(userState);
-  const myInfo: any = registerData?.profile;
+  const myInfo: RegisterType | null | undefined = registerData?.profile;
 
-  const [selectedImg, setSelectedImg] = useState<string>(myInfo?.user_img);
+  const [selectedImg, setSelectedImg] = useState<string>(myInfo?.user_img || '');
   const [file, setFile] = useState<any>('test');
-  const [avatar, setAvatar] = useState<number>(myInfo?.avatar);
+  const [avatar, setAvatar] = useState<number>(myInfo?.avatar || 0);
 
   const { formState, onChangeHandler } = useForm({
-    gender: myInfo?.gender,
-    name: myInfo?.name,
-    age: myInfo?.age,
-    height: myInfo?.height
+    gender: myInfo?.gender || '',
+    name: myInfo?.name || '',
+    age: myInfo?.age || 0,
+    height: myInfo?.height || 0
   });
   const { gender, name, age, height } = formState;
 
@@ -34,8 +35,8 @@ function EditMyProfile() {
   const { openInterestModal, interestModal } = InterestModal();
   const { openModal, AlertModal } = useAlertModal();
 
-  const previewImg = (event: any) => {
-    const imgFile = event.target?.files[0];
+  const previewImg = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const imgFile = event.target?.files?.[0];
     if (!imgFile) return false;
     if (imgFile.size > 1024 * 1024 * 5) {
       openModal('사진은 5MB 이하로 부탁드립니다.');
@@ -47,7 +48,7 @@ function EditMyProfile() {
       setSelectedImg(imgUrl);
     } else {
       setFile(myInfo?.user_img || null);
-      setSelectedImg(myInfo?.user_img || null);
+      setSelectedImg(myInfo?.user_img || '');
     }
   };
 
@@ -73,7 +74,6 @@ function EditMyProfile() {
         onSubmit={onSubmitHandelr}
       >
         <div className="relative flex flex-col items-center gap-[24px] w-full mt-[90px] px-[20px] pt-[44px] pb-[30px] bg-melona rounded-[24px]">
-          {/* 아바타 */}
           <div className="absolute top-[-70px] flex justify-center items-center h-[100px] w-[100px] z-2">
             <div className="relative h-[100px] w-[100px] bg-gray-EF rounded-full">
               <Image
@@ -87,7 +87,7 @@ function EditMyProfile() {
             <div className="absolute top-[1px]">
               <button
                 onClick={() => {
-                  updateGender(myInfo?.gender);
+                  updateGender(myInfo?.gender || '');
                 }}
                 className="flex items-center justify-center capitalize w-[32px] h-[32px] bg-white rounded-full ml-[80px]"
               >
@@ -101,7 +101,6 @@ function EditMyProfile() {
               </button>
             </div>
           </div>
-          {/* 이름 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>이름</label>
             <input
@@ -115,7 +114,6 @@ function EditMyProfile() {
               placeholder={'홍길동'}
             />
           </div>
-          {/* 성별 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>성별</label>
             <div className="flex justify-start gap-[8px] w-full">
@@ -124,7 +122,6 @@ function EditMyProfile() {
               </div>
             </div>
           </div>
-          {/* MBTI */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <p className="font-semibold mb-[0.5rem]">MBTI</p>
             <div className="relative flex justify-center items-center w-[70px] h-[40px] text-[14px] font-[400] leading-[20px] capitalize bg-white border-1 border-solid border-black rounded-full">
@@ -139,7 +136,6 @@ function EditMyProfile() {
               </div>
             </div>
           </div>
-          {/* 나이 */}
           <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>나이</label>
             <input
@@ -154,7 +150,6 @@ function EditMyProfile() {
             />
             <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">세</p>
           </div>
-          {/* 키 */}
           <div className="relative flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>키</label>
             <input
@@ -169,7 +164,6 @@ function EditMyProfile() {
             ></input>
             <p className="absolute right-[20px] bottom-[8px] text-[16px] font-[200] text-gray-999">cm</p>
           </div>
-          {/* 관심사 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>관심사</label>
             <div className="flex justify-start items-start gap-[6px] flex-wrap self-stretch">
@@ -192,7 +186,6 @@ function EditMyProfile() {
               </div>
             </div>
           </div>
-          {/* 사진 */}
           <div className="flex flex-col items-start gap-[8px] self-stretch w-full text-[18px] font-[600] leading-normal">
             <label>사진</label>
             <label className="relative cursor-pointer" htmlFor="usersImg">
@@ -204,7 +197,6 @@ function EditMyProfile() {
                 className="hidden"
               />
               {selectedImg === '' ? (
-                // 어떤 경우에 나오는지 확인 못함. CSS 작업 필요
                 <div className="w-[7.5rem] h-[10.25rem] flex flex-col justify-center items-center border-2 border-gray-DDD rounded-[1rem]">
                   <PiPlusThin size={50} className="fill-gray-E6" />
                 </div>
@@ -219,7 +211,6 @@ function EditMyProfile() {
             </label>
           </div>
         </div>
-        {/* 수정하기 버튼 */}
         <div>
           <ConfirmModal name={name} age={age} height={height} file={file} selectedImg={selectedImg} avatar={avatar} />
         </div>
