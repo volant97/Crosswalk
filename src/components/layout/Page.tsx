@@ -11,11 +11,11 @@ interface PageProps {
   cs?: boolean;
 }
 
+/**모든 페이지를 wrapping 하는 컴포넌트 */
 function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children }: PropsWithChildren<PageProps>) {
   return (
     <main id="page" className="relative">
-      {/* 헤더 */}
-
+      {/* Header */}
       {/* 받은요청함 */}
       {!noHeader && !noBack && !noNotiBell && !noNavBar && !noBackMain && !cs && <Header />}
 
@@ -37,10 +37,7 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       {/* 고객센터 */}
       {!noHeader && !noBack && noNotiBell && noNavBar && noBackMain && !cs && <Header noNavBar noBackMain noNotiBell />}
 
-      {/* {!noHeader && !noBack && !noNotiBell && noNavBar && noBackMain && <Header noNavBar noBackMain />} */}
-      {/* {!noHeader && !noBack && noNotiBell && noNavBar && <Header noNotiBell noNavBar />}
-      {!noHeader && noBack && noNotiBell && noNavBar && <Header noBack noNotiBell noNavBar />} */}
-      {/* 페이지 본문 */}
+      {/* Main */}
       <div
         className={`${
           noNavBar ? 'h-[calc(100dvh-9dvh)]' : 'h-[calc(100dvh-9dvh-8.8dvh)]'
@@ -48,10 +45,11 @@ function Page({ noHeader, noBack, noNavBar, noNotiBell, noBackMain, cs, children
       >
         {children}
       </div>
+
+      {/* NabBar */}
       {noNavBar ? null : <NavBar />}
     </main>
   );
 }
 
 export default Page;
-// 모든 페이지를 wrapping 하는 컴포넌트
