@@ -30,7 +30,7 @@ export type unNullRegisterType = {
 export type unMatchedDataType = {
   uid: string;
   name: string | null;
-  gender: 'M' | 'F';
+  gender: 'M' | 'F' | null;
   mbti: string | null;
   age: number | null;
   height: number | null;
@@ -39,8 +39,4 @@ export type unMatchedDataType = {
   avatar: number | null;
   information_use_period: string | null;
   information_agreement: boolean | null;
-  flirting_list: {
-    sender_uid: string;
-    status: string;
-  };
 };

@@ -14,11 +14,10 @@ import type {
   FlirtingListType,
   customUserNameNotiType
 } from '@/types/flirtingListType';
-import { format, formatDistanceToNow } from 'date-fns';
-import { ko } from 'date-fns/locale/ko';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/recoil/user';
+import { formatDate } from '@/hooks/useFormatDate';
 
 const NotificationList = () => {
   const { openModal } = useAlertModal();
@@ -27,20 +26,6 @@ const NotificationList = () => {
   const [userNames, setUserNames] = useState<
     { sender: { name: string; uid: string } | null; receiver: { name: string; uid: string } | null }[]
   >([]);
-  // console.log('!!!', userNames);
-  const formatDate = (date: Date) => {
-    const d = new Date(date);
-    const now = Date.now();
-    const diff = (now - d.getTime()) / 1000;
-    if (diff < 60 * 1) {
-      return '방금 전';
-    }
-    if (diff < 60 * 60 * 24 * now) {
-      const distanceString = formatDistanceToNow(d, { addSuffix: true, locale: ko, includeSeconds: true });
-      return distanceString.replace(/^약\s*/, '');
-    }
-    return format(d, 'PPP EEE p', { locale: ko });
-  };
 
   const fetchNotificationData = async () => {
     try {
@@ -174,7 +159,7 @@ const NotificationList = () => {
                           )}
                         </div>
                         <p className="text-right font-Pretendard text-xs font-normal leading-none text-[#AAA] text-[12px] ">
-                          {formatDate(notification.created_at)}
+                          {formatDate(String(notification.created_at))}
                         </p>
                       </div>
                       <div className="flex flex-row overflow-hidden  truncate ">

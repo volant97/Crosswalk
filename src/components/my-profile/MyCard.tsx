@@ -1,27 +1,22 @@
 import Image from 'next/image';
 import React, { Fragment } from 'react';
-import { useRecoilState } from 'recoil';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import useLogoutAlertModal from '../common/modal/LogoutAlertModal';
-import { userState } from '@/recoil/user';
 
 type Props = {
-  age: number;
-  avatar: string;
-  name: string;
-  interest: string[];
-  height: number;
-  gender: string;
-  mbti: string;
+  age: number | null;
+  avatar: number | null;
+  name: string | null;
+  interest: string[] | null;
+  height: number | null;
+  gender: string | null;
+  mbti: string | null;
 };
 
 const border = 'border-2 border-solid border-black px-[0.63rem] py-[0.25rem] rounded-[1rem] text-[0.8125rem] h-[26px]';
 
 function MyCard({ age, avatar, name, interest, height, gender, mbti }: Props) {
-  const router = useRouter();
   const { openLogoutModal, LogoutAlertModal } = useLogoutAlertModal();
-  const [user, setUser] = useRecoilState(userState);
   return (
     <div className="relative">
       <div className="relative">

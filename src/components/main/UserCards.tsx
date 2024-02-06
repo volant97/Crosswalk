@@ -6,26 +6,25 @@ import { getUnMatchedData } from '@/lib/api/SupabaseApi';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Button from '../Button';
 import { userState } from '@/recoil/user';
-import { IoClose } from 'react-icons/io5';
 import useFlirtingModal from '../common/modal/FlirtingModal';
 import SlideButton from '../SlideButton';
-import { nextSlideState } from '@/recoil/currentIndex';
 import useAlertModal from '../common/modal/AlertModal';
 import Image from 'next/image';
 import SlideEffect from './SlideEffect';
 import SkeletonMain from './SkeletonMain';
 import { Spacer } from '@nextui-org/react';
-import type { unMatchedDataType } from '@/types/registerType';
+import { nextSlideState } from '@/recoil/nextSlide';
 import { useRouter } from 'next/navigation';
+import type { unMatchedDataType } from '@/types/registerType';
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 function UserCards() {
   const [userCards, setUserCards] = useState<(unMatchedDataType | any)[]>([]);
-  const [userUids, setUserUids] = useState<any>([]);
+  const [userUids, setUserUids] = useState<string[]>([]);
   const [activeUserUids, setActiveUserUids] = useState<string>('');
   const [swiper, setSwiper] = useState<any>(null);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -49,13 +48,12 @@ function UserCards() {
       if (!myUid) return;
       if (!myGender) return;
       // setIsLoading(true);
-      const userCards = await getUnMatchedData(myUid, myGender);
-      if (!userCards) return;
+      const fetchedUserCards = await getUnMatchedData(myUid, myGender);
+      if (!fetchedUserCards) return;
 
-      setUserCards(userCards);
-      const uids = userCards?.map((item: any) => item.uid);
+      setUserCards(fetchedUserCards);
+      const uids = fetchedUserCards?.map((item: any) => item.uid);
       setUserUids(uids);
-      // console.log('userCards', userCards);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching my posts:', error);
@@ -64,7 +62,7 @@ function UserCards() {
   };
 
   // 슬라이드 할 때 마다 값 가져오기
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: SwiperClass) => {
     const activeIndex = swiper.realIndex;
 
     const activeUserUid = userUids[activeIndex];
@@ -78,13 +76,12 @@ function UserCards() {
     }
   };
 
-  const flirtingUserUids = userCards?.map((item: any) => item.uid) || [];
+  const flirtingUserUids = userCards?.map((item: unMatchedDataType) => item.uid) || [];
 
   const handleLike = () => {
     const likedUserUid = activeUserUids;
     const targetUid = likedUserUid || flirtingUserUids[0];
     openFlirtingModal(targetUid, swiper);
-    // console.log('activeUserUid', targetUid);
   };
 
   const firstNextSlide = () => {
@@ -142,10 +139,10 @@ function UserCards() {
               allowSlidePrev={false}
               spaceBetween={30}
               slidesPerView={1}
-              onSlideChange={(swiper: any) => {
+              onSlideChange={(swiper: SwiperClass) => {
                 handleSlideChange(swiper);
               }}
-              onSwiper={(swiper: any) => {
+              onSwiper={(swiper: SwiperClass) => {
                 setSwiper(swiper);
               }}
               className="flex px-[1.5rem] py-[2rem] border-[5px] border-white"
@@ -155,7 +152,7 @@ function UserCards() {
               loopAdditionalSlides={1}
               allowTouchMove={false}
             >
-              {userCards?.map((item: any, index: number) => (
+              {userCards?.map((item: unMatchedDataType, index: number) => (
                 <SwiperSlide
                   className="min-[320px]:min-h-[29rem] min-[414px]:min-h-[34rem] min-[1200px]:min-h-[36rem] min-[390px]:min-h-[33rem] transform perspective-800 rotateY-0 transform-style-preserve-3d"
                   key={item.uid}
