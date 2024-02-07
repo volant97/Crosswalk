@@ -8,10 +8,10 @@ type Props = {
 
 function MyInfo({ age, name, interest }: Props) {
   return (
-    <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
+    <div className="absolute flex flex-col gap-[10px] bottom-[24px] left-[20px]">
       <div className="flex items-end w-full gap-[4px]">
-        <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
-        <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
+        <h1 className="text-[24px] font-bold leading-[24px] text-white">{name}</h1>
+        <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium text-white">{age}</h2>
       </div>
       <div className="flex flex-warp w-full items-center gap-[4px] h-[24px] ">
         {interest?.map((item, index) => {
