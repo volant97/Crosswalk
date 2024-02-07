@@ -76,7 +76,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
                     alt="유저 이미지"
                     fill
                   />
-                  <p className="absolute z-10 right-[20px] bottom-[28px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-customGreen3 ">
+                  <p className="absolute z-10 right-[20px] bottom-[24px] flex items-center justify-center py-[4px] px-[10px] text-center text-white  rounded-[1rem] text-[13px] font-medium h-[24px] leading-[13px] bg-customGreen3 ">
                     소울메이트
                   </p>
                   <div className="absolute flex items-end w-full h-full">
@@ -101,7 +101,7 @@ function OtherPersonProfile({ otherPersonId }: Props) {
               <Skeleton className="w-full h-full rounded-t-[24px]" />
             )}
           </div>
-          <div className="absolute flex flex-col gap-[10px] bottom-[27px] left-[20px]">
+          <div className="absolute flex flex-col gap-[10px] bottom-[24px] left-[20px]">
             <div className="flex items-end w-full gap-[4px] ">
               <h1 className="text-[24px] font-bold leading-[24px] text-white">{otherProfile?.name}</h1>
               <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium text-white">{otherProfile?.age}</h2>
