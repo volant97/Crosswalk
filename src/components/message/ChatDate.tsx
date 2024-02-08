@@ -33,7 +33,6 @@ export function DisplayDateTime(date: string) {
         </div>
       );
     } else {
-      console.error('잘못된 형식의 날짜입니다.', date);
       return null;
     }
   } else {
@@ -52,7 +51,6 @@ export function ConvertedDate(date: string | undefined, idx: number) {
       const formattedDate = `${year}-${month}-${day}`;
       return formattedDate;
     } else {
-      console.error('잘못된 ISO 날짜 형식입니다.', date);
       return '';
     }
   }

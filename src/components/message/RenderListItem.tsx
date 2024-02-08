@@ -28,7 +28,6 @@ export const RenderListItem = ({
   const statusMessage = isSender ? '상대방의 수락을 기다리고 있어요.' : '회원님의 수락을 기다리고 있어요.';
 
   const routerLink = (linkId: string, status: string) => {
-    console.log('status', status);
     if (status === 'ACCEPT' || status === 'SOULMATE') {
       router.push(`/chat-list/${linkId}`);
     } else if (status === 'DECLINE') {
@@ -92,11 +91,15 @@ export const RenderListItem = ({
             <div className="w-full text-xs text-gray-AAA font-normal text-ellipsis overflow-hidden">...</div>
           )}
         </span>
-        {lastMsg && lastMsg[idx] && lastMsg[idx]?.user_uid !== getUid?.id && !lastMsg[idx]?.is_read && (
-          <div className="flex justify-center items-center w-[20px] h-[20px] font-normal rounded-full bg-customGreen3 text-white text-[11px] leading-normal">
-            +1
-          </div>
-        )}
+        {lastMsg &&
+          lastMsg[idx] &&
+          lastMsg[idx]?.user_uid !== getUid?.id &&
+          !lastMsg[idx]?.is_read &&
+          list.flirting_list.status !== 'DECLINE' && (
+            <div className="flex justify-center items-center w-[20px] h-[20px] font-normal rounded-full bg-customGreen3 text-white text-[11px] leading-normal">
+              +1
+            </div>
+          )}
       </div>
       {AlertChatListModal()}
       {AlertModal()}
