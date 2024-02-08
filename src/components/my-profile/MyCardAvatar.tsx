@@ -10,6 +10,9 @@ function MyCardAvatar({ avatar }: Props) {
   return (
     <div className="relative w-full aspect-[2/3]">
       <Image className="rounded-t-[1.5rem]" src={`/assets/avatar/avatar${avatar}.png`} alt="유저 아바타 이미지" fill />
+      <div className="absolute flex items-end w-full h-full ">
+        <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%]"></div>
+      </div>
       <Link
         href="./my-profile/edit"
         className="w-[32px] h-[32px] flex justify-center items-center gap-[10px] rounded-[30px] bg-white bg-opacity-80 absolute right-[12px] top-[12px]"

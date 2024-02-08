@@ -24,16 +24,19 @@ function CardFornt({ isFlipped, isClickedIndex, index, avatar, age, name, intere
               fill
             />
             <Image
-              className="border-black-4 absolute right-[15px] bottom-[15px]"
+              className="border-black-4 absolute right-[15px] bottom-[15px] z-10"
               src={'/assets/figmaImg/information.png'}
               alt="information"
               width={25}
               height={25}
             />
-            <div className="absolute flex flex-col gap-[10px] bottom-[18px] left-[20px]">
+            <div className="absolute flex items-end w-full h-full ">
+              <div className="w-full h-[150px] bg-gradient-to-t from-black/[20%] to-black/[0%] rounded-[1.5rem]"></div>
+            </div>
+            <div className="absolute flex flex-col gap-[10px] bottom-[24px] left-[20px]">
               <div className="flex items-end w-full gap-[4px]">
-                <h1 className="text-[24px] font-bold leading-[24px]">{name}</h1>
-                <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium">{age}</h2>
+                <h1 className="text-[24px] font-bold leading-[24px] text-white">{name}</h1>
+                <h2 className="h-[16px] text-[16px]  leading-[16px] font-medium text-white">{age}</h2>
               </div>
               <div className="flex flex-warp w-full items-center gap-[4px] ">
                 {interest?.map((item: string, index: number) => {
