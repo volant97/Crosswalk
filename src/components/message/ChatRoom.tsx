@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { UserState } from '@/recoil/user';
@@ -148,7 +148,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
         {messageData?.map((data, idx) => {
           const nextData = messageData[idx + 1];
           return data.user_uid === getUid?.id ? (
-            <>
+            <Fragment key={idx}>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className=" flex justify-end items-end gap-[0.38rem]" key={idx}>
                 <h1 className="text-[0.75rem] text-gray-999 whitespace-nowrap">
@@ -163,9 +163,9 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
               {ConvertedDate(String(data.created_at), idx) !== ConvertedDate(String(nextData?.created_at), idx)
                 ? DisplayDateTime(String(nextData?.created_at))
                 : null}
-            </>
+            </Fragment>
           ) : (
-            <>
+            <Fragment key={idx}>
               {idx === 0 ? DisplayDateTime(String(data.created_at)) : null}
               <div className="mr-auto " key={idx}>
                 <div className="flex flex-row  gap-[0.38rem] mt-[1rem]">
@@ -224,7 +224,7 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
               {ConvertedDate(String(data.created_at), idx) !== ConvertedDate(String(nextData?.created_at), idx)
                 ? DisplayDateTime(String(nextData?.created_at))
                 : null}
-            </>
+            </Fragment>
           );
         })}
       </div>
