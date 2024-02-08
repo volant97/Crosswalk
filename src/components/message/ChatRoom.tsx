@@ -53,14 +53,14 @@ function ChatRoom({ roomId, roomInfo, getUid, messageData }: ChatProps) {
     if (roomInfo?.flirting_list.sender_uid.uid === getUid?.id) {
       anotherContinualCount = 0;
       if (userContinualCount < 3) {
-        userScore += 1;
+        userScore += 10;
         increaseFavorableRating(userScore, anotherScore);
       }
       userContinualCount += 1;
     } else {
       userContinualCount = 0;
       if (anotherContinualCount < 3) {
-        anotherScore += 1;
+        anotherScore += 10;
         increaseFavorableRating(userScore, anotherScore);
       }
       anotherContinualCount += 1;
