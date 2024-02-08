@@ -28,7 +28,7 @@
 | 이하민 | 부리더, 실시간 알림, 알림창, 채팅 리스트, 전체규격 CSS, 회원등록 | https://github.com/dancinncoder | https://whereannalee.tistory.com// |
 | 임세현 | 채팅 리스트, 채팅방, 호감도 알고리즘, 회원등록 | https://github.com/yachaechae | https://velog.io/@yachaechae |
 | 서지훈 | 메인페이지, 마이페이지, 프로필 디테일 페이지, 회원등록 | https://github.com/Jihunee | https://jihune6439.tistory.com/ |
-| 김현영 | UI/UX 디자인, 프로젝트 기획, 로고/배너 디자인 | yieng0428@gmail.com | 
+| 김현영 | UI/UX 디자인, 프로젝트 기획, 로고/배너 디자인 | yieng0428@gmail.com | 
 
 ## Development Environment
 
