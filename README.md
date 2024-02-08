@@ -24,10 +24,11 @@
 
 | 팀원 | 역할 | 깃허브 | 블로그 |
 | --- | --- | --- | --- |
-| 윤창근 | 리더, 로그인, 받은 요청함 | https://github.com/volant97 | https://y-developer.tistory.com/ |
-| 이하민 | 부리더, 알림창, 전체 규격 CSS | https://github.com/dancinncoder | https://whereannalee.tistory.com// |
-| 임세현 | 채팅리스트 및 채팅방 | https://github.com/yachaechae | https://velog.io/@yachaechae |
-| 서지훈 | 메인 페이지, 마이페이지, 프로필 디테일페이지 | https://github.com/Jihunee | https://jihune6439.tistory.com/ |
+| 윤창근 | 리더, 로그인, 받은 요청함, 호감도 알고리즘, 전체규격 CSS, 회원등록, 문의페이지, 상대방 상세프로필 페이지 | https://github.com/volant97 | https://y-developer.tistory.com/ |
+| 이하민 | 부리더, 실시간 알림, 알림창, 채팅 리스트, 전체규격 CSS, 회원등록 | https://github.com/dancinncoder | https://whereannalee.tistory.com// |
+| 임세현 | 채팅 리스트, 채팅방, 호감도 알고리즘, 회원등록 | https://github.com/yachaechae | https://velog.io/@yachaechae |
+| 서지훈 | 메인페이지, 마이페이지, 프로필 디테일 페이지, 회원등록 | https://github.com/Jihunee | https://jihune6439.tistory.com/ |
+| 김현영 | UI/UX 디자인, 프로젝트 기획, 로고/배너 디자인 | yieng0428@gmail.com | 
 
 ## Development Environment
 
@@ -95,6 +96,7 @@ supabase Auth를 사용하여 구글, 카카오, 스포티파이로 저희 컬�
     통하여 유저를 선택 할 수 있습니다.
     - 수락을 하면 긍적인 문구를 통해 유저에게 알려주고 거절을 누르면 아쉬운 문구를 통해 유저에게 알려줍니다.
 - 채팅 리스트
+  - 새 메세지가 오면 알림을 표시하고, 마지막 메세지를 유저에게 보여줍니다.
   - 어필하기를 통해 수락 받아 서로가 신호가 맞으면 채팅방을 생성 해주며 상태에 따라 아바타 아웃라인 컬러가 변경됩니다.
     - 노란색이면 현재 진행중 상태
     - 빨간색이면 상대가 거절한 상태
