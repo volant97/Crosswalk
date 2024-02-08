@@ -52,12 +52,8 @@ function ChatListIcon({
                   height={8}
                   className="absolute top-[-1px] right-[-6px]"
                 />
-              ) : (
-                <p></p>
-              )
-            ) : (
-              <p></p>
-            )}
+              ) : null
+            ) : null}
           </div>
         )}
       </Link>

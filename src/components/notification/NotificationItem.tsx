@@ -48,10 +48,10 @@ const NotificationItem = ({
         href={
           notification.status === 'ACCEPT'
             ? '/chat-list'
-            : notification.status === 'UNREAD' ||
+            : (notification.status === 'UNREAD' && currentUser?.id === userNames.sender?.uid) ||
               (notification.status === 'READ' && currentUser?.id === userNames.sender?.uid)
             ? '/chat-list'
-            : notification.status === 'UNREAD' ||
+            : (notification.status === 'UNREAD' && currentUser?.id === userNames.receiver?.uid) ||
               (notification.status === 'READ' && currentUser?.id === userNames.receiver?.uid)
             ? '/request'
             : '/main'
