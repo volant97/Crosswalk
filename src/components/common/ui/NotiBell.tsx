@@ -10,7 +10,7 @@ import useNotificationActions from '@/hooks/useNotificationActions';
 import useFetchNotificationData from '@/hooks/useFetchNotificationData';
 import useFetchUserNamesInNotiBell from '@/hooks/useFetchUserNamesNotiBell';
 import useAlertModal from '../modal/AlertModal';
-import { HiOutlineBell } from 'react-icons/hi2';
+import bellImg from '@assets/figmaImg/bell.png';
 import type { FlirtingListInNotificationType } from '@/types/flirtingListType';
 
 function NotiBell() {
@@ -61,7 +61,7 @@ function NotiBell() {
       {Number(notificationData?.length) > 0 ? (
         <div className="absolute right-0 cursor-pointer relative">
           <Link href="/notification">
-            <HiOutlineBell size={25} className="ml-auto" />
+            <Image className="w-[24px] h-[24px] ml-auto" src={bellImg} width={100} height={100} alt="알림 이미지" />
             {(filteredNotificationsSender.length > 0 &&
               filteredNotificationsSender.some((item) => item.sender_is_read_in_noti === false)) ||
             (filteredNotificationsReceiver.length > 0 &&
@@ -72,7 +72,7 @@ function NotiBell() {
                 alt="new notification"
                 width={8}
                 height={8}
-                className="absolute top-0 right-0"
+                className="absolute top-[-2px] right-[-1px]"
               />
             ) : // 알림없음
             null}
@@ -81,7 +81,7 @@ function NotiBell() {
       ) : (
         <div className="absolute right-0 cursor-pointer relative">
           <Link href="/notification">
-            <HiOutlineBell size={25} className="ml-auto" />
+            <Image className="w-[24px] h-[24px] ml-auto" src={bellImg} width={100} height={100} alt="알림 이미지" />
           </Link>
         </div>
       )}
